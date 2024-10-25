@@ -1,6 +1,5 @@
 
 const User = require("../models/user.schema");
-const fast2sms = require('fast-two-sms');
 const otpGnerator = require("otp-generator")
 const twilio = require("twilio")
 const crypto = require('crypto');
@@ -15,44 +14,65 @@ const bcrypt=require("bcryptjs")
 
 exports.signup = async (req, res) => {
     try {
-        const { FirstName, LastName, Email, Phone, Country, State, City, select_society, password, Cpassword, } = req.body;
+        const { FirstName, LastName, Email, Phone, Country, State, City, select_society, password, Cpassword } = req.body;
+
+        // Check required fields
         if (!FirstName || !LastName || !Email || !Phone || !Country || !State || !City || !select_society || !password || !Cpassword) {
             return res.status(400).json({
                 success: false,
                 message: "All fields are required"
-            })
+            });
         }
+
+        // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(Email)) {
             return res.status(400).json({
                 success: false,
                 message: "Invalid email"
-            })
+            });
         }
+
+        // Password length validation
         if (password.length < 6) {
             return res.status(400).json({
                 success: false,
-                message: "password must be at letest 6 characters"
-            })
+                message: "Password must be at least 6 characters"
+            });
         }
+
+        // Confirm password length validation
         if (Cpassword.length < 6) {
             return res.status(400).json({
                 success: false,
-                message: "password must be at letest 6 characters"
-            })
+                message: "Confirm password must be at least 6 characters"
+            });
         }
-        const existingUserByEmail = await User.findOne({ Email: Email })
+
+        // Check if email exists
+        const existingUserByEmail = await User.findOne({ Email });
         if (existingUserByEmail) {
             return res.status(400).json({
                 success: false,
                 message: "Email already exists"
-            })
+            });
         }
 
+        // Confirm passwords match
         if (password !== Cpassword) {
-            return res.status(400).json({ message: "Passwords do not match" });
+            return res.status(400).json({
+                success: false,
+                message: "Passwords do not match"
+            });
         }
-        const hashpassword = await hash(password)
+
+        // Hash the password
+        const hashpassword = await hash(password);
+
+        // Set user role or default to 'user'
+        // const userRole = role && ["admin", "resident", "security"].includes(role) ? role : "admin";
+
+        // Create user with hashed password, excluding Cpassword
         const user = await User.create({
             FirstName,
             LastName,
@@ -63,23 +83,24 @@ exports.signup = async (req, res) => {
             City,
             select_society,
             password: hashpassword,
-            Cpassword: hashpassword,
-        })
+            
+        });
+
+        // Respond if user creation is successful
         if (user) {
             res.status(200).json({
                 success: true,
                 message: "User Registration Completed..."
-            })
+            });
         }
     } catch (error) {
         console.log(error);
         res.status(500).json({
             success: false,
             message: "Internal Server error"
-        })
-
+        });
     }
-}
+};
 exports.login = async (req, res) => {
     try {
         const { EmailOrPhone, password } = req.body;
@@ -366,7 +387,7 @@ exports.ResetPassword = async (req, res) => {
 
       
         finddata.password = hashedPassword; 
-        finddata.Cpassword=hashedPassword;
+        
 
        
         await finddata.save();

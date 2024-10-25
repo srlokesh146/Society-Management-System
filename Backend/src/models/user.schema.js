@@ -45,14 +45,11 @@ const userSchema=new Schema({
         type:String,
         required:true
     },
-    Cpassword:{
-        type:String,
-        required:true
-    },
-    role_id:{
-        type:String,
-        default:"admin",
-        enum:["admin","resident","security"]
+    
+    role: {
+        type: String,
+        enum: ['admin', 'resident', 'security'], 
+        default: 'admin' 
     },
     otp:{
         type:String,
