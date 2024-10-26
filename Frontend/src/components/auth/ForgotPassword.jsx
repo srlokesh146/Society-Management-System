@@ -1,5 +1,5 @@
 import React from 'react';
-import passwordimage from "../../assest/images/passwordimage.png";
+import passwordimage from "../../assets/images/passwordimage.png";
 import Logo from '../Logo';
 import { useNavigate } from 'react-router-dom';
 

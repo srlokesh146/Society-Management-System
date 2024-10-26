@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import passwordimage from "../../assest/images/passwordimage.png"; 
+import passwordimage from "../../assets/images/passwordimage.png"; 
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import Logo from "../Logo";
 

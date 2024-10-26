@@ -1,5 +1,5 @@
 import React from 'react';
-import passwordimage from '../../assest/images/passwordimage.png';
+import passwordimage from '../../assets/images/passwordimage.png';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import Logo from '../Logo';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import LoginImage from '../assets/login.png'; // Importing the login image
-import BackgroundImage from '../assets/bg.png'; // Importing the background image
+import LoginImage from '../../assets/images/login.png'; // Importing the login image
+import BackgroundImage from '../../assets/images/bg.png'; // Importing the background image
 
 const Login = () => {
   return (
@@ -71,9 +71,9 @@ const Login = () => {
                 />
                 <span className="ml-2 text-gray-700">Remember me</span>
               </label>
-              <a href="#" className="text-orange-500 text-sm hover:underline">
+              <Link to="/forgotpassword" className="text-orange-500 text-sm hover:underline">
                 Forgot Password?
-              </a>
+              </Link>
             </div>
 
             {/* Submit Button */}
