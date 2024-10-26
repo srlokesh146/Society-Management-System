@@ -25,7 +25,7 @@ const Societyschema= new Schema({
         type:Number,
         required:true
     }
-})
+},{timestamps:true})
 
 const Society=model("Society",Societyschema)
 module.exports=Society;
