@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Import Link for routing
-import RegisterImage from '../assets/Register.png';
-import BackgroundImage from '../assets/bg.png'; // Import the background image
+import RegisterImage from '../../assets/images/Register.png';
+import BackgroundImage from '../../assets/images/bg.png';
 
 const Register = () => {
   const [formData, setFormData] = useState({

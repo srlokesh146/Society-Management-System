@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assest/images/BrightWeb.png';
+import logo from '../assets/images/BrightWeb.png';
 
 export default function Logo({ src = logo, logocss }) {
     return (
