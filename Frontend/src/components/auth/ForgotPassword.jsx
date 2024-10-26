@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useState } from "react";
 import passwordimage from "../../assets/images/passwordimage.png";
-import Logo from '../Logo';
-import { useNavigate } from 'react-router-dom';
+import Logo from "../Logo";
+import { useNavigate } from "react-router-dom";
+import { sendOtp } from "../../services/AuthService";
+import toast from "react-hot-toast";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
+
+  const [EmailOrPhone, setEmailOrPhone] = useState("");
+
+  const handleOtp = async () => {
+    try {
+      const response = await sendOtp({ EmailOrPhone });
+      localStorage.setItem("EmailOrPhone", EmailOrPhone);
+      toast.success(response.data.message);
+      navigate("/otpscreenpage");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      setEmailOrPhone("");
+    }
+  };
 
   return (
     <div className="flex flex-col lg:flex-row h-screen overflow-hidden bg-cover bg-center bg-image">
@@ -31,20 +48,23 @@ const ForgotPassword = () => {
             <p className="text-[#4F4F4F] text-[14px] mb-3">
               Enter your email and we’ll send you a OTP to reset your password.
             </p>
-            <div className='mb-12'>
+            <div className="mb-12">
               <label className="mb-2 text-[14px] text-[#202224] font-semibold">
                 Email or Phone
               </label>
               <input
                 type="text"
+                name="EmailOrPhone"
+                value={EmailOrPhone}
+                onChange={(e) => setEmailOrPhone(e.target.value)}
                 className="w-full p-3 border border-black focus:outline-none rounded-[10px]"
-                defaultValue="99125 53222"
               />
             </div>
             <button
               className="w-full text-white rounded-[10px] pt-[12px] pb-[12px] leading-7 text-[16px] lg:text-[18px] font-semibold"
+              onClick={handleOtp}
               style={{
-                background: 'linear-gradient(90deg, #FE512E 0%, #F09619 100%)',
+                background: "linear-gradient(90deg, #FE512E 0%, #F09619 100%)",
               }}
             >
               Get OTP
@@ -52,7 +72,7 @@ const ForgotPassword = () => {
             <div className="mt-4 text-center">
               <button
                 className="hover:underline text-[#E74C3C] leading-7"
-                onClick={() => navigate('/login')}
+                onClick={() => navigate("/login")}
               >
                 Back to Login
               </button>

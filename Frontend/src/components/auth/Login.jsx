@@ -1,9 +1,36 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import LoginImage from '../../assets/images/login.png'; // Importing the login image
-import BackgroundImage from '../../assets/images/bg.png'; // Importing the background image
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import LoginImage from "../../assets/images/login.png"; // Importing the login image
+import BackgroundImage from "../../assets/images/bg.png"; // Importing the background image
+import { loginUser } from "../../services/AuthService";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const [user, setUser] = useState({
+    EmailOrPhone: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await loginUser(user);
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      setUser({
+        EmailOrPhone: "",
+        password: "",
+      });
+    }
+  };
+
   return (
     <div
       className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-cover bg-center"
@@ -33,15 +60,21 @@ const Login = () => {
       <div className="md:w-1/2 w-full flex items-center justify-center p-6">
         <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
           <h2 className="text-2xl font-bold mb-6 text-gray-800">Login</h2>
-          <form className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-4">
             {/* Email or Phone Input */}
             <div>
-              <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
+              <label
+                htmlFor="email"
+                className="block text-gray-700 font-medium mb-2"
+              >
                 Email or Phone
               </label>
               <input
                 type="text"
                 id="email"
+                name="EmailOrPhone"
+                value={user.EmailOrPhone}
+                onChange={handleChange}
                 placeholder="Enter Your Phone Number or Email"
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
                 required
@@ -50,12 +83,18 @@ const Login = () => {
 
             {/* Password Input */}
             <div>
-              <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
+              <label
+                htmlFor="password"
+                className="block text-gray-700 font-medium mb-2"
+              >
                 Password
               </label>
               <input
                 type="password"
                 id="password"
+                name="password"
+                value={user.password}
+                onChange={handleChange}
                 placeholder="Enter Password"
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
                 required
@@ -71,7 +110,10 @@ const Login = () => {
                 />
                 <span className="ml-2 text-gray-700">Remember me</span>
               </label>
-              <Link to="/forgotpassword" className="text-orange-500 text-sm hover:underline">
+              <Link
+                to="/forgotpassword"
+                className="text-orange-500 text-sm hover:underline"
+              >
                 Forgot Password?
               </Link>
             </div>
@@ -87,8 +129,11 @@ const Login = () => {
             {/* Register Link */}
             <div className="mt-4 text-center">
               <p className="text-gray-600">
-                Don’t have an account?{' '}
-                <Link to="/register" className="text-orange-500 hover:underline">
+                Don’t have an account?{" "}
+                <Link
+                  to="/register"
+                  className="text-orange-500 hover:underline"
+                >
                   Register
                 </Link>
               </p>
