@@ -1,10 +1,11 @@
-import React from 'react';
-import { Routes, Route } from "react-router-dom"
-import Login from './components/auth/Login';
-import Register from './components/auth/Register';
-import ForgotPassword from './components/auth/ForgotPassword';
-import OtpScreenpage from './components/auth/OtpScreenpage';
-import ResetPassword from './components/auth/ResetPassword';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
+import ForgotPassword from "./components/auth/ForgotPassword";
+import OtpScreenpage from "./components/auth/OtpScreenpage";
+import ResetPassword from "./components/auth/ResetPassword";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/otpscreenpage" element={<OtpScreenpage />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
       </Routes>
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 }

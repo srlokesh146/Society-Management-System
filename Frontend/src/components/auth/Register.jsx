@@ -1,71 +1,132 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link for routing
-import RegisterImage from '../../assets/images/Register.png';
-import BackgroundImage from '../../assets/images/bg.png';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import RegisterImage from "../../assets/images/Register.png";
+import BackgroundImage from "../../assets/images/bg.png";
+import {
+  createSociety,
+  getSocieties,
+  registerUser,
+} from "../../services/AuthService";
+import { toast } from "react-hot-toast";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    country: '',
-    state: '',
-    city: '',
-    password: '',
-    confirmPassword: '',
-    society: '',
-    role: '',
+    FirstName: "",
+    LastName: "",
+    Email: "",
+    Phone: "",
+    Country: "",
+    State: "",
+    City: "",
+    select_society: "",
+    password: "",
+    Cpassword: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [newSociety, setNewSociety] = useState('');
-  const [societyAddress, setSocietyAddress] = useState('');
-  const [societyCountry, setSocietyCountry] = useState('');
-  const [societyState, setSocietyState] = useState('');
-  const [societyCity, setSocietyCity] = useState('');
-  const [zipCode, setZipCode] = useState('');
+
+  const [society, setSociety] = useState({
+    Society_name: "",
+    Society_address: "",
+    Country: "",
+    State: "",
+    City: "",
+    ZipCode: "",
+  });
+
+  const [societyList, setSocietyList] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleSocietyChange = (e) => {
+    const { name, value } = e.target;
+    setSociety({ ...society, [name]: value });
+  };
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
+    try {
+      const response = await registerUser(formData);
+      toast.success(response.data.message);
+      navigate("/login");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      setFormData({
+        FirstName: "",
+        LastName: "",
+        Email: "",
+        Phone: "",
+        Country: "",
+        State: "",
+        City: "",
+        society: "",
+        password: "",
+        Cpassword: "",
+      });
+    }
   };
 
-  const handleSocietySubmit = (e) => {
+  const handleSocietySubmit = async (e) => {
     e.preventDefault();
-    console.log('New Society:', newSociety, societyAddress, societyCountry, societyState, societyCity, zipCode);
-    setShowModal(false);
-    // Reset fields
-    setNewSociety('');
-    setSocietyAddress('');
-    setSocietyCountry('');
-    setSocietyState('');
-    setSocietyCity('');
-    setZipCode('');
+    try {
+      const response = await createSociety(society);
+      toast.success(response.data.message);
+      fetchSocieties();
+      setShowModal(false);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      setSociety({
+        Society_name: "",
+        Society_address: "",
+        Country: "",
+        State: "",
+        City: "",
+        ZipCode: "",
+      });
+    }
   };
 
   const handleSocietySelect = (e) => {
     const selectedValue = e.target.value;
-    setFormData({ ...formData, society: selectedValue });
-    if (selectedValue === 'createNew') {
+    setFormData({ ...formData, select_society: selectedValue });
+    if (selectedValue === "createNew") {
       setShowModal(true); // Show modal if "Create New Society" is selected
     }
   };
 
+  // get all societies
+  const fetchSocieties = async () => {
+    try {
+      const response = await getSocieties();
+      setSocietyList(response.data.Society);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchSocieties();
+  }, []);
+
   return (
-    <div 
-      className="flex items-center justify-center min-h-screen bg-gray-50 p-4" 
-      style={{ backgroundImage: `url(${BackgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+    <div
+      className="flex items-center justify-center min-h-screen bg-gray-50 p-4"
+      style={{
+        backgroundImage: `url(${BackgroundImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
       <div className="flex flex-col md:flex-row w-full max-w-6xl bg-white rounded-lg shadow-lg overflow-hidden">
         {/* Left Section - Branding and Illustration */}
@@ -84,24 +145,26 @@ const Register = () => {
 
         {/* Right Section - Form */}
         <div className="md:w-1/2 p-10">
-          <h2 className="text-3xl font-semibold text-center mb-6">Registration</h2>
+          <h2 className="text-3xl font-semibold text-center mb-6">
+            Registration
+          </h2>
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Name Fields */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <input
                 type="text"
-                name="firstName"
+                name="FirstName"
                 placeholder="Enter First Name"
-                value={formData.firstName}
+                value={formData.FirstName}
                 onChange={handleChange}
                 className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                 required
               />
               <input
                 type="text"
-                name="lastName"
+                name="LastName"
                 placeholder="Enter Last Name"
-                value={formData.lastName}
+                value={formData.LastName}
                 onChange={handleChange}
                 className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                 required
@@ -111,19 +174,19 @@ const Register = () => {
             {/* Email and Phone */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <input
-                type="email"
-                name="email"
+                type="Email"
+                name="Email"
                 placeholder="Enter Email Address"
-                value={formData.email}
+                value={formData.Email}
                 onChange={handleChange}
                 className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                 required
               />
               <input
                 type="text"
-                name="phone"
+                name="Phone"
                 placeholder="91+"
-                value={formData.phone}
+                value={formData.Phone}
                 onChange={handleChange}
                 className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                 required
@@ -134,27 +197,27 @@ const Register = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <input
                 type="text"
-                name="country"
+                name="Country"
                 placeholder="Enter Country"
-                value={formData.country}
+                value={formData.Country}
                 onChange={handleChange}
                 className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                 required
               />
               <input
                 type="text"
-                name="state"
+                name="State"
                 placeholder="Enter State"
-                value={formData.state}
+                value={formData.State}
                 onChange={handleChange}
                 className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                 required
               />
               <input
                 type="text"
-                name="city"
+                name="City"
                 placeholder="Enter City"
-                value={formData.city}
+                value={formData.City}
                 onChange={handleChange}
                 className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                 required
@@ -164,25 +227,26 @@ const Register = () => {
             {/* Society Dropdown with Create Button */}
             <div className="space-y-2">
               <select
-                name="society"
-                value={formData.society}
+                name="select_society"
+                value={formData.select_society}
                 onChange={handleSocietySelect} // Updated to use the new function
                 className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E] w-full"
                 required
               >
                 <option value="">Select Society</option>
-                <option value="society1">Society 1</option>
-                <option value="society2">Society 2</option>
-                <option value="society3">Society 3</option>
+                {societyList.map(({ _id, Society_name }) => (
+                  <option key={_id} value={_id}>
+                    {Society_name}
+                  </option>
+                ))}
                 <option value="createNew">Create New Society</option>
               </select>
             </div>
 
-          
             {/* Password Fields */}
             <div className="relative">
               <input
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Enter Password"
                 value={formData.password}
@@ -200,10 +264,10 @@ const Register = () => {
             </div>
 
             <input
-              type={showPassword ? 'text' : 'password'}
-              name="confirmPassword"
+              type={showPassword ? "text" : "password"}
+              name="Cpassword"
               placeholder="Confirm Password"
-              value={formData.confirmPassword}
+              value={formData.Cpassword}
               onChange={handleChange}
               className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E] w-full"
               required
@@ -213,8 +277,15 @@ const Register = () => {
             <div className="flex items-center">
               <input type="checkbox" required className="mr-2" />
               <p className="text-sm">
-                I agree to all the <a href="#" className="text-[#FE512E]">Terms</a> and{' '}
-                <a href="#" className="text-[#FE512E]">Privacy Policies</a>.
+                I agree to all the{" "}
+                <a href="#" className="text-[#FE512E]">
+                  Terms
+                </a>{" "}
+                and{" "}
+                <a href="#" className="text-[#FE512E]">
+                  Privacy Policies
+                </a>
+                .
               </p>
             </div>
 
@@ -228,7 +299,7 @@ const Register = () => {
 
           {/* Login Link */}
           <p className="mt-4 text-center">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <Link to="/login" className="text-[#FE512E] hover:underline">
               Login here
             </Link>
@@ -240,53 +311,61 @@ const Register = () => {
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h3 className="text-2xl font-bold mb-6 text-gray-800 text-center">Create Society</h3>
+            <h3 className="text-2xl font-bold mb-6 text-gray-800 text-center">
+              Create Society
+            </h3>
             <form onSubmit={handleSocietySubmit} className="space-y-4">
               <input
                 type="text"
                 placeholder="Society Name"
-                value={newSociety}
-                onChange={(e) => setNewSociety(e.target.value)}
+                name="Society_name"
+                value={society.Society_name}
+                onChange={handleSocietyChange}
                 className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-[#FE512E] transition-all duration-200"
                 required
               />
               <input
                 type="text"
                 placeholder="Society Address"
-                value={societyAddress}
-                onChange={(e) => setSocietyAddress(e.target.value)}
+                value={society.Society_address}
+                name="Society_address"
+                onChange={handleSocietyChange}
                 className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-[#FE512E] transition-all duration-200"
                 required
               />
               <input
                 type="text"
                 placeholder="Country"
-                value={societyCountry}
-                onChange={(e) => setSocietyCountry(e.target.value)}
+                name="Country"
+                value={society.societyCountry}
+                onChange={handleSocietyChange}
                 className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-[#FE512E] transition-all duration-200"
                 required
               />
               <input
                 type="text"
+                name="State"
                 placeholder="State"
-                value={societyState}
-                onChange={(e) => setSocietyState(e.target.value)}
+                value={society.State}
+                onChange={handleSocietyChange}
                 className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-[#FE512E] transition-all duration-200"
                 required
               />
               <input
                 type="text"
                 placeholder="City"
-                value={societyCity}
-                onChange={(e) => setSocietyCity(e.target.value)}
+                name="City"
+                value={society.City}
+                onChange={handleSocietyChange}
                 className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-[#FE512E] transition-all duration-200"
                 required
               />
               <input
                 type="text"
-                placeholder="Zip Code"
-                value={zipCode}
-                onChange={(e) => setZipCode(e.target.value)}
+                name="ZipCode"
+                placeholder="ZipCode"
+                value={society.ZipCode}
+                onChange={handleSocietyChange}
                 className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-[#FE512E] transition-all duration-200"
                 required
               />
@@ -295,14 +374,14 @@ const Register = () => {
               <div className="flex justify-between space-x-2 mt-6">
                 <button
                   type="submit"
-                  className="flex-1 bg-[#FE512E] text-white py-2 rounded-lg font-bold transition-transform transform hover:scale-105 hover:bg-[#F09619] focus:outline-none focus:ring-2 focus:ring-[#F09619] focus:ring-opacity-50"
+                  className="flex-1 bg-[#FE512E] text-white py-2 rounded-lg font-bold transition-transform transform hover:scale-105 hover:bg-[#F09619] focus:outline-none focus:ring-2 focus:ring-[#F09619] focus:ring-opaCity-50"
                 >
                   Save
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowModal(false)} // Close the modal
-                  className="flex-1 bg-gray-300 text-black py-2 rounded-lg font-bold transition-transform transform hover:scale-105 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50"
+                  className="flex-1 bg-gray-300 text-black py-2 rounded-lg font-bold transition-transform transform hover:scale-105 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opaCity-50"
                 >
                   Cancel
                 </button>
