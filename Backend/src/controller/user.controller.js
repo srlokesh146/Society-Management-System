@@ -11,6 +11,7 @@ const accountsid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilioClient = new twilio(accountsid, authToken)
 const bcrypt=require("bcryptjs")
+const OTP_EXPIRATION_TIME = 30 * 1000; // 30 seconds in milliseconds
 
 exports.signup = async (req, res) => {
     try {
@@ -174,75 +175,75 @@ exports.logout = async (req, res) => {
         });
     }
 };
-exports.SendOtp = async (req, res) => {
-    try {
-        const { EmailOrPhone } = req.body;
-        const otp = otpGnerator.generate(6, { upperCaseAlphabets: false, lowerCaseAlphabets: false, specialChars: false });
-        const cdate = new Date();
+// exports.SendOtp = async (req, res) => {
+//     try {
+//         const { EmailOrPhone } = req.body;
+//         const otp = otpGnerator.generate(6, { upperCaseAlphabets: false, lowerCaseAlphabets: false, specialChars: false });
+//         const cdate = new Date();
 
 
-        let user;
-        if (EmailOrPhone.includes('@')) {
+//         let user;
+//         if (EmailOrPhone.includes('@')) {
 
-            user = await User.findOne({ Email: EmailOrPhone });
-            if (!user) {
-                return res.status(404).json({
-                    success: false,
-                    message: "Email not registered"
-                });
-            }
+//             user = await User.findOne({ Email: EmailOrPhone });
+//             if (!user) {
+//                 return res.status(404).json({
+//                     success: false,
+//                     message: "Email not registered"
+//                 });
+//             }
 
-            await User.findOneAndUpdate(
-                { Email: EmailOrPhone },
-                { otp, otpExpiration: new Date(cdate.getTime()) },
-                { upsert: true, new: true, setDefaultsOnInsert: true }
-            );
+//             await User.findOneAndUpdate(
+//                 { Email: EmailOrPhone },
+//                 { otp, otpExpiration: new Date(cdate.getTime()) },
+//                 { upsert: true, new: true, setDefaultsOnInsert: true }
+//             );
 
-            // Send OTP via email
-            senData(user.Email, "Forgot your password", otp)
+//             // Send OTP via email
+//             senData(user.Email, "Forgot your password", otp)
 
-            return res.status(200).json({
-                success: true,
-                message: "OTP sent successfully to email"
-            });
+//             return res.status(200).json({
+//                 success: true,
+//                 message: "OTP sent successfully to email"
+//             });
 
-        } else {
+//         } else {
 
-            user = await User.findOne({ Phone: EmailOrPhone });
-            if (!user) {
-                return res.status(404).json({
-                    success: false,
-                    message: "Mobile number not registered"
-                });
-            }
+//             user = await User.findOne({ Phone: EmailOrPhone });
+//             if (!user) {
+//                 return res.status(404).json({
+//                     success: false,
+//                     message: "Mobile number not registered"
+//                 });
+//             }
 
-            await User.findOneAndUpdate(
-                { Phone: EmailOrPhone },
-                { otp, otpExpiration: new Date(cdate.getTime()) },
-                { upsert: true, new: true, setDefaultsOnInsert: true }
-            );
+//             await User.findOneAndUpdate(
+//                 { Phone: EmailOrPhone },
+//                 { otp, otpExpiration: new Date(cdate.getTime()) },
+//                 { upsert: true, new: true, setDefaultsOnInsert: true }
+//             );
 
 
-            await twilioClient.messages.create({
-                body: `Your Forgot Password OTP is ${otp}`,
-                to: EmailOrPhone, // Phone number
-                from: process.env.TWILIO_PHONE_NUMBER
-            });
+//             await twilioClient.messages.create({
+//                 body: `Your Forgot Password OTP is ${otp}`,
+//                 to: EmailOrPhone, // Phone number
+//                 from: process.env.TWILIO_PHONE_NUMBER
+//             });
 
-            return res.status(200).json({
-                success: true,
-                message: "OTP sent successfully to phone number"
-            });
-        }
+//             return res.status(200).json({
+//                 success: true,
+//                 message: "OTP sent successfully to phone number"
+//             });
+//         }
 
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            success: false,
-            message: "Internal server error"
-        });
-    }
-};
+//     } catch (error) {
+//         console.log(error);
+//         return res.status(500).json({
+//             success: false,
+//             message: "Internal server error"
+//         });
+//     }
+// };
 // exports.verifyOtp = async (req, res) => {
 //     try {
 //         const { EmailOrPhone, otp } = req.body;
@@ -296,6 +297,91 @@ exports.SendOtp = async (req, res) => {
 //         });
 //     }
 // };
+exports.SendOtp = async (req, res) => {
+    try {
+        const { EmailOrPhone } = req.body;
+        const otp = otpGnerator.generate(6, { upperCaseAlphabets: false, lowerCaseAlphabets: false, specialChars: false });
+        const currentTime = new Date();
+
+        let user;
+        if (EmailOrPhone.includes('@')) {
+            user = await User.findOne({ Email: EmailOrPhone });
+            if (!user) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Email not registered"
+                });
+            }
+
+            // Check if OTP is expired
+            if (user.otpExpiration && user.otpExpiration > currentTime) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Current OTP is still valid. Please wait for it to expire."
+                });
+            }
+
+            // Generate and set OTP with new expiration
+            const otpExpiration = new Date(currentTime.getTime() + OTP_EXPIRATION_TIME);
+            await User.findOneAndUpdate(
+                { Email: EmailOrPhone },
+                { otp, otpExpiration },
+                { new: true }
+            );
+
+            // Send OTP via email
+            senData(user.Email, "Forgot your password", otp);
+
+            return res.status(200).json({
+                success: true,
+                message: "OTP sent successfully to email"
+            });
+
+        } else {
+            user = await User.findOne({ Phone: EmailOrPhone });
+            if (!user) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Mobile number not registered"
+                });
+            }
+
+            // Check if OTP is expired
+            if (user.otpExpiration && user.otpExpiration > currentTime) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Current OTP is still valid. Please wait for it to expire."
+                });
+            }
+
+            // Generate and set OTP with new expiration
+            const otpExpiration = new Date(currentTime.getTime() + OTP_EXPIRATION_TIME);
+            await User.findOneAndUpdate(
+                { Phone: EmailOrPhone },
+                { otp, otpExpiration },
+                { new: true }
+            );
+
+            // Send OTP via SMS
+            await twilioClient.messages.create({
+                body: `Your Forgot Password OTP is ${otp}`,
+                to: EmailOrPhone, // Phone number
+                from: process.env.TWILIO_PHONE_NUMBER
+            });
+
+            return res.status(200).json({
+                success: true,
+                message: "OTP sent successfully to phone number"
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+};
 exports.verifyOtp = async (req, res) => {
     try {
       
