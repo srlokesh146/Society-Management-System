@@ -5,6 +5,8 @@ router.post("/addowner", upload.fields([
     { name: 'Adhar_front', maxCount: 1 },
     { name: 'Adhar_back', maxCount: 1 },
     { name: 'Address_proof', maxCount: 1 },
-    { name: 'Rent_Agreement', maxCount: 1 }
+    { name: 'Rent_Agreement', maxCount: 1 },
+    { name: 'Owner_image', maxCount: 1 }
 ]), ResidentController.addOwnerData);
+router.get("/viewowner",ResidentController.GetAllOwner)
 module.exports=router;
