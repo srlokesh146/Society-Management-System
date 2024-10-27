@@ -1,6 +1,10 @@
 const { Schema, model } = require("mongoose");
 
 const Ownerschema= new Schema({
+    Owner_image:{
+        type:String,
+         required:true
+    },
     Full_name:{
         type:String,
         required:true
@@ -19,7 +23,8 @@ const Ownerschema= new Schema({
     },
     Gender:{
         type:String,
-        required:true
+        required:true,
+        enum: ['Male', 'Female', 'Other']
     },
     Wing:{
         type:String,
