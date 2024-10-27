@@ -1,4 +1,4 @@
-const { Schema } = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const Ownerschema= new Schema({
     Full_name:{
@@ -61,5 +61,12 @@ const Ownerschema= new Schema({
         vehicle_type: { type: String, required: true },
         vehicle_name: { type: String, required: true },
         vehicle_number: { type: String, required: true }
-    }]
+    }],
+    cloudinary_id: {
+        type: String,
+      },
 },{timestamps:true})
+
+
+const Owner = model("Owner",Ownerschema);
+module.exports=Owner;
