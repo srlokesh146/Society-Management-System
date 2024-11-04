@@ -69,7 +69,7 @@ function SecurityGuardDetails() {
   };
 
   return (
-    <div className="container mx-auto p-4 sm:p-6 bg-gray-100 min-h-screen">
+    <div className="container mx-auto bg-gray-100 min-h-screen">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-0">Security Guard Details</h1>
         <button 

@@ -12,7 +12,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex justify-between items-center p-4 bg-white shadow-md">
+    <div className="flex justify-between items-center p-4 bg-white shadow-md sticky top-0 left-0 w-full">
       <div className="relative w-[335px]">
         <input
           type="text"

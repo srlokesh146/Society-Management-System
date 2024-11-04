@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { importantNumbers, pendingMaintenances, totalBalanceData, complaintsData, activities } from "../../constantdata";
-import BalanceChart from "../../components/BalanceChart";
+// import BalanceChart from "../../components/BalanceChart";
 import Navbar from "../../components/Navbar";
 import Modal from "../../components/modal/Modal";
 import DashboardTable from "../../components/DashboardTable";
@@ -104,7 +104,7 @@ const Dashboard = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       <main className="flex-1 overflow-y-auto">
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="p-[30px]">
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
             <div className="flex items-center justify-center relative w-full rounded-[15px]">
@@ -261,7 +261,7 @@ const Dashboard = () => {
 
           <div className="grid grid-cols-12 w-full gap-3 h-full">
             <div className="col-span-12 md:col-span-8 lg:col-span-6 rounded-lg shadow-[0px_0px_25px_0px_rgba(0,0,0,0.08)]">
-              <BalanceChart />
+              {/* <BalanceChart /> */}
             </div>
 
             <div className="col-span-12 md:col-span-4 lg:col-span-3">
