@@ -24,7 +24,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen overflow-hidden bg-cover bg-center bg-image">
+    <div className="flex flex-col lg:flex-row h-screen bg-cover bg-center bg-image">
       <div className="flex flex-col bg-[#F6F8FB] w-full lg:w-1/2 z-10">
         <div className="pt-8 lg:pt-[60px] flex justify-start">
           <Logo logocss className="w-24 h-24 lg:w-32 lg:h-32" />
@@ -54,10 +54,16 @@ const ForgotPassword = () => {
               </label>
               <input
                 type="text"
+<<<<<<< Updated upstream
                 name="EmailOrPhone"
                 value={EmailOrPhone}
                 onChange={(e) => setEmailOrPhone(e.target.value)}
                 className="w-full p-3 border border-black focus:outline-none rounded-[10px]"
+=======
+                className="w-full p-3 border border-gray focus:outline-none rounded-[10px]"
+                defaultValue="99125 53222"
+                placeholder='Enter Email or Phone number'
+>>>>>>> Stashed changes
               />
             </div>
             <button
