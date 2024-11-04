@@ -1,57 +1,152 @@
 /* forgot password  */
 
 .custom-shadow {
-    box-shadow: 0px 0px 25px 0px #00000008;
-  }
-  
+  box-shadow: 0px 0px 25px 0px #00000008;
+}
+
+.bg-image {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-size: cover;
+}
+
+.bg-image::after {
+  content: '';
+  position: absolute;
+  background-image: url(./assets/images/grouplineimage.png);
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  top: 0;
+  right: -28%;
+  z-index: -3;
+}
+
+
+@media (max-width: 768px) {
   .bg-image {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    background: url(../src/assest/images/grouplineimage.png) no-repeat center center;
-    background-size: cover;
+    background: none;
   }
-  
+
   .bg-image::after {
-    content: '';
-    position: absolute;
-    background-image: url(../src/assest/images/grouplineimage.png);
-    width: 100%;
-    height: 100%;
-    background-repeat: no-repeat;
-    top: 0;
-    right: -28%;
-    z-index: -3;
+    background-image: none;
   }
-  
-  @media (max-width: 768px) {
-    .bg-image {
-      background: none; 
-    }
-  
-    .bg-image::after {
-      background-image: none; 
-    }
-  }
-  
-  @media (max-width: 640px) {
-    .bg-image {
-      background: none; 
-    }
-  
-    .bg-image::after {
-      background-image: none; 
-    }
+}
+
+@media (max-width: 640px) {
+  .bg-image {
+    background: none;
   }
 
-  .add-society {
-    
-    background: linear-gradient(90deg, #FE512E 0%, #F09619 100%);
-
+  .bg-image::after {
+    background-image: none;
   }
+}
+
+.add-society {
+  background: linear-gradient(90deg, #FE512E 0%, #F09619 100%);
+}
+
+
+/* Sidebar.css */
+
+.sidebar-border {
+  position: absolute;
+  inset-y: 0;
+  left: -17px;
+  width: 7px;
+  height: 52px;
+  top: 0;
+  background: linear-gradient(90deg, #FE512E 0%, #F09619 100%);
+  border-radius: 0 5px 5px 0;
+  transform: -translate-y-1/2 scaleY(1.25);
+  transition: transform 0.3s ease;
+}
+
+.sidebar-border-active {
+  transform: -translate-y-1/2 scaleY(1.25);
+}
+
+.border-price .sidebar-border {
+  position: absolute;
+  inset-y: 0;
+  left: 0px;
+  width: 7px;
+  height: 52px;
+  top: 18px;
+  background: #FF6A00;
+  opacity: 50%;
+  border-radius: 0 5px 5px 0;
+  transform: -translate-y-1/2 scaleY(1.25);
+  transition: transform 0.3s ease;
+}
+
+.border-price .sidebar-border-active {
+  transform: -translate-y-1/2 scaleY(1.25);
+}
+
+/* Upcoming Activities */
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px; 
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 10px; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
 
 
 
 
-  
+/* upcomming */
+
+
+ul::-webkit-scrollbar {
+  width: 5px; 
+}
+
+ul::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+
+ul::-webkit-scrollbar-thumb {
+  background: #202224; 
+  border-radius: 10px; 
+  border: 2px solid black; 
+}
+
+
+.bg-opacity-custom {
+  background-color: rgba(86, 120, 233, 0.1); 
+}
+
+
+/* Custom scrollbar style */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #202224; 
+  border-radius: 10px;
+  border: 2px solid black;
+  min-height: 10px; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #F4F4F4; 
+}
+
+/* totalBalanceData */

@@ -10,12 +10,14 @@ import { Toaster } from "react-hot-toast";
 
 =======
 import React from 'react';
+import './APP.css';
 import { Routes, Route } from "react-router-dom"
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import ForgotPassword from './components/auth/ForgotPassword';
 import OtpScreenpage from './components/auth/OtpScreenpage';
 import ResetPassword from './components/auth/ResetPassword';
+<<<<<<< Updated upstream
 import ComplaintTable from './pages/ComplaintTable';
 import ReqTracking from './pages/ReqTracking';
 import VisitorLog from './pages/VisitorLog';
@@ -40,6 +42,28 @@ function App() {
         <Route path="/Announcement" element={<Announcement />} />
       </Routes>
       <Toaster position="top-right" reverseOrder={false} />
+=======
+import Dashboard from './pages/Dashboard/Dashboard';
+import Layout from './Layout';
+import EditProfileForm from './components/EditProfileForm';
+
+function App() {
+  return (
+    <div>
+      <Layout>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/otpscreenpage" element={<OtpScreenpage />} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
+
+          {/* sidebar dashboard */}
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/editprofile" element={<EditProfileForm />} />
+        </Routes>
+      </Layout>
+>>>>>>> Stashed changes
     </div>
   );
 }
