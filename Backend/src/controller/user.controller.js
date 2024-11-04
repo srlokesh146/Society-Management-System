@@ -435,7 +435,7 @@ exports.verifyOtp = async (req, res) => {
       });
     }
 
-    if (user.otp !== otp) {
+    if (+user.otp !== otp) {
       return res.status(400).json({
         success: false,
         message: "Invalid OTP",

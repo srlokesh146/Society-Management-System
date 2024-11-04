@@ -40,7 +40,7 @@ const OtpScreenpage = () => {
       };
       const response = await verifyOtp(otpDetail);
       toast.success(response.data.message);
-      navigate("resetpassword")
+      navigate("/resetpassword")
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
