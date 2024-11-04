@@ -54,16 +54,10 @@ const ForgotPassword = () => {
               </label>
               <input
                 type="text"
-<<<<<<< Updated upstream
                 name="EmailOrPhone"
                 value={EmailOrPhone}
                 onChange={(e) => setEmailOrPhone(e.target.value)}
                 className="w-full p-3 border border-black focus:outline-none rounded-[10px]"
-=======
-                className="w-full p-3 border border-gray focus:outline-none rounded-[10px]"
-                defaultValue="99125 53222"
-                placeholder='Enter Email or Phone number'
->>>>>>> Stashed changes
               />
             </div>
             <button

@@ -32,7 +32,7 @@ export const sidebarItems = [
     label: "Complaint Tracking",
     icon: <RiMessageFill/>, 
     subItems: [
-      { id: 9, path: "/CreateComplaint", label: "Create Complaint" },
+      { id: 9, path: "/complainttable", label: "Create Complaint" },
       { id: 10, path: "/RequestTracking", label: "Request Tracking" },
     ],
   },

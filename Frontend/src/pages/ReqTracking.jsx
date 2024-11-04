@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { BsPencilSquare, BsTrash, BsEye, BsCalendar } from 'react-icons/bs';
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
+// import DatePicker from 'react-datepicker';
+// import "react-datepicker/dist/react-datepicker.css";
 
 function ReqTracking() {
   const [requests, setRequests] = useState([
@@ -256,12 +256,12 @@ function RequestForm({ request, onSave, onClose }) {
         <div className="sm:col-span-2 relative">
           <label className="block text-sm font-medium text-gray-700 mb-1">Request Date</label>
           <div className="relative">
-            <DatePicker
+            {/* <DatePicker
               selected={formData.requestDate}
               onChange={handleDateChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               ref={datePickerRef}
-            />
+            /> */}
             <button
               type="button"
               onClick={() => datePickerRef.current.setOpen(true)}
