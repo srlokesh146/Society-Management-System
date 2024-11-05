@@ -51,7 +51,7 @@ exports.addOwnerData = async (req, res) => {
             };
     
             // Upload images to Cloudinary and delete local files
-            const Owner_image = await uploadAndDeleteLocal(req.files?.Owner_image);
+            const profileImage = await uploadAndDeleteLocal(req.files?.profileImage);
             const Adhar_front = await uploadAndDeleteLocal(req.files?.Adhar_front);
             const Adhar_back = await uploadAndDeleteLocal(req.files?.Adhar_back);
             const Address_proof = await uploadAndDeleteLocal(req.files?.Address_proof);
@@ -68,7 +68,7 @@ exports.addOwnerData = async (req, res) => {
                 !Relation ||
                 !Member_Counting ||
                 !Vehicle_Counting ||
-                !Owner_image ||
+                !profileImage ||
                 !Adhar_front ||
                 !Adhar_back ||
                 !Address_proof ||
@@ -82,7 +82,7 @@ exports.addOwnerData = async (req, res) => {
     
         // Create a new owner document
         const newOwner = new Owner({
-            Owner_image,
+            profileImage,
             Full_name,
             Phone_number,  
             Email_address,

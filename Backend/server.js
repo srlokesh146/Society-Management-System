@@ -25,6 +25,8 @@ const UserRoutes = require("./src/routes/user.route");
 const NumberRoutes = require("./src/routes/number.route.js");
 const ResidentRoute=require("./src/routes/resident.route.js")
 const ComplaintRoutes=require("./src/routes/ComplaintTracking.route.js")
+const SecurityRoutes=require("./src/routes/security.route.js")
+const FacilityRoute=require("./src/routes/facility.route.js")
 
 //user registration and login schema
 app.use("/api/v1/auth", UserRoutes);
@@ -40,5 +42,11 @@ app.use("/api/v2/resident",ResidentRoute)
 
 //complaint apis
 app.use("/api/v2/complaint",ComplaintRoutes)
+//security apis
+app.use("/api/v2/security",SecurityRoutes)
+//facility apis
+app.use("/api/v2/facility",FacilityRoute)
+
+
 app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
