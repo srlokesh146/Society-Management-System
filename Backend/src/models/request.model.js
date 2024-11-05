@@ -1,7 +1,7 @@
 const { Schema, model, default: mongoose } = require("mongoose");
 
-const compliantschema= new Schema({
-    complainer:{
+const requestschema= new Schema({
+    requester:{
         type:String,
         required:true
     },
@@ -11,6 +11,10 @@ const compliantschema= new Schema({
     },
     description:{
         type:String,
+        required:true
+    },
+    date:{
+        type:Date,
         required:true
     },
     wing:{
@@ -37,5 +41,5 @@ const compliantschema= new Schema({
     },
     
 },{timestamps:true})
-const Complaint= model("Complaint",compliantschema)
-module.exports=Complaint;
+const Request= model("Request",requestschema)
+module.exports=Request;

@@ -8,7 +8,7 @@ router.post("/addowner", upload.fields([
     { name: 'Adhar_back', maxCount: 1 },
     { name: 'Address_proof', maxCount: 1 },
     { name: 'Rent_Agreement', maxCount: 1 },
-    { name: 'Owner_image', maxCount: 1 }
+    { name: 'profileImage', maxCount: 1 }
 ]), ResidentController.addOwnerData);
 //show owner 
 router.get("/viewowner",ResidentController.GetAllOwner)
