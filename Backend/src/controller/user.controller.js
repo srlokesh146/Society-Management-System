@@ -11,6 +11,8 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilioClient = new twilio(accountsid, authToken);
 const bcrypt = require("bcryptjs");
 const OTP_EXPIRATION_TIME = 30 * 1000; // 30 seconds in milliseconds
+const cloudinary = require('../utils/cloudinary'); 
+const fs=require("fs")
 
 exports.signup = async (req, res) => {
   try {
@@ -25,6 +27,7 @@ exports.signup = async (req, res) => {
       select_society,
       password,
       Cpassword,
+      role
     } = req.body;
 
     // Check required fields
@@ -105,6 +108,7 @@ exports.signup = async (req, res) => {
       City,
       select_society,
       password: hashpassword,
+      role:role || "admin"
     });
 
     // Respond if user creation is successful
@@ -516,26 +520,10 @@ exports.UpdateProfile = async (req, res) => {
       State,
       City,
       select_society,
-      password,
-      Cpassword,
+      
+     
     } = req.body;
-    if (
-      !FirstName ||
-      !LastName ||
-      !Email ||
-      !Phone ||
-      !Country ||
-      !State ||
-      !City ||
-      !select_society ||
-      !password ||
-      !Cpassword
-    ) {
-      return res.status(400).json({
-        success: false,
-        message: "All fields are required",
-      });
-    }
+    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(Email)) {
       return res.status(400).json({
@@ -543,23 +531,18 @@ exports.UpdateProfile = async (req, res) => {
         message: "Invalid email",
       });
     }
-    if (password.length < 6) {
-      return res.status(400).json({
-        success: false,
-        message: "password must be at letest 6 characters",
-      });
-    }
-    if (Cpassword.length < 6) {
-      return res.status(400).json({
-        success: false,
-        message: "password must be at letest 6 characters",
-      });
-    }
+   
+    
 
-    if (password !== Cpassword) {
-      return res.status(400).json({ message: "Passwords do not match" });
+    let imageUrl;
+    if (req.file) {  
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "user_profiles",  
+        use_filename: true,
+        unique_filename: false,
+      });
+      imageUrl = result.secure_url;
     }
-    const hashpassword = await hash(password);
     const user = await User.findByIdAndUpdate(req.params.id, {
       FirstName,
       LastName,
@@ -569,9 +552,20 @@ exports.UpdateProfile = async (req, res) => {
       State,
       City,
       select_society,
-      password: hashpassword,
-      Cpassword: hashpassword,
-    });
+      
+      profileImage: imageUrl || user.profileImage
+    },{ new: true });
+
+    fs.unlink(req.file.path,(err)=>{
+      if(err){
+        console.log("error a deleting file",err);
+        
+      }
+      else{
+        console.log("file  deleted from server");
+        
+      }
+    })
     if (user) {
       res.status(200).json({
         success: true,
@@ -579,11 +573,19 @@ exports.UpdateProfile = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    
+    if (error.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: `Duplicate value for field: ${Object.keys(error.keyPattern).join(', ')}`,
+      });
+    }
+    console.error("Update Profile Error:", error);
     res.status(500).json({
       success: false,
       message: "Internal Server error",
     });
+    
   }
 };
 exports.FindByIdProfile = async (req, res) => {

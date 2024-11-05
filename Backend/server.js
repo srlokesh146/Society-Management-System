@@ -24,6 +24,7 @@ const SocietyRoutes = require("./src/routes/society.route");
 const UserRoutes = require("./src/routes/user.route");
 const NumberRoutes = require("./src/routes/number.route.js");
 const ResidentRoute=require("./src/routes/resident.route.js")
+const ComplaintRoutes=require("./src/routes/ComplaintTracking.route.js")
 
 //user registration and login schema
 app.use("/api/v1/auth", UserRoutes);
@@ -37,5 +38,7 @@ app.use("/api/v2/number", NumberRoutes);
 //resident apis
 app.use("/api/v2/resident",ResidentRoute)
 
+//complaint apis
+app.use("/api/v2/complaint",ComplaintRoutes)
 app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
