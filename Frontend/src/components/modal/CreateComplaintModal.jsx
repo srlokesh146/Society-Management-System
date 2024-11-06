@@ -13,17 +13,33 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
     wing: '',
     unit: ''
   });
+  const [formErrors, setFormErrors] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    
+
+    // Validate form
+    const errors = {};
+    if (!formData.requesterName) errors.requesterName = 'Requester Name is required';
+    if (!formData.requestName) errors.requestName = 'Complaint Name is required';
+    if (!formData.description) errors.description = 'Description is required';
+    if (!formData.wing) errors.wing = 'Wing is required';
+    if (!formData.unit) errors.unit = 'Unit is required';
+    if (!selectedPriority) errors.priority = 'Priority is required';
+    if (!selectedStatus) errors.status = 'Status is required';
+
+    setFormErrors(errors);
+
+    // If there are errors, return early
+    if (Object.keys(errors).length > 0) return;
+
+    // Submit the form data
     const complaintData = {
-      requesterName: formData.get('requesterName'),
-      requestName: formData.get('requestName'),
-      description: formData.get('description'),
-      wing: formData.get('wing'),
-      unit: formData.get('unit'),
+      requesterName: formData.requesterName,
+      requestName: formData.requestName,
+      description: formData.description,
+      wing: formData.wing,
+      unit: formData.unit,
       priority: selectedPriority,
       status: selectedStatus
     };
@@ -31,18 +47,6 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
     onSubmit(e, complaintData);
   };
 
-  // Check if form is valid
-  const isFormValid = () => {
-    return formData.requesterName && 
-           formData.requestName && 
-           formData.description && 
-           formData.wing && 
-           formData.unit && 
-           selectedPriority && 
-           selectedStatus;
-  };
-
-  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -51,9 +55,21 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
     }));
   };
 
+  const isFormValid = () => {
+    return (
+      formData.requesterName &&
+      formData.requestName &&
+      formData.description &&
+      formData.wing &&
+      formData.unit &&
+      selectedPriority &&
+      selectedStatus
+    );
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg w-full max-w-md p-6">
+      <div className="bg-white rounded-lg w-full max-w-md p-6" style={{ maxWidth: '410px' }}>
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-gray-800">Create Complaint</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
@@ -65,7 +81,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
           {/* Complainant Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Complainant Name*
+              Complainant Name
             </label>
             <input
               type="text"
@@ -74,14 +90,14 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
               onChange={handleInputChange}
               className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500"
               placeholder="Enter name"
-              required
             />
+            {formErrors.requesterName && <span className="text-red-500 text-sm">{formErrors.requesterName}</span>}
           </div>
 
           {/* Complaint Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Complaint Name*
+              Complaint Name
             </label>
             <input
               type="text"
@@ -90,14 +106,14 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
               onChange={handleInputChange}
               className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500"
               placeholder="Enter name"
-              required
             />
+            {formErrors.requestName && <span className="text-red-500 text-sm">{formErrors.requestName}</span>}
           </div>
 
           {/* Description */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Description*
+              Description
             </label>
             <textarea
               name="description"
@@ -106,15 +122,15 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
               onChange={handleInputChange}
               className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500"
               placeholder="Enter description"
-              required
             />
+            {formErrors.description && <span className="text-red-500 text-sm">{formErrors.description}</span>}
           </div>
 
           {/* Wing and Unit */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Wing*
+                Wing
               </label>
               <input
                 type="text"
@@ -123,12 +139,12 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500"
                 placeholder="Enter wing"
-                required
               />
+              {formErrors.wing && <span className="text-red-500 text-sm">{formErrors.wing}</span>}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Unit*
+                Unit
               </label>
               <input
                 type="text"
@@ -137,15 +153,15 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500"
                 placeholder="Enter unit"
-                required
               />
+              {formErrors.unit && <span className="text-red-500 text-sm">{formErrors.unit}</span>}
             </div>
           </div>
 
           {/* Priority */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Priority*
+              Priority
             </label>
             <div className="flex gap-4">
               {['High', 'Medium', 'Low'].map((priority) => (
@@ -157,7 +173,6 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
                     checked={selectedPriority === priority}
                     onChange={() => setSelectedPriority(priority)}
                     className="hidden"
-                    required
                   />
                   <span className={`flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded-md text-sm cursor-pointer
                     ${selectedPriority === priority ? 'border-orange-500 bg-orange-50' : ''}
@@ -171,12 +186,13 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
                 </label>
               ))}
             </div>
+            {formErrors.priority && <span className="text-red-500 text-sm">{formErrors.priority}</span>}
           </div>
 
           {/* Status */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Status*
+              Status
             </label>
             <div className="flex gap-4">
               {['Open', 'Pending', 'Solve'].map((status) => (
@@ -188,7 +204,6 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
                     checked={selectedStatus === status}
                     onChange={() => setSelectedStatus(status)}
                     className="hidden"
-                    required
                   />
                   <span className={`flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded-md text-sm cursor-pointer
                     ${selectedStatus === status ? 'border-orange-500 bg-orange-50' : ''}
@@ -202,6 +217,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
                 </label>
               ))}
             </div>
+            {formErrors.status && <span className="text-red-500 text-sm">{formErrors.status}</span>}
           </div>
 
           {/* Buttons */}
@@ -209,17 +225,16 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
             <button
               type="button"
               onClick={onClose}
-              className="w-full px-4 py-3 text-md font-medium text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50"
+              className="w-full py-[13.5px] px-[58.5px] border rounded-[10px] leading-[27px] font-medium text-[18px]"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className={`w-full px-4 py-3 text-md font-medium text-black rounded-md transition-all duration-300
-                ${isFormValid() 
-                  ? 'bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] hover:opacity-90' 
-                  : 'bg-[#F6F8FB] text-black'
-                }`}
+              className={`w-full py-[13.5px] px-[58.5px] border rounded-[10px] font-semibold leading-[27px] ${
+                isFormValid() ? 'bg-custom-gradient text-white text-[18px]' : 'bg-[#F6F8FB] border-none'
+              }`}
+            
             >
               Create
             </button>

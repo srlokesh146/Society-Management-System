@@ -99,6 +99,46 @@ export const totalBalanceData = [
   },
 ];
 
+<<<<<<< Updated upstream
+=======
+export const cardData = [
+  {
+    title: "Total Balance",
+    amount: "2,22,520",
+    bgColor: 'rgba(255, 106, 0, 0.5)',
+    gradient: 'linear-gradient(255.6deg, #FF6A00 7.71%, rgba(255, 255, 255, 0) 18.54%)',
+    iconBg: '#FF6A00',
+    icon: icon1,
+  },
+  {
+    title: "Total Income",
+    amount: "55,000",
+    bgColor: 'rgba(57, 151, 61, 0.5)',
+    gradient: 'linear-gradient(255.6deg, #39973D 7.71%, rgba(255, 255, 255, 0) 18.54%)',
+    iconBg: '#39973D',
+    icon: moneyrecive,
+  },
+  {
+    title: "Total Expense",
+    amount: "20,550",
+    bgColor: 'rgba(134, 159, 243, 0.5)',
+    gradient: 'linear-gradient(255.6deg, #869FF3 7.71%, rgba(255, 255, 255, 0) 18.54%)',
+    iconBg: '#869FF3',
+    icon: moneysend,
+  },
+  {
+    title: "Total Unit",
+    amount: "20,550",
+    bgColor: 'rgba(235, 55, 195, 0.5)',
+    gradient: 'linear-gradient(255.6deg, #EB37C3 7.71%, rgba(255, 255, 255, 0) 18.54%)',
+    iconBg: '#EB37C3',
+    icon: building4,
+  },
+];
+
+
+
+>>>>>>> Stashed changes
 export const importantNumbers = [
   { name: "Hanna Danin", work: "Plumber", phone: "+91 995867 33657" },
   { name: "Roger Lubin", work: "Electrician", phone: "+91 898765 45677" },

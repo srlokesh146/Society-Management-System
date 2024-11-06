@@ -1,29 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { IoSearchOutline } from 'react-icons/io5';
 import { IoNotifications } from "react-icons/io5";
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate, useLocation } from 'react-router-dom';
 import avatar from '../assets/images/avatar.png';
 
 const Navbar = () => {
+  const [showSearch, setShowSearch] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+
 
   const handleProfileClick = () => {
-    navigate('/editprofile'); 
+    setShowSearch(false);
+    navigate('/editprofile');
   };
 
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      setShowSearch(true);
+    } else if (location.pathname === "/residentmanagement") {
+      setShowSearch(false);
+    } else if (location.pathname === "/editprofile") {
+      setShowSearch(false);
+    }
+  }, [location]);
+
   return (
-    <div className="flex justify-between items-center p-4 bg-white shadow-md sticky top-0 left-0 w-full">
-      <div className="relative w-[335px]">
-        <input
-          type="text"
-          placeholder="Search..."
-          className="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 bg-[#F6F8FB] "
-        />
-        <span className="absolute left-3 top-3 text-gray-400">
-          <IoSearchOutline size={20} />
-        </span>
-      </div>
-      <div className="flex items-center">
+    <div className="flex justify-between items-center p-4 bg-white shadow-md sticky top-0 left-0 w-full max-md:flex-col max-md:justify-start max-md:flex max-md:items-start max-sm:flex-col max-sm:justify-start max-sm:items-start">
+      {showSearch && (
+        <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 bg-[#F6F8FB] max-sm:mb-[15px] max-md:mb-[15px]"
+          />
+          <span className="absolute left-3 top-3 text-gray-400">
+            <IoSearchOutline size={20} />
+          </span>
+        </div>
+      )}
+
+      <div className="flex items-center max-sm:ms-[35px] justify-end w-full max-sm:justify-start">
         <div className="mr-[20px]">
           <IoNotifications size={38} className="text-black cursor-pointer border border-[#D3D3D3] rounded-[10px] p-[8px]" />
         </div>
@@ -31,8 +49,8 @@ const Navbar = () => {
           <img
             src={avatar}
             alt="Profile"
-            className="rounded-full w-[48px] h-[48px] cursor-pointer" // Add cursor pointer
-            onClick={handleProfileClick} // Handle click to navigate
+            className="rounded-full w-[48px] h-[48px] cursor-pointer mr-[15px] text-[12px]"
+            onClick={handleProfileClick}
           />
         </div>
         <div className='flex flex-col'>
