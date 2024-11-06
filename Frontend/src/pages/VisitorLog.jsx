@@ -16,42 +16,66 @@ const visitors = [
 
 const VisitorLogs = () => {
   return (
-    <div className="container mx-auto p-4 sm:p-6 bg-gray-100">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-grey-800">Visitor Logs</h1>
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+    <div className="container mx-auto p-4 sm:p-6 bg-white rounded-lg">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800">Visitor Logs</h1>
+      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-grey-200">
-            <thead className="bg-black-50">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-indigo-50 ">
               <tr>
-                <th className="px-4 sm:px-6 py-3 text-left text-md font-medium text-black-500  tracking-wider">Visitor Name</th>
-                <th className="px-4 sm:px-6 py-3 text-left text-md font-medium text-black-500  tracking-wider hidden sm:table-cell">Phone Number</th>
-                <th className="px-4 sm:px-6 py-3 text-left text-md font-medium text-black-500  tracking-wider hidden md:table-cell">Date</th>
-                <th className="px-4 sm:px-6 py-3 text-left text-md font-medium text-black-500  tracking-wider">Unit Number</th>
-                <th className="px-4 sm:px-6 py-3 text-left text-md font-medium text-black-500    tracking-wider hidden lg:table-cell">Time</th>
+                <th className="px-4 sm:px-6 py-4 text-left text-md font-bold text-black-500 tracking-wider">
+                  Visitor Name
+                </th>
+                <th className="px-4 sm:px-6 py-4 text-left text-md font-bold text-black-500 tracking-wider">
+                  Phone Number
+                </th>
+                <th className="px-4 sm:px-6 py-4 text-left text-md font-bold text-black-500 tracking-wider">
+                  Date
+                </th>
+                <th className="px-4 sm:px-6 py-4 text-left text-md font-bold text-black-500 tracking-wider">
+                  Unit Number
+                </th>
+                <th className="px-4 sm:px-10 py-4 text-left text-md font-bold text-black-500 tracking-wider">
+                  Time
+                </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-gray-100">
               {visitors.map((visitor, index) => (
-                <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                <tr key={index} className="hover:bg-gray-50">
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <div className="flex-shrink-0 h-8 w-8 sm:h-10 sm:w-10">
-                        <img className="h-8 w-8 sm:h-10 sm:w-10 rounded-full" src={`https://i.pravatar.cc/40?img=${index}`} alt="" />
+                      <div className="flex-shrink-0 h-10 w-10">
+                        <img 
+                          className="h-10 w-10 rounded-full object-cover" 
+                          src={`https://i.pravatar.cc/150?img=${index}`} 
+                          alt="" 
+                        />
                       </div>
-                      <div className="ml-3 sm:ml-4">
-                        <div className="text-sm font-medium text-black-900">{visitor.name}</div>
-                        <div className="text-xs text-black-500 sm:hidden">{visitor.phone}</div>
+                      <div className="ml-4">
+                        <div className="text-sm font-medium text-gray-900">{visitor.name}</div>
                       </div>
                     </div>
                   </td>
-                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-black-500 hidden sm:table-cell">{visitor.phone}</td>
-                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-black-500 hidden md:table-cell">{visitor.date}</td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                      {visitor.unit}
-                    </span>
+                    <div className="text-sm font-bold text-gray-500">{visitor.phone}</div>
                   </td>
-                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-black-500 hidden lg:table-cell">{visitor.time}</td>
+                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm font-bold text-gray-500">{visitor.date}</div>
+                  </td>
+                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center">
+                      <span className="h-5 w-5 flex items-center  justify-center rounded-full bg-[#5678E91A] text-[#5678E9] text-xs font-medium mr-2">
+                        {visitor.unit.split(' ')[0]}
+                      </span>
+                      <span className="text-sm font-bold   text-gray-900">{visitor.unit.split(' ')[1]}</span>
+                    </div>
+                  </td>
+                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                    <div className="inline-flex px-3 py-1  font-bold text-sm text-gray-500 bg-[#F6F8FB] rounded-md">
+                      {visitor.time}
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
