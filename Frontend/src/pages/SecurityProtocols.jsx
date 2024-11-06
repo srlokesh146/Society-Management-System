@@ -56,46 +56,65 @@ function SecurityProtocols() {
   };
 
   return (
-    <div className="container bg-gray-100 min-h-screen">
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-0">Security Protocols</h1>
+    <div className="container mx-auto p-4 sm:p-6  bg-white rounded-lg">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-black-800">Security Protocols</h1>
         <button 
           onClick={handleCreate}
-          className="w-full sm:w-auto bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 transition duration-300 flex items-center justify-center"
+          className="px-4 py-2  bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white rounded-md hover:opacity-90 flex items-center gap-2"
         >
-          <FaPlus className="mr-2" /> Create Protocol
+           Create Protocol
         </button>
       </div>
 
-      <div className="bg-white shadow-xl rounded-lg overflow-hidden">
+      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-indigo-50">
+            <thead className="  bg-indigo-50 ">
               <tr>
                 {["Title", "Description", "Date", "Time", "Action"].map((header) => (
-                  <th key={header} className="px-4 sm:px-6 py-3 text-left text-md font-medium text-black-800  tracking-wider">
+                  <th key={header} className="px-6 py-4 text-left text-md font-bold text-black-500">
                     {header}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-black-800">
+            <tbody className="bg-white divide-y divide-gray-100">
               {protocols.map((protocol) => (
                 <tr key={protocol.id} className="hover:bg-gray-50">
-                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-black-900">{protocol.title}</td>
-                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-black-500">{protocol.description}</td>
-                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-black-500">{protocol.date}</td>
-                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-black-500">{protocol.time}</td>
-                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <div className="flex space-x-2">
-                      <button onClick={() => handleEdit(protocol)} className="text-blue-600 hover:text-blue-900">
-                        <FaPencilAlt />
+                  <td className="px-6 py-4">
+                    <div className="text-sm font-medium text-[#4F4F4F]">{protocol.title}</div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="text-sm  font-medium text-[#4F4F4F]">{protocol.description}</div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="text-sm text-[#4F4F4F]">{protocol.date}</div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="inline-flex px-3 py-1 text-sm text-[#4F4F4F] bg-[#F6F8FB] rounded-md">
+                      {protocol.time}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      <button 
+                        onClick={() => handleEdit(protocol)}
+                        className="p-1.5 rounded-full bg-green-50 text-green-600 hover:bg-green-100"
+                      >
+                        <FaPencilAlt size={14} />
                       </button>
-                      <button onClick={() => handleView(protocol)} className="text-green-600 hover:text-green-900">
-                        <FaEye />
+                      <button 
+                        onClick={() => handleView(protocol)}
+                        className="p-1.5 rounded-full  bg-blue-50 text-blue-600 hover:bg-blue-100"
+                      >
+                        <FaEye size={14} /> 
                       </button>
-                      <button onClick={() => handleDelete(protocol)} className="text-red-600 hover:text-red-900">
-                        <FaTrash />
+                      <button 
+                        onClick={() => handleDelete(protocol)}
+                        className="p-1.5 rounded-full bg-red-50 text-red-600 hover:bg-red-100"
+                      >
+                        <FaTrash size={14} />
                       </button>
                     </div>
                   </td>
@@ -111,14 +130,16 @@ function SecurityProtocols() {
         <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center p-4">
           <div className="bg-white p-6 sm:p-8 rounded-lg shadow-2xl w-full max-w-md">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">{isCreateOpen ? 'Create' : 'Edit'} Protocol</h2>
+              <h2 className="text-2xl sm:text-2xl font-bold text-gray-800">
+                {isCreateOpen ? 'Create Protocol' : 'Edit Protocol'}
+              </h2>
               <button onClick={() => {setIsCreateOpen(false); setIsEditOpen(false);}} className="text-gray-600 hover:text-gray-800">
                 <FaTimes size={24} />
               </button>
             </div>
             <form className="space-y-4 sm:space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                <label className="block text-sm font-medium text-black-700 mb-1">Title</label>
                 <input
                   type="text"
                   value={newProtocol.title}
@@ -128,44 +149,61 @@ function SecurityProtocols() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <label className="block text-sm font-medium text-black-700 mb-1">Description</label>
                 <textarea
                   value={newProtocol.description}
                   onChange={(e) => setNewProtocol({...newProtocol, description: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   rows="4"
                   placeholder="Enter protocol description"
-                ></textarea>
+                />
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
-                  <div className="relative">
-                    <input
-                      type="date"
-                      value={newProtocol.date}
-                      onChange={(e) => setNewProtocol({...newProtocol, date: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pl-10"
-                    />
-                    <FaCalendarAlt className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+
+              {/* Date and Time inputs only show in Edit mode */}
+              {isEditOpen && (
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-black-700 mb-1">Date</label>
+                    <div className="relative">
+                      <input
+                        type="date"
+                        value={newProtocol.date}
+                        onChange={(e) => setNewProtocol({...newProtocol, date: e.target.value})}
+                        className="w-full px-3 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      <FaCalendarAlt className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-black-700 mb-1">Time</label>
+                    <div className="relative">
+                      <input
+                        type="time"
+                        value={newProtocol.time}
+                        onChange={(e) => setNewProtocol({...newProtocol, time: e.target.value})}
+                        className="w-full px-3 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      <FaClock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    </div>
                   </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Time</label>
-                  <div className="relative">
-                    <input
-                      type="time"
-                      value={newProtocol.time}
-                      onChange={(e) => setNewProtocol({...newProtocol, time: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pl-10"
-                    />
-                    <FaClock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 mt-6">
-                <button type="button" onClick={() => {setIsCreateOpen(false); setIsEditOpen(false);}} className="w-full sm:w-auto px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 transition duration-300">Cancel</button>
-                <button type="button" onClick={handleSave} className="w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300">Save</button>
+              )}
+              
+              <div className="flex justify-center gap-3 mt-6">
+                <button 
+                  type="button" 
+                  onClick={() => {setIsCreateOpen(false); setIsEditOpen(false);}} 
+                  className="w-full px-4 py-3 text-md font-medium text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="button" 
+                  onClick={handleSave} 
+                  className="w-full px-4 py-3 text-md font-medium text-white bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-md hover:opacity-90"
+                >
+                  {isCreateOpen ? 'Create' : 'Save'}
+                </button>
               </div>
             </form>
           </div>
@@ -189,18 +227,18 @@ function SecurityProtocols() {
               </div>
               <div>
                 <h3 className="text-sm font-medium text-gray-500">Description</h3>
-                <p className="mt-1 text-md text-gray-700">{currentProtocol.description}</p>
+                <p className="mt-1 text-md text-black-700">{currentProtocol.description}</p>
               </div>
               <div className="flex flex-col sm:flex-row justify-between">
                 <div className="mb-2 sm:mb-0">
                   <h3 className="text-sm font-medium text-gray-500">Date</h3>
-                  <p className="mt-1 text-md text-gray-700 flex items-center">
+                  <p className="mt-1 text-md text-black-700 flex items-center">
                     <FaCalendarAlt className="mr-2 text-blue-500" /> {currentProtocol.date}
                   </p>
                 </div>
                 <div>
                   <h3 className="text-sm font-medium text-gray-500">Time</h3>
-                  <p className="mt-1 text-md text-gray-700 flex items-center">
+                  <p className="mt-1 text-md text-black-700 flex items-center">
                     <FaClock className="mr-2 text-blue-500" /> {currentProtocol.time}
                   </p>
                 </div>
@@ -215,13 +253,32 @@ function SecurityProtocols() {
 
       {/* Delete Confirmation Modal */}
       {isDeleteOpen && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center p-4">
-          <div className="bg-white p-6 sm:p-8 rounded-md shadow-xl w-full max-w-sm">
-            <h2 className="text-xl sm:text-2xl font-bold mb-4">Confirm Delete</h2>
-            <p className="mb-6">Are you sure you want to delete this protocol?</p>
-            <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3">
-              <button onClick={() => setIsDeleteOpen(false)} className="w-full sm:w-auto px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400">Cancel</button>
-              <button onClick={handleConfirmDelete} className="w-full sm:w-auto px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Delete</button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center p-4">
+          <div className="bg-white p-6 sm:p-8 rounded-lg shadow-2xl w-full max-w-md">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-800">Delete Protocol ?</h2>
+              <button onClick={() => setIsDeleteOpen(false)} className="text-gray-600 hover:text-gray-800">
+                <FaTimes size={24} />
+              </button>
+            </div>
+            
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to delete this protocol?
+            </p>
+
+            <div className="flex justify-center gap-3 mt-6">
+              <button 
+                onClick={() => setIsDeleteOpen(false)} 
+                className="w-full px-4 py-3 text-md font-medium text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={handleConfirmDelete} 
+                className="w-full px-4 py-3 text-md font-medium text-white bg-red-500 rounded-md hover:opacity-90"
+              >
+                Delete
+              </button>
             </div>
           </div>
         </div>
