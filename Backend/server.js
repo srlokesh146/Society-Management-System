@@ -27,26 +27,27 @@ const ResidentRoute=require("./src/routes/resident.route.js")
 const ComplaintRoutes=require("./src/routes/ComplaintTracking.route.js")
 const SecurityRoutes=require("./src/routes/security.route.js")
 const FacilityRoute=require("./src/routes/facility.route.js")
+const AnnouncementRoute=require("./src/routes/announcement.route.js")
+const FinancialRoutes=require("./src/routes/Financial.route.js")
 
 //user registration and login schema
 app.use("/api/v1/auth", UserRoutes);
-
 //create society api
 app.use("/api/v1/society", SocietyRoutes);
 //create Important Number
 app.use("/api/v2/number", NumberRoutes);
-
-
 //resident apis
 app.use("/api/v2/resident",ResidentRoute)
-
 //complaint apis
 app.use("/api/v2/complaint",ComplaintRoutes)
 //security apis
 app.use("/api/v2/security",SecurityRoutes)
 //facility apis
 app.use("/api/v2/facility",FacilityRoute)
-
+//Announcement apis
+app.use("/api/v2/announcement",AnnouncementRoute)
+//financial apis
+app.use("/api/v2/financial",FinancialRoutes)
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
