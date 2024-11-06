@@ -6,12 +6,12 @@ const userSchema=new Schema({
     FirstName:{
         type:String,
         required:true,
-        unique:true
+        
     },
     LastName:{
         type:String,
         required:true,
-        unique:true
+        
     },
     Email:{
         type:String,
@@ -59,6 +59,10 @@ const userSchema=new Schema({
         default:Date.now,
         get:(otpExpiration)=>otpExpiration.getTime(),
         set:(otpExpiration)=>new Date(otpExpiration)
+    },
+    profileImage:{
+        type:String,
+        required:true
     }
     
 },

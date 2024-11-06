@@ -9,8 +9,8 @@ import ComplaintTable from './pages/ComplaintTable';
 import ReqTracking from './pages/ReqTracking';
 import VisitorLog from './pages/VisitorLog';
 import SecurityProtocols from './pages/SecurityProtocols';
-import SecurityGuard from './pages/SecurityGuard';
-import Announcement from './pages/Annousenment';
+
+
 import { Toaster } from 'react-hot-toast';
 import Residentmanagement from './pages/Residentmanagement';
 import Income from './pages/Income';
@@ -18,6 +18,10 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import FinancialManagement from './pages/FinancialManagement';
 import Navbar from './components/Navbar';
 import Sidebar from './components/sidebar/Sidebar';
+import EditProfileForm from './components/EditProfileForm';
+import SecurityGuardDetails from './pages/SecurityGuardDetails.jsx';
+import Announcement from './pages/Announcement.jsx';
+
 
 
 
@@ -69,8 +73,10 @@ function App() {
             <Route path="/reqtracking" element={<ReqTracking />} />
             <Route path="/visitorlog" element={<VisitorLog />} />
             <Route path="/securityprotocols" element={<SecurityProtocols />} />
-            <Route path="/securityguard" element={<SecurityGuard />} />
+            <Route path="/securityguard" element={<SecurityGuardDetails />} />
             <Route path="/announcement" element={<Announcement />} />
+            <Route path="/editprofile" element={<EditProfileForm />} />
+           
           </Routes>
         </div>
       </div>

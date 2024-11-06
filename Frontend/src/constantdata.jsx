@@ -33,7 +33,7 @@ export const sidebarItems = [
     icon: <RiMessageFill/>, 
     subItems: [
       { id: 9, path: "/complainttable", label: "Create Complaint" },
-      { id: 10, path: "/RequestTracking", label: "Request Tracking" },
+      { id: 10, path: "/reqtracking", label: "Request Tracking" },
     ],
   },
   {
@@ -41,7 +41,7 @@ export const sidebarItems = [
     label: "Security Management",
     icon: <AiFillSecurityScan/>, 
     subItems: [
-      { id: 12, path: "/VisitorLogs", label: "Visitor Logs" },
+      { id: 12, path: "/visitorlog", label: "Visitor Logs" },
       { id: 13, path: "/SecurityProtocols", label: "Security Protocols" },
     ],
   },
