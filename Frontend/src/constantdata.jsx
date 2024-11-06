@@ -99,8 +99,6 @@ export const totalBalanceData = [
   },
 ];
 
-<<<<<<< Updated upstream
-=======
 export const cardData = [
   {
     title: "Total Balance",
@@ -138,7 +136,6 @@ export const cardData = [
 
 
 
->>>>>>> Stashed changes
 export const importantNumbers = [
   { name: "Hanna Danin", work: "Plumber", phone: "+91 995867 33657" },
   { name: "Roger Lubin", work: "Electrician", phone: "+91 898765 45677" },
