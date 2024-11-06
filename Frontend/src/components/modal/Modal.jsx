@@ -1,23 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import { AddImpNumber, UpdateImpNumber } from "../../services/impNumberService";
+import toast from "react-hot-toast";
 
-export default function Modal({ contact, onClose }) {
+export default function Modal({ contact, onClose, fetchImportantNumbers }) {
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    job: '',
+    Full_name: "",
+    Phone_Number: "",
+    Work: "",
   });
+  
   const [errors, setErrors] = useState({
-    name: '',
-    phone: '',
-    job: '',
+    Full_name: "",
+    Phone_Number: "",
+    Work: "",
   });
 
   useEffect(() => {
     if (contact) {
       setFormData({
-        name: contact.name,
-        phone: contact.phone,
-        job: contact.job,
+        Full_name: contact.Full_name,
+        Phone_Number: contact.Phone_Number,
+        Work: contact.Work,
       });
     }
   }, [contact]);
@@ -25,26 +28,82 @@ export default function Modal({ contact, onClose }) {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setErrors({ ...errors, [name]: '' });
+    setErrors({ ...errors, [name]: "" });
   };
 
-  const handleSave = () => {
-    let formErrors = { name: '', phone: '', job: '' };
+  const handleSave = async () => {
+    let formErrors = { Full_name: "", Phone: "", Work: "" };
 
-    if (!formData.name) {
-      formErrors.name = 'Full Name is required.';
+    if (!formData.Full_name) {
+      formErrors.Full_name = "Full name is required.";
     }
-    if (!formData.phone) {
-      formErrors.phone = 'Phone Number is required.';
+    if (!formData.Phone_Number) {
+      formErrors.Phone_Number = "Phone Number is required.";
     }
-    if (!formData.job) {
-      formErrors.job = 'Work is required.';
+    if (!formData.Work) {
+      formErrors.Work = "Work is required.";
     }
 
     setErrors(formErrors);
 
-    if (!formErrors.name && !formErrors.phone && !formErrors.job) {
-      onClose();
+    if (!formErrors.Full_name && !formErrors.Phone_Number && !formErrors.Work) {
+      try {
+        const response = await AddImpNumber(formData);
+        fetchImportantNumbers();
+        toast.success(response.data.message);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      } finally {
+        setFormData({
+          Full_name: "",
+          Phone_Number: "",
+          Work: "",
+        });
+        setErrors({
+          Full_name: "",
+          Phone_Number: "",
+          Work: "",
+        });
+        onClose();
+      }
+    }
+  };
+
+  const handleUpdate = async (id) => {
+    let formErrors = { Full_name: "", Phone: "", Work: "" };
+
+    if (!formData.Full_name) {
+      formErrors.Full_name = "Full name is required.";
+    }
+    if (!formData.Phone_Number) {
+      formErrors.Phone_Number = "Phone Number is required.";
+    }
+    if (!formData.Work) {
+      formErrors.Work = "Work is required.";
+    }
+
+    setErrors(formErrors);
+
+    if (!formErrors.Full_name && !formErrors.Phone_Number && !formErrors.Work) {
+      try {
+        const response = await UpdateImpNumber(id, formData);
+        fetchImportantNumbers();
+        toast.success(response.data.message);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      } finally {
+        setFormData({
+          Full_name: "",
+          Phone_Number: "",
+          Work: "",
+        });
+        setErrors({
+          Full_name: "",
+          Phone_Number: "",
+          Work: "",
+        });
+        onClose();
+      }
     }
   };
 
@@ -52,45 +111,57 @@ export default function Modal({ contact, onClose }) {
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-[99]">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-[410px]">
         <h2 className="text-xl font-semibold mb-[10px] border-b border-[#F4F4F4] pb-[10px]">
-          {contact ? 'Edit Important Number' : 'Add Important Number'}
+          {contact ? "Edit Important Number" : "Add Important Number"}
         </h2>
-        <div className='pb-[30px]'>
-          <label className="text-[#202224] font-medium pb-[5px] leading-[21px]">Full Name</label>
+        <div className="pb-[30px]">
+          <label className="text-[#202224] font-medium pb-[5px] leading-[21px]">
+            Full Name
+          </label>
           <input
             type="text"
-            name="name"
-            value={formData.name}
+            name="Full_name"
+            value={formData.Full_name}
             onChange={handleInputChange}
-            placeholder="Enter Full Name"
+            placeholder="Enter Full name"
             className="w-full p-2 border border-[#000] rounded-lg outline-none"
           />
-          {errors.name && <span className="text-red-500 text-sm">{errors.name}</span>}
+          {errors.Full_name && (
+            <span className="text-red-500 text-sm">{errors.Full_name}</span>
+          )}
         </div>
 
-        <div className='pb-[30px]'>
-          <label className="text-[#202224] font-medium pb-[5px] leading-[21px]">Phone Number</label>
+        <div className="pb-[30px]">
+          <label className="text-[#202224] font-medium pb-[5px] leading-[21px]">
+            Phone Number
+          </label>
           <input
             type="text"
-            name="phone"
-            value={formData.phone}
+            name="Phone_Number"
+            value={formData.Phone_Number}
             onChange={handleInputChange}
             placeholder="+91"
             className="w-full p-2 border border-[#000] rounded-lg outline-none"
           />
-          {errors.phone && <span className="text-red-500 text-sm">{errors.phone}</span>}
+          {errors.Phone_Number && (
+            <span className="text-red-500 text-sm">{errors.Phone_Number}</span>
+          )}
         </div>
 
-        <div className='pb-[30px]'>
-          <label className="text-[#202224] font-medium pb-[5px] leading-[21px]">Work</label>
+        <div className="pb-[30px]">
+          <label className="text-[#202224] font-medium pb-[5px] leading-[21px]">
+            Work
+          </label>
           <input
             type="text"
-            name="job"
-            value={formData.job}
+            name="Work"
+            value={formData.Work}
             onChange={handleInputChange}
             placeholder="Enter Work"
             className="w-full p-2 border border-[#000] rounded-lg outline-none "
           />
-          {errors.job && <span className="text-red-500 text-sm">{errors.job}</span>}
+          {errors.Work && (
+            <span className="text-red-500 text-sm">{errors.Work}</span>
+          )}
         </div>
 
         <div className="flex justify-between mt-4">
@@ -102,7 +173,7 @@ export default function Modal({ contact, onClose }) {
           </button>
           <button
             className="bg-[#F6F8FB] text-black py-[13.5px] px-[58.5px] rounded-[10px] border border-[#D3D3D3] w-full leading-6 font-semibold"
-            onClick={handleSave}
+            onClick={() => (contact ? handleUpdate(contact._id) : handleSave())}
           >
             Save
           </button>
