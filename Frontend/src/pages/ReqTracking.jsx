@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
-import { FaCheck, FaEye, FaTrash, FaPen } from 'react-icons/fa';
-import CreateRequestModal from '../components/modal/CreateRequestModal';
-import ViewRequestModal from '../components/modal/ViewRequestModal';
-import EditRequestModal from '../components/modal/EditRequestModal';
-import DeleteRequestModal from '../components/modal/DeleteRequestModal';
-
+import React, { useEffect, useState } from "react";
+import { FaEye, FaTrash, FaPen } from "react-icons/fa";
+import CreateRequestModal from "../components/modal/CreateRequestModal";
+import ViewRequestModal from "../components/modal/ViewRequestModal";
+import EditRequestModal from "../components/modal/EditRequestModal";
+import DeleteRequestModal from "../components/modal/DeleteRequestModal";
+import {
+  CreateRequest,
+  DeleteRequest,
+  GetRequests,
+  UpdateRequest,
+} from "../services/requestTrackingService";
+import toast from "react-hot-toast";
 
 const ReqTracking = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -12,93 +18,71 @@ const ReqTracking = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
-  const [Requests, setRequests] = useState([
-    {
-      id: 1,
-      requesterName: "Evelyn Harper",
-      avatar: "https://ui-avatars.com/api/?name=Evelyn+Harper",
-      requestName: "Unethical Behavior",
-      description: "Regular waste collection services.",
-      requestDate: "10/02/2024",
-      unitNumber: "A 1001",
-      priority: "Medium",
-      status: "Pending"
-    },
-    {
-      id: 2,
-      requesterName: "Evelyn Harper",
-      avatar: "https://ui-avatars.com/api/?name=Evelyn+Harper",
-      requestName: "Unethical Behavior",
-      description: "Regular waste collection services.",
-      requestDate: "10/02/2024",
-      unitNumber: "A 1001",
-      priority: "Medium",
-      status: "Pending"
-    },
-    {
-      id: 3,
-      requesterName: "Evelyn Harper",
-      avatar: "https://ui-avatars.com/api/?name=Evelyn+Harper",
-      requestName: "Unethical Behavior",
-      description: "Regular waste collection services.",
-      requestDate: "10/02/2024",
-      unitNumber: "A 1001",
-      priority: "Medium",
-      status: "Pending"
-    },
-    {
-      id: 4,
-      requesterName: "Evelyn Harper",
-      avatar: "https://ui-avatars.com/api/?name=Evelyn+Harper",
-      requestName: "Unethical Behavior",
-      description: "Regular waste collection services.",
-      requestDate: "10/02/2024",
-      unitNumber: "A 1001",
-      priority: "Medium",
-      status: "Pending"
-    },
-    // ... your other data entries
-  ]);
+  const [Requests, setRequests] = useState([]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    
-    const newRequest = {
-      id: Requests.length + 1,
-      requesterName: formData.get('requesterName'),
-      avatar: `https://ui-avatars.com/api/?name=${formData.get('requesterName').replace(' ', '+')}`,
-      requestName: formData.get('requestName'),
-      description: formData.get('description'),
-      requestDate: new Date().toLocaleDateString(),
-      unitNumber: `${formData.get('wing')} ${formData.get('unit')}`,
-      priority: formData.get('priority'),
-      status: formData.get('status')
-    };
+  let avatar = "https://mighty.tools/mockmind-api/content/human/65.jpg";
 
-    setRequests([...Requests, newRequest]);
-    setIsModalOpen(false);
+  // create new request
+  const handleSubmit = async (data) => {
+    try {
+      const response = await CreateRequest(data);
+      toast.success(response.data.message);
+      fetchRequests();
+      setIsModalOpen(false);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
-  const handleDelete = (id) => {
-    setRequests(Requests.filter(Request => Request.id !== id));
-    setIsDeleteModalOpen(false);
+  // delete request by id
+  const handleDelete = async (id) => {
+    console.log(id);
+    setRequests(Requests.filter((request) => request._id !== id));
+    try {
+      const response = await DeleteRequest(id);
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      setIsDeleteModalOpen(false);
+    }
   };
 
-  const handleUpdate = (updatedRequest) => {
-    setRequests(Requests.map(Request => 
-      Request.id === updatedRequest.id ? updatedRequest : Request
-    ));
-    setIsEditModalOpen(false);
+  // update request by id
+  const handleUpdate = async (id, data) => {
+    try {
+      const response = await UpdateRequest(id, data);
+      fetchRequests();
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      setIsEditModalOpen(false);
+    }
   };
 
+  // get all request
+  const fetchRequests = async () => {
+    try {
+      const response = await GetRequests();
+      setRequests(response.data.data);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchRequests();
+  }, []);
+
+  // Design
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       <div className=" mx-auto bg-white rounded-xl shadow-sm">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-800">Create Complaint</h1>
-            <button 
+            <h1 className="text-2xl font-bold text-gray-800">Create Request</h1>
+            <button
               onClick={() => setIsModalOpen(true)}
               className="bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white px-4 py-2 rounded-md hover:opacity-90 transition-all duration-300"
             >
@@ -107,33 +91,74 @@ const ReqTracking = () => {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full text-center">
               <thead>
-                <tr className="border-b    bg-indigo-50 rounded-lg overflow-hidden">
-                  <th className="text-left px-8 py- text-md  font-bold text-black-500 first:rounded-l-lg last:rounded-r-lg">Requester Name</th>
-                  <th className="text-left px-9 py-3 text-md font-bold text-black-500">Request Name</th>
-                  <th className="text-left px-24 py-3 text-md font-bold text-black-500">Description</th>
-                  <th className="text-left px-4 py-3 text-md font-bold text-black-500">Request Date</th>
-                  <th className="text-left px-4 py-3 text-md font-bold text-black-500">Unit Number</th>
-                  <th className="text-left px-7  py-3 text-md font-bold text-black-500">Priority</th>
-                  <th className="text-left px-8    py-3 text-md font-bold text-black-500">Status</th>
-                  <th className="text-left px-14 py-3 text-md font-bold text-black-500">Action</th>
+                <tr className="border-black bg-indigo-50 rounded-lg overflow-hidden">
+                  <th className="text-start px-8 py- text-md  font-bold text-black-500 first:rounded-l-lg last:rounded-r-lg">
+                    Requester Name
+                  </th>
+                  <th className="text-start px-9 py-3 text-md font-bold text-black-500">
+                    Request Name
+                  </th>
+                  <th className="text-center px-24 py-3 text-md font-bold text-black-500">
+                    Description
+                  </th>
+                  <th className="text-center px-4 py-3 text-md font-bold text-black-500">
+                    Request Date
+                  </th>
+                  <th className="text-center px-4 py-3 text-md font-bold text-black-500">
+                    Unit Number
+                  </th>
+                  <th className="text-center px-8  py-3 text-md font-bold text-black-500">
+                    Priority
+                  </th>
+                  <th className="text-center px-8    py-3 text-md font-bold text-black-500">
+                    Status
+                  </th>
+                  <th className="text-center px-14 py-3 text-md font-bold text-black-500">
+                    Action
+                  </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody >
                 {Requests.map((Request) => (
-                  <tr key={Request.id} className="border-b hover:bg-gray-50">
+                  <tr key={Request._id} className="border-b hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <img src={Request.avatar} alt="" className="w-8 h-8 rounded-full" />
-                        <span className="text-md font-semibold  text-[#4F4F4F]" >{Request.requesterName}</span>
+                        <img
+                          src={avatar}
+                          alt=""
+                          className="w-8 h-8 rounded-full"
+                        />
+                        <span className="text-md font-semibold  text-[#4F4F4F]">
+                          {Request.requester}
+                        </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-md font-semibold text-[#4F4F4F]">{Request.requestName}</td>
-                    <td className="px-6 py-4 text-md font-semibold text-[#4F4F4F]">{Request.description}</td>
-                    <td className="px-6 py-4 text-md font-semibold text-[#4F4F4F]">{Request.requestDate}</td>
+                    <td className="px-6 py-4 text-md font-semibold text-[#4F4F4F]">
+                      {Request.name}
+                    </td>
+                    <td className="px-6 py-4 text-md font-semibold text-[#4F4F4F]">
+                      {Request.description}
+                    </td>
+                    <td className="px-6 py-4 text-md font-semibold text-[#4F4F4F]">
+                      {new Date(Request.date).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                    </td>
                     <td className="px-6 py-4  text-[#4F4F4F]">
-                      <UnitNumberBadge unitNumber={Request.unitNumber} />
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={`bg-blue-50 text-blue-600 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold`}
+                        >
+                          {Request.wing}
+                        </span>
+                        <span className="text-sm font-semibold text-gray-600">
+                          {Request.unit}
+                        </span>
+                      </div>
                     </td>
                     <td className="px-6 py-4  text-[#4F4F4F]">
                       <PriorityBadge priority={Request.priority} />
@@ -143,7 +168,7 @@ const ReqTracking = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex gap-2">
-                        <button 
+                        <button
                           onClick={() => {
                             setSelectedRequest(Request);
                             setIsViewModalOpen(true);
@@ -152,7 +177,7 @@ const ReqTracking = () => {
                         >
                           <FaEye size={16} />
                         </button>
-                        <button 
+                        <button
                           onClick={() => {
                             setSelectedRequest(Request);
                             setIsEditModalOpen(true);
@@ -161,7 +186,7 @@ const ReqTracking = () => {
                         >
                           <FaPen size={16} />
                         </button>
-                        <button 
+                        <button
                           onClick={() => {
                             setSelectedRequest(Request);
                             setIsDeleteModalOpen(true);
@@ -179,7 +204,7 @@ const ReqTracking = () => {
           </div>
 
           {/* Create Modal */}
-          <CreateRequestModal 
+          <CreateRequestModal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
             onSubmit={handleSubmit}
@@ -199,7 +224,7 @@ const ReqTracking = () => {
 
           {/* Edit Modal */}
           {selectedRequest && (
-            <EditRequestModal 
+            <EditRequestModal
               isOpen={isEditModalOpen}
               onClose={() => {
                 setIsEditModalOpen(false);
@@ -228,57 +253,38 @@ const ReqTracking = () => {
   );
 };
 
-const UnitNumberBadge = ({ unitNumber }) => {
-  const [letter, number] = unitNumber.split(' ');
-  const colors = {
-    A: 'bg-blue-50   text-blue-600',
-    B: 'bg-blue-100 text-blue-600',
-    C: 'bg-green-100 text-green-600',
-    D: 'bg-yellow-100 text-yellow-600',
-    E: 'bg-red-100 text-red-600',
-    F: 'bg-pink-100 text-pink-600',
-    G: 'bg-indigo-100 text-indigo-600',
-    H: 'bg-gray-100 text-gray-600',
-    I: 'bg-orange-100 text-orange-600',
-  };
-
-  return (
-    <div className="flex items-center gap-2">
-      <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${colors[letter]}`}>
-        {letter}
-      </span>
-      <span className="text-sm font-semibold text-gray-600">{number}</span>
-    </div>
-  );
-};
-
 const PriorityBadge = ({ priority }) => {
   const styles = {
-    High: 'bg-[#E74C3C] text-white font-semibold  text-xs ',
-    Medium: 'bg-[#5678E9] text-white font-semibold text-xs',
-    Low: 'bg-[#39973D] text-white font-semibold text-xs',
+    High: "bg-[#E74C3C] text-white font-semibold  text-xs ",
+    Medium: "bg-[#5678E9] text-white font-semibold text-xs",
+    Low: "bg-[#39973D] text-white font-semibold text-xs",
   };
   return (
-    <span className={`px-3 py-1 rounded-full text-xs ${styles[priority]}`}>
+    <p
+      className={`flex items-center justify-center w-[100px] h-[31px]  rounded-full text-xs ${styles[priority]}`}
+    >
       {priority}
-    </span>
+    </p>
   );
 };
 
 const StatusBadge = ({ status }) => {
   const styles = {
-    Pending: 'bg-[#FFC3131A] text-[#FFC313] font-semibold text-xs',
-    Solve: 'bg-[#39973D1A] text-[#39973D] font-semibold text-xs',
-    Open: 'bg-[#5678E91A] text-[#5678E9] font-semibold text-xs'
+    Pending: "bg-[#FFC3131A] text-[#FFC313] font-semibold text-xs",
+    Solve: "bg-[#39973D1A] text-[#39973D] font-semibold text-xs",
+    Open: "bg-[#5678E91A] text-[#5678E9] font-semibold text-xs",
   };
 
   const lowercaseStatus = status.toLowerCase();
-  const capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+  const capitalizedStatus =
+    status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
 
   return (
-    <span className={`px-3 py-1 rounded-full ${styles[capitalizedStatus]}`}>
+    <p
+      className={`flex items-center justify-center w-[100px] h-[31px]  rounded-full ${styles[capitalizedStatus]}`}
+    >
       {capitalizedStatus}
-    </span>
+    </p>
   );
 };
 

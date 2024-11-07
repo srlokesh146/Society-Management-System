@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { FaTimes } from 'react-icons/fa';
+import React, { useState } from "react";
+import { FaTimes } from "react-icons/fa";
 
 const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
   if (!isOpen) return null;
@@ -10,18 +10,18 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    
+
     const updatedComplaint = {
-      ...complaint,
-      requesterName: formData.get('requesterName'),
-      requestName: formData.get('requestName'),
-      description: formData.get('description'),
-      unitNumber: `${formData.get('wing')} ${formData.get('unit')}`,
+      complainer: formData.get("complainer"),
+      name: formData.get("name"),
+      description: formData.get("description"),
+      unit: formData.get("unit"),
+      wing: formData.get("wing"),
       priority: selectedPriority,
-      status: selectedStatus
+      status: selectedStatus,
     };
 
-    onSubmit(updatedComplaint);
+    onSubmit(complaint._id, updatedComplaint);
     onClose();
   };
 
@@ -29,8 +29,13 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg w-full max-w-md p-6">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-gray-800">Edit Complaint</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <h2 className="text-xl font-semibold text-gray-800">
+            Edit Complaint
+          </h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
             <FaTimes size={20} />
           </button>
         </div>
@@ -43,8 +48,8 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
             </label>
             <input
               type="text"
-              name="requesterName"
-              defaultValue={complaint?.requesterName}
+              name="complainer"
+              defaultValue={complaint?.complainer}
               className="w-full p-2 border border-gray-300 rounded-md"
               required
             />
@@ -57,8 +62,8 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
             </label>
             <input
               type="text"
-              name="requestName"
-              defaultValue={complaint?.requestName}
+              name="name"
+              defaultValue={complaint?.name}
               className="w-full p-2 border border-gray-300 rounded-md"
               required
             />
@@ -87,7 +92,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
               <input
                 type="text"
                 name="wing"
-                defaultValue={complaint?.unitNumber?.split(' ')[0]}
+                defaultValue={complaint?.wing}
                 className="w-full p-2 border border-gray-300 rounded-md"
                 required
               />
@@ -99,7 +104,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
               <input
                 type="text"
                 name="unit"
-                defaultValue={complaint?.unitNumber?.split(' ')[1]}
+                defaultValue={complaint?.unit}
                 className="w-full p-2 border border-gray-300 rounded-md"
                 required
               />
@@ -112,7 +117,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
               Priority*
             </label>
             <div className="flex gap-4">
-              {['High', 'Medium', 'Low'].map((priority) => (
+              {["High", "Medium", "Low"].map((priority) => (
                 <label key={priority} className="flex items-center">
                   <input
                     type="radio"
@@ -122,12 +127,22 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
                     onChange={() => setSelectedPriority(priority)}
                     className="hidden"
                   />
-                  <span className={`flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded-full text-sm cursor-pointer
-                    ${selectedPriority === priority ? 'border-orange-500 bg-orange-50' : ''}
+                  <span
+                    className={`flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded-full text-sm cursor-pointer
+                    ${
+                      selectedPriority === priority
+                        ? "border-orange-500 bg-orange-50"
+                        : ""
+                    }
                     hover:border-orange-500 transition-all duration-200`}
                   >
-                    <div className={`w-3 h-3 rounded-full border-2 
-                      ${selectedPriority === priority ? 'border-orange-500 bg-orange-500' : 'border-gray-300'}`}
+                    <div
+                      className={`w-3 h-3 rounded-full border-2 
+                      ${
+                        selectedPriority === priority
+                          ? "border-orange-500 bg-orange-500"
+                          : "border-gray-300"
+                      }`}
                     ></div>
                     {priority}
                   </span>
@@ -142,7 +157,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
               Status*
             </label>
             <div className="flex gap-4">
-              {['Open', 'Pending', 'Solve'].map((status) => (
+              {["Open", "Pending", "Solve"].map((status) => (
                 <label key={status} className="flex items-center">
                   <input
                     type="radio"
@@ -152,12 +167,22 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
                     onChange={() => setSelectedStatus(status)}
                     className="hidden"
                   />
-                  <span className={`flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded-full text-sm cursor-pointer
-                    ${selectedStatus === status ? 'border-orange-500 bg-orange-50' : ''}
+                  <span
+                    className={`flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded-full text-sm cursor-pointer
+                    ${
+                      selectedStatus === status
+                        ? "border-orange-500 bg-orange-50"
+                        : ""
+                    }
                     hover:border-orange-500 transition-all duration-200`}
                   >
-                    <div className={`w-3 h-3 rounded-full border-2 
-                      ${selectedStatus === status ? 'border-orange-500 bg-orange-500' : 'border-gray-300'}`}
+                    <div
+                      className={`w-3 h-3 rounded-full border-2 
+                      ${
+                        selectedStatus === status
+                          ? "border-orange-500 bg-orange-500"
+                          : "border-gray-300"
+                      }`}
                     ></div>
                     {status}
                   </span>

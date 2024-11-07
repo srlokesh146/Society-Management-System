@@ -5,7 +5,7 @@ const DeleteRequestModal = ({ isOpen, onClose, Request, onDelete }) => {
   if (!isOpen) return null;
 
   const handleDelete = () => {
-    onDelete(Request.id);
+    onDelete(Request._id);
     onClose();
   };
 

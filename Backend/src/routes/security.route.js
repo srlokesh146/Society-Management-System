@@ -6,7 +6,7 @@ router.post("/addprotocol",SecurityController.CreateProtocol)
 //get protocol
 router.get("/getprotocol",SecurityController.GetAllProtocol)
 //get by id protocol
-router.get("/protocol/:id",SecurityController.GetByIdProtocol)
+router.get("/getprotocol/:id",SecurityController.GetByIdProtocol)
 //delete protocol
 router.delete("/protocol/:id",SecurityController.DeleteProtocol)
 //update protocol
