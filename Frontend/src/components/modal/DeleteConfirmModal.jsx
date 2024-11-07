@@ -1,11 +1,11 @@
-import React from 'react';
-import { FaTimes } from 'react-icons/fa';
+import React from "react";
+import { FaTimes } from "react-icons/fa";
 
 const DeleteConfirmModal = ({ isOpen, onClose, complaint, onDelete }) => {
   if (!isOpen) return null;
 
-  const handleDelete = () => {
-    onDelete(complaint.id);
+  const handleDelete = (id) => {
+    onDelete(id);
     onClose();
   };
 
@@ -16,7 +16,10 @@ const DeleteConfirmModal = ({ isOpen, onClose, complaint, onDelete }) => {
           <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
             Delete Complaint?
           </h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
             <FaTimes size={20} />
           </button>
         </div>
@@ -33,8 +36,8 @@ const DeleteConfirmModal = ({ isOpen, onClose, complaint, onDelete }) => {
             Cancel
           </button>
           <button
-            onClick={handleDelete}
-            className="w-full px-4 py-3 text-sm sm:text-md font-medium text-white bg-red-500 rounded-md hover:opacity-90"
+            onClick={() => handleDelete(complaint._id)}
+            className="w-full px-4 py-3 text-md font-medium sm:text-md text-white bg-red-500 rounded-md hover:opacity-90"
           >
             Delete
           </button>

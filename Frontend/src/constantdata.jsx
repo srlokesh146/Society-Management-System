@@ -13,7 +13,7 @@ import moneysend from "./assets/images/money-send.png";
 import building4 from "./assets/images/building-4.png";
 
 export const sidebarItems = [
-  { id: 1, path: "/", label: "Dashboard", icon: <TbLayoutDashboardFilled /> },
+  { id: 1, path: "/dashboard", label: "Dashboard", icon: <TbLayoutDashboardFilled /> },
   {
     id: 2,
     path: "/residentmanagement",

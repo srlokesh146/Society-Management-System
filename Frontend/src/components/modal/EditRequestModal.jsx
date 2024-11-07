@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { FaTimes } from 'react-icons/fa';
+import React, { useState } from "react";
+import { FaCalendarAlt, FaTimes } from "react-icons/fa";
 
 const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
   if (!isOpen) return null;
@@ -10,18 +10,18 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    
     const updatedRequest = {
-      ...Request,
-      requesterName: formData.get('requesterName'),
-      requestName: formData.get('requestName'),
-      description: formData.get('description'),
-      unitNumber: `${formData.get('wing')} ${formData.get('unit')}`,
+      requester: formData.get("requester"),
+      name: formData.get("name"),
+      date: formData.get("date"),
+      description: formData.get("description"),
+      wing: formData.get("wing"),
+      unit: formData.get("unit"),
       priority: selectedPriority,
-      status: selectedStatus
+      status: selectedStatus,
     };
 
-    onSubmit(updatedRequest);
+    onSubmit(Request._id, updatedRequest);
     onClose();
   };
 
@@ -30,7 +30,10 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
       <div className="bg-white rounded-lg w-full max-w-md p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-gray-800">Edit Request</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
             <FaTimes size={20} />
           </button>
         </div>
@@ -43,8 +46,8 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
             </label>
             <input
               type="text"
-              name="requesterName"
-              defaultValue={Request?.requesterName}
+              name="requester"
+              defaultValue={Request?.requester}
               className="w-full p-2 border border-gray-300 rounded-md"
               required
             />
@@ -57,8 +60,8 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
             </label>
             <input
               type="text"
-              name="requestName"
-              defaultValue={Request?.requestName}
+              name="name"
+              defaultValue={Request?.name}
               className="w-full p-2 border border-gray-300 rounded-md"
               required
             />
@@ -78,6 +81,30 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
             />
           </div>
 
+          {/* Date */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Date*
+            </label>
+            <div className="relative">
+              <input
+                type="date"
+                name="date"
+                defaultValue={
+                  Request?.date
+                    ? new Date(Request.date).toISOString().split("T")[0]
+                    : ""
+                }
+                className="w-full p-2 pl-10 border border-gray-300 rounded-md outline-none focus:border-orange-500"
+                required
+              />
+              <FaCalendarAlt
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                size={16}
+              />
+            </div>
+          </div>
+
           {/* Wing and Unit */}
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -87,7 +114,7 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
               <input
                 type="text"
                 name="wing"
-                defaultValue={Request?.unitNumber?.split(' ')[0]}
+                defaultValue={Request?.wing}
                 className="w-full p-2 border border-gray-300 rounded-md"
                 required
               />
@@ -99,7 +126,7 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
               <input
                 type="text"
                 name="unit"
-                defaultValue={Request?.unitNumber?.split(' ')[1]}
+                defaultValue={Request?.unit}
                 className="w-full p-2 border border-gray-300 rounded-md"
                 required
               />
@@ -112,7 +139,7 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
               Priority*
             </label>
             <div className="flex gap-4">
-              {['High', 'Medium', 'Low'].map((priority) => (
+              {["High", "Medium", "Low"].map((priority) => (
                 <label key={priority} className="flex items-center">
                   <input
                     type="radio"
@@ -122,12 +149,22 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
                     onChange={() => setSelectedPriority(priority)}
                     className="hidden"
                   />
-                  <span className={`flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded-full text-sm cursor-pointer
-                    ${selectedPriority === priority ? 'border-orange-500 bg-orange-50' : ''}
+                  <span
+                    className={`flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded-full text-sm cursor-pointer
+                    ${
+                      selectedPriority === priority
+                        ? "border-orange-500 bg-orange-50"
+                        : ""
+                    }
                     hover:border-orange-500 transition-all duration-200`}
                   >
-                    <div className={`w-3 h-3 rounded-full border-2 
-                      ${selectedPriority === priority ? 'border-orange-500 bg-orange-500' : 'border-gray-300'}`}
+                    <div
+                      className={`w-3 h-3 rounded-full border-2 
+                      ${
+                        selectedPriority === priority
+                          ? "border-orange-500 bg-orange-500"
+                          : "border-gray-300"
+                      }`}
                     ></div>
                     {priority}
                   </span>
@@ -142,7 +179,7 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
               Status*
             </label>
             <div className="flex gap-4">
-              {['Open', 'Pending', 'Solve'].map((status) => (
+              {["Open", "Pending", "Solve"].map((status) => (
                 <label key={status} className="flex items-center">
                   <input
                     type="radio"
@@ -152,12 +189,22 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
                     onChange={() => setSelectedStatus(status)}
                     className="hidden"
                   />
-                  <span className={`flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded-full text-sm cursor-pointer
-                    ${selectedStatus === status ? 'border-orange-500 bg-orange-50' : ''}
+                  <span
+                    className={`flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded-full text-sm cursor-pointer
+                    ${
+                      selectedStatus === status
+                        ? "border-orange-500 bg-orange-50"
+                        : ""
+                    }
                     hover:border-orange-500 transition-all duration-200`}
                   >
-                    <div className={`w-3 h-3 rounded-full border-2 
-                      ${selectedStatus === status ? 'border-orange-500 bg-orange-500' : 'border-gray-300'}`}
+                    <div
+                      className={`w-3 h-3 rounded-full border-2 
+                      ${
+                        selectedStatus === status
+                          ? "border-orange-500 bg-orange-500"
+                          : "border-gray-300"
+                      }`}
                     ></div>
                     {status}
                   </span>
