@@ -143,8 +143,7 @@ const OtherIncome = () => {
 
   // Handler for Maintenance tab click
   const handleMaintenanceClick = () => {
-    setActiveTab('Maintenance');
-    navigate('/'); // This will navigate to the Income page
+    navigate('/income'); // Income पेज पर नेविगेट (रूट पेज)
   };
 
   const toggleDropdown = (id) => {
@@ -182,11 +181,11 @@ const OtherIncome = () => {
         <div className="bg-white rounded-lg w-[400px] flex flex-col">
           {/* Modal Content */}
           <div className="p-6">
-            <h2 className="text-xl font-semibold mb-4">Create Other Income</h2>
+            <h2 className="text-xl  font-semibold mb-4">Create Other Income</h2>
             
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Title*</label>
+                <label className="block text-sm text-black-600 mb-1">Title*</label>
                 <input
                   type="text"
                   name="title"
@@ -200,7 +199,7 @@ const OtherIncome = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm text-gray-600 mb-1">Date*</label>
+                  <label className="block text-sm text-black-600 mb-1">Date*</label>
                   <input
                     type="date"
                     name="date"
@@ -211,7 +210,7 @@ const OtherIncome = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-600 mb-1">Due Date*</label>
+                  <label className="block text-sm text-black-600 mb-1">Due Date*</label>
                   <input
                     type="date"
                     name="dueDate"
@@ -224,7 +223,7 @@ const OtherIncome = () => {
               </div>
 
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Description*</label>
+                <label className="block text-sm text-black-600 mb-1">Description*</label>
                 <textarea
                   name="description"
                   value={formData.description}
@@ -237,7 +236,7 @@ const OtherIncome = () => {
               </div>
 
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Amount*</label>
+                <label className="block text-sm text-black-600 mb-1">Amount*</label>
                 <div className="relative">
                   <span className="absolute left-3 top-2">₹</span>
                   <input
@@ -269,7 +268,7 @@ const OtherIncome = () => {
                 className={`flex-1 px-4 py-3 rounded-lg ${
                   isFormValid 
                     ? 'bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90'
-                    : 'bg-[#F6F8FB] text-gray-400 cursor-not-allowed'
+                    : 'bg-[#F6F8FB] text-black-400 cursor-not-allowed'
                 }`}
                 disabled={!isFormValid}
               >
@@ -306,13 +305,13 @@ const OtherIncome = () => {
           <div className="flex gap-4 justify-center">
             <button
               onClick={() => setIsDeleteModalOpen(false)}
-              className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+              className="px-14 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
             >
               Cancel
             </button>
             <button
               onClick={() => handleDelete(item)}
-              className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+              className="px-14 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
             >
               Delete
             </button>
@@ -338,10 +337,9 @@ const OtherIncome = () => {
   };
 
   return (
-    <div className="p-6 bg-[#F8F9FC] min-h-screen">
-      {/* Tabs Section */}
-      <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-        <div className="flex gap-4 bg-[#F8F9FC] p-1 rounded-lg w-fit">
+    <div className='flex flex-col'>
+      <div className="rounded-xl">
+        <div className="flex gap-2 shadow-sm bg-[#F8F9FC] p-1 rounded-xl w-fit">
           <button
             onClick={handleMaintenanceClick}
             className={`px-6 py-2 rounded-lg transition-all ${
@@ -364,88 +362,88 @@ const OtherIncome = () => {
           </button>
         </div>
       </div>
+      
+      <div className="bg-[#F8F9FC] min-h-screen px-6">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-semibold text-gray-800">Other Income</h2> 
+          <button 
+            className="px-4 py-2 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] mt-5 text-white rounded-lg hover:opacity-90 flex items-center gap-2"
+            onClick={() => setIsModalOpen(true)}
+          >
+            Create Other Income
+          </button>
+        </div>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {otherIncomeData.map((item) => (
+            <div key={item.id} className="bg-white rounded-xl overflow-hidden w-[370px] shadow-sm">
+              {/* Card Header */}
+              <div className="bg-[#5B7BF0] p-3 flex justify-between items-center">
+                <h3 className="text-white font-medium text-sm">{item.title}</h3>
+                <div className="relative">
+                  <button 
+                    onClick={() => toggleDropdown(item.id)}
+                    className="text-white hover:opacity-80"
+                  >
+                    <FaEllipsisV size={14} />
+                  </button>
+                  
+                  {dropdownOpen === item.id && (
+                    <div className="absolute right-0 mt-2 w-24 bg-white rounded-md shadow-lg z-10">
+                      <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                        Edit
+                      </button>
+                      <button 
+                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                        onClick={() => handleViewClick(item)}
+                      >
+                        View
+                      </button>
+                      <button 
+                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                        onClick={() => handleDeleteClick(item)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
 
-      {/* Header with Title and Create Button */}
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-semibold text-gray-800">Other Income</h2>
-        <button 
-          className="px-4 py-2 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white rounded-lg hover:opacity-90 flex items-center gap-2"
-          onClick={() => setIsModalOpen(true)}
-        >
-          Create Other Income
-        </button>
-      </div>
-
-      {/* Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {otherIncomeData.map((item) => (
-          <div key={item.id} className="bg-white rounded-xl overflow-hidden w-[370px] shadow-sm">
-            {/* Card Header */}
-            <div className="bg-[#5B7BF0] p-3 flex justify-between items-center">
-              <h3 className="text-white font-medium text-sm">{item.title}</h3>
-              <div className="relative">
-                <button 
-                  onClick={() => toggleDropdown(item.id)}
-                  className="text-white hover:opacity-80"
-                >
-                  <FaEllipsisV size={14} />
-                </button>
-                
-                {dropdownOpen === item.id && (
-                  <div className="absolute right-0 mt-2 w-24 bg-white rounded-md shadow-lg z-10">
-                    <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                      Edit
-                    </button>
-                    <button 
-                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                      onClick={() => handleViewClick(item)}
-                    >
-                      View
-                    </button>
-                    <button 
-                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                      onClick={() => handleDeleteClick(item)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )}
+              {/* Card Content */}
+              <div className="p-4 space-y-2.5">
+                <div className='flex justify-between items-center'>
+                  <p className="text-[14px] font-bold text-gray-400">Amount Per Member</p>
+                  <p className="text-blue-500 bg-blue-100  px-3 py-1 rounded-xl font-bold text-sm">₹ 1,500</p>
+                </div>
+                <div className='flex justify-between items-center' >
+                  <p className="text-[14px] font-bold text-gray-400">Total Member</p>
+                  <p className="text-grey-500 text-sm">12</p>
+                </div>
+                <div className='flex justify-between items-center'>
+                  <p className="text-[14px] font-bold text-gray-400">Date</p>
+                  <p className="text-grey-500 text-sm">01/07/2024</p>
+                </div>
+                <div className='flex justify-between items-center'> 
+                  <p className="text-[14px] font-bold text-gray-400">Due Date</p>
+                  <p className="text-grey-500 text-sm">10/07/2024</p>
+                </div>
+                <div >
+                  <p className="text-[14px] font-bold text-gray-400">Description</p>
+                  <p className="text-[14px] font-semibold text-gray-600 line-clamp-2">
+                    The celebration of Ganesh Chaturthi involves the installation of clay idols of Ganesh in...
+                  </p>
+                </div>
               </div>
             </div>
+          ))}
+        </div>
 
-            {/* Card Content */}
-            <div className="p-4 space-y-2.5">
-              <div className='flex justify-between items-center'>
-                <p className="text-[14px] font-bold text-gray-400">Amount Per Member</p>
-                <p className="text-blue-500 bg-blue-100  px-2 py-1 rounded-md font-bold text-sm">₹ 1,500</p>
-              </div>
-              <div className='flex justify-between items-center' >
-                <p className="text-[14px] font-bold text-gray-400">Total Member</p>
-                <p className="text-grey-500 text-sm">12</p>
-              </div>
-              <div className='flex justify-between items-center'>
-                <p className="text-[14px] font-bold text-gray-400">Date</p>
-                <p className="text-grey-500 text-sm">01/07/2024</p>
-              </div>
-              <div className='flex justify-between items-center'> 
-                <p className="text-[14px] font-bold text-gray-400">Due Date</p>
-                <p className="text-grey-500 text-sm">10/07/2024</p>
-              </div>
-              <div >
-                <p className="text-[14px] font-bold text-gray-400">Description</p>
-                <p className="text-[14px] font-semibold text-gray-600 line-clamp-2">
-                  The celebration of Ganesh Chaturthi involves the installation of clay idols of Ganesh in...
-                </p>
-              </div>
-            </div>
-          </div>
-        ))}
+        {/* Render Modal */}
+        {isModalOpen && <CreateIncomeModal />}
+        {isParticipantModalOpen && <ParticipantListModal item={selectedItem} />}
+        {isDeleteModalOpen && <DeleteConfirmationModal item={itemToDelete} />}
       </div>
-
-      {/* Render Modal */}
-      {isModalOpen && <CreateIncomeModal />}
-      {isParticipantModalOpen && <ParticipantListModal item={selectedItem} />}
-      {isDeleteModalOpen && <DeleteConfirmationModal item={itemToDelete} />}
     </div>
   );
 };

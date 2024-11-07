@@ -159,7 +159,21 @@ ul::-webkit-scrollbar-thumb {
   background-color: rgba(86, 120, 233, 0.1); 
 }
 
+.maintenceborder{
+  position: relative;
+}
+
+.maintenceborder::after{
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  border-left: 4px solid #39973D;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  transform: scaleY(180deg);
 
 
-
+}
 /* Custom scrollbar for responsiveness */
