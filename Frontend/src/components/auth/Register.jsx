@@ -8,6 +8,7 @@ import {
   registerUser,
 } from "../../services/AuthService";
 import { toast } from "react-hot-toast";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -37,6 +38,8 @@ const Register = () => {
   });
 
   const [societyList, setSocietyList] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -107,11 +110,16 @@ const Register = () => {
 
   // get all societies
   const fetchSocieties = async () => {
+    setIsLoading(true);
     try {
       const response = await getSocieties();
-      setSocietyList(response.data.Society);
+      setSocietyList(response.data.Society || []);
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.error('Error:', error);
+      toast.error('Failed to fetch societies');
+      setSocietyList([]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -120,276 +128,198 @@ const Register = () => {
   }, []);
 
   return (
-    <div
-      className="flex items-center justify-center min-h-screen bg-gray-50 p-4"
-      style={{
-        backgroundImage: `url(${BackgroundImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      <div className="flex flex-col md:flex-row w-full max-w-6xl bg-white rounded-lg shadow-lg overflow-hidden">
+    <div className="min-h-screen bg-[#F8F9FC] p-6">
+      <div className="flex flex-col md:flex-row w-full max-w-6xl mx-auto bg-white rounded-2xl shadow-sm overflow-hidden">
         {/* Left Section - Branding and Illustration */}
-        <div className="md:w-1/2 bg-gray-100 flex flex-col items-start justify-center p-10">
-          <h2 className="text-5xl font-bold text-black mb-20 mt-4">
+        <div className="md:w-1/2 bg-[#F8F9FC] flex flex-col items-start p-12">
+          <h2 className="text-4xl font-bold text-black mb-16">
             <span className="text-[#FE512E]">Dash</span>Stack
           </h2>
-          <div className="w-full h-80 flex items-center justify-center mb-10">
-            <img
-              src={RegisterImage}
-              alt="Society Illustration"
-              className="object-contain h-full w-auto"
-            />
+          <div className="flex-1 flex items-center justify-center w-full">
+            <div className="text-center mb-8">
+              <img src={RegisterImage} alt="Society" className="w-full max-w-md mx-auto" />
+              
+            </div>
           </div>
         </div>
 
         {/* Right Section - Form */}
-        <div className="md:w-1/2 p-10">
-          <h2 className="text-3xl font-semibold text-center mb-6">
-            Registration
-          </h2>
-          <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="md:w-1/2 p-12">
+          <h2 className="text-2xl font-semibold mb-8">Registration</h2>
+          <form onSubmit={handleSubmit} className="space-y-6">
             {/* Name Fields */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <input
-                type="text"
-                name="FirstName"
-                placeholder="Enter First Name"
-                value={formData.FirstName}
-                onChange={handleChange}
-                className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
-                required
-              />
-              <input
-                type="text"
-                name="LastName"
-                placeholder="Enter Last Name"
-                value={formData.LastName}
-                onChange={handleChange}
-                className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
-                required
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">First Name*</label>
+                <input
+                  type="text"
+                  name="FirstName"
+                  value={formData.FirstName}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
+                  placeholder="Enter First Name"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Last Name*</label>
+                <input
+                  type="text"
+                  name="LastName"
+                  value={formData.LastName}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
+                  placeholder="Enter Last Name"
+                  required
+                />
+              </div>
             </div>
 
             {/* Email and Phone */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <input
-                type="Email"
-                name="Email"
-                placeholder="Enter Email Address"
-                value={formData.Email}
-                onChange={handleChange}
-                className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
-                required
-              />
-              <input
-                type="text"
-                name="Phone"
-                placeholder="91+"
-                value={formData.Phone}
-                onChange={handleChange}
-                className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
-                required
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email Address*</label>
+                <input
+                  type="email"
+                  name="Email"
+                  value={formData.Email}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
+                  placeholder="Enter Email Address"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number*</label>
+                <input
+                  type="tel"
+                  name="Phone"
+                  value={formData.Phone}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
+                  placeholder="91+"
+                  required
+                />
+              </div>
             </div>
 
             {/* Country, State, City */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              <input
-                type="text"
-                name="Country"
-                placeholder="Enter Country"
-                value={formData.Country}
-                onChange={handleChange}
-                className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
-                required
-              />
-              <input
-                type="text"
-                name="State"
-                placeholder="Enter State"
-                value={formData.State}
-                onChange={handleChange}
-                className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
-                required
-              />
-              <input
-                type="text"
-                name="City"
-                placeholder="Enter City"
-                value={formData.City}
-                onChange={handleChange}
-                className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
-                required
-              />
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Country*</label>
+                <input
+                  type="text"
+                  name="Country"
+                  value={formData.Country}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
+                  placeholder="Enter Name"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">State*</label>
+                <input
+                  type="text"
+                  name="State"
+                  value={formData.State}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
+                  placeholder="Enter Name"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">City*</label>
+                <input
+                  type="text"
+                  name="City"
+                  value={formData.City}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
+                  placeholder="Enter Name"
+                  required
+                />
+              </div>
             </div>
 
-            {/* Society Dropdown with Create Button */}
-            <div className="space-y-2">
+            {/* Society Selection */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Select Society*</label>
               <select
                 name="select_society"
                 value={formData.select_society}
-                onChange={handleSocietySelect} // Updated to use the new function
-                className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E] w-full"
+                onChange={handleChange}
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                 required
               >
                 <option value="">Select Society</option>
-                {societyList.map(({ _id, Society_name }) => (
-                  <option key={_id} value={_id}>
-                    {Society_name}
-                  </option>
+                {societyList?.map(({ _id, Society_name }) => (
+                  <option key={_id} value={_id}>{Society_name}</option>
                 ))}
                 <option value="createNew">Create New Society</option>
               </select>
             </div>
 
             {/* Password Fields */}
-            <div className="relative">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Password*</label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
+                  placeholder="Enter Password"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password*</label>
               <input
                 type={showPassword ? "text" : "password"}
-                name="password"
-                placeholder="Enter Password"
-                value={formData.password}
+                name="Cpassword"
+                value={formData.Cpassword}
                 onChange={handleChange}
-                className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E] w-full"
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
+                placeholder="Enter Confirm Password"
                 required
               />
+            </div>
+
+            {/* Terms and Register Button */}
+            <div className="space-y-6">
+              <div className="flex items-center">
+                <input type="checkbox" required className="w-4 h-4 text-[#FE512E] border-gray-300 rounded focus:ring-[#FE512E]" />
+                <span className="ml-2 text-sm text-gray-600">
+                  I agree to all the <Link className="text-[#FE512E]">Terms</Link> and <Link className="text-[#FE512E]">Privacy Policies</Link>.
+                </span>
+              </div>
+
               <button
-                type="button"
-                onClick={togglePasswordVisibility}
-                className="absolute right-3 top-3 text-gray-600"
+                type="submit"
+                className="w-full bg-[#FE512E] text-white py-2.5 rounded-lg font-medium hover:bg-[#F09619] transition-colors duration-200"
               >
-                👁️
+                Register
               </button>
             </div>
-
-            <input
-              type={showPassword ? "text" : "password"}
-              name="Cpassword"
-              placeholder="Confirm Password"
-              value={formData.Cpassword}
-              onChange={handleChange}
-              className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#FE512E] w-full"
-              required
-            />
-
-            {/* Terms and Submit Button */}
-            <div className="flex items-center">
-              <input type="checkbox" required className="mr-2" />
-              <p className="text-sm">
-                I agree to all the{" "}
-                <a href="#" className="text-[#FE512E]">
-                  Terms
-                </a>{" "}
-                and{" "}
-                <a href="#" className="text-[#FE512E]">
-                  Privacy Policies
-                </a>
-                .
-              </p>
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-[#FE512E] text-white py-3 rounded-lg font-bold hover:bg-[#F09619] transition"
-            >
-              Register
-            </button>
           </form>
 
-          {/* Login Link */}
-          <p className="mt-4 text-center">
-            Already have an account?{" "}
-            <Link to="/login" className="text-[#FE512E] hover:underline">
-              Login here
-            </Link>
+          <p className="mt-6 text-center text-gray-600">
+            Already have an account? <Link to="/login" className="text-[#FE512E] hover:underline">Login here</Link>
           </p>
         </div>
       </div>
-
-      {/* Modal Popup for Create Society */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h3 className="text-2xl font-bold mb-6 text-gray-800 text-center">
-              Create Society
-            </h3>
-            <form onSubmit={handleSocietySubmit} className="space-y-4">
-              <input
-                type="text"
-                placeholder="Society Name"
-                name="Society_name"
-                value={society.Society_name}
-                onChange={handleSocietyChange}
-                className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-[#FE512E] transition-all duration-200"
-                required
-              />
-              <input
-                type="text"
-                placeholder="Society Address"
-                value={society.Society_address}
-                name="Society_address"
-                onChange={handleSocietyChange}
-                className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-[#FE512E] transition-all duration-200"
-                required
-              />
-              <input
-                type="text"
-                placeholder="Country"
-                name="Country"
-                value={society.societyCountry}
-                onChange={handleSocietyChange}
-                className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-[#FE512E] transition-all duration-200"
-                required
-              />
-              <input
-                type="text"
-                name="State"
-                placeholder="State"
-                value={society.State}
-                onChange={handleSocietyChange}
-                className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-[#FE512E] transition-all duration-200"
-                required
-              />
-              <input
-                type="text"
-                placeholder="City"
-                name="City"
-                value={society.City}
-                onChange={handleSocietyChange}
-                className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-[#FE512E] transition-all duration-200"
-                required
-              />
-              <input
-                type="text"
-                name="ZipCode"
-                placeholder="ZipCode"
-                value={society.ZipCode}
-                onChange={handleSocietyChange}
-                className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-[#FE512E] transition-all duration-200"
-                required
-              />
-
-              {/* Buttons for Save and Cancel */}
-              <div className="flex justify-between space-x-2 mt-6">
-                <button
-                  type="submit"
-                  className="flex-1 bg-[#FE512E] text-white py-2 rounded-lg font-bold transition-transform transform hover:scale-105 hover:bg-[#F09619] focus:outline-none focus:ring-2 focus:ring-[#F09619] focus:ring-opaCity-50"
-                >
-                  Save
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)} // Close the modal
-                  className="flex-1 bg-gray-300 text-black py-2 rounded-lg font-bold transition-transform transform hover:scale-105 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opaCity-50"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

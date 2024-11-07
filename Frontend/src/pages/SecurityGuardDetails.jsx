@@ -21,6 +21,17 @@ function SecurityGuardDetails() {
   const [photoPreview, setPhotoPreview] = useState(null);
   const [aadharPreview, setAadharPreview] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isFormFilled, setIsFormFilled] = useState(false);
+
+  const checkFormFilled = (guard) => {
+    return guard.name.trim() !== '' && 
+           guard.phone.trim() !== '' && 
+           guard.gender !== '' && 
+           guard.shift !== '' && 
+           guard.date !== '' && 
+           guard.time !== '' && 
+           guard.aadharCard !== null;
+  };
 
   const handleAddSecurity = () => {
     setModalMode('add');
@@ -64,6 +75,12 @@ function SecurityGuardDetails() {
     event.preventDefault();
     const file = event.target.files[0];
     handleFile(file, type);
+    
+    const updatedGuard = {
+      ...newGuard,
+      [type]: file
+    };
+    setIsFormFilled(checkFormFilled(updatedGuard));
   };
 
   const handleDrop = (event, type) => {
@@ -105,6 +122,15 @@ function SecurityGuardDetails() {
     setIsDragging(false);
   };
 
+  const handleGuardChange = (field, value) => {
+    const updatedGuard = {
+      ...newGuard,
+      [field]: value
+    };
+    setNewGuard(updatedGuard);
+    setIsFormFilled(checkFormFilled(updatedGuard));
+  };
+
   return (
     <div className="container mx-auto p-4 sm:p-6 bg-white rounded-lg">
       <div className="flex justify-between items-center mb-6">
@@ -122,8 +148,8 @@ function SecurityGuardDetails() {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-indigo-50">
               <tr>
-                {["Security Guard Name", "Phone Number", "Select Shift", "Shift Date", "Shift Time", "Gender", "Action"].map((header) => (
-                  <th key={header} className="px-6 py-4 text-left text-md font-bold text-black-500">
+                {["Security Guard Name", "Phone Number & E-Mail*", "Select Shift", "Shift Date", "Shift Time", "Gender", "Action"].map((header) => (
+                  <th key={header} className="px-4   py-4 text-left text-md font-bold text-black-500">
                     {header}
                   </th>
                 ))}
@@ -208,28 +234,33 @@ function SecurityGuardDetails() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm">
             <div className="p-6">
-              <h2 className="text-xl font-semibold text-center mb-6">Add Security</h2>
+              <h2 className="text-xl font-semibold text-start mb-6">Add Security</h2>
               
               {modalMode !== 'view' && (
                 <form className="space-y-4">
                   {/* Photo Upload */}
                   <div className="flex flex-col items-center mb-6">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Profile Photo
-                    </label>
                     <div className="relative">
                       <label htmlFor="photo-upload" className="cursor-pointer">
                         {photoPreview ? (
                           <div className="relative">
-                            <img src={photoPreview} alt="Guard" className="w-20 h-20 rounded-full object-cover border-2 border-gray-200" />
+                            <img 
+                              src={photoPreview} 
+                              alt="Guard" 
+                              className="w-20 h-20 rounded-full object-cover border-2 border-gray-200" 
+                            />
                             <div className="absolute bottom-0 right-0 bg-blue-500 rounded-full p-1.5 border-2 border-white">
                               <FaCamera className="w-3 h-3 text-white" />
                             </div>
                           </div>
                         ) : (
-                          <div className="w-20 h-20 rounded-full bg-gray-100 flex flex-col items-center justify-center border-2 border-gray-200">
-                            <FaCamera className="w-6 h-6 text-gray-400 mb-1" />
-                            <span className="text-blue-500 text-xs">Add Photo</span>
+                          <div className="flex flex-col  items-center">
+                            <div className="w-20 h-20 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100">
+                              <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
+                                <FaCamera className="w-4 h-4  text-gray-400" />
+                              </div>
+                            </div>
+                            <span className="text-blue-500 text-xs mt-2">Add Photo</span>
                           </div>
                         )}
                       </label>
@@ -252,20 +283,20 @@ function SecurityGuardDetails() {
                       type="text"
                       placeholder="Enter full name"
                       value={newGuard.name}
-                      onChange={(e) => setNewGuard({...newGuard, name: e.target.value})}
+                      onChange={(e) => handleGuardChange('name', e.target.value)}
                       className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Phone Number*
+                      Phone Number & E-Mail*
                     </label>
                     <input
                       type="tel"
-                      placeholder="Enter phone number"
+                      placeholder="Enter Number & E-Mail"
                       value={newGuard.phone}
-                      onChange={(e) => setNewGuard({...newGuard, phone: e.target.value})}
+                      onChange={(e) => handleGuardChange('phone', e.target.value)}
                       className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500"
                     />
                   </div>
@@ -277,7 +308,7 @@ function SecurityGuardDetails() {
                       </label>
                       <select
                         value={newGuard.gender}
-                        onChange={(e) => setNewGuard({...newGuard, gender: e.target.value})}
+                        onChange={(e) => handleGuardChange('gender', e.target.value)}
                         className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500"
                       >
                         <option value="">Select Gender</option>
@@ -292,7 +323,7 @@ function SecurityGuardDetails() {
                       </label>
                       <select
                         value={newGuard.shift}
-                        onChange={(e) => setNewGuard({...newGuard, shift: e.target.value})}
+                        onChange={(e) => handleGuardChange('shift', e.target.value)}
                         className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500"
                       >
                         <option value="">Select Shift</option>
@@ -311,7 +342,7 @@ function SecurityGuardDetails() {
                         <input
                           type="date"
                           value={newGuard.date}
-                          onChange={(e) => setNewGuard({...newGuard, date: e.target.value})}
+                          onChange={(e) => handleGuardChange('date', e.target.value)}
                           className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 pr-10"
                         />
                       
@@ -326,7 +357,7 @@ function SecurityGuardDetails() {
                         <input
                           type="time"
                           value={newGuard.time}
-                          onChange={(e) => setNewGuard({...newGuard, time: e.target.value})}
+                          onChange={(e) => handleGuardChange('time', e.target.value)}
                           className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 pr-10"
                         />
                        
@@ -382,8 +413,12 @@ function SecurityGuardDetails() {
                     </button>
                     <button 
                       type="button" 
-                      onClick={handleSave} 
-                      className="w-full p-3 text-gray-700 bg-gray-100 rounded-lg text-sm font-medium hover:bg-gray-200"
+                      onClick={handleSave}
+                      disabled={!isFormFilled}
+                      className={`w-full p-3 text-sm font-medium rounded-lg transition-all duration-300
+                        ${isFormFilled 
+                          ? 'bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90' 
+                          : 'bg-[#F6F8FB] text-black-400 cursor-not-allowed'}`}
                     >
                       Create
                     </button>

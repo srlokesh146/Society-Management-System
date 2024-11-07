@@ -26,7 +26,7 @@ export const sidebarItems = [
     icon: <RiMoneyDollarBoxFill />,
     subItems: [
       { id: 4, path: "/income", label: "Income" },
-      { id: 5, path: "/expanse", label: "Expanse" },
+      { id: 5, path: "/expense", label: "Expanse" },
       { id: 6, path: "/note", label: "Note" },
     ],
   },

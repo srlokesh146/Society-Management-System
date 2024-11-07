@@ -13,7 +13,7 @@ import SecurityProtocols from './pages/SecurityProtocols';
 
 import { Toaster } from 'react-hot-toast';
 import Residentmanagement from './pages/Residentmanagement';
-import Income from './pages/Income';
+
 import Dashboard from './pages/Dashboard/Dashboard';
 import FinancialManagement from './pages/FinancialManagement';
 import Navbar from './components/Navbar';
@@ -21,6 +21,13 @@ import Sidebar from './components/sidebar/Sidebar';
 import EditProfileForm from './components/EditProfileForm';
 import SecurityGuardDetails from './pages/SecurityGuardDetails.jsx';
 import Announcement from './pages/Announcement.jsx';
+import Facilitymanagement from './pages/Facilitymanagement.jsx';
+import Note from './pages/Note.jsx';
+import Expense from './pages/Expense.jsx';
+import Income from './pages/Income.jsx';
+import OtherIncome from './pages/OtherIncome.jsx';
+
+
 
 
 
@@ -66,17 +73,22 @@ function App() {
             <Route path="/resetpassword" element={<ResetPassword />} />
 
             {/* Protected Routes with Sidebar and Navbar */}
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/residentmanagement" element={<Residentmanagement />} />
             <Route path="/complainttable" element={<ComplaintTable />} />
-            <Route path="/income" element={<Income />} />
+          
             <Route path="/reqtracking" element={<ReqTracking />} />
             <Route path="/visitorlog" element={<VisitorLog />} />
             <Route path="/securityprotocols" element={<SecurityProtocols />} />
             <Route path="/securityguard" element={<SecurityGuardDetails />} />
             <Route path="/announcement" element={<Announcement />} />
             <Route path="/editprofile" element={<EditProfileForm />} />
-           
+            <Route path="/facilitymanagement" element={<Facilitymanagement />} />
+            <Route path="/note" element={<Note />} />
+            <Route path="/expense" element={<Expense/>} />
+            <Route path="/income" element={<Income/>} />
+            <Route path="/other-income" element={<OtherIncome/>} />
+
           </Routes>
         </div>
       </div>

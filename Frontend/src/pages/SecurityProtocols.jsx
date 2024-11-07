@@ -18,10 +18,12 @@ function SecurityProtocols() {
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [currentProtocol, setCurrentProtocol] = useState(null);
   const [newProtocol, setNewProtocol] = useState({ title: '', description: '', date: '', time: '' });
+  const [isFormFilled, setIsFormFilled] = useState(false);
 
   const handleCreate = () => {
     setIsCreateOpen(true);
     setNewProtocol({ title: '', description: '', date: '', time: '' });
+    setIsFormFilled(false);
   };
 
   const handleEdit = (protocol) => {
@@ -55,13 +57,27 @@ function SecurityProtocols() {
     setIsDeleteOpen(false);
   };
 
+  const checkFormFilled = (protocol) => {
+    if (isCreateOpen) {
+      return protocol.title.trim() !== '' && protocol.description.trim() !== '';
+    }
+    return protocol.title.trim() !== '' && protocol.description.trim() !== '' && 
+           protocol.date.trim() !== '' && protocol.time.trim() !== '';
+  };
+
+  const handleProtocolChange = (field, value) => {
+    const updatedProtocol = { ...newProtocol, [field]: value };
+    setNewProtocol(updatedProtocol);
+    setIsFormFilled(checkFormFilled(updatedProtocol));
+  };
+
   return (
     <div className="container mx-auto p-4 sm:p-6  bg-white rounded-lg">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-black-800">Security Protocols</h1>
         <button 
           onClick={handleCreate}
-          className="px-4 py-2  bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white rounded-md hover:opacity-90 flex items-center gap-2"
+          className="px-4 py-2 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)]  text-white rounded-md hover:opacity-90 flex items-center gap-2"
         >
            Create Protocol
         </button>
@@ -130,7 +146,7 @@ function SecurityProtocols() {
         <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center p-4">
           <div className="bg-white p-6 sm:p-8 rounded-lg shadow-2xl w-full max-w-md">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl sm:text-2xl font-bold text-gray-800">
+              <h2 className="text-2xl sm:text-2xl font-bold text-black">
                 {isCreateOpen ? 'Create Protocol' : 'Edit Protocol'}
               </h2>
               <button onClick={() => {setIsCreateOpen(false); setIsEditOpen(false);}} className="text-gray-600 hover:text-gray-800">
@@ -143,7 +159,7 @@ function SecurityProtocols() {
                 <input
                   type="text"
                   value={newProtocol.title}
-                  onChange={(e) => setNewProtocol({...newProtocol, title: e.target.value})}
+                  onChange={(e) => handleProtocolChange('title', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Enter protocol title"
                 />
@@ -152,14 +168,14 @@ function SecurityProtocols() {
                 <label className="block text-sm font-medium text-black-700 mb-1">Description</label>
                 <textarea
                   value={newProtocol.description}
-                  onChange={(e) => setNewProtocol({...newProtocol, description: e.target.value})}
+                  onChange={(e) => handleProtocolChange('description', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   rows="4"
                   placeholder="Enter protocol description"
                 />
               </div>
 
-              {/* Date and Time inputs only show in Edit mode */}
+              {/* Date and Time inputs */}
               {isEditOpen && (
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -168,7 +184,7 @@ function SecurityProtocols() {
                       <input
                         type="date"
                         value={newProtocol.date}
-                        onChange={(e) => setNewProtocol({...newProtocol, date: e.target.value})}
+                        onChange={(e) => handleProtocolChange('date', e.target.value)}
                         className="w-full px-3 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                       <FaCalendarAlt className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -180,7 +196,7 @@ function SecurityProtocols() {
                       <input
                         type="time"
                         value={newProtocol.time}
-                        onChange={(e) => setNewProtocol({...newProtocol, time: e.target.value})}
+                        onChange={(e) => handleProtocolChange('time', e.target.value)}
                         className="w-full px-3 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                       <FaClock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -199,8 +215,13 @@ function SecurityProtocols() {
                 </button>
                 <button 
                   type="button" 
-                  onClick={handleSave} 
-                  className="w-full px-4 py-3 text-md font-medium text-white bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-md hover:opacity-90"
+                  onClick={handleSave}
+                  disabled={!isFormFilled}
+                  className={`w-full px-4 py-3 text-md font-medium text-black rounded-md transition-all duration-300
+                    ${isFormFilled 
+                      ? 'bg-gradient-to-r from-[#FE512E] to-[#F09619] hover:opacity-90' 
+                      : 'bg-[#F6F8FB] text-black-400 cursor-not-allowed'
+                    }`}
                 >
                   {isCreateOpen ? 'Create' : 'Save'}
                 </button>
