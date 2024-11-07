@@ -151,103 +151,111 @@ exports.UpdateProtocol = async (req, res) => {
 }
 // add security guard
 exports.CreateSecurityGuard = async (req, res) => {
-    function generatePassword(length = 6) {
-        const password = crypto.randomInt(0, Math.pow(10, length)).toString();
-        return password.padStart(length, "0")
-    }
-    const {
-        full_name,
-        MailOrPhone,
-        gender,
-        shift,
-        date,
-        time,
-        role,
-    } = req.body;
-    const password = generatePassword();
-    console.log(password);
-
-    const hashpassword = await hash(password)
-
-    const uploadAndDeleteLocal = async (fileArray) => {
-        if (fileArray && fileArray[0]) {
-            const filePath = fileArray[0].path;
-            try {
-                // Upload to Cloudinary
-                const result = await cloudinary.uploader.upload(filePath);
-                // Delete from local server
-                fs.unlink(filePath, (err) => {
-                    if (err) console.error("Error deleting file from server:", err);
-                    else console.log("File deleted from server:", filePath);
-                });
-                return result.secure_url;
-            } catch (error) {
-                console.error("Error uploading to Cloudinary:", error);
-                throw error;
-            }
-        }
-        return '';
-    };
-
-    // Upload images to Cloudinary and delete local files
-    const profileimage = await uploadAndDeleteLocal(req.files?.profileimage);
-    const adhar_card = await uploadAndDeleteLocal(req.files?.adhar_card);
-    if (
-        !full_name ||
-        !MailOrPhone ||
-        !gender ||
-        !shift ||
-        !date ||
-        !time ||
-        profileimage === null ||
-        adhar_card === null
-    ) {
-        return res.status(400).json({
+   try {
+     function generatePassword(length = 6) {
+         const password = crypto.randomInt(0, Math.pow(10, length)).toString();
+         return password.padStart(length, "0")
+     }
+     const {
+         full_name,
+         MailOrPhone,
+         gender,
+         shift,
+         date,
+         time,
+         role,
+     } = req.body;
+     const password = generatePassword();
+     console.log(password);
+ 
+     const hashpassword = await hash(password)
+ 
+     const uploadAndDeleteLocal = async (fileArray) => {
+         if (fileArray && fileArray[0]) {
+             const filePath = fileArray[0].path;
+             try {
+                 // Upload to Cloudinary
+                 const result = await cloudinary.uploader.upload(filePath);
+                 // Delete from local server
+                 fs.unlink(filePath, (err) => {
+                     if (err) console.error("Error deleting file from server:", err);
+                     else console.log("File deleted from server:", filePath);
+                 });
+                 return result.secure_url;
+             } catch (error) {
+                 console.error("Error uploading to Cloudinary:", error);
+                 throw error;
+             }
+         }
+         return '';
+     };
+ 
+     // Upload images to Cloudinary and delete local files
+     const profileimage = await uploadAndDeleteLocal(req.files?.profileimage);
+     const adhar_card = await uploadAndDeleteLocal(req.files?.adhar_card);
+     if (
+         !full_name ||
+         !MailOrPhone ||
+         !gender ||
+         !shift ||
+         !date ||
+         !time ||
+         profileimage === null ||
+         adhar_card === null
+     ) {
+         return res.status(400).json({
+             success: false,
+             message: "All fields are required",
+         });
+     }
+     // Create a new owner document
+     const newOwner = new Guard({
+         full_name,
+         MailOrPhone,
+         gender,
+         shift,
+         date,
+         time,
+         profileimage,
+         adhar_card,
+         role:role || "security",
+         password: hashpassword
+     });
+ 
+ 
+     await newOwner.save();
+     let user;
+     if (MailOrPhone.includes("@")) {
+       
+         await senData(
+             newOwner.MailOrPhone,
+             "Registration Successful - Login Details",
+             `Dear ${newOwner.Full_name},\n\nYou have successfully registered as a security. Your login details are as follows:\n\nUsername: ${newOwner.MailOrPhone}\nPassword: <b> ${password}</b>\n\nPlease keep this information secure.\n\nBest Regards,\nManagement`
+         );
+       
+     } else {
+      
+       // Send OTP via SMS
+       await twilioClient.messages.create({
+         body: `You have successfully registered as a security. Your login details are as follows UserName ${MailOrPhone} & Password is <b> ${password}</b>\n\nPlease keep this information secure.\n\nBest Regards,\nManagement`,
+         to: MailOrPhone, // Phone number
+         from: process.env.TWILIO_PHONE_NUMBER,
+       });
+ 
+      
+ }
+ 
+  return res.status(200).json({
+     success:true,
+     message:"Security Guard Successfully added"
+  })
+   } catch (error) {
+    console.error(error);
+        return res.status(500).json({
             success: false,
-            message: "All fields are required",
+            message: "Internal server error"
         });
-    }
-    // Create a new owner document
-    const newOwner = new Guard({
-        full_name,
-        MailOrPhone,
-        gender,
-        shift,
-        date,
-        time,
-        profileimage,
-        adhar_card,
-        role:role || "security",
-        password: hashpassword
-    });
-
-
-    await newOwner.save();
-    let user;
-    if (MailOrPhone.includes("@")) {
-      
-        await senData(
-            newOwner.MailOrPhone,
-            "Registration Successful - Login Details",
-            `Dear ${newOwner.Full_name},\n\nYou have successfully registered as a security. Your login details are as follows:\n\nUsername: ${newOwner.MailOrPhone}\nPassword: <b> ${password}</b>\n\nPlease keep this information secure.\n\nBest Regards,\nManagement`
-        );
-      
-    } else {
-     
-      // Send OTP via SMS
-      await twilioClient.messages.create({
-        body: `You have successfully registered as a security. Your login details are as follows UserName ${MailOrPhone} & Password is <b> ${password}</b>\n\nPlease keep this information secure.\n\nBest Regards,\nManagement`,
-        to: MailOrPhone, // Phone number
-        from: process.env.TWILIO_PHONE_NUMBER,
-      });
-
-     
-}
-
- return res.status(200).json({
-    success:true,
-    message:"Security Guard Successfully added"
- })
+   }
 }
 
 //get a security Guard

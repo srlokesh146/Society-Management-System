@@ -12,6 +12,10 @@ router.post("/addowner", upload.fields([
 ]), ResidentController.addOwnerData);
 //show owner 
 router.get("/viewowner",ResidentController.GetAllOwner)
+//get by id resident
+router.get("/owner/:id",ResidentController.GetByIdResident)
+//delete by id  resident
+router.delete("/owner/:id",ResidentController.DeleteByIdResident)
 
 //add tenant
 router.post("/addtenante",upload.fields([
@@ -19,8 +23,16 @@ router.post("/addtenante",upload.fields([
     { name: 'Adhar_back', maxCount: 1 },
     { name: 'Address_proof', maxCount: 1 },
     { name: 'Rent_Agreement', maxCount: 1 },
-    { name: 'Tenante_image', maxCount: 1 }
+    { name: 'profileImage', maxCount: 1 }
 ]), TenateController.addTenante)
 //show tenante 
 router.get("/viewtenante",TenateController.GetAllTenante)
+// //get by id tenant
+// router.get("/tenant/:id",ResidentController.GetByIdOwnerResident)
+
+
+
+//======================
+// get all resident
+router.get("/allresident",ResidentController.GetAllResidents)
 module.exports=router;

@@ -26,6 +26,7 @@ exports.addTenante = async (req, res) => {
             Relation,
             Member_Counting,
             Vehicle_Counting,
+            role
             
         } = req.body;
                const password=  generatePassword();
@@ -55,7 +56,7 @@ exports.addTenante = async (req, res) => {
             };
     
             // Upload images to Cloudinary and delete local files
-            const Tenante_image = await uploadAndDeleteLocal(req.files?.Tenante_image);
+            const profileImage = await uploadAndDeleteLocal(req.files?.profileImage);
             const Adhar_front = await uploadAndDeleteLocal(req.files?.Adhar_front);
             const Adhar_back = await uploadAndDeleteLocal(req.files?.Adhar_back);
             const Address_proof = await uploadAndDeleteLocal(req.files?.Address_proof);
@@ -75,7 +76,7 @@ exports.addTenante = async (req, res) => {
                 !Relation ||
                 !Member_Counting ||
                 !Vehicle_Counting ||
-                !Tenante_image ||
+                !profileImage ||
                 !Adhar_front ||
                 !Adhar_back ||
                 !Address_proof ||
@@ -92,7 +93,7 @@ exports.addTenante = async (req, res) => {
             Owner_Full_name,
             Owner_Phone,
             Owner_Address,
-            Tenante_image,
+            profileImage,
             Full_name,
             Phone_number,  
             Email_address,
@@ -105,6 +106,7 @@ exports.addTenante = async (req, res) => {
             Adhar_back,
             Address_proof,
             Rent_Agreement,
+            role:role || "resident",
             password: hashpassword
             
         });
@@ -157,23 +159,40 @@ exports.addTenante = async (req, res) => {
 };
 exports.GetAllTenante= async(req,res)=>{
     try {
-        const find= await Tenante.find();
-        if(!find){
+        // Fetch all owners sorted by Wing and Unit
+        const owners = await Tenante.find().sort({ Wing: 1, Unit: 1 });
+
+        if (!owners || owners.length === 0) {
             return res.status(400).json({
-                success:false,
-                message:"No data found"
-            })
+                success: false,
+                message: "No data found"
+            });
         }
+
+        
+        const ownerCounts = owners.map(owner => ({
+            profileImage:owner.profileImage,
+            Full_name: owner.Full_name,
+            Unit: owner.Unit,
+            Wing: owner.Wing,
+            Resident_status: owner.Resident_status,
+            Phone_number: owner.Phone_number,
+            Member_Counting_Total: owner.Member_Counting ? owner.Member_Counting.length : 0,
+            Vehicle_Counting_Total: owner.Vehicle_Counting ? owner.Vehicle_Counting.length : 0
+        }));
+
+        // Respond with only the counts
         return res.json({
-            success:true,
-            Tenante:find
-        })
+            success: true,
+            Owner: ownerCounts
+        });
     } catch (error) {
-        console.error(error);
+        console.error("Error fetching owner Tenante:", error);
         return res.status(500).json({
-             success: false,
-             message: "Failed to add owner data"
-         });
+            success: false,
+            message: "Failed to retrieve Tenante data"
+        });
     }
 }
-//find by id Tenate
+
+
