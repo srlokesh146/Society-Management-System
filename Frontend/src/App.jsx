@@ -75,7 +75,6 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/residentmanagement" element={<Residentmanagement />} />
             <Route path="/complainttable" element={<ComplaintTable />} />
-          
             <Route path="/reqtracking" element={<ReqTracking />} />
             <Route path="/visitorlog" element={<VisitorLog />} />
             <Route path="/securityprotocols" element={<SecurityProtocols />} />
