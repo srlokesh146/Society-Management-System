@@ -92,7 +92,7 @@ const ComplaintPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
+    <div className="min-h-screen  bg-gray-100 p-4">
       <div className=" mx-auto bg-white rounded-xl shadow-sm">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
@@ -105,10 +105,10 @@ const ComplaintPage = () => {
             </button>
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto ">
             <table className="w-full">
-              <thead>
-                <tr className="border-b    bg-indigo-50 rounded-lg overflow-hidden">
+              <thead>bg-indigo-50
+                <tr className="border-b     rounded-lg overflow-hidden">
                   <th className="text-left px-8 py- text-md  font-bold text-black-500 first:rounded-l-lg last:rounded-r-lg">Complainter Name</th>
                   <th className="text-left px-9 py-3 text-md font-bold text-black-500">Complaint Name</th>
                   <th className="text-left px-24 py-3 text-md font-bold text-black-500">Description</th>

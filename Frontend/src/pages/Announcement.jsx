@@ -53,11 +53,29 @@ function Announcement() {
   const [modalType, setModalType] = useState('');
   const [currentAnnouncement, setCurrentAnnouncement] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(null); // Track which dropdown is open
+  const [isFormFilled, setIsFormFilled] = useState(false);
+
+  const checkFormFilled = (announcement) => {
+    return announcement?.title?.trim() !== '' && 
+           announcement?.description?.trim() !== '' && 
+           announcement?.date?.trim() !== '' && 
+           announcement?.time?.trim() !== '';
+  };
+
+  const handleAnnouncementChange = (field, value) => {
+    const updatedAnnouncement = {
+      ...currentAnnouncement,
+      [field]: value
+    };
+    setCurrentAnnouncement(updatedAnnouncement);
+    setIsFormFilled(checkFormFilled(updatedAnnouncement));
+  };
 
   const handleCreateAnnouncement = () => {
     setModalType('create');
     setCurrentAnnouncement({ title: '', date: '', time: '', description: '' });
     setIsModalOpen(true);
+    setIsFormFilled(false);
   };
 
   const handleEditAnnouncement = (announcement) => {
@@ -186,7 +204,7 @@ function Announcement() {
                   <input
                     type="text"
                     value={currentAnnouncement?.title || ''}
-                    onChange={(e) => setCurrentAnnouncement({...currentAnnouncement, title: e.target.value})}
+                    onChange={(e) => handleAnnouncementChange('title', e.target.value)}
                     className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500"
                     placeholder="Enter title"
                   />
@@ -195,7 +213,7 @@ function Announcement() {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
                   <textarea
                     value={currentAnnouncement?.description || ''}
-                    onChange={(e) => setCurrentAnnouncement({...currentAnnouncement, description: e.target.value})}
+                    onChange={(e) => handleAnnouncementChange('description', e.target.value)}
                     className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 h-20"
                     placeholder="Enter description"
                   ></textarea>
@@ -207,7 +225,7 @@ function Announcement() {
                     <input
                       type="date"
                       value={currentAnnouncement?.date || ''}
-                      onChange={(e) => setCurrentAnnouncement({...currentAnnouncement, date: e.target.value})}
+                      onChange={(e) => handleAnnouncementChange('date', e.target.value)}
                       className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500"
                     />
                   </div>
@@ -216,12 +234,11 @@ function Announcement() {
                     <input
                       type="time"
                       value={currentAnnouncement?.time || ''}
-                      onChange={(e) => setCurrentAnnouncement({...currentAnnouncement, time: e.target.value})}
+                      onChange={(e) => handleAnnouncementChange('time', e.target.value)}
                       className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500"
                     />
                   </div>
                 </div>
-
 
                 <div className="grid grid-cols-2 gap-4 mt-6">
                   <button 
@@ -233,9 +250,13 @@ function Announcement() {
                   </button>
                   <button 
                     type="submit"
-                    className="w-full py-3 text-white bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-lg text-sm font-medium"
+                    disabled={!isFormFilled}
+                    className={`w-full py-3 text-sm font-medium rounded-lg transition-all duration-300
+                      ${isFormFilled 
+                        ? 'bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90' 
+                        : 'bg-[#F6F8FB] text-black-400 cursor-not-allowed'}`}
                   >
-                    {modalType === 'save' ? 'save' : 'Save'}
+                    {modalType === 'create' ? 'Create' : 'Save'}
                   </button>
                 </div>
               </form>
