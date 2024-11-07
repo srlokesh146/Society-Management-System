@@ -5,10 +5,10 @@ module.exports = {
       colors: {
         primary: "#FF5733",
       },
-      backgroundColor: {
-        'custom-gradient': 'linear-gradient(to right, #FE512E, #F09619)', 
-      }
-    }
+      backgroundImage: {
+        'custom-gradient': 'linear-gradient(90deg, #FE512E 0%, #F09619 100%)',
+      },
+    },
   },
   plugins: [],
 }

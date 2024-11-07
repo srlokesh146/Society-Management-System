@@ -107,6 +107,8 @@ export default function Modal({ contact, onClose, fetchImportantNumbers }) {
     }
   };
 
+  const isFormComplete = formData.name && formData.phone && formData.job;
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-[99]">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-[410px]">
@@ -122,58 +124,54 @@ export default function Modal({ contact, onClose, fetchImportantNumbers }) {
             name="Full_name"
             value={formData.Full_name}
             onChange={handleInputChange}
-            placeholder="Enter Full name"
-            className="w-full p-2 border border-[#000] rounded-lg outline-none"
+            placeholder="Enter Full Name"
+            className="w-full p-2 border border-[#000] rounded-lg outline-none text-sm sm:text-base"
           />
           {errors.Full_name && (
             <span className="text-red-500 text-sm">{errors.Full_name}</span>
           )}
         </div>
 
-        <div className="pb-[30px]">
-          <label className="text-[#202224] font-medium pb-[5px] leading-[21px]">
-            Phone Number
-          </label>
+        <div className='pb-[30px] max-sm:pb-[20px] max-md:pb-[20px]'>
+          <label className="text-[#202224] font-medium pb-[5px] leading-[21px] text-sm sm:text-base">Phone Number</label>
           <input
             type="text"
             name="Phone_Number"
             value={formData.Phone_Number}
             onChange={handleInputChange}
             placeholder="+91"
-            className="w-full p-2 border border-[#000] rounded-lg outline-none"
+            className="w-full p-2 border border-[#000] rounded-lg outline-none text-sm sm:text-base"
           />
           {errors.Phone_Number && (
             <span className="text-red-500 text-sm">{errors.Phone_Number}</span>
           )}
         </div>
 
-        <div className="pb-[30px]">
-          <label className="text-[#202224] font-medium pb-[5px] leading-[21px]">
-            Work
-          </label>
+        <div className='pb-[30px] max-sm:pb-[20px] max-md:pb-[20px]'>
+          <label className="text-[#202224] font-medium pb-[5px] leading-[21px] text-sm sm:text-base">Work</label>
           <input
             type="text"
             name="Work"
             value={formData.Work}
             onChange={handleInputChange}
             placeholder="Enter Work"
-            className="w-full p-2 border border-[#000] rounded-lg outline-none "
+            className="w-full p-2 border border-[#000] rounded-lg outline-none text-sm sm:text-base"
           />
           {errors.Work && (
             <span className="text-red-500 text-sm">{errors.Work}</span>
           )}
         </div>
 
-        <div className="flex justify-between mt-4">
+        <div className="flex justify-between mt-4 flex-col sm:flex-row">
           <button
-            className="bg-white py-[13.5px] px-[58.5px] rounded-[10px] mr-2 w-full border border-[#D3D3D3] leading-6 font-medium"
+            className="bg-white py-[13.5px] px-[58.5px] rounded-[10px] mr-2 w-full border border-[#D3D3D3] leading-6 font-medium mb-4 sm:mb-0"
             onClick={onClose}
           >
             Cancel
           </button>
           <button
-            className="bg-[#F6F8FB] text-black py-[13.5px] px-[58.5px] rounded-[10px] border border-[#D3D3D3] w-full leading-6 font-semibold"
             onClick={() => (contact ? handleUpdate(contact._id) : handleSave())}
+            className={`py-[13.5px] px-[58.5px] rounded-[10px] border border-[#D3D3D3] w-full leading-6 font-semibold ${isFormComplete ? 'bg-custom-gradient text-white' : 'bg-[#F6F8FB] text-black'}`}
           >
             Save
           </button>

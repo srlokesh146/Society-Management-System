@@ -9,6 +9,7 @@ import ComplaintTable from './pages/ComplaintTable';
 import ReqTracking from './pages/ReqTracking';
 import VisitorLog from './pages/VisitorLog';
 import SecurityProtocols from './pages/SecurityProtocols';
+import './App.css'
 
 
 import { Toaster } from 'react-hot-toast';
@@ -53,14 +54,12 @@ function App() {
     <div className="h-screen flex overflow-hidden bg-gray-100">
       <Toaster position="top-right" reverseOrder={false} />
 
-      {/* Render Sidebar only if shouldRenderSidebarAndNavbar is true */}
       {shouldRenderSidebarAndNavbar && (
         <Sidebar isopen={isSidebaropen} onclose={closeSidebar} />
       )}
 
       <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebaropen && shouldRenderSidebarAndNavbar ? 'ml-[280px]' : 'ml-0'}`}>
         
-        {/* Render Navbar only if shouldRenderSidebarAndNavbar is true */}
         {shouldRenderSidebarAndNavbar && <Navbar toggleSidebar={toggleSidebar} />}
         
         <div className="flex-1 p-6 bg-gray-100 overflow-y-auto">
