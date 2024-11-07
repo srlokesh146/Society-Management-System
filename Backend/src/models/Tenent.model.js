@@ -13,7 +13,7 @@ const tenantschema= new Schema({
         type:String,
         required:true
     },
-    Tenante_image:{
+    profileImage:{
         type:String,
         required:true
     },
@@ -84,6 +84,11 @@ const tenantschema= new Schema({
     password: {  // Add this field to store the hashed password
         type: String,
         required: true
+    },
+    role: {
+        type: String,
+        enum: ['admin', 'resident', 'security'], 
+        default: 'resident' 
     },
     Resident_status:{
         type:String,
