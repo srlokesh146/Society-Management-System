@@ -42,6 +42,15 @@ const securityschema= new Schema({
         type: String,
         required: true
     },
+    otp: {
+        type: String,
+      },
+      otpExpiration: {
+        type: Date,
+        default: Date.now,
+        get: (otpExpiration) => otpExpiration.getTime(),
+        set: (otpExpiration) => new Date(otpExpiration),
+      },
 },{timestamps:true})
 
 const Guard=model("SecurityGuard",securityschema)

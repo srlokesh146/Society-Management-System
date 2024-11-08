@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import Navbar from "./Navbar";
 import editimage from "../assets/images/editimage.png";
@@ -7,6 +7,8 @@ import { IoNotifications } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import avatar from "../assets/images/Avatar.png";
 import { useSelector } from "react-redux";
+import { getSocieties, UpdateUserProfile } from "../services/AuthService";
+import toast from "react-hot-toast";
 
 function EditProfileForm() {
   const { user } = useSelector((store) => store.auth);
@@ -23,26 +25,51 @@ function EditProfileForm() {
   });
   const [profileImage, setProfileImage] = useState(editimage);
   const [isEditing, setIsEditing] = useState(false);
+  const [societyList, setSocietyList] = useState([]);
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
   };
 
-  const handleSaveChanges = () => {
-    console.log(profile);
-    setIsEditing(false);
-  };
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    console.log(file);
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setProfile((prevProfile) => ({
         ...prevProfile,
         [e.target.name]: e.target.files[0],
       }));
+      setProfileImage(imageUrl);
     }
   };
+
+  // Update user profile
+  const handleProfileUpdate = async (id) => {
+    console.log(profile)
+    try {
+      const response = await UpdateUserProfile(id, profile);
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      setIsEditing(false);
+    }
+  };
+
+  // get all societies
+  const fetchSocieties = async () => {
+    try {
+      const response = await getSocieties();
+      setSocietyList(response.data.Society);
+    } catch (error) {
+      toast.error("Failed to fetch societies");
+    }
+  };
+
+  useEffect(() => {
+    fetchSocieties();
+  }, []);
 
   return (
     <>
@@ -100,7 +127,9 @@ function EditProfileForm() {
                   id="imageInput"
                   style={{ display: "none" }}
                   accept="image/*"
+                  name="profileImage"
                   onChange={handleImageChange}
+                  disabled={!isEditing}
                 />
                 <p className="font-semibold">
                   {user.FirstName || "First Name"}{" "}
@@ -174,15 +203,24 @@ function EditProfileForm() {
                       <label className="block text-gray-600 mb-1">
                         Select Society*
                       </label>
-                      <input
-                        type="text"
-                        value={""}
+                      <select
                         onChange={(e) =>
-                          setProfile({ ...profile, society: e.target.value })
+                          setProfile({
+                            ...profile,
+                            select_society: e.target.value,
+                          })
                         }
-                        className="w-full p-2 border border-[#202224] bg-transparent rounded-[10px] py-[10.5px] px-[13px] "
+                        value={profile.select_society}
                         disabled={!isEditing}
-                      />
+                        className="w-full p-2 border border-[#202224] bg-transparent rounded-[10px] py-[10.5px] px-[13px] "
+                      >
+                        <option value="{">select society</option>
+                        {societyList.map((society) => (
+                          <option value={society._id}>
+                            {society.Society_name}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                     <div>
                       <label className="block text-gray-600 mb-1">
@@ -229,7 +267,7 @@ function EditProfileForm() {
             {isEditing && (
               <div className="flex justify-end mt-4">
                 <button
-                  onClick={handleSaveChanges}
+                  onClick={handleProfileUpdate}
                   className="bg-custom-gradient text-white py-2 px-4 rounded-lg"
                 >
                   Update Profile

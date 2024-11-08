@@ -106,9 +106,9 @@ export default function Sidebar() {
                                 : "text-[#4F4F4F] hover:text-black"
                               }`}
                           >
-                            {subItem.label}
+                            {subItem.label}   
                           </span>
-                        </NavLink>
+                        </NavLink>   
                       </li>
                     ))}
                   </ul>

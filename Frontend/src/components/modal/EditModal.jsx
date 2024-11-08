@@ -1,27 +1,27 @@
 // EditModal.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const EditModal = ({ isOpen, onClose, complaint, onSave }) => {
   const [formData, setFormData] = useState({
-    complainerName: '',
-    complaintName: '',
-    description: 'The celebration of Ganesh Chaturthi involves the installation of clay idols of Ganesa in Resident.',
-    priority: 'Low',
-    status: 'Open',
-    wing: '',
-    unit: ''
+    complainer: "",
+    name: "",
+    description: "",
+    priority: "",
+    status: "",
+    wing: "",
+    unit: "",
   });
 
   useEffect(() => {
     if (complaint) {
       setFormData({
-        complainerName: complaint.complainerName,
-        complaintName: complaint.complaintName,
-        description: complaint.description || 'The celebration of Ganesh Chaturthi involves the installation of clay idols of Ganesa in Resident.',
-        priority: complaint.priority || 'Low',
-        status: complaint.status || 'Open',
+        complainer: complaint.complainer,
+        name: complaint.name,
+        description: complaint.description,
+        priority: complaint.priority,
+        status: complaint.status,
         wing: complaint.wing,
-        unit: complaint.unit
+        unit: complaint.unit,
       });
     }
   }, [complaint]);
@@ -42,7 +42,9 @@ const EditModal = ({ isOpen, onClose, complaint, onSave }) => {
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-[9999]">
       <div className="bg-white p-5 rounded-lg shadow-lg w-11/12 max-w-[410px]">
-        <h4 className="text-xl font-semibold mb-[10px] leading-[30px] text-[20px]">Edit Complaint</h4>
+        <h4 className="text-xl font-semibold mb-[10px] leading-[30px] text-[20px]">
+          Edit Complaint
+        </h4>
         <div className="border-b border-[#F4F4F4] mb-[30px]"></div>
         <form onSubmit={handleSubmit}>
           <div className="mb-[30px]">
@@ -82,7 +84,7 @@ const EditModal = ({ isOpen, onClose, complaint, onSave }) => {
             />
           </div>
 
-          <div className='flex justify-between items-center mb-[25px]'>
+          <div className="flex justify-between items-center mb-[25px]">
             <div>
               <label className="block mb-[5px] text-[14px] leading-[21px] font-medium">
                 Wing:
@@ -91,7 +93,7 @@ const EditModal = ({ isOpen, onClose, complaint, onSave }) => {
               <input
                 type="text"
                 name="wing"
-                value="A"
+                value={formData.wing}
                 onChange={handleChange}
                 className="border border-[#202224] rounded-[10px] w-[175px] py-[13px] ps-[13px] pr-[52px]"
               />
@@ -104,7 +106,7 @@ const EditModal = ({ isOpen, onClose, complaint, onSave }) => {
               <input
                 type="text"
                 name="unit"
-                value="1001"
+                value={formData.unit}
                 onChange={handleChange}
                 className="border border-[#202224] rounded-[10px] w-[175px] py-[13px] ps-[13px] pr-[52px]"
               />
@@ -113,10 +115,15 @@ const EditModal = ({ isOpen, onClose, complaint, onSave }) => {
 
           {/* Priority Radio Buttons */}
           <div className="mb-3">
-            <label className="block mb-[5px] text-[14px] leading-[21px] font-medium">Priority:</label>
+            <label className="block mb-[5px] text-[14px] leading-[21px] font-medium">
+              Priority:
+            </label>
             <div className="flex">
-              {['Low', 'Medium', 'High'].map((level) => (
-                <label key={level} className="flex items-center mr-4 border pt-[10px px-[10px] w-[113px] h-[41px] rounded-[10px] text-[14px]">
+              {["Low", "Medium", "High"].map((level) => (
+                <label
+                  key={level}
+                  className="flex items-center mr-4 border pt-[10px px-[10px] w-[113px] h-[41px] rounded-[10px] text-[14px]"
+                >
                   <input
                     type="radio"
                     name="priority"
@@ -125,10 +132,22 @@ const EditModal = ({ isOpen, onClose, complaint, onSave }) => {
                     onChange={handleChange}
                     className="hidden"
                   />
-                  <span className={`h-[20px] w-[20px] rounded-full border-2 flex items-center justify-center ${formData.priority === level ? 'border-custom-gradient' : 'border-gray-300'}`}>
-                    {formData.priority === level && <span className="h-[12px] w-[12px] rounded-full bg-custom-gradient"></span>}
+                  <span
+                    className={`h-[20px] w-[20px] rounded-full border-2 flex items-center justify-center ${
+                      formData.priority === level
+                        ? "border-custom-gradient"
+                        : "border-gray-300"
+                    }`}
+                  >
+                    {formData.priority === level && (
+                      <span className="h-[12px] w-[12px] rounded-full bg-custom-gradient"></span>
+                    )}
                   </span>
-                  <span className={`ml-2 ${formData.priority === level ? 'font-semibold' : ''}`}>
+                  <span
+                    className={`ml-2 ${
+                      formData.priority === level ? "font-semibold" : ""
+                    }`}
+                  >
                     {level}
                   </span>
                 </label>
@@ -138,10 +157,15 @@ const EditModal = ({ isOpen, onClose, complaint, onSave }) => {
 
           {/* Status Radio Buttons */}
           <div className="mb-3">
-            <label className="block mb-[5px] text-[14px] leading-[21px] font-medium">Status:</label>
+            <label className="block mb-[5px] text-[14px] leading-[21px] font-medium">
+              Status:
+            </label>
             <div className="flex">
-              {['Open', 'Pending', 'Solved'].map((state) => (
-                <label key={state} className="flex items-center mr-4 border pt-[10px px-[10px] w-[113px] h-[41px] rounded-[10px] text-[14px]">
+              {["Open", "Pending", "Solve"].map((state) => (
+                <label
+                  key={state}
+                  className="flex items-center mr-4 border pt-[10px px-[10px] w-[113px] h-[41px] rounded-[10px] text-[14px]"
+                >
                   <input
                     type="radio"
                     name="status"
@@ -150,10 +174,22 @@ const EditModal = ({ isOpen, onClose, complaint, onSave }) => {
                     onChange={handleChange}
                     className="hidden"
                   />
-                  <span className={`h-[20px] w-[20px] rounded-full border-2 ${formData.status === state ? 'border-custom-gradient' : 'border-gray-300'} flex items-center justify-center`}>
-                    {formData.status === state && <span className="h-[12px] w-[12px] rounded-full bg-custom-gradient"></span>}
+                  <span
+                    className={`h-[20px] w-[20px] rounded-full border-2 ${
+                      formData.status === state
+                        ? "border-custom-gradient"
+                        : "border-gray-300"
+                    } flex items-center justify-center`}
+                  >
+                    {formData.status === state && (
+                      <span className="h-[12px] w-[12px] rounded-full bg-custom-gradient"></span>
+                    )}
                   </span>
-                  <span className={`ml-2 ${formData.status === state ? 'font-semibold' : ''}`}>
+                  <span
+                    className={`ml-2 ${
+                      formData.status === state ? "font-semibold" : ""
+                    }`}
+                  >
                     {state}
                   </span>
                 </label>
@@ -161,9 +197,7 @@ const EditModal = ({ isOpen, onClose, complaint, onSave }) => {
             </div>
           </div>
           <div className="flex justify-between mt-4">
-            <button
-              className="bg-white py-[12px] px-[58.5px] rounded-[10px] mr-[20px] w-full border border-[#D3D3D3] leading-[27px font-medium"
-            >
+            <button className="bg-white py-[12px] px-[58.5px] rounded-[10px] mr-[20px] w-full border border-[#D3D3D3] leading-[27px font-medium">
               Cancel
             </button>
             <button

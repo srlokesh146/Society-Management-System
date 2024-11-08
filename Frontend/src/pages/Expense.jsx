@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaCheck, FaEye, FaTrash, FaPen, FaPlus, FaUpload } from 'react-icons/fa';
+import { FaPencil } from 'react-icons/fa6';
 import { FiDownload } from 'react-icons/fi';
 
 const initialExpenses = [
@@ -498,7 +499,7 @@ function Expense() {
         }}
         className="p-1.5 rounded-md bg-green-50 text-green-600 hover:bg-green-100"
       >
-        <FaCheck size={14} />
+        <FaPencil size={14} />
       </button>
       <button 
         onClick={() => {

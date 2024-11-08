@@ -12,10 +12,16 @@ router.post("/addowner", upload.fields([
 ]), ResidentController.addOwnerData);
 //show owner 
 router.get("/viewowner",ResidentController.GetAllOwner)
-//get by id resident
-router.get("/owner/:id",ResidentController.GetByIdResident)
-//delete by id  resident
-router.delete("/owner/:id",ResidentController.DeleteByIdResident)
+
+
+//update owner
+router.put("/owner/:id", upload.fields([
+    { name: 'Adhar_front', maxCount: 1 },
+    { name: 'Adhar_back', maxCount: 1 },
+    { name: 'Address_proof', maxCount: 1 },
+    { name: 'Rent_Agreement', maxCount: 1 },
+    { name: 'profileImage', maxCount: 1 }
+]), ResidentController.updateOwnerData);
 
 //add tenant
 router.post("/addtenante",upload.fields([
@@ -30,9 +36,21 @@ router.get("/viewtenante",TenateController.GetAllTenante)
 // //get by id tenant
 // router.get("/tenant/:id",ResidentController.GetByIdOwnerResident)
 
+//update tenant
+router.put("/tenante/:id",upload.fields([
+    { name: 'Adhar_front', maxCount: 1 },
+    { name: 'Adhar_back', maxCount: 1 },
+    { name: 'Address_proof', maxCount: 1 },
+    { name: 'Rent_Agreement', maxCount: 1 },
+    { name: 'profileImage', maxCount: 1 }
+]), TenateController.updateTenantData)
 
 
 //======================
+//get by id resident
+router.get("/owner/:id",ResidentController.GetByIdResident)
 // get all resident
 router.get("/allresident",ResidentController.GetAllResidents)
+//delete resident
+router.delete("/resident/:id",ResidentController.DeleteByIdResident)
 module.exports=router;

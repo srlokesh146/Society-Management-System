@@ -8,28 +8,40 @@ import ownerImage from '../assets/images/owner.png';
 import tenantImage from '../assets/images/tenant.png';
 import avatar2 from '../assets/images/Avatar2.png';
 import AddResidentModal from '../components/modal/AddResidentModal';
+import { useNavigate } from 'react-router-dom';
+import ViewResidentModal from '../components/modal/ViewResidentModal';
 
 export default function ResidentManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
+  const [selectedResident, setSelectedResident] = useState(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [viewResident, setViewResident] = useState(null);
+  const navigate = useNavigate();
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setSelectedResident(null);
   };
 
-  const handleSaveResident = (newResident) => {
-    console.log('New resident added:', newResident);
+  const handleSaveResident = (updatedData) => {
+    if (selectedResident) {
+      console.log('Updating resident:', selectedResident.id, updatedData);
+    }
+    handleCloseModal();
   };
 
   const handleEdit = (resident) => {
-    console.log('Edit resident:', resident);
+    setSelectedResident(resident);
+    setIsModalOpen(true);
   };
 
   const handleView = (resident) => {
-    console.log('View resident:', resident);
+    setViewResident(resident);
+    setIsViewModalOpen(true);
+  };
+
+  const handleAddResident = () => {
+    navigate('/ownerform');
   };
 
   return (
@@ -42,7 +54,7 @@ export default function ResidentManagement() {
           <div>
             <button
               className="modal bg-custom-gradient py-[12px] px-[10px] rounded-[10px] text-white font-semibold text-[18px] leading-[27px] w-[294px]"
-              onClick={handleOpenModal}
+              onClick={handleAddResident}
             >
               + Add New Resident details
             </button>
@@ -192,6 +204,14 @@ export default function ResidentManagement() {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onSave={handleSaveResident}
+        resident={selectedResident}
+        mode="edit"
+      />
+
+      <ViewResidentModal
+        isOpen={isViewModalOpen}
+        onClose={() => setIsViewModalOpen(false)}
+        resident={viewResident}
       />
     </div>
   );
