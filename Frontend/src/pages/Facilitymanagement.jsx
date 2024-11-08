@@ -1,83 +1,52 @@
-import React, { useState } from 'react';
-import { FaEdit, FaEllipsisV } from 'react-icons/fa';
-
-const initialFacilities = [
-  {
-    id: 1,
-    title: "Parking Facilities",
-    date: "01/07/2024",
-    description: "The celebration of Ganesh Chaturthi involves the installation of clay idols of Ganesha in..."
-  },
-  {
-    id: 2,
-    title: "Community Initiatives",
-    date: "01/02/2024",
-    time: "10:30 AM",
-    description: "The celebration of Ganesh Chaturthi involves the installation of clay idols of Ganesha in..."
-  },
-  {
-    id: 3,
-    title: "Community Initiatives",
-    date: "01/02/2024",
-    time: "10:30 AM",
-    description: "The celebration of Ganesh Chaturthi involves the installation of clay idols of Ganesha in..."
-  },
-  {
-    id: 4,
-    title: "Community Initiatives",
-    date: "01/02/2024",
-    time: "10:30 AM",
-    description: "The celebration of Ganesh Chaturthi involves the installation of clay idols of Ganesha in..."
-  },
-  {
-    id: 5,
-    title: "Community Initiatives",
-    date: "01/02/2024",
-    time: "10:30 AM",
-    description: "The celebration of Ganesh Chaturthi involves the installation of clay idols of Ganesha in..."
-  },
-
- 
-];
+import React, { useEffect, useState } from "react";
+import { FaEdit, FaEllipsisV } from "react-icons/fa";
+import { toast } from "react-hot-toast";
+import {
+  CreateFacility,
+  GetFacilities,
+  UpdateFacility,
+} from "../services/facilityService";
 
 function FacilityManagement() {
-  const [facilities, setFacilities] = useState(initialFacilities);
+  const [facilities, setFacilities] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalType, setModalType] = useState('');
+  const [modalType, setModalType] = useState("");
   const [currentFacility, setCurrentFacility] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [isFormFilled, setIsFormFilled] = useState(false);
 
   const checkFormFilled = (facility) => {
-    return facility?.title?.trim() !== '' && 
-           facility?.description?.trim() !== '' && 
-           facility?.date?.trim() !== '' && 
-           facility?.remindDays?.toString()?.trim() !== '';
+    return (
+      facility?.name?.trim() !== "" &&
+      facility?.description?.trim() !== "" &&
+      facility?.date?.trim() !== "" &&
+      facility?.remindDays?.toString()?.trim() !== ""
+    );
   };
 
   const handleFacilityChange = (field, value) => {
     const updatedFacility = {
       ...currentFacility,
-      [field]: value
+      [field]: value,
     };
     setCurrentFacility(updatedFacility);
     setIsFormFilled(checkFormFilled(updatedFacility));
   };
 
   const handleCreateFacility = () => {
-    setModalType('create');
-    setCurrentFacility({ 
-      name: '', 
-      description: '', 
-      date: '', 
-      remind: '' 
+    setModalType("create");
+    setCurrentFacility({
+      name: "",
+      description: "",
+      date: "",
+      remind: "",
     });
     setIsModalOpen(true);
     setIsFormFilled(false);
   };
 
   const handleEditFacility = (facility) => {
-    setModalType('edit');
+    setModalType("edit");
     setCurrentFacility({ ...facility });
     setIsModalOpen(true);
   };
@@ -87,12 +56,33 @@ function FacilityManagement() {
     setCurrentFacility(null);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (modalType === 'create') {
-      setFacilities([...facilities, { ...currentFacility, id: Date.now() }]);
-    } else if (modalType === 'edit') {
-      setFacilities(facilities.map(f => f.id === currentFacility.id ? currentFacility : f));
+    if (modalType === "create") {
+      try {
+        const response = await CreateFacility(currentFacility);
+        fetchFacilities();
+        toast.success(response.data.message);
+      } catch (error) {
+        console.log(error);
+        toast.error(error.response.data.message);
+      }
+    } else if (modalType === "edit") {
+      const updateData = {
+        name: currentFacility.name,
+        description: currentFacility.description,
+        date: currentFacility.date,
+        remind: currentFacility.remind,
+      };
+      try {
+        const response = await UpdateFacility(currentFacility._id, updateData);
+        fetchFacilities();
+        toast.success(response.data.message);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      } finally {
+        setDropdownOpen(false);
+      }
     }
     handleCloseModal();
   };
@@ -102,12 +92,12 @@ function FacilityManagement() {
   };
 
   const renderDropdownMenu = (facility) => (
-    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
-      <button 
-        onClick={() => handleEditFacility(facility)} 
-        className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+    <div className="absolute right-0 mt-2 w-20 bg-white rounded-md shadow-lg z-10 hover:bg-gray-50">
+      <button
+        onClick={() => handleEditFacility(facility)}
+        className="font-semibold w-full px-4 py-2 text-left text-sm text-black  flex items-center gap-2"
       >
-        <FaEdit size={14} /> Edit
+        Edit
       </button>
     </div>
   );
@@ -121,8 +111,8 @@ function FacilityManagement() {
         <input
           name="name"
           type="text"
-          value={currentFacility?.title || ''}
-          onChange={(e) => handleFacilityChange('title', e.target.value)}
+          value={currentFacility?.name || ""}
+          onChange={(e) => handleFacilityChange("name", e.target.value)}
           className="w-full p-3 border border-gray-200 rounded-lg"
           placeholder="Enter facility title"
         />
@@ -134,8 +124,8 @@ function FacilityManagement() {
         </label>
         <textarea
           name="description"
-          value={currentFacility?.description || ''}
-          onChange={(e) => handleFacilityChange('description', e.target.value)}
+          value={currentFacility?.description || ""}
+          onChange={(e) => handleFacilityChange("description", e.target.value)}
           className="w-full p-3 border border-gray-200 rounded-lg h-24"
           placeholder="Enter description"
         />
@@ -144,25 +134,29 @@ function FacilityManagement() {
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-           Sechudule Service Date
+            Sechudule Service Date
           </label>
           <input
             name="date"
             type="date"
-            value={currentFacility?.date || ''}
-            onChange={(e) => handleFacilityChange('date', e.target.value)}
+            defaultValue={
+              currentFacility?.date
+                ? new Date(currentFacility.date).toISOString().split("T")[0]
+                : ""
+            }
+            onChange={(e) => handleFacilityChange("date", e.target.value)}
             className="w-full p-3 border border-gray-200 rounded-lg"
           />
         </div>
-        <div> 
+        <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Remind before
           </label>
           <input
             name="remind"
             type="number"
-            value={currentFacility?.remindDays || ''}
-            onChange={(e) => handleFacilityChange('remindDays', e.target.value)}
+            value={currentFacility?.remind || ""}
+            onChange={(e) => handleFacilityChange("remind", e.target.value)}
             className="w-full p-3 border border-gray-200 rounded-lg"
             placeholder="Enter days"
             min="1"
@@ -172,32 +166,49 @@ function FacilityManagement() {
 
       {/* Buttons */}
       <div className="grid grid-cols-2 gap-4 mt-6">
-        <button 
+        <button
           type="button"
           onClick={handleCloseModal}
           className="w-full py-3 text-gray-700 bg-white border border-gray-200 rounded-lg text-sm font-medium"
         >
           Cancel
         </button>
-        <button 
+        <button
           type="submit"
           disabled={!isFormFilled}
           className={`w-full py-3 text-sm font-medium rounded-lg transition-all duration-300
-            ${isFormFilled 
-              ? 'bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90' 
-              : 'bg-[#F6F8FB] text-black-400 cursor-not-allowed'}`}
+            ${
+              isFormFilled
+                ? "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
+                : "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
+            }`}
         >
-          {modalType === 'save' ? 'save' : 'Save'}
+          {modalType === "save" ? "save" : "Save"}
         </button>
       </div>
     </form>
   );
 
+  const fetchFacilities = async () => {
+    try {
+      const response = await GetFacilities();
+      setFacilities(response.data.data);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchFacilities();
+  }, []);
+
   return (
     <div className="container mx-auto p-4 sm:p-6 bg-white rounded-lg">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Facility Management</h1>
-        <button 
+        <h1 className="text-2xl font-bold text-gray-800">
+          Facility Management
+        </h1>
+        <button
           onClick={handleCreateFacility}
           className="px-4 py-2 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white rounded-md hover:opacity-90 flex items-center gap-2"
         >
@@ -207,29 +218,42 @@ function FacilityManagement() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {facilities.map((facility) => (
-          <div key={facility.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
+          <div
+            key={facility._id}
+            className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
+          >
             <div className="bg-[#5678E9] text-white p-4 rounded-t-lg flex justify-between items-center">
-              <h3 className="font-medium">{facility.title}</h3>
+              <h3 className="font-medium">{facility.name}</h3>
               <div className="relative">
-                <button 
-                  onClick={() => toggleDropdown(facility.id)}
+                <button
+                  onClick={() => toggleDropdown(facility._id)}
                   className="hover:opacity-80"
                 >
                   <FaEllipsisV />
                 </button>
-                {dropdownOpen === facility.id && renderDropdownMenu(facility)}
+                {dropdownOpen === facility._id && renderDropdownMenu(facility)}
               </div>
             </div>
 
             <div className="p-4">
               <div className="space-y-3">
-                <div className="flex items-center text-sm">
-                  <span className="text-gray-500 w-[180px]">Upcoming Schedule Service Date</span>
-                  <span className="text-black">{facility.date}</span>
+                <div className="flex items-center text-sm justify-between">
+                  <span className="text-gray-500 ">
+                    Upcoming Schedule Service Date
+                  </span>
+                  <span className="text-black font-semibold">
+                    {new Date(facility.date).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </span>
                 </div>
                 <div className="space-y-2">
                   <p className="text-gray-500 text-sm">Description</p>
-                  <p className="text-sm text-black line-clamp-2">{facility.description}</p>
+                  <p className="text-sm text-black line-clamp-2">
+                    {facility.description}
+                  </p>
                 </div>
               </div>
             </div>
@@ -243,7 +267,7 @@ function FacilityManagement() {
           <div className="bg-white rounded-lg w-full max-w-md">
             <div className="p-6">
               <h2 className="text-xl font-semibold mb-6">
-                {modalType === 'create' ? 'Create Facility' : 'Edit Facility'}
+                {modalType === "create" ? "Create Facility" : "Edit Facility"}
               </h2>
               {renderModalForm()}
             </div>

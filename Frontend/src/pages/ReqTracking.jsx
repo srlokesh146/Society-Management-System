@@ -36,7 +36,6 @@ const ReqTracking = () => {
 
   // delete request by id
   const handleDelete = async (id) => {
-    console.log(id);
     setRequests(Requests.filter((request) => request._id !== id));
     try {
       const response = await DeleteRequest(id);
