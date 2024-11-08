@@ -10,7 +10,6 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-
   const handleProfileClick = () => {
     setShowSearch(false);
     navigate('/editprofile');
@@ -19,7 +18,6 @@ const Navbar = () => {
   const handleNotificationClick = () => {
     setIsNotificationOpen(!isNotificationOpen);
   };
-
 
   useEffect(() => {
     if (location.pathname === "/dashboard") {
@@ -32,7 +30,8 @@ const Navbar = () => {
   }, [location]);
 
   return (
-    <div className="flex justify-between items-center p-4 bg-white shadow-md sticky top-0 left-0 w-full max-md:flex-col max-md:justify-start max-md:flex max-md:items-start max-sm:flex-col max-sm:justify-start max-sm:items-start z-[9999]">
+    <div className="flex justify-between items-center p-4 bg-white shadow-md sticky top-0 left-0 w-full z-[99] max-md:flex-col max-md:justify-start max-md:flex max-md:items-start max-sm:flex-col max-sm:justify-start max-sm:items-start">
+      
       {showSearch && (
         <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end">
           <input
@@ -46,15 +45,19 @@ const Navbar = () => {
         </div>
       )}
 
-      <div className="flex items-center space-x-4 justify-end w-full">
+      <div className="flex items-center space-x-4 justify-end w-full max-md:justify-start max-sm:justify-start max-sm:ms-[35px]">
+        
+        {/* Notification Icon */}
         <div className="relative">
           <IoNotifications
             size={38}
-            className="text-black cursor-pointer border border-[#D3D3D3] rounded-[10px] p-[8px] hidden md:block"
+            className="text-black cursor-pointer border border-[#D3D3D3] rounded-[10px] p-[8px] md:block"
             onClick={handleNotificationClick}
           />
+          
+          {/* Notification Dropdown */}
           {isNotificationOpen && (
-            <div className="absolute right-0 mt-2 w-[540px] bg-white rounded-lg shadow-lg p-4 z-[9999]">
+            <div className="absolute right-0 mt-2 w-full sm:w-[450px] md:w-[540px] bg-white rounded-lg shadow-lg p-4 z-[9999]">
               <div className="flex justify-between items-center mb-2">
                 <span className="font-bold text-lg">Notifications</span>
                 <button className="text-sm text-gray-500">Clear all</button>
@@ -64,57 +67,38 @@ const Navbar = () => {
                   <div className="flex items-center">
                     {notification.icon || (
                       <div className="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-full text-center text-sm font-bold">
-                        {" "}
                         {notification.text}
                       </div>
                     )}
                     <h6 className="font-bold text-sm">{notification.title}</h6>
                   </div>
-                  <p className="text-sm text-gray-600">
-                    {notification.description}
-                  </p>
+                  <p className="text-sm text-gray-600">{notification.description}</p>
                   {notification.contact && (
-                    <p className="text-sm text-gray-500">
-                      {notification.contact}
-                    </p>
+                    <p className="text-sm text-gray-500">{notification.contact}</p>
                   )}
                   {notification.title === "Update Maintenance" && (
-                    <div>
-                      <div className="flex flex-col justify-between">
-                        <div className="bg-[#F6F8FB] flex justify-between leading-[21px]">
-                          <p className="text-sm text-[#4F4F4F]">
-                            Maintenance Amount:
-                          </p>
-                          <p className="text-[#E74C3C]">$ 1500</p>
-                        </div>
-                        <div className="flex justify-between bg-[#F6F8FB] leading-[21px]">
-                          <p className="text-sm text-[#4F4F4F] leading-[21px]">
-                            Penalty:
-                          </p>
-                          <p className="text-[#39973D]">$ 350</p>
-                        </div>
+                    <div className="flex flex-col">
+                      <div className="bg-[#F6F8FB] flex justify-between leading-[21px]">
+                        <p className="text-sm text-[#4F4F4F]">Maintenance Amount:</p>
+                        <p className="text-[#E74C3C]">$ 1500</p>
+                      </div>
+                      <div className="flex justify-between bg-[#F6F8FB] leading-[21px]">
+                        <p className="text-sm text-[#4F4F4F]">Penalty:</p>
+                        <p className="text-[#39973D]">$ 350</p>
                       </div>
                     </div>
                   )}
-                  <p className="text-xs text-gray-400 mt-1">
-                    {notification.time}
-                  </p>
+                  <p className="text-xs text-gray-400 mt-1">{notification.time}</p>
                   <div className="flex space-x-2 mt-2">
                     {notification.options &&
                       notification.options.map((option, i) => (
-                        <button
-                          key={i}
-                          className="px-[28px] py-[8px] text-xs rounded-[10px] border border-gray-300"
-                        >
+                        <button key={i} className="px-[28px] py-[8px] text-xs rounded-[10px] border border-gray-300">
                           {option}
                         </button>
                       ))}
                     {notification.options2 &&
                       notification.options2.map((option, i) => (
-                        <button
-                          key={i}
-                          className="px-[28px] py-[8px] text-xs rounded-[10px] bg-[#5678E9] text-white"
-                        >
+                        <button key={i} className="px-[28px] py-[8px] text-xs rounded-[10px] bg-[#5678E9] text-white">
                           {option}
                         </button>
                       ))}
@@ -124,8 +108,10 @@ const Navbar = () => {
             </div>
           )}
         </div>
+
+        {/* Profile Icon */}
         <div
-          className="border-l border-[#F4F4F4] pl-[20px]"
+          className="border-l border-[#F4F4F4] pl-[20px] cursor-pointer"
           onClick={handleProfileClick}
         >
           <img
@@ -134,11 +120,11 @@ const Navbar = () => {
             className="rounded-full w-[48px] h-[48px] max-sm:w-[50px] max-sm:h-[50px] sm:w-[50px] md-[50px] cursor-pointer object-contain"
           />
         </div>
-        <div className="flex flex-col hidden md:flex">
+
+        {/* User Info */}
+        <div className="flex flex-col md:flex">
           <h6 className="font-bold text-[16px]">Moni Roy</h6>
-          <span className="text-[12px] leading-[18px] text-[#A7A7A7]">
-            Admin
-          </span>
+          <span className="text-[12px] leading-[18px] text-[#A7A7A7]">Admin</span>
         </div>
       </div>
     </div>

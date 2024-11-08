@@ -120,7 +120,7 @@ const EditModal = ({ isOpen, onClose, complaint, onSave }) => {
                   <input
                     type="radio"
                     name="priority"
-                    value={level}
+                    value={level}   
                     checked={formData.priority === level}
                     onChange={handleChange}
                     className="hidden"

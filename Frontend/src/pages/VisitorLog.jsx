@@ -16,12 +16,12 @@ const visitors = [
 
 const VisitorLogs = () => {
   return (
-    <div className="container mx-auto p-4 sm:p-6 bg-white rounded-lg">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800">Visitor Logs</h1>
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-indigo-50 ">
+    <div className="p-4 sm:p-6 bg-white rounded-lg overflow-auto max-w-full">
+      <h1 className="text-[20px] font-bold mb-6 text-gray-800">Visitor Logs</h1>
+      <div className="bg-white rounded-lg shadow-sm overflow-x-auto custom-scrollbar">
+        <div className="max-h-[50rem] px-[20px]">
+          <table className="min-w-full table-auto border-collapse">
+            <thead className="bg-indigo-50">
               <tr>
                 <th className="px-4 sm:px-6 py-4 text-left text-md font-bold text-black-500 tracking-wider">
                   Visitor Name
@@ -46,10 +46,10 @@ const VisitorLogs = () => {
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="flex-shrink-0 h-10 w-10">
-                        <img 
-                          className="h-10 w-10 rounded-full object-cover" 
-                          src={`https://i.pravatar.cc/150?img=${index}`} 
-                          alt="" 
+                        <img
+                          className="h-10 w-10 rounded-full object-cover"
+                          src={`https://i.pravatar.cc/150?img=${index}`}
+                          alt=""
                         />
                       </div>
                       <div className="ml-4">
@@ -65,14 +65,14 @@ const VisitorLogs = () => {
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <span className="h-5 w-5 flex items-center  justify-center rounded-full bg-[#5678E91A] text-[#5678E9] text-xs font-medium mr-2">
+                      <span className="h-5 w-5 flex items-center justify-center rounded-full bg-[#5678E91A] text-[#5678E9] text-xs font-medium mr-2">
                         {visitor.unit.split(' ')[0]}
                       </span>
-                      <span className="text-sm font-bold   text-gray-900">{visitor.unit.split(' ')[1]}</span>
+                      <span className="text-sm font-bold text-gray-900">{visitor.unit.split(' ')[1]}</span>
                     </div>
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                    <div className="inline-flex px-3 py-1  font-bold text-sm text-gray-500 bg-[#F6F8FB] rounded-md">
+                    <div className="inline-flex px-3 py-1 font-bold text-sm text-gray-500 bg-[#F6F8FB] rounded-md">
                       {visitor.time}
                     </div>
                   </td>

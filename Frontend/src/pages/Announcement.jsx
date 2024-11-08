@@ -130,23 +130,30 @@ function Announcement() {
   }, []);
 
   return (
-    <div className="container mx-auto p-4 sm:p-6 bg-white rounded-lg">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-black-800">Announcement</h1>
+    <div className="p-4 sm:p-6 bg-white rounded-lg">
+      <div className="flex justify-between items-center mb-6 max-sm:flex-col">
+        <h1 className="text-[20px] lg:text-[20px] font-bold text-black-800 max-sm:pb-[15px]">
+          Announcement
+        </h1>
+
         <button
+          className="modal bg-custom-gradient py-[12px] px-[10px] rounded-[10px] text-white font-semibold text-[18px] leading-[27px] w-[294px]"
           onClick={handleCreateAnnouncement}
-          className="px- py-3 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white rounded-md hover:opacity-90 flex items-center justify-center gap-2 w-[200px]"
         >
-          <FaPlus size={16} />
-          Create Announcement
+          <div className="flex justify-center items-center">
+            <FaPlus size={16} className="mx-2" />
+            <span className="text-sm sm:text-base md:text-lg lg:text-[18px]">Create Announcement</span>
+          </div>
         </button>
+
+
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {announcements.map((announcement) => (
           <div key={announcement._id} className="bg-white rounded-lg shadow-sm">
             <div className="bg-[#5678E9] text-white p-4 flex justify-between items-center rounded-t-lg">
-              <h2 className="text-sm font-medium">{announcement.title}</h2>
+              <h2 className="text-sm sm:text-base font-medium">{announcement.title}</h2>
               <div className="relative">
                 <button
                   onClick={() => toggleDropdown(announcement._id)}
@@ -181,10 +188,9 @@ function Announcement() {
             </div>
             <div className="p-4">
               <div className="space-y-2">
-                <div className="flex items-center text-sm text-gray-600">
-                  <span className="font-medium  w-24">Date:</span>
+                <div className="flex items-center text-sm sm:text-base text-gray-600">
+                  <span className="font-medium w-24">Date:</span>
                   <p className="text-black">
-                    {" "}
                     <span>
                       {new Date(announcement.date).toLocaleDateString("en-GB", {
                         day: "2-digit",
@@ -194,13 +200,13 @@ function Announcement() {
                     </span>
                   </p>
                 </div>
-                <div className="flex items-center text-sm text-gray-600">
+                <div className="flex items-center text-sm sm:text-base text-gray-600">
                   <span className="font-medium w-24">Time:</span>
                   <p className="text-black">
                     <span>{announcement.time}</span>
                   </p>
                 </div>
-                <div className="text-sm text-gray-600">
+                <div className="text-sm sm:text-base text-gray-600">
                   <p className="font-medium mb-1">Description:</p>
                   <p className="line-clamp-3 text-black">
                     {announcement.description}
@@ -214,17 +220,16 @@ function Announcement() {
 
       {/* Create/Edit Modal */}
       {isModalOpen && modalType !== "view" && modalType !== "delete" && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-md md:max-w-[410px] lg:max-w-[410px]">
             <div className="p-6">
-              <h2 className="text-xl font-semibold mb-6">
-                {modalType === "create"
-                  ? "Add Announcement"
-                  : "Edit Announcement"}
+              <h2 className="text-[20px] max-sm:text-[15px] max-md:text-3xl font-semibold mb-6">
+                {modalType === "create" ? "Add Announcement" : "Edit Announcement"}
               </h2>
+              <div className="border-b border-[#F4F4F4] mb-[30px]"></div>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1">
                     Announcement Title
                   </label>
                   <input
@@ -233,12 +238,12 @@ function Announcement() {
                     onChange={(e) =>
                       handleAnnouncementChange("title", e.target.value)
                     }
-                    className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                    className="w-full p-3 border border-gray-200 rounded-lg text-sm sm:text-base focus:outline-none focus:border-blue-500"
                     placeholder="Enter title"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1">
                     Description
                   </label>
                   <textarea
@@ -246,14 +251,14 @@ function Announcement() {
                     onChange={(e) =>
                       handleAnnouncementChange("description", e.target.value)
                     }
-                    className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 h-20"
+                    className="w-full p-3 border border-gray-200 rounded-lg text-sm sm:text-base focus:outline-none focus:border-blue-500 h-20 sm:h-24"
                     placeholder="Enter description"
                   ></textarea>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1">
                       Announcement Date
                     </label>
                     <input
@@ -261,18 +266,18 @@ function Announcement() {
                       defaultValue={
                         currentAnnouncement?.date
                           ? new Date(currentAnnouncement.date)
-                              .toISOString()
-                              .split("T")[0]
+                            .toISOString()
+                            .split("T")[0]
                           : ""
                       }
                       onChange={(e) =>
                         handleAnnouncementChange("date", e.target.value)
                       }
-                      className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                      className="w-full p-3 border border-gray-200 rounded-lg text-sm sm:text-base focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm sm:text-base font-medium text-gray-700 mb-1">
                       Announcement Time
                     </label>
                     <input
@@ -281,27 +286,26 @@ function Announcement() {
                       onChange={(e) =>
                         handleAnnouncementChange("time", e.target.value)
                       }
-                      className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                      className="w-full p-3 border border-gray-200 rounded-lg text-sm sm:text-base focus:outline-none focus:border-blue-500"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 mt-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
                   <button
                     type="button"
                     onClick={handleCloseModal}
-                    className="w-full py-3 text-gray-700 bg-white border border-gray-200 rounded-lg text-sm font-medium"
+                    className="w-full py-3 text-gray-700 bg-white border border-gray-200 rounded-lg text-sm sm:text-base font-medium"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={!isFormFilled}
-                    className={`w-full py-3 text-sm font-medium rounded-lg transition-all duration-300
-                      ${
-                        isFormFilled
-                          ? "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
-                          : "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
+                    className={`w-full py-3 text-sm sm:text-base font-medium rounded-lg transition-all duration-300
+                ${isFormFilled
+                        ? "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
+                        : "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
                       }`}
                   >
                     {modalType === "create" ? "Create" : "Save"}
@@ -313,14 +317,15 @@ function Announcement() {
         </div>
       )}
 
+
       {/* View Modal */}
       {isModalOpen && modalType === "view" && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-sm">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-sm md:max-w-[410px] lg:max-w-[410px]">
             <div className="p-5">
               {/* Header with Close Button */}
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-semibold">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-semibold">
                   View Security Protocol
                 </h2>
                 <button
@@ -335,44 +340,41 @@ function Announcement() {
               <div className="space-y-4">
                 {/* Title */}
                 <div>
-                  <label className="block text-sm text-gray-500 mb-1">
+                  <label className="block text-sm sm:text-base text-gray-500 mb-1">
                     Title
                   </label>
-                  <p className="text-sm">{currentAnnouncement.title}</p>
+                  <p className="text-sm sm:text-base">{currentAnnouncement.title}</p>
                 </div>
 
                 {/* Description */}
                 <div>
-                  <label className="block text-sm text-gray-500 mb-1">
+                  <label className="block text-sm sm:text-base text-gray-500 mb-1">
                     Description
                   </label>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm sm:text-base text-gray-600">
                     {currentAnnouncement.description}
                   </p>
                 </div>
 
                 {/* Date and Time in Grid */}
-                <div className="grid grid-cols-2 gap-4 mt-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                   <div>
-                    <label className="block text-sm text-gray-500 mb-1">
+                    <label className="block text-sm sm:text-base text-gray-500 mb-1">
                       Date
                     </label>
-                    <p className="text-sm">
-                      {new Date(currentAnnouncement.date).toLocaleDateString(
-                        "en-GB",
-                        {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        }
-                      )}
+                    <p className="text-sm sm:text-base">
+                      {new Date(currentAnnouncement.date).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
                     </p>
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-500 mb-1">
+                    <label className="block text-sm sm:text-base text-gray-500 mb-1">
                       Time
                     </label>
-                    <p className="text-sm">{currentAnnouncement.time}</p>
+                    <p className="text-sm sm:text-base">{currentAnnouncement.time}</p>
                   </div>
                 </div>
               </div>
@@ -381,29 +383,30 @@ function Announcement() {
         </div>
       )}
 
+
       {/* Delete Modal */}
       {isModalOpen && modalType === "delete" && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-sm">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-sm md:max-w-[410px] lg:max-w-[410px]">
             <div className="p-5">
-              <h2 className="text-lg font-semibold mb-4">
-                Delete Announcement{" "}
+              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-4">
+                Delete Announcement
               </h2>
-              <p className="text-sm text-gray-600 mb-6">
+              <p className="text-sm sm:text-base md:text-lg text-gray-600 mb-6">
                 Are you sure you want to delete this announcement?
               </p>
 
               {/* Full Width Buttons */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <button
                   onClick={handleCloseModal}
-                  className="w-full py-3 text-gray-700 bg-white border border-gray-200 rounded-lg text-sm font-medium"
+                  className="w-full py-3 text-gray-700 bg-white border border-gray-200 rounded-lg text-sm sm:text-base font-medium"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="w-full py-3 text-white bg-red-500 rounded-lg text-sm font-medium hover:bg-red-600"
+                  className="w-full py-3 text-white bg-red-500 rounded-lg text-sm sm:text-base font-medium hover:bg-red-600"
                 >
                   Delete
                 </button>
@@ -412,6 +415,7 @@ function Announcement() {
           </div>
         </div>
       )}
+
     </div>
   );
 }
