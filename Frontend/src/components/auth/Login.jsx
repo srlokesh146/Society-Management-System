@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoginImage from "../../assets/images/login.png"; // Importing the login image
 import BackgroundImage from "../../assets/images/bg.png"; // Importing the background image
 import { loginUser } from "../../services/AuthService";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { StoreUser } from "../../redux/features/AuthSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     EmailOrPhone: "",
     password: "",
@@ -21,6 +25,8 @@ const Login = () => {
     try {
       const response = await loginUser(user);
       toast.success(response.data.message);
+      dispatch(StoreUser(response.data.user));
+      navigate("/dashboard");
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {

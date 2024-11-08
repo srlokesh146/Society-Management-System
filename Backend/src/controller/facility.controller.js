@@ -3,8 +3,8 @@ const Facility = require("../models/facility.model");
 //add facility
 exports.CreateFacility= async(req,res)=>{
     try {
-        const {name,desciption,date,remind}=req.body;
-        if(!name || !desciption || !date || !remind){
+        const {name,description,date,remind}=req.body;
+        if(!name || !description || !date || !remind){
             return res.status(400).json({
                 success:false,
                 message:"All fields are required"
@@ -13,7 +13,7 @@ exports.CreateFacility= async(req,res)=>{
     
         const facility= new Facility({
             name,
-            desciption,
+            description,
             date,
             remind
         })
@@ -103,8 +103,8 @@ exports.DeleteFacility=async(req,res)=>{
 //update facility
 exports.UpdateFacility= async(req,res)=>{
     try {
-        const {name,desciption,date,remind}=req.body;
-        if(!name || !desciption || !date || !remind){
+        const {name,description,date,remind}=req.body;
+        if(!name || !description || !date || !remind){
             return res.status(400).json({
                 success:false,
                 message:"All fields are required"
@@ -112,7 +112,7 @@ exports.UpdateFacility= async(req,res)=>{
         }
     
         const facility= await Facility.findByIdAndUpdate(req.params.id,{
-            name,desciption,date,remind
+            name,description,date,remind
         },{new:true})
         if(!facility){
             return res.status(400).json({
