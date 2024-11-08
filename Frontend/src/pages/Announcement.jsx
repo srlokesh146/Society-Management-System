@@ -130,14 +130,23 @@ function Announcement() {
   }, []);
 
   return (
-    <div className="container mx-auto p-4 sm:p-6 bg-white rounded-lg">
-      <div className="flex justify-between items-center mb-6">
+    <div className="container mx-auto p-4 sm:p-6 bg-white rounded-lg relative min-h-screen">
+      <div className="flex flex-col gap-4 mb-6">
         <h1 className="text-2xl font-bold text-black-800">Announcement</h1>
+        
         <button
           onClick={handleCreateAnnouncement}
-          className="px- py-3 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white rounded-md hover:opacity-90 flex items-center justify-center gap-2 w-[200px]"
+          className="w-full sm:hidden px-4 py-2.5 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white rounded-full hover:opacity-90 transition-all duration-300 flex items-center justify-center gap-2 shadow-md font-medium"
         >
-          <FaPlus size={16} />
+         
+          Create Announcement
+        </button>
+
+        <button
+          onClick={handleCreateAnnouncement}
+          className="hidden sm:flex px-4 py-2.5 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white rounded-full hover:opacity-90 transition-all duration-300 items-center justify-center gap-2 w-[220px] shadow-md font-medium self-end"
+        >
+          
           Create Announcement
         </button>
       </div>
