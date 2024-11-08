@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { FaCamera, FaImage, FaUpload, FaCheckCircle } from 'react-icons/fa';
 import { IoIosArrowDown } from "react-icons/io";
-import TenantForm from './TenantForm';
+// import TenantForm from './TenantForm';
 import { useNavigate } from 'react-router-dom';
 
-export default function OwnerForm() {
+export default function TenantForm() {
   const [formData, setFormData] = useState({
     fullName: '',
     phone: '',
