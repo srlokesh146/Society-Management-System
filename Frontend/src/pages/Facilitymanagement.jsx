@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaEdit, FaEllipsisV } from "react-icons/fa";
+import { FaEdit, FaEllipsisV, FaTimes } from "react-icons/fa";
 import { toast } from "react-hot-toast";
 import {
   CreateFacility,
@@ -261,15 +261,106 @@ function FacilityManagement() {
         ))}
       </div>
 
-      {/* Create/Edit Modal */}
+      {/* Create/Edit Modal - Updated for better responsiveness */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg w-full max-w-md">
-            <div className="p-6">
-              <h2 className="text-xl font-semibold mb-6">
-                {modalType === "create" ? "Create Facility" : "Edit Facility"}
-              </h2>
-              {renderModalForm()}
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-xl w-[95%] sm:w-[85%] md:w-[65%] lg:w-[50%] max-w-md max-h-[90vh] sm:max-h-[85vh] overflow-y-auto my-2 sm:my-8 mx-auto relative">
+            <div className="p-3 sm:p-6">
+              {/* Header */}
+              <div className="flex justify-between items-center mb-3 sm:mb-4 sticky top-0 bg-white pt-1">
+                <h2 className="text-base sm:text-xl font-semibold text-gray-800">
+                  {modalType === "create" ? "Create Facility" : "Edit Facility"}
+                </h2>
+                <button
+                  onClick={handleCloseModal}
+                  className="text-gray-400 hover:text-gray-600 p-1"
+                >
+                  <FaTimes size={18} />
+                </button>
+              </div>
+
+              {/* Form with updated spacing */}
+              <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Facility Name
+                  </label>
+                  <input
+                    name="name"
+                    type="text"
+                    value={currentFacility?.name || ""}
+                    onChange={(e) => handleFacilityChange("name", e.target.value)}
+                    className="w-full p-2 sm:p-3 border border-gray-200 rounded-lg text-sm"
+                    placeholder="Enter facility title"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Description
+                  </label>
+                  <textarea
+                    name="description"
+                    value={currentFacility?.description || ""}
+                    onChange={(e) => handleFacilityChange("description", e.target.value)}
+                    className="w-full p-2 sm:p-3 border border-gray-200 rounded-lg h-16 sm:h-24 text-sm"
+                    placeholder="Enter description"
+                  />
+                </div>
+
+                <div className="space-y-3 sm:space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Schedule Service Date
+                    </label>
+                    <input
+                      name="date"
+                      type="date"
+                      defaultValue={currentFacility?.date
+                        ? new Date(currentFacility.date).toISOString().split("T")[0]
+                        : ""}
+                      onChange={(e) => handleFacilityChange("date", e.target.value)}
+                      className="w-full p-2 sm:p-3 border border-gray-200 rounded-lg text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Remind before
+                    </label>
+                    <input
+                      name="remind"
+                      type="number"
+                      value={currentFacility?.remind || ""}
+                      onChange={(e) => handleFacilityChange("remind", e.target.value)}
+                      className="w-full p-2 sm:p-3 border border-gray-200 rounded-lg text-sm"
+                      placeholder="Enter days"
+                      min="1"
+                    />
+                  </div>
+                </div>
+
+                {/* Buttons with better mobile spacing */}
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-4 sm:mt-6">
+                  <button
+                    type="button"
+                    onClick={handleCloseModal}
+                    className="w-full py-2 sm:py-3 text-gray-700 bg-white border border-gray-200 rounded-lg text-sm font-medium"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={!isFormFilled}
+                    className={`w-full py-2 sm:py-3 text-sm font-medium rounded-lg transition-all duration-300
+                      ${isFormFilled
+                        ? "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
+                        : "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
+                      }`}
+                  >
+                    {modalType === "save" ? "Save" : "Save"}
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
