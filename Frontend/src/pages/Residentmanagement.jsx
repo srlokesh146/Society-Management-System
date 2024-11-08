@@ -49,7 +49,7 @@ export default function ResidentManagement() {
           </div>
         </div>
 
-        <div className="overflow-x-auto pr-[8px] ps-[20px] custom-scrollbar max-h-96">
+        <div className="overflow-x-auto pr-[8px] ps-[20px] custom-scrollbar max-h-[44rem]">
           <table className="w-full table-auto border-collapse">
             <thead>
               <tr className="text-start text-black bg-opacity-custom rounded-tl-[15px] rounded-tr-[15px] h-[61px]">

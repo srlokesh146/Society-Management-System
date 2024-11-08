@@ -76,9 +76,8 @@ const Dashboard = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       <main className="flex-1">
-        {/* <Navbar /> */}
         <div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-4 col-span-2 gap-4 mb-6 max-xl:grid-cols-2 max-sm:grid-cols-1">
             {cardData.map((card, index) => (
               <div
                 key={index}
@@ -112,7 +111,7 @@ const Dashboard = () => {
                         <h6 className="text-gray-700 font-semibold text-[16px] leading-2 max-sm:text-[14px] max-md:text-[18px]">
                           {card.title}
                         </h6>
-                        <h3 className="text-gray-900 font-bold text-[26px] max-sm:text-[20px] max-sm:font-medium max-md:text-[20px] max-lg:text-[24px]">
+                        <h3 className="text-gray-900 font-bold text-[26px] max-sm:text-[20px] max-sm:font-medium max-md:text-[20px] max-lg:text-[20px] max-xl:text-[20px]">
                           {card.amount}
                         </h3>
                       </div>
@@ -138,12 +137,12 @@ const Dashboard = () => {
             ))}
           </div>
 
-          <div className="grid grid-cols-12 w-full gap-3 h-full">
-            <div className="col-span-12 md:col-span-8 lg:col-span-6 rounded-lg shadow-[0px_0px_25px_0px_rgba(0,0,0,0.08)]">
+          <div className="grid grid-cols-12 w-full gap-3 h-full max-xl:grid-cols-6">
+            <div className="col-span-12 max-md:col-span-1 max-lg:col-span-2 md:col-span-6 rounded-lg shadow-[0px_0px_25px_0px_rgba(0,0,0,0.08)]">
               {/* <BalanceChart/> */}
             </div>
 
-            <div className="col-span-12 md:col-span-4 lg:col-span-3">
+            <div className="col-span-12 max-md:col-span-12 lg:col-span-3 max-xl:col-span-3 max-md">
               <div className="bg-white p-[20px] rounded-[15px] shadow-lg w-full">
                 <div className="flex justify-between items-center mb-5">
                   <h3 className="text-lg font-semibold max-sm:text-[16px] max-mb:text-[18px]">
@@ -222,7 +221,7 @@ const Dashboard = () => {
               )}
             </div>
 
-            <div className="col-span-12 md:col-span-4 lg:col-span-3">
+            <div className="max-md:col-span-12 lg:col-span-3 max-xl:col-span-3 max-md">
               <div className="bg-white p-[20px] rounded-[15px] shadow-lg h-full">
                 <div className="flex justify-between items-center mb-5">
                   <h3 className="text-lg font-semibold max-sm:text-[16px] max-mb:text-[18px]">

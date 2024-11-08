@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { IoMenu } from "react-icons/io5";
+import { FiMenu } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 import { sidebarItems } from "../../constantdata";
 import Logo from "../Logo";
@@ -27,9 +27,9 @@ export default function Sidebar() {
 
   useEffect(() => {
     if (isSidebarOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = "hidden"; 
     } else {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "auto"; 
     }
 
     return () => {
@@ -39,11 +39,12 @@ export default function Sidebar() {
 
   return (
     <>
+      {/* Menu Button for Smaller Screens */}
       <button
-        className="lg:hidden fixed top-[26px] left-4 z-[99]"
+        className="lg:hidden fixed top-[26px] left-4 z-[9999] max-sm:block"
         onClick={toggleSidebar}
       >
-        <IoMenu size={24} />
+        <FiMenu size={24} />
       </button>
 
       {/* Sidebar */}
@@ -118,6 +119,7 @@ export default function Sidebar() {
         </nav>
       </aside>
 
+      {/* Sidebar Overlay (visible only when sidebar is open on smaller screens) */}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black opacity-50 lg:hidden z-50"
