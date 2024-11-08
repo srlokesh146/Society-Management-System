@@ -25,8 +25,9 @@ import Announcement from './pages/Announcement.jsx';
 import Facilitymanagement from './pages/Facilitymanagement.jsx';
 import Note from './pages/Note.jsx';
 import Expense from './pages/Expense.jsx';
-import Income from './pages/Income.jsx';
-import OtherIncome from './pages/OtherIncome.jsx';
+import Income from './pages/Income';
+import OtherIncome from './pages/OtherIncome';
+
 
 
 
@@ -85,8 +86,9 @@ function App() {
             <Route path="/facilitymanagement" element={<Facilitymanagement />} />
             <Route path="/note" element={<Note />} />
             <Route path="/expense" element={<Expense/>} />
-            <Route path="/income" element={<Income/>} />
-            <Route path="/other-income" element={<OtherIncome/>} />
+            <Route path="/income" element={<Income />} />
+            <Route path="/other-income" element={<OtherIncome />} />
+           
 
           </Routes>
         </div>

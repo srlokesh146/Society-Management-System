@@ -4,6 +4,7 @@ const fs=require("fs")
 const crypto= require("crypto");
 const senData = require('../config/mail');
 const { hash } = require('../utils/hashpassword');
+const Tenante = require('../models/Tenent.model');
 exports.addOwnerData = async (req, res) => {
     try {
 
@@ -147,25 +148,241 @@ exports.addOwnerData = async (req, res) => {
         });
     }
 };
-exports.GetAllOwner= async(req,res)=>{
+exports.GetAllOwner = async (req, res) => {
     try {
-        const find= await Owner.find();
-        if(!find){
+        // Fetch all owners sorted by Wing and Unit
+        const owners = await Owner.find().sort({ Wing: 1, Unit: 1 });
+
+        if (!owners || owners.length === 0) {
             return res.status(400).json({
-                success:false,
-                message:"No data found"
-            })
+                success: false,
+                message: "No data found"
+            });
         }
+
+        
+        const ownerCounts = owners.map(owner => ({
+            profileImage:owner.profileImage,
+            Full_name: owner.Full_name,
+            Unit: owner.Unit,
+            Wing: owner.Wing,
+            Resident_status: owner.Resident_status,
+            Phone_number: owner.Phone_number,
+            Member_Counting_Total: owner.Member_Counting ? owner.Member_Counting.length : 0,
+            Vehicle_Counting_Total: owner.Vehicle_Counting ? owner.Vehicle_Counting.length : 0
+        }));
+
+        // Respond with only the counts
         return res.json({
-            success:true,
-            Owner:find
-        })
+            success: true,
+            Owner: ownerCounts
+        });
     } catch (error) {
-        console.error(error);
+        console.error("Error fetching owner counts:", error);
         return res.status(500).json({
-             success: false,
-             message: "Failed to add owner data"
-         });
+            success: false,
+            message: "Failed to retrieve owner data"
+        });
     }
-}
+};
+// //get by  id owner resident
+// exports.GetByIdOwnerResident = async (req, res) => {
+//     try {
+//         // Fetch the owner by ID
+//         const owner = await Owner.findById(req.params.id);
+        
+//         // Check if the owner was found
+//         if (!owner) {
+//             return res.status(400).json({
+//                 success: false,
+//                 message: "No data found, ID is incorrect"
+//             });
+//         }
+        
+//         // Structure the data to return
+//         const ownerData = {
+//             profileImage: owner.profileImage,
+//             Full_name: owner.Full_name,
+//             Email_address: owner.Email_address,
+//             Unit: owner.Unit,
+//             Wing: owner.Wing,
+//             Age: owner.Age,
+//             Gender: owner.Gender,
+//             Adhar_front: owner.Adhar_front,
+//             Address_proof: owner.Address_proof,
+//             Phone_number: owner.Phone_number,
+//             Member_Counting_Total: owner.Member_Counting,
+//             Vehicle_Counting_Total: owner.Vehicle_Counting
+//         };
+
+//         // Return the response with the owner's data
+//         return res.status(200).json({
+//             success: true,
+//             Owner: ownerData
+//         });
+//     } catch (error) {
+//         console.error("Error fetching owner data:", error);
+//         return res.status(500).json({
+//             success: false,
+//             message: "Error fetching owner data"
+//         });
+//     }
+// };
+//find by id Tenate
+
+exports.GetByIdResident = async (req, res) => {
+    try {
+        
+        let resident = await Tenante.findById(req.params.id);
+
+        
+        if (!resident) {
+            resident = await Owner.findById(req.params.id);
+        }
+
+       
+        if (!resident) {
+            return res.status(400).json({
+                success: false,
+                message: "No data found, ID is incorrect"
+            });
+        }
+
+        
+        const residentData = {
+            profileImage: resident.profileImage,
+            Full_name: resident.Full_name,
+            Email_address: resident.Email_address,
+            Unit: resident.Unit,
+            Wing: resident.Wing,
+            Age: resident.Age,
+            Gender: resident.Gender,
+            Adhar_front: resident.Adhar_front,
+            Address_proof: resident.Address_proof,
+            Owner_Full_name: resident.Owner_Full_name,
+            Owner_Phone: resident.Owner_Phone,
+            Owner_Address: resident.Owner_Address,
+            Member_Counting_Total: resident.Member_Counting ? resident.Member_Counting.length : 0,
+            Member_Counting: resident.Member_Counting || [],
+            Vehicle_Counting_Total: resident.Vehicle_Counting ? resident.Vehicle_Counting.length : 0,
+            Vehicle_Counting: resident.Vehicle_Counting || [],
+            
+            ...(resident.Owner_Full_name ? {
+                Owner_Full_name: resident.Owner_Full_name,
+                Owner_Phone: resident.Owner_Phone,
+                Owner_Address: resident.Owner_Address,
+            } : {})
+        };
+
+        // Return the response with the resident's data
+        return res.status(200).json({
+            success: true,
+            Resident: residentData
+        });
+    } catch (error) {
+        console.error("Error fetching resident data:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Error fetching resident data"
+        });
+    }
+};
+exports.DeleteByIdResident = async (req, res) => {
+    try {
+        
+        let resident = await Tenante.findByIdAndDelete(req.params.id);
+
+        
+        if (!resident) {
+            resident = await Owner.findByIdAndDelete(req.params.id);
+        }
+
+       
+        if (!resident) {
+            return res.status(400).json({
+                success: false,
+                message: "No data found, ID is incorrect or already deleted"
+            });
+        }
+
+        
+        return res.status(200).json({
+            success: true,
+            message: "Resident data deleted successfully",
+           
+        });
+    } catch (error) {
+        console.error("Error deleting resident data:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Error deleting resident data"
+        });
+    }
+};
+
+
+exports.GetAllResidents = async (req, res) => {
+    try {
+       
+        const tenants = await Tenante.find().sort({ Wing: 1, Unit: 1 });
+        const owners = await Owner.find().sort({ Wing: 1, Unit: 1 });
+
+        
+        if ((!tenants || tenants.length === 0) && (!owners || owners.length === 0)) {
+            return res.status(400).json({
+                success: false,
+                message: "No data found "
+            });
+        }
+
+        // Map each to the desired format
+        const tenantData = tenants.map(tenant => ({
+            id:tenant._id,
+            profileImage: tenant.profileImage,
+            Full_name: tenant.Full_name,
+            Unit: tenant.Unit,
+            Wing: tenant.Wing,
+            Resident_status: tenant.Resident_status,
+            Phone_number: tenant.Phone_number,
+            Member_Counting_Total: tenant.Member_Counting ? tenant.Member_Counting.length : 0,
+            Vehicle_Counting_Total: tenant.Vehicle_Counting ? tenant.Vehicle_Counting.length : 0,
+            Type: 'Tenant'
+        }));
+
+        const ownerData = owners.map(owner => ({
+            id:owner._id,
+            profileImage: owner.profileImage,
+            Full_name: owner.Full_name,
+            Unit: owner.Unit,
+            Wing: owner.Wing,
+            Resident_status: owner.Resident_status,
+            Phone_number: owner.Phone_number,
+            Member_Counting_Total: owner.Member_Counting ? owner.Member_Counting.length : 0,
+            Vehicle_Counting_Total: owner.Vehicle_Counting ? owner.Vehicle_Counting.length : 0,
+            Type: 'Owner'
+        }));
+
+        
+        const allResidents = [...tenantData, ...ownerData].sort((a, b) => {
+            if (a.Wing === b.Wing) {
+                return a.Unit - b.Unit;
+            }
+            return a.Wing.localeCompare(b.Wing);
+        });
+
+        // Respond with the combined data
+        return res.json({
+            success: true,
+            Residents: allResidents
+        });
+    } catch (error) {
+        console.error("Error fetching residents:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Failed to retrieve residents data"
+        });
+    }
+};
+
+
 //find by id owner

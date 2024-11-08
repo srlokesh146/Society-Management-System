@@ -247,6 +247,46 @@ exports.CreateSecurityGuard = async (req, res) => {
     message: "Security Guard Successfully added",
   });
 };
+=======
+   try {
+     function generatePassword(length = 6) {
+         const password = crypto.randomInt(0, Math.pow(10, length)).toString();
+         return password.padStart(length, "0")
+     }
+     const {
+         full_name,
+         MailOrPhone,
+         gender,
+         shift,
+         date,
+         time,
+         role,
+     } = req.body;
+     const password = generatePassword();
+     console.log(password);
+ 
+     const hashpassword = await hash(password)
+ 
+     const uploadAndDeleteLocal = async (fileArray) => {
+         if (fileArray && fileArray[0]) {
+             const filePath = fileArray[0].path;
+             try {
+                 // Upload to Cloudinary
+                 const result = await cloudinary.uploader.upload(filePath);
+                 // Delete from local server
+                 fs.unlink(filePath, (err) => {
+                     if (err) console.error("Error deleting file from server:", err);
+                     else console.log("File deleted from server:", filePath);
+                 });
+                 return result.secure_url;
+             } catch (error) {
+                 console.error("Error uploading to Cloudinary:", error);
+                 throw error;
+             }
+         }
+         return '';
+     };
+ 
 
 //get a security Guard
 exports.GetSecurityGuard = async (req, res) => {
