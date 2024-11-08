@@ -29,6 +29,7 @@ const SecurityRoutes=require("./src/routes/security.route.js")
 const FacilityRoute=require("./src/routes/facility.route.js")
 const AnnouncementRoute=require("./src/routes/announcement.route.js")
 const FinancialRoutes=require("./src/routes/Financial.route.js")
+const VisitorRoutes=require("./src/routes/visitor.route.js")
 
 //user registration and login schema
 app.use("/api/v1/auth", UserRoutes);
@@ -48,6 +49,8 @@ app.use("/api/v2/facility",FacilityRoute)
 app.use("/api/v2/announcement",AnnouncementRoute)
 //financial apis
 app.use("/api/v2/financial",FinancialRoutes)
+//visitor api
+app.use("/api/v2/visitor",VisitorRoutes)
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
