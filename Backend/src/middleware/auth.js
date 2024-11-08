@@ -1,6 +1,7 @@
 
 const jwt=require("jsonwebtoken");
 const User = require("../models/user.schema");
+const Guard = require("../models/SecurityGuard.model");
 
 exports.auth = async (req, res, next) => {
     try {
@@ -15,11 +16,17 @@ exports.auth = async (req, res, next) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
   
      
-      const user = await User.findById(decoded.userId);
-  
-      if (!user) {
-        return res.status(404).json({ success: false, message: 'User not found' });
-      }
+      let user = await User.findById(decoded.userId);
+
+   
+    if (!user) {
+      user = await Guard.findById(decoded.userId);
+    }
+
+    
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User or Guard not found' });
+    }
   
       
       req.user = user;
@@ -30,28 +37,42 @@ exports.auth = async (req, res, next) => {
     }
   };
   
-  exports.IsUser = (req, res, next) => {
+  exports.IsResident = (req, res, next) => {
       
       if (!req.user) {
         return res.status(401).json({ success: false, message: "Unauthorized, no user found" });
       }
     
       
-      if (req.user.role_id === "user") {
+      if (req.user.role === "resident") {
         next();
       } else {
         return res.status(403).json({ success: false, message: "You are not authorized to access this resource" });
       }
     };
 
-    exports.IsAdmin = (req, res, next) => {
+    // exports.IsAdmin = (req, res, next) => {
+      
+    //   if (!req.user) {
+    //     return res.status(401).json({ success: false, message: "Unauthorized, no user found" });
+    //   }
+    
+      
+    //   if (req.user.role_id === "admin") {
+    //     next();
+    //   } else {
+    //     return res.status(403).json({ success: false, message: "You are not authorized to access this resource" });
+    //   }
+    // };
+  
+    exports.IsSecurity = (req, res, next) => {
       
       if (!req.user) {
         return res.status(401).json({ success: false, message: "Unauthorized, no user found" });
       }
     
       
-      if (req.user.role_id === "admin") {
+      if (req.user.role === "security") {
         next();
       } else {
         return res.status(403).json({ success: false, message: "You are not authorized to access this resource" });

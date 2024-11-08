@@ -93,6 +93,10 @@ const tenantschema= new Schema({
     Resident_status:{
         type:String,
         default:"Tenante",
+    },
+    UnitStatus:{
+        type:String,
+        default:"Occupied"
     }
     
 },{timestamps:true})
