@@ -120,9 +120,11 @@ const DashboardTable = () => {
           <tbody>
             {complaintsData.map((complaint) => (
               <tr key={complaint.id} className="border-b border-[#F4F4F4]">
-                <td className="flex items-center justify-start ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]">
-                  <img src={avatar} alt="Profile" className="rounded-full mr-2 w-8 h-8" />
-                  <span>{complaint.complainerName}</span>
+                <td>
+                  <div className="flex items-center justify-start ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]">
+                    <img src={avatar} alt="Profile" className="rounded-full mr-2 w-8 h-8" />
+                    <span>{complaint.complainerName}</span>
+                  </div>
                   {/* <span className="truncate">{complaint.complainerName}</span> */}
                 </td>
                 <td className="text-start max-sm:min-w-[180px] md:min-w-[120px] max-md:min-w-[180px]">{complaint.complaintName}</td>

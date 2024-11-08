@@ -107,10 +107,10 @@ export default function Modal({ contact, onClose, fetchImportantNumbers }) {
     }
   };
 
-  const isFormComplete = formData.name && formData.phone && formData.job;
+  const isFormComplete = formData.Full_name && formData.Phone_Number && formData.Work;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-[99]">
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-[9999]">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-[410px]">
         <h2 className="text-xl font-semibold mb-[10px] border-b border-[#F4F4F4] pb-[10px]">
           {contact ? "Edit Important Number" : "Add Important Number"}

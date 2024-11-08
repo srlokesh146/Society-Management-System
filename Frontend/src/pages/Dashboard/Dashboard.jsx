@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {
   pendingMaintenances,
-  totalBalanceData,
-  complaintsData,
+  // totalBalanceData,
+  // complaintsData,
   activities,
-  importantNumbers,
+  // importantNumbers,
   cardData,
 } from "../../constantdata";
 // import BalanceChart from "../../components/BalanceChart";
@@ -12,10 +12,7 @@ import Modal from "../../components/modal/Modal";
 import DashboardTable from "../../components/DashboardTable";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import rogerimage from "../../assets/images/rogerimage.png";
-import icon1 from "../../assets/images/icon-1.png";
-import moneyrecive from "../../assets/images/money-recive.png";
-import moneysend from "../../assets/images/money-send.png";
-import building4 from "../../assets/images/building-4.png";
+
 import {
   DeleteImpNumber,
   GetImpNumbers,

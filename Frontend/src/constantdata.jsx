@@ -10,7 +10,10 @@ import { RiMessageFill } from "react-icons/ri";
 import icon1 from "./assets/images/icon-1.png";
 import moneyrecive from "./assets/images/money-recive.png";
 import moneysend from "./assets/images/money-send.png";
-import building4 from "./assets/images/building-4.png";
+import vacate from "./assets/images/vacate.png";
+import evelynHarperimage from "./assets/images/EvelynHarperimage.png";
+import moneys from "./assets/images/moneys.png";
+
 
 export const sidebarItems = [
   { id: 1, path: "/dashboard", label: "Dashboard", icon: <TbLayoutDashboardFilled /> },
@@ -68,37 +71,6 @@ export const sidebarItems = [
   },
 ];
 
-export const totalBalanceData = [
-  {
-    id: 1,
-    label: "Total Balance",
-    amount: "₹ 2,22,520",
-    img: icon1,
-    bgColor: "#FF6A00",
-  },
-  {
-    id: 2,
-    label: "Total Income",
-    amount: "₹ 55,000",
-    img: moneyrecive,
-    bgColor: "#39973D",
-  },
-  {
-    id: 3,
-    label: "Total Expense",
-    amount: "₹ 20,550",
-    img: moneysend,
-    bgColor: "#869FF3",
-  },
-  {
-    id: 4,
-    label: "Total Units",
-    amount: "₹ 20,550",
-    img: building4,
-    bgColor: "#EB37C3",
-  },
-];
-
 export const cardData = [
   {
     title: "Total Balance",
@@ -130,7 +102,7 @@ export const cardData = [
     bgColor: 'rgba(235, 55, 195, 0.5)',
     gradient: 'linear-gradient(255.6deg, #EB37C3 7.71%, rgba(255, 255, 255, 0) 18.54%)',
     iconBg: '#EB37C3',
-    icon: building4,
+    icon: vacate,
   },
 ];
 
@@ -182,14 +154,6 @@ export const complaintsData = [
   },
 ];
 
-// upcoming activities
-// export const upcomingActivities = [
-//   { titletext: "S", title: "Society Meeting", time: "8:00 PM To 10:00 PM", date: "24-09-2024," },
-//   { titletext: "H",title: "Holi Festival ", time: "8:00 PM To 10:00 PM", date: "01-10-2024" },
-//   { titletext: "G",title: "Ganesh Chaturthi", time: "8:00 PM To 10:00 PM", date: "10-10-2024" },
-//   { titletext: "N",title: "Navratri Festival", time: "8:00 PM To 10:00 PM", date: "15-10-2024" },
-//   { titletext: "S",title: "Society Meeting", time: "8:00 PM To 10:00 PM", date: "15-10-2024" },
-// ];
 
 export const activities = [
   { name: "Society Meeting", date: "24-09-2024", time: "8:00 PM to 10:00 PM" },
@@ -203,4 +167,63 @@ export const activities = [
   { name: "Society Meeting", date: "24-09-2024", time: "8:00 PM to 10:00 PM" },
 ];
 
+export const notifications = [
+  {
+    title: "Evelyn Harper (A- 101)",
+    description: "Evelyn Harper gave a fund of 1000 rupees for Navratri.",
+    time: "32 Minutes ago",
+    options: ["Accept"],
+    options2: ["Decline"],
+    icon: (
+      <img
+        src={evelynHarperimage}
+        alt="Evelyn"
+        className="w-4 h-4 rounded-full"
+      />
+    ),
+  },
+  {
+    title: "Maintenance (A- 101)",
+    description: "Pending maintenance for Hanna Donin.",
+    time: "2 days ago",
+    contact: "Phone: +91 99587 33657",
+    options: ["Accept"],
+    options2: ["Decline"],
+    icon: <img src={moneys} alt="Evelyn" className="w-[22px] h-[22px] rounded-full" />,
+  },
+  {
+    title: "Ganesh Chaturthi (A- 101)",
+    description:
+      "Ganesh Chaturthi celebration involves installing Lord Ganesa clay idols.",
+    time: "Saturday 11:41 AM",
+    options: ["Accept"],
+    options2: ["Decline"],
+    text: "G",
+  },
+  {
+    title: "Update Maintenance",
+    options: ["Accept"],
+    options2: ["Decline"],
+    icon: <img src={moneys} alt="Evelyn" className="w-[22px] h-[22px] rounded-full" />,
+  },
+];
+
+
+
 //   dashboard constant end
+
+// residentmanagement data constant
+
+export const Residentmanagementdata = [
+  { fullName: "Evelyn Harper", unit: "A 1001", unitStatus: "Occupied", residentStatus: "Tenant", phone: "97587 85828", member: 1, vehicle: 2 },
+  { fullName: "Evelyn Harper", unit: "B 1002", unitStatus: "Vacate", residentStatus: "--", phone: "97587 85828", member: 2, vehicle: 2 },
+  { fullName: "Evelyn Harper", unit: "C 1003", unitStatus: "Occupied", residentStatus: "Owner", phone: "97587 85828", member: 1, vehicle: 4 },
+  { fullName: "Evelyn Harper", unit: "D 1004", unitStatus: "Occupied", residentStatus: "Tenant", phone: "97587 85828", member: 4, vehicle: 2 },
+  { fullName: "Evelyn Harper", unit: "E 2001", unitStatus: "--", residentStatus: "--", phone: "97587 85828", member: 2 , vehicle: 2 },
+  { fullName: "Robert Fox", unit: "F 2002", unitStatus: "Occupied", residentStatus: "Tenant", phone: "97587 85828", member: 3, vehicle: 2 },
+  { fullName: "Evelyn Harper", unit: "G 2003", unitStatus: "Occupied", residentStatus: "Owner", phone: "97587 85828", member: 2, vehicle: 2 },
+  { fullName: "Evelyn Harper", unit: "H 2004", unitStatus: "Occupied", residentStatus: "Tenant", phone: "97587 85828", member: 6, vehicle: 3 },
+  { fullName: "Evelyn Harper", unit: "I 3001", unitStatus: "Vacate", residentStatus: "--", phone: "97587 85828", member: 2, vehicle: 2 },
+  { fullName: "Evelyn Harper", unit: "A 3002", unitStatus: "Occupied", residentStatus: "Owner", phone: "97587 85828", member: 3, vehicle: 3 },
+  { fullName: "Evelyn Harper", unit: "I 3003", unitStatus: "Occupied", residentStatus: "Tenant", phone: "97587 85828", member: 3, vehicle: 2 }
+];
