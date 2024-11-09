@@ -82,7 +82,12 @@ const Ownerschema= new Schema({
     Resident_status:{
         type:String,
         default:"Owner",
+    },
+    UnitStatus:{
+        type:String,
+        default:"Occupied"
     }
+
 },{timestamps:true})
 
 

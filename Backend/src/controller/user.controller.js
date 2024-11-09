@@ -13,6 +13,7 @@ const bcrypt = require("bcryptjs");
 const OTP_EXPIRATION_TIME = 30 * 1000; // 30 seconds in milliseconds
 const cloudinary = require("../utils/cloudinary");
 const fs = require("fs");
+const Guard = require("../models/SecurityGuard.model");
 
 exports.signup = async (req, res) => {
   try {
@@ -125,6 +126,60 @@ exports.signup = async (req, res) => {
     });
   }
 };
+// exports.login = async (req, res) => {
+//   try {
+//     const { EmailOrPhone, password } = req.body;
+
+//     if (!EmailOrPhone || !password) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Email/Phone and password are required",
+//       });
+//     }
+
+//     let query = {};
+//     if (EmailOrPhone.includes("@")) {
+//       query = { Email: EmailOrPhone }; // It's an email
+//     } else {
+//       query = { Phone: EmailOrPhone }; // It's a phone number
+//     }
+
+//     // Find user by either email or phone
+//     const user = await User.findOne(query);
+//     const guard=await Guard.findOne(query)
+//     let account = user || guard;
+//     if (!account) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "User or Guard is not registered",
+//       });
+//     }
+
+//     // Validate password
+//     const isPasswordValid = await compare(password, user.password);
+//     if (!isPasswordValid) {
+//       return res.status(401).json({
+//         success: false,
+//         message: "Invalid credentials",
+//       });
+//     }
+
+//     // Generate token (JWT)
+//     generateToeken(account._id, res);
+
+//     return res.status(200).json({
+//       success: true,
+//       message: " logged in successfully",
+//       user: { ...user._doc, password: "" }
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Internal server error",
+//     });
+//   }
+// };
 exports.login = async (req, res) => {
   try {
     const { EmailOrPhone, password } = req.body;
@@ -138,22 +193,26 @@ exports.login = async (req, res) => {
 
     let query = {};
     if (EmailOrPhone.includes("@")) {
-      query = { Email: EmailOrPhone }; // It's an email
+      query = { $or: [{ Email: EmailOrPhone }, { MailOrPhone: EmailOrPhone }]}; // It's an email
     } else {
-      query = { Phone: EmailOrPhone }; // It's a phone number
+      query = { $or: [{ Phone: EmailOrPhone }, { MailOrPhone: EmailOrPhone }] }; // It's a phone number
     }
 
-    // Find user by either email or phone
+    
     const user = await User.findOne(query);
-    if (!user) {
+    const guard = await Guard.findOne(query);
+
+    
+    const account = user || guard;
+    if (!account) {
       return res.status(404).json({
         success: false,
-        message: "User is not registered",
+        message: "User or Guard is not registered",
       });
     }
 
-    // Validate password
-    const isPasswordValid = await compare(password, user.password);
+   
+    const isPasswordValid = await compare(password, account.password);
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
@@ -161,22 +220,25 @@ exports.login = async (req, res) => {
       });
     }
 
-    // Generate token (JWT)
-    generateToeken(user._id, res);
+   //jwt
+    generateToeken(account._id, res);
 
     return res.status(200).json({
       success: true,
       message: "User logged in successfully",
       user: { ...user._doc, password: "" },
+
     });
   } catch (error) {
-    console.log(error);
+    console.error("Error during login:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
     });
   }
 };
+
+
 exports.logout = async (req, res) => {
   try {
     res.clearCookie("society-auth", {
@@ -324,7 +386,7 @@ exports.SendOtp = async (req, res) => {
     if (!EmailOrPhone) {
       return res.status(400).json({
         success: false,
-        message: "Please, Enter Email or mobile number!",
+        message: "Please, enter an email or mobile number!",
       });
     }
 
@@ -335,131 +397,115 @@ exports.SendOtp = async (req, res) => {
     });
     const currentTime = new Date();
 
-    let user;
+    
+    let account = await User.findOne({ $or: [{ Email: EmailOrPhone }, { Phone: EmailOrPhone }] });
+    if (!account) {
+      account = await Guard.findOne({ $or: [{ MailOrPhone: EmailOrPhone }, { MailOrPhone: EmailOrPhone }] });
+    }
+
+    if (!account) {
+      return res.status(404).json({
+        success: false,
+        message: "Email or phone number is not registered",
+      });
+    }
+
+    
+    if (account.otpExpiration && account.otpExpiration > currentTime) {
+      return res.status(400).json({
+        success: false,
+        message: "Current OTP is still valid. Please wait for it to expire.",
+      });
+    }
+
+    
+    const otpExpiration = new Date(currentTime.getTime() + OTP_EXPIRATION_TIME);
+    account.otp = otp;
+    account.otpExpiration = otpExpiration;
+    await account.save();
+
+   
+    
     if (EmailOrPhone.includes("@")) {
-      user = await User.findOne({ Email: EmailOrPhone });
-      if (!user) {
-        return res.status(404).json({
-          success: false,
-          message: "Email not registered",
-        });
-      }
-
-      // Check if OTP is expired
-      if (user.otpExpiration && user.otpExpiration > currentTime) {
-        return res.status(400).json({
-          success: false,
-          message: "Current OTP is still valid. Please wait for it to expire.",
-        });
-      }
-
-      // Generate and set OTP with new expiration
-      const otpExpiration = new Date(
-        currentTime.getTime() + OTP_EXPIRATION_TIME
-      );
-      await User.findOneAndUpdate(
-        { Email: EmailOrPhone },
-        { otp, otpExpiration },
-        { new: true }
-      );
-
       // Send OTP via email
-      senData(user.Email, "Forgot your password", otp);
-
+      await senData(account.Email || account.MailOrPhone, "Forgot your password", otp);
       return res.status(200).json({
         success: true,
         message: "OTP sent successfully to email",
       });
     } else {
-      user = await User.findOne({ Phone: EmailOrPhone });
-      if (!user) {
-        return res.status(404).json({
-          success: false,
-          message: "Mobile number not registered",
-        });
-      }
-
-      // Check if OTP is expired
-      if (user.otpExpiration && user.otpExpiration > currentTime) {
-        return res.status(400).json({
-          success: false,
-          message: "Current OTP is still valid. Please wait for it to expire.",
-        });
-      }
-
-      // Generate and set OTP with new expiration
-      const otpExpiration = new Date(
-        currentTime.getTime() + OTP_EXPIRATION_TIME
-      );
-      await User.findOneAndUpdate(
-        { Phone: EmailOrPhone },
-        { otp, otpExpiration },
-        { new: true }
-      );
-
       // Send OTP via SMS
       await twilioClient.messages.create({
-        body: `Your Forgot Password OTP is ${otp}`,
-        to: EmailOrPhone, // Phone number
+        body: `Your forgot password OTP is ${otp}`,
+        to: EmailOrPhone,
         from: process.env.TWILIO_PHONE_NUMBER,
       });
-
       return res.status(200).json({
         success: true,
         message: "OTP sent successfully to phone number",
       });
     }
   } catch (error) {
-    console.error(error);
+    console.error("Error sending OTP:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
     });
   }
 };
+
 exports.verifyOtp = async (req, res) => {
   try {
     const { EmailOrPhone, otp } = req.body;
 
-    let user;
-
-    if (EmailOrPhone.includes("@")) {
-      //by mail
-      user = await User.findOne({ Email: EmailOrPhone });
-    } else {
-      //by phone
-      user = await User.findOne({ Phone: EmailOrPhone });
-    }
-
-    // Check if user exists in the database
-    if (!user) {
-      return res.status(404).json({
+    if (!EmailOrPhone || !otp) {
+      return res.status(400).json({
         success: false,
-        message: "User not found",
+        message: "Email/Phone and OTP are required",
       });
     }
 
-    if (+user.otp !== otp) {
+    let account;
+    if (EmailOrPhone.includes("@")) {
+     
+      account = await User.findOne({ Email: EmailOrPhone }) || await Guard.findOne({ MailOrPhone: EmailOrPhone });
+    } else {
+     
+      account = await User.findOne({ Phone: EmailOrPhone }) || await Guard.findOne({ MailOrPhone: EmailOrPhone });
+    }
+
+    
+    if (!account) {
+      return res.status(404).json({
+        success: false,
+        message: "User or Guard not found",
+      });
+    }
+
+   
+    if (account.otp !== otp) {
       return res.status(400).json({
         success: false,
         message: "Invalid OTP",
       });
     }
 
-    // if (currentDate > user.otpExpiration) {
-    //     return res.status(400).json({
-    //         success: false,
-    //         message: "OTP has expired"
-    //     });
+    
+    // const currentTime = new Date();
+    // if (account.otpExpiration && currentTime > account.otpExpiration) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "OTP has expired",
+    //   });
     // }
 
+    
     return res.status(200).json({
       success: true,
       message: "OTP verified successfully",
     });
   } catch (error) {
-    // Log any errors for debugging
-    console.log(error);
+    console.error("Error during OTP verification:", error);
 
     return res.status(500).json({
       success: false,
@@ -467,48 +513,62 @@ exports.verifyOtp = async (req, res) => {
     });
   }
 };
+
 exports.ResetPassword = async (req, res) => {
   try {
     const { email, new_pass, confirm_pass } = req.body;
-    const id = req.params.id;
 
-    if (new_pass.length < 6) {
+    if (!email || !new_pass || !confirm_pass) {
       return res.status(400).json({
         success: false,
-        message: "password must be at letest 6 characters",
-      });
-    }
-    if (confirm_pass.length < 6) {
-      return res.status(400).json({
-        success: false,
-        message: "password must be at letest 6 characters",
-      });
-    }
-    const finddata = await User.findOne({ Email: email });
-    if (!finddata) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    if (new_pass != confirm_pass) {
-      return res.status(400).json({
-        success: false,
-        message: "Password and confirm password are not match",
+        message: "Email, new password, and confirm password are required",
       });
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(new_pass, salt);
+    if (new_pass.length < 6 || confirm_pass.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters long",
+      });
+    }
 
-    finddata.password = hashedPassword;
+    if (new_pass !== confirm_pass) {
+      return res.status(400).json({
+        success: false,
+        message: "Password and confirm password do not match",
+      });
+    }
 
-    await finddata.save();
+    
+    const account = await User.findOne({ Email: email }) || await Guard.findOne({ MailOrPhone: email });
 
-    return res.status(200).json({ message: "Password changed successfully" });
+    if (!account) {
+      return res.status(404).json({
+        success: false,
+        message: "User or Guard not found",
+      });
+    }
+
+    
+    const hashedPassword = await hash(new_pass);
+
+   
+    account.password = hashedPassword;
+    await account.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Password changed successfully",
+    });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server error" });
+    console.error("Error during password reset:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
   }
 };
+
 exports.UpdateProfile = async (req, res) => {
   try {
     const {

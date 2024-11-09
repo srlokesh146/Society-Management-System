@@ -16,7 +16,7 @@ const visitors = [
 
 const VisitorLogs = () => {
   return (
-    <div className="container mx-auto p-4 sm:p-6 bg-white rounded-lg">
+    <div className="container  mx-auto p-4 sm:p-6 bg-white rounded-lg">
       <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800">Visitor Logs</h1>
       <div className="bg-white rounded-lg shadow-sm overflow-hidden">
         <div className="overflow-x-auto">

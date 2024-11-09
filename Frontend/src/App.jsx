@@ -25,6 +25,7 @@ import Expense from "./pages/Expense.jsx";
 import Income from "./pages/Income";
 import OtherIncome from "./pages/OtherIncome";
 
+
 function App() {
   const [isSidebaropen, setSidebaropen] = useState(false);
   const location = useLocation();
@@ -94,6 +95,10 @@ function App() {
             <Route path="/expense" element={<Expense />} />
             <Route path="/income" element={<Income />} />
             <Route path="/other-income" element={<OtherIncome />} />
+            <Route path="/ownerform" element={<OwnerForm/>} />
+            <Route path="/tenantform" element={<TenantForm/>} />
+            <Route path="/residentmanagement" element={<ResidentManagement/>} />
+          
           </Routes>
         </div>
       </div>
