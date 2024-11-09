@@ -3,7 +3,6 @@ import {
   pendingMaintenances,
   // totalBalanceData,
   // complaintsData,
-  activities,
   // importantNumbers,
   cardData,
 } from "../../constantdata";
@@ -18,13 +17,14 @@ import {
   GetImpNumbers,
 } from "../../services/impNumberService";
 import toast from "react-hot-toast";
+import { GetAnnouncements } from "../../services/announcementService";
 
 const Dashboard = () => {
   const [importantNumbers, setImportantNumbers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedContact, setSelectedContact] = useState(null);
-  // const [importantNumber, setImportantNumbers] = useState([]);
+  const [activities, setActivities] = useState([]);
 
   const handleOpenModal = () => {
     setSelectedContact(null);
@@ -38,11 +38,6 @@ const Dashboard = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-  };
-
-  const handleEdit = (complaint) => {
-    setSelectedContact(complaint);
-    setIsModalOpen(true);
   };
 
   const handleFormSubmit = (e) => {
@@ -69,8 +64,19 @@ const Dashboard = () => {
     }
   };
 
+  const fetchAnnouncement = async () => {
+    try {
+      const response = await GetAnnouncements();
+      setActivities(response.data.Announcement);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  
   useEffect(() => {
     fetchImportantNumbers();
+    fetchAnnouncement();
   }, []);
 
   return (
@@ -273,7 +279,7 @@ const Dashboard = () => {
               <div className="flex justify-between items-center mb-[27px] ps-[20px] pr-[20px]">
                 <div>
                   <h2 className="text-[20px] font-semibold leading-4 max-sm:text-[16px] max-mb:text-[18px]">
-                    Complaint List
+                    Upcoming Activity
                   </h2>
                 </div>
                 <div>
@@ -309,22 +315,26 @@ const Dashboard = () => {
               <ul className="space-y-3 max-h-[300px] overflow-y-auto custom-scrollbar">
                 {activities.map((activity, index) => (
                   <li
-                    key={index}
+                    key={activity._id}
                     className="flex items-center justify-between bg-white py-[12px] px-[15px] rounded-lg shadow-sm"
                   >
                     <div className="flex items-center space-x-2">
                       <div className="w-[40px] h-[40px] bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-bold">
-                        {activity.name[0]}
+                        {activity.title[0].toUpperCase()}
                       </div>
                       <div>
-                        <p className="text-sm font-medium">{activity.name}</p>
+                        <p className="text-sm font-medium  mb-1">{activity.title}</p>
                         <p className="text-[14px] text-[#A7A7A7]  leading-[19.5px]">
-                          {activity.time}
+                          8:00 PM To 10:00 PM
                         </p>
                       </div>
                     </div>
                     <p className="text-[14px] text-[#4F4F4F] leading-4">
-                      {activity.date}
+                    {new Date(activity.date).toLocaleDateString("en-GB", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+}).replace(/\//g, '-')}
                     </p>
                   </li>
                 ))}

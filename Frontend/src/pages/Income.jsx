@@ -1,68 +1,98 @@
-import React, { useState } from 'react';
-import { FaEye, FaEyeSlash, FaUser } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { FaEye, FaEyeSlash, FaUser } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { MdEmail, MdSecurity } from "react-icons/md";
 import { BsClockFill } from "react-icons/bs";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { BsBank } from "react-icons/bs";
 import { BiMoney } from "react-icons/bi";
+import { toast } from "react-hot-toast";
+import {
+  ConfirmPassword,
+  CreateMaintenance,
+} from "../services/maintenanceService";
+
+const maintenanceData = [
+  {
+    id: 1,
+    name: "Cody Fisher",
+    unitNumber: "A 1001",
+    date: "10/02/2024",
+    status: "Tenant",
+    phoneNumber: "92524 34522",
+    amount: "1000",
+    penalty: "--",
+    paymentStatus: "Pending",
+    payment: "Online",
+  },
+  {
+    id: 2,
+    name: "Esther Howard",
+    unitNumber: "B 1002",
+    date: "11/02/2024",
+    status: "Owner",
+    phoneNumber: "92524 12365",
+    amount: "1000",
+    penalty: "250",
+    paymentStatus: "Done",
+    payment: "Cash",
+  },
+];
 
 const Income = () => {
+  const [maintenanceList, setMaintenanceList] = useState(maintenanceData);
   const [maintenance, setMaintenance] = useState(0);
   const [penalty, setPenalty] = useState(0);
-  const [activeTab, setActiveTab] = useState('maintenance');
+  const [activeTab, setActiveTab] = useState("maintenance");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isMaintenanceModalOpen, setIsMaintenanceModalOpen] = useState(false);
-  const [maintenanceAmount, setMaintenanceAmount] = useState('');
-  const [penaltyAmount, setPenaltyAmount] = useState('');
-  const [dueDate, setDueDate] = useState('');
-  const [penaltyDay, setPenaltyDay] = useState('');
+  const [maintenanceAmount, setMaintenanceAmount] = useState("");
+  const [penaltyAmount, setPenaltyAmount] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [penaltyDay, setPenaltyDay] = useState("");
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const navigate = useNavigate();
-
-  const maintenanceData = [
-    {
-      id: 1,
-      name: "Cody Fisher",
-      unitNumber: "A 1001",
-      date: "10/02/2024",
-      status: "Tenant",
-      phoneNumber: "92524 34522",
-      amount: "1000",
-      penalty: "--",
-      paymentStatus: "Pending",
-      payment: "Online",
-    },
-    {
-      id: 2,
-      name: "Esther Howard",
-      unitNumber: "B 1002",
-      date: "11/02/2024",
-      status: "Owner",
-      phoneNumber: "92524 12365",
-      amount: "1000",
-      penalty: "250",
-      paymentStatus: "Done",
-      payment: "Cash",
-    },
-  ];
 
   const handleSetMaintenance = () => {
     setIsModalOpen(true);
   };
 
-  const handleContinue = () => {
-    console.log('Password:', password);
-    setIsModalOpen(false);
-    setIsMaintenanceModalOpen(true);
-    setPassword('');
+  const handleContinue = async () => {
+    try {
+      const response = await ConfirmPassword({ password: password });
+      console.log(response);
+      toast.success(response.data.message);
+      setIsModalOpen(false);
+      setIsMaintenanceModalOpen(true);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      setPassword("");
+    }
   };
 
-  const handleApply = () => {
-    setIsMaintenanceModalOpen(false);
+  const handleApply = async () => {
+    try {
+      const data = {
+        maintenanceAmount: +maintenanceAmount,
+        penaltyAmount: +penaltyAmount,
+        dueDate,
+        penaltyDay,
+      };
+      const response = await CreateMaintenance(data);
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      setIsMaintenanceModalOpen(false);
+      setMaintenanceAmount("");
+      setPenaltyAmount("");
+      setDueDate("");
+      setPenaltyDay("");
+    }
   };
 
   const handleViewClick = (user) => {
@@ -76,7 +106,7 @@ const Income = () => {
         {/* Header */}
         <div className="flex justify-between items-center px-6 py-4">
           <h3 className="text-lg font-semibold">View Maintenance Details</h3>
-          <button 
+          <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600"
           >
@@ -87,8 +117,8 @@ const Income = () => {
         {/* User Profile */}
         <div className="px-6 py-4 flex items-center gap-3 border-t border-b border-gray-100">
           <div className="w-12 h-12 rounded-full overflow-hidden">
-            <img 
-              src={user.avatar || '/default-avatar.png'} 
+            <img
+              src={user.avatar || "/default-avatar.png"}
               alt={user.name}
               className="w-full h-full object-cover"
             />
@@ -142,7 +172,7 @@ const Income = () => {
   );
 
   const handleOtherIncomeClick = () => {
-    navigate('/other-income');
+    navigate("/other-income");
   };
 
   return (
@@ -152,13 +182,14 @@ const Income = () => {
         <div className="flex items-center justify-between space-x-4">
           {/* Maintenance Amount Input */}
           <div className="flex">
-            <div 
-     className="maintenceborder shadow-lg w-52     rounded-md p-4 ">
+            <div className="border shadow-lg w-52 rounded-md p-4 ">
               <label className="block text-md font-semibold text-black-600 mb-2">
                 Maintenance Amount
               </label>
               <div className="flex  items-center">
-                <span className="text-[#39973D] text-2xl font-semibold mr-2">₹</span>
+                <span className="text-[#39973D] text-2xl font-semibold mr-2">
+                  ₹
+                </span>
                 <input
                   type="number"
                   value={maintenance}
@@ -177,7 +208,9 @@ const Income = () => {
                 Penalty Amount
               </label>
               <div className="flex items-center">
-                <span className="text-[#E74C3C] text-2xl font-semibold mr-2">₹</span>
+                <span className="text-[#E74C3C] text-2xl font-semibold mr-2">
+                  ₹
+                </span>
                 <input
                   type="number"
                   value={penalty}
@@ -198,37 +231,38 @@ const Income = () => {
           </button>
         </div>
       </div>
-    <br />
+      <br />
       {/* Tabs Section */}
-      <div >
+      <div>
         <div className="flex">
           <button
             className={`relative py-2 px-6 ${
-              activeTab === 'maintenance'
-                ? 'bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-lg text-white'
-                : 'bg-gray-100 text-black-600'
+              activeTab === "maintenance"
+                ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-lg text-white"
+                : "bg-gray-100 text-black-600"
             }`}
-            onClick={() => setActiveTab('maintenance')}
+            onClick={() => setActiveTab("maintenance")}
           >
             Maintenance
           </button>
           <button
             className={`relative py-2 px-6 ${
-              activeTab === 'otherIncome'
-                ? 'bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white'
-                : 'bg-gray-100 text-black-600'
+              activeTab === "otherIncome"
+                ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white"
+                : "bg-gray-100 text-black-600"
             }`}
             onClick={handleOtherIncomeClick}
           >
             Other Income
           </button>
         </div>
-      
 
         {/* Table Section */}
-        <div className="overflow-x-auto bg-white rounded-lg shadow-md p-6 mb-4" >
-          <div className='mb-4'>
-            <h1 className='text-2xl font-semibold text-black-500'>Maintenace Details</h1>
+        <div className="overflow-x-auto bg-white rounded-lg shadow-md p-6 mb-4">
+          <div className="mb-4">
+            <h1 className="text-2xl font-semibold text-black-500">
+              Maintenace Details
+            </h1>
           </div>
           <table className="min-w-full  ">
             <thead>
@@ -246,7 +280,7 @@ const Income = () => {
               </tr>
             </thead>
             <tbody>
-              {maintenanceData.map((item) => (
+              {maintenanceList.map((item) => (
                 <tr key={item.id} className="border-t border-gray-100">
                   <td className="py-3 px-4">
                     <div className="flex items-center">
@@ -263,12 +297,14 @@ const Income = () => {
                   </td>
                   <td className="py-3 px-4">{item.date}</td>
                   <td className="py-3 px-4">
-                    <span className={`px-3 py-1 rounded-full text-xs inline-flex items-center gap-1.5 w-fit ${
-                      item.status === 'Tenant' 
-                        ? 'bg-pink-50 text-pink-500' 
-                        : 'bg-purple-50 text-purple-500'
-                    }`}>
-                      {item.status === 'Tenant' ? (
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs inline-flex items-center gap-1.5 w-fit ${
+                        item.status === "Tenant"
+                          ? "bg-pink-50 text-pink-500"
+                          : "bg-purple-50 text-purple-500"
+                      }`}
+                    >
+                      {item.status === "Tenant" ? (
                         <FaUser size={12} />
                       ) : (
                         <MdSecurity size={12} />
@@ -281,8 +317,10 @@ const Income = () => {
                     <span className="text-green-600">₹ {item.amount}</span>
                   </td>
                   <td className="py-3  px-4">
-                    {item.penalty === '--' ? (
-                      <span className='text-black-600 px-4 py-1 rounded-xl bg-blue-50'>--</span>
+                    {item.penalty === "--" ? (
+                      <span className="text-black-600 px-4 py-1 rounded-xl bg-blue-50">
+                        --
+                      </span>
                     ) : (
                       <span className="bg-[#E74C3C] text-white px-4 py-1 rounded-full">
                         {item.penalty}
@@ -290,12 +328,14 @@ const Income = () => {
                     )}
                   </td>
                   <td className="py-3   px-4">
-                    <span className={`py-1 px-2.5 rounded-full text-xs inline-flex items-center w-fit gap-1.5 ${
-                      item.paymentStatus === 'Pending'
-                        ? 'bg-yellow-50 text-yellow-500'
-                        : 'bg-green-50 text-green-500'
-                    }`}>
-                      {item.paymentStatus === 'Pending' ? (
+                    <span
+                      className={`py-1 px-2.5 rounded-full text-xs inline-flex items-center w-fit gap-1.5 ${
+                        item.paymentStatus === "Pending"
+                          ? "bg-yellow-50 text-yellow-500"
+                          : "bg-green-50 text-green-500"
+                      }`}
+                    >
+                      {item.paymentStatus === "Pending" ? (
                         <BsClockFill size={12} />
                       ) : (
                         <BsCheckCircleFill size={12} />
@@ -305,42 +345,38 @@ const Income = () => {
                   </td>
                   <td className="py-3 px-4">
                     <div className="flex items-center">
-                      <span className={`inline-flex items-center ${
-                        item.payment === 'Online' 
-                          ? 'text-blue-600 bg-blue-50' 
-                          : 'text-gray-600 bg-gray-50'
-                      } px-2 py-1 rounded-full text-xs`}>
-                        {item.payment === 'Online' ? (
-                          <BsBank 
-                            className="mr-1.5 text-blue-600"
-                            size={14} 
-                          />
+                      <span
+                        className={`inline-flex items-center ${
+                          item.payment === "Online"
+                            ? "text-blue-600 bg-blue-50"
+                            : "text-gray-600 bg-gray-50"
+                        } px-2 py-1 rounded-full text-xs`}
+                      >
+                        {item.payment === "Online" ? (
+                          <BsBank className="mr-1.5 text-blue-600" size={14} />
                         ) : (
-                          <BiMoney 
-                            className="mr-1.5 text-gray-600"
-                            size={14} 
-                          />
+                          <BiMoney className="mr-1.5 text-gray-600" size={14} />
                         )}
                         {item.payment}
                       </span>
                     </div>
                   </td>
                   <td className="py-3 px-4">
-                    <button 
+                    <button
                       onClick={() => handleViewClick(item)}
                       className="text-blue-600 hover:text-blue-700 bg-blue-50 p-1.5 rounded-full transition-colors"
                     >
                       <FaEye size={16} />
                     </button>
-                    
+
                     {/* Render Modal */}
                     {isViewModalOpen && selectedUser && (
-                      <ViewDetailsModal 
-                        user={selectedUser} 
+                      <ViewDetailsModal
+                        user={selectedUser}
                         onClose={() => {
                           setIsViewModalOpen(false);
                           setSelectedUser(null);
-                        }} 
+                        }}
                       />
                     )}
                   </td>
@@ -356,9 +392,11 @@ const Income = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg w-[400px] p-6">
             <h2 className="text-lg font-semibold mb-4">Set Maintenance</h2>
-            
+
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-black-600 mb-2">Password*</label>
+              <label className="block text-sm font-semibold text-black-600 mb-2">
+                Password*
+              </label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -372,7 +410,11 @@ const Income = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-black-500"
                 >
-                  {showPassword ? <FaEyeSlash size={16} /> : <FaEye size={16} />}
+                  {showPassword ? (
+                    <FaEyeSlash size={16} />
+                  ) : (
+                    <FaEye size={16} />
+                  )}
                 </button>
               </div>
             </div>
@@ -381,7 +423,7 @@ const Income = () => {
               <button
                 onClick={() => {
                   setIsModalOpen(false);
-                  setPassword('');
+                  setPassword("");
                 }}
                 className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md"
               >
@@ -401,17 +443,23 @@ const Income = () => {
       {isMaintenanceModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg w-[400px] p-6 shadow-lg">
-            <h2 className="text-lg font-semibold mb-6">Add Maintenance Detail</h2>
-            
+            <h2 className="text-lg font-semibold mb-6">
+              Add Maintenance Detail
+            </h2>
+
             {/* Maintenance and Penalty Amount Row */}
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="block text-sm text-black-600 mb-2">Maintenance Amount</label>
+                <label className="block text-sm text-black-600 mb-2">
+                  Maintenance Amount
+                </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₹</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                    ₹
+                  </span>
                   <input
                     type="text"
-                    name='maintenanceAmount'
+                    name="maintenanceAmount"
                     value={maintenanceAmount}
                     onChange={(e) => setMaintenanceAmount(e.target.value)}
                     className="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500"
@@ -420,12 +468,16 @@ const Income = () => {
                 </div>
               </div>
               <div>
-                <label className="block text-sm text-black-600 mb-2">Penalty Amount</label>
+                <label className="block text-sm text-black-600 mb-2">
+                  Penalty Amount
+                </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₹</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                    ₹
+                  </span>
                   <input
                     type="text"
-                    name='penaltyAmount'
+                    name="penaltyAmount"
                     value={penaltyAmount}
                     onChange={(e) => setPenaltyAmount(e.target.value)}
                     className="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500"
@@ -437,10 +489,12 @@ const Income = () => {
 
             {/* Due Date Input */}
             <div className="mb-4">
-              <label className="block text-sm text-black-600 mb-2">Maintenance Due Date</label>
+              <label className="block text-sm text-black-600 mb-2">
+                Maintenance Due Date
+              </label>
               <input
                 type="date"
-                name='dueDate'
+                name="dueDate"
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500"
@@ -449,15 +503,19 @@ const Income = () => {
 
             {/* Penalty Day Selection */}
             <div className="mb-6">
-              <label className="block text-sm text-black-600 mb-2">Penalty Applied After Day Selection</label>
+              <label className="block text-sm text-black-600 mb-2">
+                Penalty Applied After Day Selection
+              </label>
               <div className="relative">
                 <select
-                  name='penaltyDay'
+                  name="penaltyDay"
                   value={penaltyDay}
                   onChange={(e) => setPenaltyDay(e.target.value)}
                   className="w-full px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 appearance-none bg-white "
                 >
-                  <option value="" disabled selected>Select Penalty Applied After Day</option>
+                  <option value="" disabled selected>
+                    Select Penalty Applied After Day
+                  </option>
                   <option value="1">1 Day</option>
                   <option value="2">2 Days</option>
                   <option value="3">3 Days</option>
@@ -466,8 +524,18 @@ const Income = () => {
                 </select>
                 {/* Custom dropdown arrow */}
                 <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                  <svg className="w-4 h-4 text-grey-500  " fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  <svg
+                    className="w-4 h-4 text-grey-500  "
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </div>
               </div>
@@ -483,11 +551,19 @@ const Income = () => {
               </button>
               <button
                 onClick={handleApply}
-                disabled={!maintenanceAmount || !penaltyAmount || !dueDate || !penaltyDay}
+                disabled={
+                  !maintenanceAmount ||
+                  !penaltyAmount ||
+                  !dueDate ||
+                  !penaltyDay
+                }
                 className={`w-60 h-10 rounded-md transition-colors ${
-                  !maintenanceAmount || !penaltyAmount || !dueDate || !penaltyDay
-                    ? 'bg-[#F6F8FB] text-black-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90'
+                  !maintenanceAmount ||
+                  !penaltyAmount ||
+                  !dueDate ||
+                  !penaltyDay
+                    ? "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
+                    : "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
                 }`}
               >
                 Apply
