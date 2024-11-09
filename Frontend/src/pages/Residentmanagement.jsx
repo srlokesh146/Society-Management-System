@@ -58,7 +58,7 @@ export default function ResidentManagement() {
             >
               + Add New Resident details
             </button>
-          </div>
+          </div>  
         </div>
 
         <div className="overflow-x-auto pr-[8px] ps-[20px] custom-scrollbar max-h-[44rem]">

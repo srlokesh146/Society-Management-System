@@ -159,7 +159,7 @@ export default function AddResidentModal({ isOpen, onClose, onSave, resident }) 
           {/* Status Options */}
           <div className="flex gap-4 mb-6">
             <button
-              className={`flex items-center gap-2 px-4 py-2 rounded-md border ${
+              className={`flex w-48 items-center gap-2 px-4 py-2 rounded-md border ${
                 selectedStatus === 'Occupied' 
                   ? 'border-[#FF6B07] bg-white text-[#FF6B07]' 
                   : 'border-gray-200'
@@ -177,7 +177,7 @@ export default function AddResidentModal({ isOpen, onClose, onSave, resident }) 
             </button>
 
             <button
-              className={`flex items-center gap-2 px-4 py-2 rounded-md border ${
+              className={`flex w-48 items-center gap-2 px-4 py-2 rounded-md border ${
                 selectedStatus === 'Vacate' 
                   ? 'border-[#FF6B07] bg-white text-[#FF6B07]' 
                   : 'border-gray-200'
@@ -197,7 +197,7 @@ export default function AddResidentModal({ isOpen, onClose, onSave, resident }) 
 
           {/* Info Text */}
           <p className="text-sm text-gray-500 mb-6 flex items-start gap-2">
-            <span className="text-[#FF6B07] text-lg">•</span>
+          <input type="checkbox" required className="w-4 h-4 text-[#FE512E] border-gray-300 rounded focus:ring-[#FE512E]" />
             By submitting, you agree to select Occupied
           </p>
 

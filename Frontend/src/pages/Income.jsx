@@ -176,17 +176,17 @@ const Income = () => {
   };
 
   return (
-    <div className="p-6 ">
+    <div className="p-6">
       {/* Top Section */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-4">
         <div className="flex items-center justify-between space-x-4">
           {/* Maintenance Amount Input */}
           <div className="flex">
-            <div className="border shadow-lg w-52 rounded-md p-4 ">
+            <div className="border shadow-lg w-[240px] rounded-md p-4">
               <label className="block text-md font-semibold text-black-600 mb-2">
                 Maintenance Amount
               </label>
-              <div className="flex  items-center">
+              <div className="flex items-center h-[40px]">
                 <span className="text-[#39973D] text-2xl font-semibold mr-2">
                   ₹
                 </span>
@@ -203,11 +203,11 @@ const Income = () => {
 
           {/* Penalty Amount Input */}
           <div className="flex-1">
-            <div className="shadow-lg w-52 rounded-md p-4">
+            <div className="border shadow-lg w-[240px] rounded-md p-4">
               <label className="block text-md font-semibold text-black-600 mb-2">
                 Penalty Amount
               </label>
-              <div className="flex items-center">
+              <div className="flex items-center h-[40px]">
                 <span className="text-[#E74C3C] text-2xl font-semibold mr-2">
                   ₹
                 </span>
