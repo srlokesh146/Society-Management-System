@@ -96,7 +96,7 @@ function SecurityGuardDetails() {
 
   const handleConfirmDelete = async () => {
     try {
-      setGuards(guards.filter((guard) => guard.id !== guardToDelete.id));
+      setGuards(guards.filter((guard) => guard._id !== guardToDelete._id));
       const response = await DeleteSecurityGuard(guardToDelete._id);
       toast.success(response.data.message);
     } catch (error) {

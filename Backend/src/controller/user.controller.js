@@ -119,7 +119,6 @@ exports.signup = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       success: false,
       message: "Internal Server error",
@@ -168,7 +167,7 @@ exports.login = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "User logged in successfully",
-      user: { ...user._doc, password: "" }
+      user: { ...user._doc, password: "" },
     });
   } catch (error) {
     console.log(error);
@@ -552,7 +551,7 @@ exports.UpdateProfile = async (req, res) => {
         City,
         select_society,
 
-        profileImage: imageUrl || user.profileImage,
+        profileImage: imageUrl,
       },
       { new: true }
     );
@@ -571,14 +570,6 @@ exports.UpdateProfile = async (req, res) => {
       });
     }
   } catch (error) {
-    if (error.code === 11000) {
-      return res.status(400).json({
-        success: false,
-        message: `Duplicate value for field: ${Object.keys(
-          error.keyPattern
-        ).join(", ")}`,
-      });
-    }
     console.error("Update Profile Error:", error);
     res.status(500).json({
       success: false,
