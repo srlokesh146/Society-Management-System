@@ -59,7 +59,51 @@ exports.GetAnnouncement = async(req,res)=>{
     }
 
 }
-
+//filter announcement 
+exports.FilterAnnouncement = async (req, res) => {
+    try {
+      const { timePeriod } = req.query;
+      let dateFrom;
+      const currentDate = new Date();
+  
+      switch (timePeriod) {
+        case "lastWeek":
+          dateFrom = new Date(currentDate.setDate(currentDate.getDate() - 7));
+          break;
+        case "lastMonth":
+          dateFrom = new Date(currentDate.setMonth(currentDate.getMonth() - 1));
+          break;
+        case "lastYear":
+          dateFrom = new Date(currentDate.setFullYear(currentDate.getFullYear() - 1));
+          break;
+        default:
+          dateFrom = null; 
+      }
+  
+     
+      const filter = dateFrom ? { createdAt: { $gte: dateFrom } } : {};
+  
+      const announcements = await Announcement.find(filter);
+  
+      if (!announcements || announcements.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "No announcements found",
+        });
+      }
+  
+      return res.status(200).json({
+        success: true,
+        data: announcements,
+      });
+    } catch (error) {
+      console.error("Error fetching announcements:", error);
+      return res.status(500).json({
+        success: false,
+        message: "Error fetching announcements",
+      });
+    }
+  };
 //get by id 
 exports.GetByIdAnnouncement= async(req,res)=>{
     try {

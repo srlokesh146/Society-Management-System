@@ -5,4 +5,7 @@ const router=require("express").Router()
 router.post("/addvisitor",auth,IsSecurity,VisitorController.CreateVisitor)
 //get visitor
 router.get("/viewvisitor",auth,IsSecurity,VisitorController.GetAllVisitor)
+
+//filter data
+router.get("/filter",auth,IsSecurity,VisitorController.FilterVisitor)
 module.exports=router;
