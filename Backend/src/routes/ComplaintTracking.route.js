@@ -9,6 +9,8 @@ router.get("/viewcomplaint",ComplaintTracking.GetComplaints)
 
 //get by id complaint
 router.get("/complaint/:id",ComplaintTracking.GetByIdComplaints)
+//filter data
+router.get("/getcomlaint",ComplaintTracking.filterComplaint)
 
 //delete complaint
 router.delete("/:id",ComplaintTracking.DeleteComplaint)
