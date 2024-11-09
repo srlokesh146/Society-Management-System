@@ -193,7 +193,7 @@ export default function TenantForm() {
   );
 
   return (
-    <div className="min-h-screen bg-[#F8F8F8] p-4">
+    <div className="min-h-screen  p-4">
       {/* Tab Buttons */}
       <div className="flex gap-1 mb-4">
         <button className={`px-6 py-2 rounded-t-lg ${
