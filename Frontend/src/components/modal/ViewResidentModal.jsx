@@ -1,45 +1,51 @@
 import React from 'react';
 import { IoArrowBack, IoClose } from "react-icons/io5";
 import { FaDownload } from "react-icons/fa6";
+import { FaEye } from 'react-icons/fa';
 
 export default function ViewResidentModal({ isOpen, onClose, resident }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white w-[90%] max-w-[460px] h-[70vh] rounded-xl relative overflow-hidden">
+    <div className="fixed inset-y-0 right-0 flex justify-end z-50">
+      <div 
+        className="fixed inset-0 bg-black bg-opacity-50" 
+        onClick={onClose}
+      ></div>
+      
+      <div className="bg-white w-[400px] h-[80vh] my-auto relative overflow-hidden z-10 animate-slide-left rounded-l-xl shadow-lg">
         <button 
           onClick={onClose} 
-          className="absolute top-3 right-10 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+          className="absolute top-3 right-6 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
         >
-          <IoClose size={20} className="text-gray-600 hover:text-gray-800 " />
+          <IoClose size={20} className="text-gray-600 hover:text-gray-800" />
         </button>
 
         <div className="h-full overflow-y-auto">
-          <div className="sticky top-0 bg-white px-6 py-4 flex items-center gap-3 border-b border-gray-100 z-10">
+          <div className="sticky top-0 bg-white px-4 py-3 flex items-center gap-3 border-b border-gray-100 z-10">
             <button onClick={onClose} className="text-gray-600">
               <IoArrowBack size={20} />
             </button>
-            <h2 className="text-[18px] font-medium">View Owner Details</h2>
+            <h2 className="text-[16px] font-medium">View Owner Details</h2>
           </div>
 
           <div className="flex flex-col">
-            <div className="flex flex-col items-center py-6">
+            <div className="flex flex-col items-center py-4">
               <img 
                 src={resident?.profileImage || '/default-avatar.png'} 
                 alt="Profile" 
-                className="w-[80px] h-[80px] rounded-full mb-3"
+                className="w-[70px] h-[70px] rounded-full mb-2"
               />
-              <h3 className="text-[18px] font-medium mb-1">
+              <h3 className="text-[16px] font-medium mb-1">
                 {resident?.fullName || 'Roger Lubin'}
               </h3>
-              <p className="text-[14px] text-gray-500">
+              <p className="text-[13px] text-gray-500">
                 {resident?.email || 'RogerLubin@gmail.com'}
               </p>
             </div>
 
-            <div className="px-6 pb-6">
-              <div className="bg-[#F9FAFB] rounded-xl p-5 mb-6">
+            <div className="px-4 pb-4">
+              <div className="bg-[#F9FAFB] rounded-xl p-4 mb-4">
                 <div className="flex justify-between items-center mb-4">
                   <h4 className="text-[16px] font-medium">Details</h4>
                 
@@ -82,7 +88,7 @@ export default function ViewResidentModal({ isOpen, onClose, resident }) {
                       </div>
                     </div>
                     <button className="text-gray-400 p-2">
-                      <FaDownload size={16} />
+                      <FaEye size={16} />
                     </button>
                   </div>
                   
@@ -97,7 +103,7 @@ export default function ViewResidentModal({ isOpen, onClose, resident }) {
                       </div>
                     </div>
                     <button className="text-gray-400 p-2">
-                      <FaDownload size={16} />
+                      <FaEye size={16} />
                     </button>
                   </div>
                 </div>

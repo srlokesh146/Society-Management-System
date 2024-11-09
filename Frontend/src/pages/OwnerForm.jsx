@@ -193,9 +193,9 @@ export default function OwnerForm() {
   );
 
   return (
-    <div >
+    <div  >
       {/* Tab Buttons */}
-      <div className="min-h-screen bg-[#F8F8F8] p-4">
+      <div className="min-h-screen  p-4">
       {/* Tab Buttons */}
       <div className="flex gap-1 mb-4">
         <button 
@@ -528,14 +528,16 @@ export default function OwnerForm() {
           {/* Member Section */}
           <div className="bg-white rounded-lg p-4">
             <div className="flex justify-between items-center mb-4">
-              <label className="text-sm text-black-700 font-medium">Member Counting <span className='text-gray-500'> : (Other Members)</span></label>
+              <label className="text-sm text-black-700 font-medium">
+                Member Counting <span className='text-gray-500'> : (Other Members)</span>
+              </label>
               <div className="relative">
                 <select 
                   className="w-32 h-10 px-3 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-black-600 focus:outline-none appearance-none bg-white cursor-pointer"
                   onChange={(e) => setMemberCount(Number(e.target.value))}
                 >
                   <option value="0">Select Member</option>
-                  {[1,2,3,4,5].map(num => (
+                  {[1,2,3,4,5,6,7,8,9,10].map(num => (
                     <option key={num} value={num}>{num}</option>
                   ))}
                 </select>
@@ -614,7 +616,7 @@ export default function OwnerForm() {
                   onChange={(e) => setVehicleCount(Number(e.target.value))}
                 >
                   <option value="0">Select Vehicle</option>
-                  {[1,2,3].map(num => (
+                  {[1,2,3,4,5,6,7,8,9,10].map(num => (
                     <option key={num} value={num}>{num}</option>
                   ))}
                 </select>
