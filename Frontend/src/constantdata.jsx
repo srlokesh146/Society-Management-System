@@ -69,6 +69,7 @@ export const sidebarItems = [
     label: "Announcement",
     icon: <FaBullhorn />,
   },
+
 ];
 
 export const cardData = [
@@ -170,7 +171,13 @@ export const activities = [
 export const notifications = [
   {
     title: "Evelyn Harper (A- 101)",
-    description: "Evelyn Harper gave a fund of 1000 rupees for Navratri.",
+    description: (
+      <>
+        Evelyn Harper gave a fund 
+        <span className="ml-1 text-[#5678E9] text-[14px]">of 1000 rupees for Navratri.</span>
+      </>
+    ),
+    event: "for Navratri",
     time: "32 Minutes ago",
     options: ["Accept"],
     options2: ["Decline"],
@@ -178,33 +185,52 @@ export const notifications = [
       <img
         src={evelynHarperimage}
         alt="Evelyn"
-        className="w-4 h-4 rounded-full"
+        className="w-[40px] h-[40px] rounded-full mr-[10px]"
       />
     ),
   },
   {
     title: "Maintenance (A- 101)",
-    description: "Pending maintenance for Hanna Donin.",
-    time: "2 days ago",
-    contact: "Phone: +91 99587 33657",
+    description: (
+      <>
+        Evelyn Harper gave a 
+        <span className="text-[#5678E9] text-[14px] ml-1">Maintenance of 1000 rupees.</span>
+      </>
+    ),
+    time: "Tuesday 11:41 AM",
     options: ["Accept"],
     options2: ["Decline"],
-    icon: <img src={moneys} alt="Evelyn" className="w-[22px] h-[22px] rounded-full" />,
+    icon: (
+      <div className="icon-wrapper">
+        <img src={moneys} alt="Evelyn" className="w-[22px] h-[22px] rounded-full relative top-[-3px] mr-[20px]" />
+      </div>
+    ),
   },
   {
     title: "Ganesh Chaturthi (A- 101)",
     description:
       "Ganesh Chaturthi celebration involves installing Lord Ganesa clay idols.",
+      description: (
+        <>
+          <p> Per Person Amount : <span className="text-[#5678E9]">1,500</span> </p> 
+          <span className="tag text-[#4F4F4F] text-[14px]">The celebration of Ganesh Chaturthi involves the installation of clay idols of Lord Ganesa in  OurResident.</span>
+        </>
+      ),
     time: "Saturday 11:41 AM",
     options: ["Accept"],
     options2: ["Decline"],
-    text: "G",
+    icon: (
+      <div className="icon-wrapper-text mr-[10px]">
+        <p className="relative top-[-1px] left-[2px] mr-[20px] font-bold">G</p>
+      </div>
+    ),
   },
   {
     title: "Update Maintenance",
-    options: ["Accept"],
-    options2: ["Decline"],
-    icon: <img src={moneys} alt="Evelyn" className="w-[22px] h-[22px] rounded-full" />,
+    icon:
+      <div className="icon-wrapper">
+        <img src={moneys} alt="Evelyn" className="w-[22px] h-[22px] rounded-full relative top-[-3px] mr-[20px]" />
+      </div>
   },
 ];
 
@@ -219,7 +245,7 @@ export const Residentmanagementdata = [
   { fullName: "Evelyn Harper", unit: "B 1002", unitStatus: "Vacate", residentStatus: "--", phone: "97587 85828", member: 2, vehicle: 2 },
   { fullName: "Evelyn Harper", unit: "C 1003", unitStatus: "Occupied", residentStatus: "Owner", phone: "97587 85828", member: 1, vehicle: 4 },
   { fullName: "Evelyn Harper", unit: "D 1004", unitStatus: "Occupied", residentStatus: "Tenant", phone: "97587 85828", member: 4, vehicle: 2 },
-  { fullName: "Evelyn Harper", unit: "E 2001", unitStatus: "--", residentStatus: "--", phone: "97587 85828", member: 2 , vehicle: 2 },
+  { fullName: "Evelyn Harper", unit: "E 2001", unitStatus: "--", residentStatus: "--", phone: "97587 85828", member: 2, vehicle: 2 },
   { fullName: "Robert Fox", unit: "F 2002", unitStatus: "Occupied", residentStatus: "Tenant", phone: "97587 85828", member: 3, vehicle: 2 },
   { fullName: "Evelyn Harper", unit: "G 2003", unitStatus: "Occupied", residentStatus: "Owner", phone: "97587 85828", member: 2, vehicle: 2 },
   { fullName: "Evelyn Harper", unit: "H 2004", unitStatus: "Occupied", residentStatus: "Tenant", phone: "97587 85828", member: 6, vehicle: 3 },

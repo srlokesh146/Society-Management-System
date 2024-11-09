@@ -26,14 +26,28 @@ const Navbar = () => {
       setShowSearch(false);
     } else if (location.pathname === "/editprofile") {
       setShowSearch(false);
+    } else if (location.pathname === "/reqtracking") {
+      setShowSearch(false);
+    } else if (location.pathname === "/visitorlog") {
+      setShowSearch(false);
+    } else if (location.pathname === "/securityprotocols") {
+      setShowSearch(false);
+    } else if (location.pathname === "/securityguard") {
+      setShowSearch(false);
+    } else if (location.pathname === "/announcement") {
+      setShowSearch(false);
+    } else if (location.pathname === "/income") {
+      setShowSearch(false);
+    } else if (location.pathname === "/income") {
+      setShowSearch(false);
     }
   }, [location]);
 
   return (
-    <div className="flex justify-between items-center p-4 bg-white shadow-md sticky top-0 left-0 w-full z-[99] max-md:flex-col max-md:justify-start max-md:flex max-md:items-start max-sm:flex-col max-sm:justify-start max-sm:items-start">
-      
+    <div className="flex justify-between items-center p-4 bg-white shadow-md sticky top-0 left-0 w-full z-[99] max-md:flex-col max-md:justify-start max-md:flex max-md:items-start max-sm:flex-col max-sm:justify-start max-sm:items-start max-lg:pl-[50px]">
+
       {showSearch && (
-        <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end">
+        <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-[35px]">
           <input
             type="text"
             placeholder="Search..."
@@ -45,8 +59,8 @@ const Navbar = () => {
         </div>
       )}
 
-      <div className="flex items-center space-x-4 justify-end w-full max-md:justify-start max-sm:justify-start max-sm:ms-[35px]">
-        
+      <div className="flex items-center space-x-4 justify-end w-full max-md:justify-start max-sm:justify-start max-sm:ms-[35px] max-md:ml-[35px]">
+
         {/* Notification Icon */}
         <div className="relative">
           <IoNotifications
@@ -54,45 +68,46 @@ const Navbar = () => {
             className="text-black cursor-pointer border border-[#D3D3D3] rounded-[10px] p-[8px] md:block"
             onClick={handleNotificationClick}
           />
-          
+
           {/* Notification Dropdown */}
           {isNotificationOpen && (
-            <div className="absolute right-0 mt-2 w-full sm:w-[450px] md:w-[540px] bg-white rounded-lg shadow-lg p-4 z-[9999]">
-              <div className="flex justify-between items-center mb-2">
-                <span className="font-bold text-lg">Notifications</span>
+            <div className="absolute right-0 mt-2 min-w-[540px] bg-white rounded-lg shadow-lg p-4 z-[9999] max-sm:min-w-[310px] max-md:min-w-[500px] max-md:left-0 max-md:translate-x-[-10%] max-sm:translate-x-[-22%]">
+              <div className="flex justify-between items-center mb-2 max-sm:flex-col max-sm:justify-start">
+                <span className="font-bold text-lg  max-md:justify-start max-sm:mb-[10px]">Notifications</span>
                 <button className="text-sm text-gray-500">Clear all</button>
               </div>
               {notifications.map((notification, index) => (
-                <div key={index} className="border-b border-gray-200 pb-2 mb-2">
+                <div key={index} className="border-b border-gray-200 pb-5 mb-[14px]">
                   <div className="flex items-center">
-                    {notification.icon || (
-                      <div className="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-full text-center text-sm font-bold">
-                        {notification.text}
-                      </div>
-                    )}
+                    {/* {notification.icon || (
+                      <>
+                        <div className="w-10 h-10 mr-[15px] flex items-center justify-center bg-[#5678E9] rounded-full text-center text-sm font-bold text-notification">
+                          {notification.text}
+                        </div>
+                      </>
+                    )} */}
+                    {notification.icon}
                     <h6 className="font-bold text-sm">{notification.title}</h6>
                   </div>
-                  <p className="text-sm text-gray-600">{notification.description}</p>
-                  {notification.contact && (
-                    <p className="text-sm text-gray-500">{notification.contact}</p>
-                  )}
+                  <p className="text-[12px] text-[#A7A7A7] font-normal mt-1 ml-[50px] mb-[4px]">{notification.time}</p>
+                  <p className="text-sm text-gray-600 ml-[50px]">{notification.description}</p>
                   {notification.title === "Update Maintenance" && (
                     <div className="flex flex-col">
-                      <div className="bg-[#F6F8FB] flex justify-between leading-[21px]">
+                      <div className="bg-[#F6F8FB] flex justify-between leading-[21px] ml-[50px] pt-[10px] pb-[10px] px-[15px]">
                         <p className="text-sm text-[#4F4F4F]">Maintenance Amount:</p>
                         <p className="text-[#E74C3C]">$ 1500</p>
                       </div>
-                      <div className="flex justify-between bg-[#F6F8FB] leading-[21px]">
+                      <div className="border border-[#FFFFFF]"></div>
+                      <div className="flex justify-between bg-[#F6F8FB] leading-[21px] ml-[50px] pt-[10px] pb-[10px] px-[15px]">
                         <p className="text-sm text-[#4F4F4F]">Penalty:</p>
                         <p className="text-[#39973D]">$ 350</p>
                       </div>
                     </div>
                   )}
-                  <p className="text-xs text-gray-400 mt-1">{notification.time}</p>
-                  <div className="flex space-x-2 mt-2">
+                  <div className="flex space-x-2 mt-2 ml-[50px] max-md:justify-start max-sm:flex-col max-sm:justify-start max-sm:space-x-0">
                     {notification.options &&
                       notification.options.map((option, i) => (
-                        <button key={i} className="px-[28px] py-[8px] text-xs rounded-[10px] border border-gray-300">
+                        <button key={i} className="px-[28px] py-[8px] text-xs rounded-[10px] border border-gray-300 max-sm:mb-[10px]">
                           {option}
                         </button>
                       ))}
