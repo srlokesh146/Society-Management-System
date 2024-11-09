@@ -18,7 +18,7 @@ export default function TenantForm() {
     aadharBack: null,
     addressProof: null,
   });
-  const [activeTab, setActiveTab] = useState('owner');
+  const [activeTab, setActiveTab] = useState('tenant');
   const [memberCount, setMemberCount] = useState(0);
   const [vehicleCount, setVehicleCount] = useState(0);
 

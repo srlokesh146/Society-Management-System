@@ -7,13 +7,11 @@ const OtherIncome = () => {
   const [activeTab, setActiveTab] = useState('Other Income');
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    title: '',
-    date: '',
-    dueDate: '',
-    description: '',
-    amount: ''
-  });
+  const [title, setTitle] = useState('');
+  const [date, setDate] = useState('');
+  const [dueDate, setDueDate] = useState('');
+  const [description, setDescription] = useState('');
+  const [amount, setAmount] = useState('');
 
   const [otherIncomeData] = useState([
     {
@@ -153,28 +151,51 @@ const OtherIncome = () => {
   // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    if (name === 'title') setTitle(value);
+    if (name === 'date') setDate(value);
+    if (name === 'dueDate') setDueDate(value);
+    if (name === 'description') setDescription(value);
+    if (name === 'amount') setAmount(value);
+  };
+
+  // Add a new state to track the item being edited
+  const [itemToEdit, setItemToEdit] = useState(null);
+
+  // Update the handleViewClick function to set the item to edit
+  const handleEditClick = (item) => {
+    setItemToEdit(item); // Set the item to edit
+    setTitle(item.title); // Pre-fill the title
+    setDate(item.date); // Pre-fill the date
+    setDueDate(item.dueDate); // Pre-fill the due date
+    setDescription(item.description); // Pre-fill the description
+    setAmount(item.amount); // Pre-fill the amount
+    setIsModalOpen(true); // Open the modal
   };
 
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add your form submission logic here
+    if (itemToEdit) {
+      // Logic to update the existing item
+      console.log('Updating item:', { title, date, dueDate, description, amount });
+    } else {
+      // Logic to create a new item
+      console.log('Creating new item:', { title, date, dueDate, description, amount });
+    }
     setIsModalOpen(false);
+    // Reset the itemToEdit state after submission
+    setItemToEdit(null);
   };
 
   // Add this modal component
   const CreateIncomeModal = () => {
     // Check if all required fields are filled
     const isFormValid = 
-      formData.title.trim() !== '' && 
-      formData.date !== '' && 
-      formData.dueDate !== '' && 
-      formData.description.trim() !== '' && 
-      formData.amount !== '';
+      title.trim() !== '' && 
+      date !== '' && 
+      dueDate !== '' && 
+      description.trim() !== '' && 
+      amount !== '';
 
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -189,7 +210,7 @@ const OtherIncome = () => {
                 <input
                   type="text"
                   name="title"
-                  value={formData.title}
+                  value={title}
                   onChange={handleInputChange}
                   className="w-full border rounded-lg px-3 py-2"
                   placeholder="Enter Title"
@@ -203,7 +224,7 @@ const OtherIncome = () => {
                   <input
                     type="date"
                     name="date"
-                    value={formData.date}
+                    value={date}
                     onChange={handleInputChange}
                     className="w-full border rounded-lg px-3 py-2"
                     required
@@ -214,7 +235,7 @@ const OtherIncome = () => {
                   <input
                     type="date"
                     name="dueDate"
-                    value={formData.dueDate}
+                    value={dueDate}
                     onChange={handleInputChange}
                     className="w-full border rounded-lg px-3 py-2"
                     required
@@ -226,7 +247,7 @@ const OtherIncome = () => {
                 <label className="block text-sm text-black-600 mb-1">Description*</label>
                 <textarea
                   name="description"
-                  value={formData.description}
+                  value={description}
                   onChange={handleInputChange}
                   className="w-full border rounded-lg px-3 py-2"
                   placeholder="Enter Description"
@@ -242,7 +263,7 @@ const OtherIncome = () => {
                   <input
                     type="number"
                     name="amount"
-                    value={formData.amount}
+                    value={amount}
                     onChange={handleInputChange}
                     className="w-full border rounded-lg pl-7 pr-3 py-2"
                     placeholder="0.00"
@@ -390,7 +411,10 @@ const OtherIncome = () => {
                   
                   {dropdownOpen === item.id && (
                     <div className="absolute right-0 mt-2 w-24 bg-white rounded-md shadow-lg z-10">
-                      <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                      <button 
+                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                        onClick={() => handleEditClick(item)} // Call handleEditClick on Edit button click
+                      >
                         Edit
                       </button>
                       <button 
