@@ -20,8 +20,37 @@ const Login = () => {
     setUser({ ...user, [name]: value });
   };
 
+  const [errors, setErrors] = useState({
+    EmailOrPhone: "",
+    password: "",
+  });
+
+
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    let formIsValid = true;
+    let newErrors = { ...errors };
+    
+    if (!user.EmailOrPhone) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        EmailOrPhone: "Please enter your email or phone number",
+      }));
+      formIsValid = false;
+    }
+    if (!user.password) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        password: "Please enter your password",
+      }));
+      formIsValid = false;
+    }
+
+    setErrors(newErrors);
+
+    if (!formIsValid) return;
+
     try {
       const response = await loginUser(user);
       toast.success(response.data.message);
@@ -64,7 +93,7 @@ const Login = () => {
 
       {/* Right Section (Login Form) */}
       <div className="md:w-1/2 w-full flex items-center justify-center p-6">
-        <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+        <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-[530px]">
           <h2 className="text-2xl font-bold mb-6 text-gray-800">Login</h2>
           <form onSubmit={handleLogin} className="space-y-4">
             {/* Email or Phone Input */}
@@ -83,8 +112,12 @@ const Login = () => {
                 onChange={handleChange}
                 placeholder="Enter Your Phone Number or Email"
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-                required
+
               />
+
+              {errors.EmailOrPhone && (
+                <p className="text-red-500 text-sm mt-1">{errors.EmailOrPhone}</p>
+              )}
             </div>
 
             {/* Password Input */}
@@ -103,8 +136,10 @@ const Login = () => {
                 onChange={handleChange}
                 placeholder="Enter Password"
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-                required
               />
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+              )}
             </div>
 
             {/* Remember Me and Forgot Password */}
@@ -127,7 +162,7 @@ const Login = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-orange-500 text-white py-3 rounded-lg font-medium hover:bg-orange-600 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full bg-orange-500 text-white py-3 rounded-lg font-medium hover:bg-orange-600 transition-transform transform focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               Sign In
             </button>

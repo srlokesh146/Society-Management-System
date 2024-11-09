@@ -37,7 +37,7 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen overflow-hidden bg-cover bg-center relative">
+    <div className="flex flex-col lg:flex-row h-screen overflow-hidden bg-cover bg-center relative bg-image">
       <div className="flex flex-col bg-[#F6F8FB] w-full lg:w-1/2 z-10">
         <div className="pt-8 lg:pt-[60px] flex justify-start">
           <Logo logocss />

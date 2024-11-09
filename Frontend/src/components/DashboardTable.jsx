@@ -118,7 +118,7 @@ const DashboardTable = () => {
   }, []);
 
   return (
-    <div className="bg-white pt-[20px] rounded-[15px] col-span-1 lg:col-span-2">
+    <div className="bg-white pt-[20px] rounded-[15px] col-span-2 max-2xl:col-span-4">
       <div className="flex justify-between items-center mb-[27px] ps-[20px] pr-[20px]">
         <div>
           <h2 className="text-[20px] font-semibold leading-4 max-sm:text-[16px] max-mb:text-[18px]">
@@ -155,7 +155,7 @@ const DashboardTable = () => {
         </div>
       </div>
 
-      <div className="max-h-64 overflow-y-auto lg:overflow-x-hidden max-md:overflow-x-auto pr-[8px] ps-[20px] custom-scrollbar">
+      <div className="max-h-64 overflow-y-auto max-md:overflow-x-auto pr-[8px] ps-[20px] custom-scrollbar">
         <table className="w-full table-auto border-collapse">
           <thead>
             <tr className="text-start text-black bg-opacity-custom rounded-tl-[15px] rounded-tr-[15px] bg-gray-100 h-[61px] #F4F4F4">
