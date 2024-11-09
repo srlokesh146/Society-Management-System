@@ -24,6 +24,9 @@ import Note from "./pages/Note.jsx";
 import Expense from "./pages/Expense.jsx";
 import Income from "./pages/Income";
 import OtherIncome from "./pages/OtherIncome";
+import OwnerForm from "./pages/TenantForm.jsx";
+import ResidentManagement from "./pages/Residentmanagement";
+import TenantForm from "./pages/TenantForm.jsx";
 
 
 function App() {
