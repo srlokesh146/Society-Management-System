@@ -220,9 +220,15 @@ function SecurityGuardDetails() {
   }, []);
 
   return (
-    <div className="container mx-auto p-4 sm:p-6 bg-white rounded-lg">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-semibold text-gray-800">
+    <div className="container mx-auto p-4 sm:p-6 bg-white rounded-lg             
+    lg:max-w-[870px]     
+    xl:max-w-[980px]     
+    2xl:max-w-[1200px]   
+    3xl:max-w-[2240px]    
+    security-table
+     ">
+      <div className="flex justify-between items-center mb-6 max-sm:flex-col">
+        <h1 className="text-[20px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px]">
           Security Guard Details
         </h1>
         <button
@@ -233,9 +239,9 @@ function SecurityGuardDetails() {
         </button>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
+      <div className="bg-white rounded-lg shadow-sm overflow-x-auto custom-scrollbar min-w-0">
+        <div className="overflow-x-auto block bg-transparent w-full">
+          <table className="divide-y divide-gray-200 w-full">
             <thead className="bg-indigo-50">
               <tr>
                 {[
@@ -249,7 +255,7 @@ function SecurityGuardDetails() {
                 ].map((header) => (
                   <th
                     key={header}
-                    className="px-4   py-4 text-left text-md font-bold text-black-500"
+                    className="px-4 py-4 text-left text-md font-bold text-black-500 max-sm:min-w-[209px] md:min-w-[166px] max-md:min-w-[180px]"
                   >
                     {header}
                   </th>
@@ -258,7 +264,7 @@ function SecurityGuardDetails() {
             </thead>
             <tbody className="bg-white divide-y divide-gray-100">
               {guards.map((guard, i) => (
-                <tr key={i} className="hover:bg-gray-50">
+                <tr key={i} className="">
                   <td className="px-1 py-4">
                     <div className="flex items-center">
                       <img
@@ -280,11 +286,10 @@ function SecurityGuardDetails() {
                   </td>
                   <td className="px-6 py-4">
                     <span
-                      className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                        guard.shift === "Day"
-                          ? "bg-orange-50 text-orange-500"
-                          : "bg-gray-600 text-white"
-                      }`}
+                      className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${guard.shift === "Day"
+                        ? "bg-orange-50 text-orange-500"
+                        : "bg-gray-600 text-white"
+                        }`}
                     >
                       {guard.shift === "Day" ? (
                         <FaSun className="mr-2" />
@@ -310,11 +315,10 @@ function SecurityGuardDetails() {
                   </td>
                   <td className="px-6 py-4">
                     <span
-                      className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                        guard.gender === "Male"
-                          ? "bg-blue-50 text-blue-600"
-                          : "bg-pink-50 text-pink-600"
-                      }`}
+                      className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${guard.gender === "Male"
+                        ? "bg-blue-50 text-blue-600"
+                        : "bg-pink-50 text-pink-600"
+                        }`}
                     >
                       {guard.gender === "male" ? (
                         <FaMale className="mr-2" />
@@ -354,7 +358,7 @@ function SecurityGuardDetails() {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm">
             <div className="p-6">
               <h2 className="text-xl font-semibold text-start mb-6">
@@ -480,8 +484,8 @@ function SecurityGuardDetails() {
                           defaultValue={
                             currentGuard?.date
                               ? new Date(currentGuard.date)
-                                  .toISOString()
-                                  .split("T")[0]
+                                .toISOString()
+                                .split("T")[0]
                               : ""
                           }
                           onChange={(e) =>
@@ -515,11 +519,10 @@ function SecurityGuardDetails() {
                       Upload Aadhar Card*
                     </label>
                     <div
-                      className={`border-2 border-dashed ${
-                        isDragging
-                          ? "border-blue-500 bg-blue-50"
-                          : "border-gray-200"
-                      } rounded-lg p-4`}
+                      className={`border-2 border-dashed ${isDragging
+                        ? "border-blue-500 bg-blue-50"
+                        : "border-gray-200"
+                        } rounded-lg p-4`}
                       onDragOver={handleDragOver}
                       onDragLeave={handleDragLeave}
                       onDrop={(e) => handleDrop(e, "adhar_card")}
@@ -570,10 +573,9 @@ function SecurityGuardDetails() {
                       onClick={handleSave}
                       disabled={!isFormFilled}
                       className={`w-full p-3 text-sm font-medium rounded-lg transition-all duration-300
-                        ${
-                          isFormFilled
-                            ? "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
-                            : "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
+                        ${isFormFilled
+                          ? "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
+                          : "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
                         }`}
                     >
                       Create
@@ -632,11 +634,10 @@ function SecurityGuardDetails() {
                     <p className="text-sm text-gray-500">Select Shift</p>
                     <div
                       className={`mt-1 px-3 py-1 rounded-full text-xs inline-flex items-center gap-1
-                      ${
-                        currentGuard.shift === "day"
+                      ${currentGuard.shift === "day"
                           ? "bg-yellow-50 text-yellow-600"
                           : "bg-blue-50 text-blue-600"
-                      }`}
+                        }`}
                     >
                       {currentGuard.shift === "day" ? (
                         <FaSun size={12} />
@@ -658,11 +659,10 @@ function SecurityGuardDetails() {
                     <p className="text-sm text-gray-500">Gender</p>
                     <div
                       className={`mt-1 px-3 py-1 rounded-full text-xs inline-flex items-center gap-1
-                      ${
-                        currentGuard.gender === "Male"
+                      ${currentGuard.gender === "Male"
                           ? "bg-blue-50 text-blue-600"
                           : "bg-pink-50 text-pink-600"
-                      }`}
+                        }`}
                     >
                       {currentGuard.gender === "Male" ? (
                         <FaMale size={12} />

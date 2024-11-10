@@ -16,10 +16,11 @@ const visitors = [
 
 const VisitorLogs = () => {
   return (
-    <div className="p-4 sm:p-6 bg-white rounded-lg overflow-auto max-w-full">
-      <h1 className="text-[20px] font-bold mb-6 text-gray-800">Visitor Logs</h1>
+    <div className="p-4 sm:p-6 bg-white rounded-lg overflow-auto max-w-full  
+    3xl:max-w-[2240px] visiter-table">
+      <h1 className="text-[20px] font-semibold mb-6 text-gray-800 max-xl:mb-0 max-sm:mb-[15px]">Visitor Logs</h1>
       <div className="bg-white rounded-lg shadow-sm overflow-x-auto custom-scrollbar">
-        <div className="max-h-[50rem] px-[20px]">
+        <div className="max-h-[50rem] ps-0 pr-[8px]">
           <table className="min-w-full table-auto border-collapse">
             <thead className="bg-indigo-50">
               <tr>
