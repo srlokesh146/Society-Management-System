@@ -91,14 +91,14 @@ function Expense() {
 
     const newId = expenses.length + 1;
     const billFormat = newExpense.bill?.name.split('.').pop().toUpperCase();
-    
+
     setExpenses([...expenses, {
       id: newId,
       ...newExpense,
       billFormat,
       amount: `₹ ${newExpense.amount}`
     }]);
-    
+
     setIsModalOpen(false);
     setNewExpense({
       title: '',
@@ -115,32 +115,33 @@ function Expense() {
       if (exp.id === selectedExpense.id) {
         return {
           ...selectedExpense,
-          amount: selectedExpense.amount.includes('₹') ? 
-            selectedExpense.amount : 
+          amount: selectedExpense.amount.includes('₹') ?
+            selectedExpense.amount :
             `₹ ${selectedExpense.amount}`
         };
       }
       return exp;
     });
-    
+
     setExpenses(updatedExpenses);
     setIsEditModalOpen(false);
     setSelectedExpense(null);
   };
 
   const isFormValid = (expense) => {
-    return expense.title && 
-           expense.description && 
-           expense.date && 
-           expense.amount && 
-           expense.bill;
+    return expense.title &&
+      expense.description &&
+      expense.date &&
+      expense.amount &&
+      expense.bill;
   };
 
   const ExpenseModal = () => (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
       <div className="bg-white rounded-lg w-full max-w-md mx-4">
         <div className="p-6">
           <h2 className="text-xl font-semibold mb-6">Add Expenses Details</h2>
+          <div className="border-b border-[#F4F4F4] mb-[30px]"></div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm text-black-600 mb-1">Title*</label>
@@ -181,7 +182,7 @@ function Expense() {
                 <div className="relative">
                   <span className="absolute left-3 top-2.5">₹</span>
                   <input
-                    name="amount"   
+                    name="amount"
                     type="number"
                     placeholder="0000"
                     className="w-full p-2 pl-7 border border-gray-200 rounded-lg"
@@ -195,9 +196,8 @@ function Expense() {
             <div>
               <label className="block text-sm text-black-600 mb-1">Upload Bill*</label>
               <div
-                className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer ${
-                  isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
-                }`}
+                className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
+                  }`}
                 name="bill"
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
@@ -237,11 +237,10 @@ function Expense() {
               <button
                 type="submit"
                 disabled={!isFormValid(newExpense)}
-                className={`w-full py-2 text-black rounded-lg ${
-                  isFormValid(newExpense)
-                    ? 'bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] hover:opacity-90'
-                    : 'bg-[#F6F8FB]  font-semibold cursor-not-allowed'
-                }`}
+                className={`w-full py-2 text-black rounded-lg ${isFormValid(newExpense)
+                  ? 'bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] hover:opacity-90'
+                  : 'bg-[#F6F8FB]  font-semibold cursor-not-allowed'
+                  }`}
               >
                 Save
               </button>
@@ -253,12 +252,12 @@ function Expense() {
   );
 
   const ViewExpenseModal = () => (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
       <div className="bg-white rounded-lg w-full max-w-md mx-4">
         <div className="p-4">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-medium text-gray-900">View Expense Details</h2>
-            <button 
+            <button
               onClick={() => {
                 setIsViewModalOpen(false);
                 setSelectedExpense(null);
@@ -268,34 +267,34 @@ function Expense() {
               ✕
             </button>
           </div>
-          
+          <div className="border-b border-[#F4F4F4] mb-[30px]"></div>
           <div className="space-y-3">
             <div>
               <h3 className="font-medium text-gray-900">{selectedExpense?.title}</h3>
             </div>
-            
+
             <div>
               <p className="text-sm text-gray-500">Description</p>
               <p className="text-sm text-gray-900 mt-0.5">{selectedExpense?.description}</p>
             </div>
-            
+
             <div>
               <p className="text-sm text-gray-500">Date</p>
               <p className="text-sm text-gray-900 mt-0.5">{selectedExpense?.date}</p>
             </div>
-            
+
             <div>
               <p className="text-sm text-gray-500">Amount</p>
               <p className="text-sm text-gray-900 mt-0.5">₹ {selectedExpense?.amount?.replace('₹ ', '')}</p>
             </div>
-            
+
             <div>
               <p className="text-sm text-gray-500">Bill</p>
               <div className="flex items-center gap-3 mt-1.5 bg-gray-50 p-2 rounded-md">
-                <img 
-                  src={selectedExpense?.billFormat === 'PDF' ? '/pdf-icon.svg' : '/jpg-icon.svg'} 
-                  className="w-5 h-5" 
-                  alt={selectedExpense?.billFormat} 
+                <img
+                  src={selectedExpense?.billFormat === 'PDF' ? '/pdf-icon.svg' : '/jpg-icon.svg'}
+                  className="w-5 h-5"
+                  alt={selectedExpense?.billFormat}
                 />
                 <div className="flex-1">
                   <p className="text-sm text-gray-900">Attached Front Side.{selectedExpense?.billFormat}</p>
@@ -313,12 +312,13 @@ function Expense() {
   );
 
   const DeleteExpenseModal = () => (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
       <div className="bg-white rounded-lg w-full max-w-md mx-4">
         <div className="p-6">
           <h2 className="text-xl font-semibold mb-4">Delete Expense ?</h2>
+          <div className="border-b border-[#F4F4F4] mb-[30px]"></div>
           <p className="text-gray-600 mb-6">Are you sure you want to delete this expense? </p>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <button
               onClick={() => {
@@ -335,7 +335,7 @@ function Expense() {
                 setIsDeleteModalOpen(false);
                 setSelectedExpense(null);
               }}
-              className="w-full py-2 text-white bg-[#E74C3C] rounded-lg hover:bg-red-700"
+              className="w-full py-2 text-white bg- bg-custom-gradient rounded-lg hover:bg-red-700"
             >
               Delete
             </button>
@@ -346,12 +346,12 @@ function Expense() {
   );
 
   const EditExpenseModal = () => (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
       <div className="bg-white rounded-lg w-full max-w-md mx-4">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-semibold">Edit Expense Details</h2>
-            <button 
+            <button
               onClick={() => {
                 setIsEditModalOpen(false);
                 setSelectedExpense(null);
@@ -361,7 +361,8 @@ function Expense() {
               ✕
             </button>
           </div>
-          
+          <div className="border-b border-[#F4F4F4] mb-[30px]"></div>
+
           <form onSubmit={handleEditSubmit} className="space-y-4">
             <div>
               <label className="block text-sm text-black-600 mb-1">Title*</label>
@@ -370,7 +371,7 @@ function Expense() {
                 placeholder="Enter Title"
                 className="w-full p-2 border border-gray-200 rounded-lg"
                 value={selectedExpense?.title || ''}
-                onChange={(e) => setSelectedExpense({...selectedExpense, title: e.target.value})}
+                onChange={(e) => setSelectedExpense({ ...selectedExpense, title: e.target.value })}
               />
             </div>
 
@@ -380,7 +381,7 @@ function Expense() {
                 placeholder="Enter Description"
                 className="w-full p-2 border border-gray-200 rounded-lg"
                 value={selectedExpense?.description || ''}
-                onChange={(e) => setSelectedExpense({...selectedExpense, description: e.target.value})}
+                onChange={(e) => setSelectedExpense({ ...selectedExpense, description: e.target.value })}
               />
             </div>
 
@@ -391,7 +392,7 @@ function Expense() {
                   type="date"
                   className="w-full p-2 border border-gray-200 rounded-lg"
                   value={selectedExpense?.date || ''}
-                  onChange={(e) => setSelectedExpense({...selectedExpense, date: e.target.value})}
+                  onChange={(e) => setSelectedExpense({ ...selectedExpense, date: e.target.value })}
                 />
               </div>
               <div>
@@ -403,7 +404,7 @@ function Expense() {
                     placeholder="0000"
                     className="w-full p-2 pl-7 border border-gray-200 rounded-lg"
                     value={selectedExpense?.amount?.replace('₹ ', '') || ''}
-                    onChange={(e) => setSelectedExpense({...selectedExpense, amount: e.target.value})}
+                    onChange={(e) => setSelectedExpense({ ...selectedExpense, amount: e.target.value })}
                   />
                 </div>
               </div>
@@ -412,9 +413,8 @@ function Expense() {
             <div>
               <label className="block text-sm text-black-600 mb-1">Upload Bill*</label>
               <div
-                className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer ${
-                  isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
-                }`}
+                className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
+                  }`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={(e) => {
@@ -475,11 +475,10 @@ function Expense() {
               <button
                 type="submit"
                 disabled={!isFormValid(selectedExpense || {})}
-                className={`w-full py-2 text-black rounded-lg ${
-                  isFormValid(selectedExpense || {})
-                    ? 'bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] hover:opacity-90'
-                    : 'bg-[#F6F8FB] font-semibold cursor-not-allowed'
-                }`}
+                className={`w-full py-2 text-black rounded-lg ${isFormValid(selectedExpense || {})
+                  ? 'bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] hover:opacity-90'
+                  : 'bg-[#F6F8FB] font-semibold cursor-not-allowed'
+                  }`}
               >
                 Save Changes
               </button>
@@ -492,7 +491,7 @@ function Expense() {
 
   const renderActionButtons = (expense) => (
     <div className="flex gap-2">
-      <button 
+      <button
         onClick={() => {
           setSelectedExpense(expense);
           setIsEditModalOpen(true);
@@ -501,7 +500,7 @@ function Expense() {
       >
         <FaPencil size={14} />
       </button>
-      <button 
+      <button
         onClick={() => {
           setSelectedExpense(expense);
           setIsViewModalOpen(true);
@@ -510,7 +509,7 @@ function Expense() {
       >
         <FaEye size={14} />
       </button>
-      <button 
+      <button
         onClick={() => {
           setSelectedExpense(expense);
           setIsDeleteModalOpen(true);
@@ -527,8 +526,8 @@ function Expense() {
       <div className="bg-white rounded-xl shadow-sm">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-800">Add Expenses Details</h1>
-            <button 
+            <h1 className="text-[20px] font-semibold text-gray-800">Add Expenses Details</h1>
+            <button
               onClick={() => setIsModalOpen(true)}
               className="bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white px-4 py-2 rounded-md hover:opacity-90 flex items-center gap-2"
             >
@@ -551,15 +550,15 @@ function Expense() {
               <tbody>
                 {expenses.map((expense) => (
                   <tr key={expense.id} className="border-b hover:bg-gray-50">
-                    <td className="px-6 py-4 text-sm font-bold text-gray-600">{expense.title}</td>
-                    <td className="px-6 py-4 text-sm font-bold text-gray-600">{expense.description}</td>
-                    <td className="px-6 py-4 text-sm font-bold text-gray-600">{expense.date}</td>
-                    <td className="px-6 py-4 text-sm  font-bold text-green-600">{expense.amount}</td>
+                    <td className="px-6 py-4 text-sm font-semibold text-gray-600">{expense.title}</td>
+                    <td className="px-6 py-4 text-sm font-semibold text-gray-600">{expense.description}</td>
+                    <td className="px-6 py-4 text-sm font-semibold text-gray-600">{expense.date}</td>
+                    <td className="px-6 py-4 text-sm  font-semibold text-green-600">{expense.amount}</td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs
                         ${expense.billFormat === 'PDF' ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600'}`}>
-                        {expense.billFormat === 'PDF' ? 
-                          <img src="/pdf-icon.svg" className="w-4 h-4" alt="PDF" /> : 
+                        {expense.billFormat === 'PDF' ?
+                          <img src="/pdf-icon.svg" className="w-4 h-4" alt="PDF" /> :
                           <img src="/jpg-icon.svg" className="w-4 h-4" alt="JPG" />
                         }
                         {expense.billFormat}

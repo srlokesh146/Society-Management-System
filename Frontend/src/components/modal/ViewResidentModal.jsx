@@ -7,13 +7,13 @@ export default function ViewResidentModal({ isOpen, onClose, resident }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-y-0 right-0 flex justify-end z-50">
+    <div className="fixed inset-y-0 right-0 flex justify-end z-[9999]">
       <div 
         className="fixed inset-0 bg-black bg-opacity-50" 
         onClick={onClose}
       ></div>
       
-      <div className="bg-white w-[400px] h-[80vh] my-auto relative overflow-hidden z-10 animate-slide-left rounded-l-xl shadow-lg">
+      <div className="bg-white w-[400px] h-full my-auto relative overflow-hidden z-10 animate-slide-left rounded-l-xl shadow-lg">
         <button 
           onClick={onClose} 
           className="absolute top-3 right-6 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
