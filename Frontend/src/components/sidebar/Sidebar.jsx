@@ -52,7 +52,7 @@ export default function Sidebar() {
       {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 h-full w-[280px] bg-white p-4 shadow-lg border border-gray-200 transition-transform duration-300 lg:transition-none lg:relative lg:transform-none ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } lg:w-[280px] lg:block z-[9]`}
+          } lg:w-[280px] lg:block z-[9999]`}
       >
         <div className="flex justify-between items-center mb-[30px] border-b pb-[28px] pt-[15px]">
           <Logo sidebarlogo />
@@ -64,7 +64,7 @@ export default function Sidebar() {
           </button>
         </div>
 
-        <nav>
+        <nav className="mb-[300px] max-sm:mb-[450px]  max-md:mb-[450px]">
           <ul>
             {sidebarItems.map((item) => (
               <li key={item.id}>
@@ -121,11 +121,11 @@ export default function Sidebar() {
         </nav>
 
         {/* Logout */}
-        <div className="absolute bottom-4 left-4 w-full mt-[15px] h-[-50%]">
-          <div className="border border-[#F4F4F4] mt-[200px] mr-[34px]"></div>
+        <div className="w-full mt-[15px] h-auto">
+          <div className="border border-[#F4F4F4] max-sm:mt-[320px] mr-[34px]"></div>
           <NavLink
             to="/login"
-            className="flex items-center mb-[10px] text-[16px] font-medium rounded-lg p-[14px] text-[#E74C3C]"
+            className="flex items-center justify-items-end mb-[10px] text-[16px] font-medium rounded-lg p-[14px] text-[#E74C3C]"
           >
             <img src={logout} alt="" className="mr-[12px]" />
             Logout

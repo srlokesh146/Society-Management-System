@@ -71,7 +71,10 @@ const Navbar = () => {
 
           {/* Notification Dropdown */}
           {isNotificationOpen && (
-            <div className="absolute right-0 mt-2 min-w-[540px] bg-white rounded-lg shadow-lg p-4 z-[9999] max-sm:min-w-[310px] max-md:min-w-[500px] max-md:left-0 max-md:translate-x-[-10%] max-sm:translate-x-[-22%]">
+            <div
+              className="absolute right-0 mt-2 min-w-[540px] bg-white rounded-lg shadow-lg p-4 z-[9999] max-sm:max-h-[700px] max-sm:overflow-y-auto 
+               max-sm:min-w-[310px] max-md:min-w-[500px] max-md:left-0 max-md:translate-x-[-10%] max-sm:translate-x-[-22%] sm:min-w-[30rem] notication-class"
+            >
               <div className="flex justify-between items-center mb-2 max-sm:flex-col max-sm:justify-start">
                 <span className="font-bold text-lg  max-md:justify-start max-sm:mb-[10px]">Notifications</span>
                 <button className="text-sm text-gray-500">Clear all</button>

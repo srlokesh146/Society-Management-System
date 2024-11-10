@@ -159,9 +159,9 @@ function SecurityProtocols() {
     : "";
 
   return (
-    <div className="container mx-auto p-4 sm:p-6  bg-white rounded-lg">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-black-800">
+    <div className="container mx-auto p-4 sm:p-6  bg-white rounded-lg security-protocel-table">
+      <div className="flex justify-between items-center mb-6 max-sm:flex-col">
+        <h1 className="text-[20px] font-semibold text-black-800 max-xl:mb-0 max-sm:mb-[15px]">
           Security Protocols
         </h1>
         <button
@@ -172,8 +172,8 @@ function SecurityProtocols() {
         </button>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
+      <div className="bg-white rounded-lg shadow-sm">
+        <div className="overflow-x-auto custom-scrollbar min-w-0 overflow-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="  bg-indigo-50 ">
               <tr>
@@ -181,7 +181,7 @@ function SecurityProtocols() {
                   (header) => (
                     <th
                       key={header}
-                      className="px-6 py-4 text-left text-md font-bold text-black-500"
+                      className="px-6 py-4 text-left text-md font-bold text-black-500 max-sm:min-w-[270px] md:min-w-[166px] max-md:min-w-[180px]"
                     >
                       {header}
                     </th>
@@ -192,17 +192,17 @@ function SecurityProtocols() {
             <tbody className="bg-white divide-y divide-gray-100">
               {protocols.map((protocol) => (
                 <tr key={protocol._id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-4 max-sm:min-w-[270px] md:min-w-[166px] max-md:min-w-[180px]">
                     <div className="text-sm font-medium text-[#4F4F4F]">
                       {protocol.title}
                     </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-4 max-sm:min-w-[270px] md:min-w-[166px] max-md:min-w-[180px]">
                     <div className="text-sm  font-medium text-[#4F4F4F]">
                       {protocol.description}
                     </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-4 max-sm:min-w-[270px] md:min-w-[166px] max-md:min-w-[180px]">
                     <div className="flex items-center justify-center w-[100px] h-[34px] text-sm text-[#4F4F4F]">
                       {new Date(protocol.date).toLocaleDateString("en-GB", {
                         day: "2-digit",
@@ -211,12 +211,12 @@ function SecurityProtocols() {
                       })}
                     </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-4 max-sm:min-w-[270px] md:min-w-[166px] max-md:min-w-[180px]">
                     <div className="inline-flex px-3 py-1 text-sm text-[#4F4F4F] bg-[#F6F8FB] rounded-lg">
                       {protocol.time}
                     </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-4 max-sm:min-w-[270px] md:min-w-[166px] max-md:min-w-[180px]">
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => handleEdit(protocol)}
