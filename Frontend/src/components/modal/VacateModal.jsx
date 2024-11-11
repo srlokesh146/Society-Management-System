@@ -6,9 +6,10 @@ const VacateModal = ({ showVacateModal, setShowVacateModal, onClose, setWing, wi
   if (!showVacateModal) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[99]">
-      <div className="bg-white rounded-lg p-6 w-full max-w-md">
-        <h2 className="text-lg font-medium mb-6">Residence Status</h2>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+      <div className="bg-white rounded-lg p-6 w-full max-w-[410px]">
+        <h2 className="text-lg font-semibold mb-[10px]">Residence Status</h2>
+        <div className="border-b border-[#F4F4F4] mb-[30px]"></div>
 
         <div className="grid grid-cols-2 gap-4 mb-6">
           {/* Wing Dropdown */}

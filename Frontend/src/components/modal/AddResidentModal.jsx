@@ -32,25 +32,23 @@ export default function AddResidentModal({ isOpen, onClose, onSave, resident, se
   return (
     <>
       {/* First Modal */}
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[99]">
-        <div className="bg-white rounded-lg p-6 w-full max-w-md">
-          <h2 className="text-lg font-medium mb-6">Residence Status</h2>
-
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+        <div className="bg-white rounded-lg p-6 w-full max-w-[410px]">
+          <h2 className="text-lg font-semibold mb-[10px]">Residence Status</h2>
+          <div className="border-b border-[#F4F4F4] mb-[30px]"></div>
           {/* Status Options */}
           <div className="flex gap-4 mb-6">
             <button
 
               className={`flex items-center gap-2 px-4 py-2 rounded-md border ${selectedStatus === "Occupied"
-                  ? "border-[#FF6B07] bg-white text-[#FF6B07]"
-                  : "border-gray-200"
+                ? "border-[#FF6B07] bg-white text-[#FF6B07]"
+                : "border-gray-200"
                 }`}
               onClick={() => setSelectedStatus("Occupied")}
-
-              className={`flex w-48 items-center gap-2 px-4 py-2 rounded-md border ${
-                selectedStatus === 'Occupied' 
-                  ? 'border-[#FF6B07] bg-white text-[#FF6B07]' 
+              className={`flex w-48 items-center gap-2 px-4 py-2 rounded-md border ${selectedStatus === 'Occupied'
+                  ? 'border-[#FF6B07] bg-white text-[#FF6B07]'
                   : 'border-gray-200'
-              }`}
+                }`}
               onClick={() => setSelectedStatus('Occupied')}
 
             >
@@ -68,16 +66,15 @@ export default function AddResidentModal({ isOpen, onClose, onSave, resident, se
             <button
 
               className={`flex items-center gap-2 px-4 py-2 rounded-md border ${selectedStatus === "Vacate"
-                  ? "border-[#FF6B07] bg-white text-[#FF6B07]"
-                  : "border-gray-200"
+                ? "border-[#FF6B07] bg-white text-[#FF6B07]"
+                : "border-gray-200"
                 }`}
               onClick={() => setSelectedStatus("Vacate")}
 
-              className={`flex w-48 items-center gap-2 px-4 py-2 rounded-md border ${
-                selectedStatus === 'Vacate' 
-                  ? 'border-[#FF6B07] bg-white text-[#FF6B07]' 
+              className={`flex w-48 items-center gap-2 px-4 py-2 rounded-md border ${selectedStatus === 'Vacate'
+                  ? 'border-[#FF6B07] bg-white text-[#FF6B07]'
                   : 'border-gray-200'
-              }`}
+                }`}
               onClick={() => setSelectedStatus('Vacate')}
 
             >
@@ -95,7 +92,7 @@ export default function AddResidentModal({ isOpen, onClose, onSave, resident, se
 
           {/* Info Text */}
           <p className="text-sm text-gray-500 mb-6 flex items-start gap-2">
-          <input type="checkbox" required className="w-4 h-4 text-[#FE512E] border-gray-300 rounded focus:ring-[#FE512E]" />
+            <input type="checkbox" required className="w-4 h-4 text-[#FE512E] border-gray-300 rounded focus:ring-[#FE512E]" />
             By submitting, you agree to select Occupied
           </p>
 
@@ -119,7 +116,7 @@ export default function AddResidentModal({ isOpen, onClose, onSave, resident, se
 
 
       {/* Confirmation Modal */}
-      
+
     </>
   );
 }

@@ -43,7 +43,7 @@ const OtherIncome = () => {
     },
     {
       id: 4,
-      title: "Ganesh chaturthi",
+      title: "Ganesh Chaturthi",
       amountPerMember: "₹ 1,500",
       totalMember: "12",
       date: "01/07/2024",
@@ -79,14 +79,14 @@ const OtherIncome = () => {
 
   // Add Participant List Modal Component
   const ParticipantListModal = ({ item }) => (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
       <div className="bg-white rounded-lg w-[90%] max-w-6xl h-[80vh] flex flex-col">
         <div className="p-6 border-b">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-semibold">{item.title} Participator Member List</h2>
             <button 
               onClick={() => setIsParticipantModalOpen(false)}
-              className="text-gray-500 hover:text-gray-700"
+              className="text-gray-500 hover:text-gray-700 text-[30px]"
             >
               ×
             </button>
@@ -198,11 +198,12 @@ const OtherIncome = () => {
       amount !== '';
 
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
         <div className="bg-white rounded-lg w-[400px] flex flex-col">
           {/* Modal Content */}
           <div className="p-6">
             <h2 className="text-xl  font-semibold mb-4">Create Other Income</h2>
+            <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
             
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -212,7 +213,7 @@ const OtherIncome = () => {
                   name="title"
                   value={title}
                   onChange={handleInputChange}
-                  className="w-full border rounded-lg px-3 py-2"
+                  className="w-full border rounded-lg px-3 py-2 outline-none"
                   placeholder="Enter Title"
                   required
                 />
@@ -226,7 +227,7 @@ const OtherIncome = () => {
                     name="date"
                     value={date}
                     onChange={handleInputChange}
-                    className="w-full border rounded-lg px-3 py-2"
+                    className="w-full border rounded-lg px-3 py-2 outline-none"
                     required
                   />
                 </div>
@@ -237,7 +238,7 @@ const OtherIncome = () => {
                     name="dueDate"
                     value={dueDate}
                     onChange={handleInputChange}
-                    className="w-full border rounded-lg px-3 py-2"
+                    className="w-full border rounded-lg px-3 py-2 outline-none"
                     required
                   />
                 </div>
@@ -249,7 +250,7 @@ const OtherIncome = () => {
                   name="description"
                   value={description}
                   onChange={handleInputChange}
-                  className="w-full border rounded-lg px-3 py-2"
+                  className="w-full border rounded-lg px-3 py-2 outline-none"
                   placeholder="Enter Description"
                   rows="3"
                   required
@@ -265,7 +266,7 @@ const OtherIncome = () => {
                     name="amount"
                     value={amount}
                     onChange={handleInputChange}
-                    className="w-full border rounded-lg pl-7 pr-3 py-2"
+                    className="w-full border rounded-lg pl-7 pr-3 py-2 outline-none"
                     placeholder="0.00"
                     required
                   />
@@ -275,7 +276,7 @@ const OtherIncome = () => {
           </div>
 
           {/* Buttons Section - Full Width at Bottom */}
-          <div className="border-t w-full mt-auto">
+          <div className="w-full mt-auto">
             <div className="flex gap-4 p-4">
               <button
                 type="button"
@@ -286,7 +287,7 @@ const OtherIncome = () => {
               </button>
               <button
                 type="submit"
-                className={`flex-1 px-4 py-3 rounded-lg ${
+                className={`flex-1 px-4 py-3 rounded-lg h-[51px] ${
                   isFormValid 
                     ? 'bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90'
                     : 'bg-[#F6F8FB] text-black-400 cursor-not-allowed'
@@ -315,10 +316,11 @@ const OtherIncome = () => {
 
   // Add Delete Confirmation Modal Component
   const DeleteConfirmationModal = ({ item }) => (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
       <div className="bg-white rounded-lg p-6 w-[400px]">
-        <div className="text-center">
-          <h3 className="text-lg font-semibold mb-2">Delete {item.title}</h3>
+        <div className="text-start">
+          <h3 className="text-[20px] font-semibold mb-2">Delete {item.title}</h3>
+          <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
           <p className="text-gray-500 text-sm mb-6">
             Are you sure you want to delete this other income? 
           </p>
@@ -332,7 +334,7 @@ const OtherIncome = () => {
             </button>
             <button
               onClick={() => handleDelete(item)}
-              className="px-14 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+              className="px-14 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 h-[51px]"
             >
               Delete
             </button>
@@ -437,23 +439,23 @@ const OtherIncome = () => {
               {/* Card Content */}
               <div className="p-4 space-y-2.5">
                 <div className='flex justify-between items-center'>
-                  <p className="text-[14px] font-bold text-gray-400">Amount Per Member</p>
-                  <p className="text-blue-500 bg-blue-100  px-3 py-1 rounded-xl font-bold text-sm">₹ 1,500</p>
+                  <p className="text-[14px] font-semibold text-gray-400">Amount Per Member</p>
+                  <p className="text-blue-500 bg-blue-100  px-3 py-1 rounded-xl font-semibold text-sm">₹ 1,500</p>
                 </div>
                 <div className='flex justify-between items-center' >
-                  <p className="text-[14px] font-bold text-gray-400">Total Member</p>
+                  <p className="text-[14px] font-semibold text-gray-400">Total Member</p>
                   <p className="text-grey-500 text-sm">12</p>
                 </div>
                 <div className='flex justify-between items-center'>
-                  <p className="text-[14px] font-bold text-gray-400">Date</p>
+                  <p className="text-[14px] font-semibold text-gray-400">Date</p>
                   <p className="text-grey-500 text-sm">01/07/2024</p>
                 </div>
                 <div className='flex justify-between items-center'> 
-                  <p className="text-[14px] font-bold text-gray-400">Due Date</p>
+                  <p className="text-[14px] font-semibold text-gray-400">Due Date</p>
                   <p className="text-grey-500 text-sm">10/07/2024</p>
                 </div>
-                <div >
-                  <p className="text-[14px] font-bold text-gray-400">Description</p>
+                <div>
+                  <p className="text-[14px] font-semibold text-gray-400 mb-[10px]">Description</p>
                   <p className="text-[14px] font-semibold text-gray-600 line-clamp-2">
                     The celebration of Ganesh Chaturthi involves the installation of clay idols of Ganesh in...
                   </p>
