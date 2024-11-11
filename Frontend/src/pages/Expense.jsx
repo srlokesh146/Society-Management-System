@@ -98,7 +98,7 @@ function Expense() {
   return (
     <div className='flex flex-col p-8'>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Add Expenses Details</h1>
+        <h1 className="text-[20px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px]">Add Expenses Details</h1>
         <button
           onClick={() => setIsModalOpen(true)}
           className="bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white px-4 py-2 rounded-md hover:opacity-90 flex items-center gap-2"

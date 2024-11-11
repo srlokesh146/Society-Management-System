@@ -132,7 +132,7 @@ function Announcement() {
   return (
     <div className="p-4 sm:p-6 bg-white rounded-lg">
       <div className="flex justify-between items-center mb-6 max-sm:flex-col">
-        <h1 className="text-[20px] lg:text-[20px] font-bold text-black-800 max-sm:pb-[15px]">
+        <h1 className="text-[20px] lg:text-[20px] font-semibold text-black-800 max-sm:pb-[15px]">
           Announcement
         </h1>
 

@@ -32,11 +32,3 @@ module.exports = {
   },
   plugins: [],
 }
-
-
-// @media (min-width: 640px) and (max-width: 875px) {
-//   .notication-class {
-//     min-width: 25rem;
-//     left: 105px;
-//   }
-// }

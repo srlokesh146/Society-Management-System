@@ -130,7 +130,7 @@ function Note() {
   return (
     <div className="container mx-auto p-4 sm:p-6 bg-white rounded-lg">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Note</h1>
+        <h1 className="text-[20px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px]">Note</h1>
         <button
           onClick={handleCreateNote}
           className="px-4 py-2 bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white rounded-md hover:opacity-90"

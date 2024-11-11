@@ -74,7 +74,7 @@ const ComplaintPage = () => {
       <div className=" mx-auto bg-white rounded-xl shadow-sm">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl  font-bold text-gray-800">
+            <h1 className="text-[20px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px]">
               Create Complaint
             </h1>
             <button

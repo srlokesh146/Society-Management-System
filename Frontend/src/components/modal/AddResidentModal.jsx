@@ -3,13 +3,7 @@ import { useNavigate } from "react-router-dom";
 import VacateModal from "./VacateModal"; // Keep this import
 import ConfirmationModal from "./ConfirmationModal";
 
-export default function AddResidentModal({
-  isOpen,
-  onClose,
-  onSave,
-  resident,
-  setShowVacateModal,
-}) {
+export default function AddResidentModal({ isOpen, onClose, onSave, resident, setShowVacateModal }) {
   const [selectedStatus, setSelectedStatus] = useState("Occupied");
   const navigate = useNavigate();
 
@@ -24,7 +18,7 @@ export default function AddResidentModal({
       onClose();
     } else if (selectedStatus === "Vacate") {
       onClose();
-      setShowVacateModal(true);
+      setShowVacateModal(true)
     }
   };
 
@@ -45,19 +39,17 @@ export default function AddResidentModal({
           {/* Status Options */}
           <div className="flex gap-4 mb-6">
             <button
-              className={`flex items-center gap-2 px-4 py-2 rounded-md border ${
-                selectedStatus === "Occupied"
-                  ? "border-[#FF6B07] bg-white text-[#FF6B07]"
-                  : "border-gray-200"
-              }`}
-              onClick={() => setSelectedStatus("Occupied")}
+
+              className={`flex w-48 items-center gap-2 px-4 py-2 rounded-md border ${selectedStatus === 'Occupied'
+                ? 'border-[#FF6B07] bg-white text-[#FF6B07]'
+                : 'border-gray-200'
+                }`}
+              onClick={() => setSelectedStatus('Occupied')}
+
             >
               <div
-                className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                  selectedStatus === "Occupied"
-                    ? "border-[#FF6B07]"
-                    : "border-gray-300"
-                }`}
+                className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${selectedStatus === "Occupied" ? "border-[#FF6B07]" : "border-gray-300"
+                  }`}
               >
                 {selectedStatus === "Occupied" && (
                   <div className="w-2 h-2 bg-[#FF6B07] rounded-full"></div>
@@ -67,19 +59,16 @@ export default function AddResidentModal({
             </button>
 
             <button
-              className={`flex items-center gap-2 px-4 py-2 rounded-md border ${
-                selectedStatus === "Vacate"
-                  ? "border-[#FF6B07] bg-white text-[#FF6B07]"
-                  : "border-gray-200"
-              }`}
-              onClick={() => setSelectedStatus("Vacate")}
+              className={`flex w-48 items-center gap-2 px-4 py-2 rounded-md border ${selectedStatus === 'Vacate'
+                  ? 'border-[#FF6B07] bg-white text-[#FF6B07]'
+                  : 'border-gray-200'
+                }`}
+              onClick={() => setSelectedStatus('Vacate')}
+
             >
               <div
-                className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                  selectedStatus === "Vacate"
-                    ? "border-[#FF6B07]"
-                    : "border-gray-300"
-                }`}
+                className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${selectedStatus === "Vacate" ? "border-[#FF6B07]" : "border-gray-300"
+                  }`}
               >
                 {selectedStatus === "Vacate" && (
                   <div className="w-2 h-2 bg-[#FF6B07] rounded-full"></div>
@@ -91,11 +80,7 @@ export default function AddResidentModal({
 
           {/* Info Text */}
           <p className="text-sm text-gray-500 mb-6 flex items-start gap-2">
-            <input
-              type="checkbox"
-              required
-              className="w-4 h-4 text-[#FE512E] border-gray-300 rounded focus:ring-[#FE512E]"
-            />
+            <input type="checkbox" required className="w-4 h-4 text-[#FE512E] border-gray-300 rounded focus:ring-[#FE512E]" />
             By submitting, you agree to select Occupied
           </p>
 
@@ -116,6 +101,9 @@ export default function AddResidentModal({
           </div>
         </div>
       </div>
+
+
+
     </>
   );
 }
