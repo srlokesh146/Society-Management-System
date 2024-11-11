@@ -51,7 +51,7 @@ export default function TenantForm() {
       };
 
       // Check if all required fields are filled
-      const isValid = Object.values(requiredFields).every(value => 
+      const isValid = Object.values(requiredFields).every(value =>
         value !== null && value !== undefined && value !== ''
       );
 
@@ -196,16 +196,14 @@ export default function TenantForm() {
     <div className="min-h-screen  p-4">
       {/* Tab Buttons */}
       <div className="flex gap-1 mb-4">
-        <button className={`px-6 py-2 rounded-t-lg ${
-          activeTab === 'owner' ? 'bg-[#FF6B07] text-white' : 'bg-white text-gray-600'
-        }`}
-           onClick={handleTOwnerClick}>
-          
+        <button className={`px-6 py-2 rounded-t-lg ${activeTab === 'owner' ? 'bg-[#FF6B07] text-white' : 'bg-white text-gray-600'
+          }`}
+          onClick={handleTOwnerClick}>
+
           Owner
         </button>
-        <button className={`px-6 py-2 rounded-t-lg ${
-          activeTab === 'tenant' ? 'bg-[#FF6B07] text-white' : 'bg-white text-gray-600'
-        }`}>
+        <button className={`px-6 py-2 rounded-t-lg ${activeTab === 'tenant' ? 'bg-[#FF6B07] text-white' : 'bg-white text-gray-600'
+          }`}>
           Tenant
         </button>
       </div>
@@ -274,14 +272,14 @@ export default function TenantForm() {
                 className="hidden"
                 id="profilePhotoInput"
               />
-              <label 
+              <label
                 htmlFor="profilePhotoInput"
                 className="cursor-pointer w-full h-full rounded-full flex items-center justify-center overflow-hidden"
               >
                 {profilePhotoPreview ? (
-                  <img 
-                    src={profilePhotoPreview} 
-                    alt="Profile" 
+                  <img
+                    src={profilePhotoPreview}
+                    alt="Profile"
                     className="w-full h-full object-cover"
                   />
                 ) : (
@@ -291,7 +289,7 @@ export default function TenantForm() {
                 )}
               </label>
             </div>
-            <label 
+            <label
               htmlFor="profilePhotoInput"
               className="text-blue-500 font-semibold text-sm mt-2 cursor-pointer"
             >
@@ -307,47 +305,47 @@ export default function TenantForm() {
                 <label className="block text-sm font-lighter text-black-500">Full Name*</label>
                 <input
                   type="text"
-                  name="Full_name"
+                  name="fullName" // Corrected name attribute
                   value={formData.fullName}
                   onChange={handleInputChange}
                   placeholder="Enter Full Name"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
-                  placeholder:text-[#ADADAD] focus:outline-none focus:border-black 
-                  focus:ring-1 focus:ring-black transition-colors duration-200"
+        placeholder:text-[#ADADAD] focus:outline-none focus:border-black 
+        focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
               </div>
               <div>
-                <label className="block  text-sm font-lighter text-black-500">Phone Number*</label>
+                <label className="block text-sm font-lighter text-black-500">Phone Number*</label>
                 <input
                   type="tel"
-                  name=" Phone_number"
+                  name="phone" // Corrected name attribute
                   value={formData.phone}
                   onChange={handleInputChange}
                   placeholder="+91"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
-                  placeholder:text-[#ADADAD] 
-                  focus:outline-none 
-                  focus:border-blue-500 
-                  focus:ring-1 
-                  focus:ring-blue-500 
-                  transition-colors duration-200"
+        placeholder:text-[#ADADAD] 
+        focus:outline-none 
+        focus:border-blue-500 
+        focus:ring-1 
+        focus:ring-blue-500 
+        transition-colors duration-200"
                 />
               </div>
               <div>
                 <label className="block text-sm font-lighter text-black-500">Email Address</label>
                 <input
                   type="email"
-                  name=" Email_address"
+                  name="email" // Corrected name attribute
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="Enter Email Address"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
-                  placeholder:text-[#ADADAD] 
-                  focus:outline-none 
-                  focus:border-[#FF6B07] 
-                  focus:ring-1 
-                  focus:ring-[#FF6B07] 
-                  transition-colors duration-200"
+        placeholder:text-[#ADADAD] 
+        focus:outline-none 
+        focus:border-[#FF6B07] 
+        focus:ring-1 
+        focus:ring-[#FF6B07] 
+        transition-colors duration-200"
                 />
               </div>
             </div>
@@ -358,24 +356,24 @@ export default function TenantForm() {
                 <label className="block text-sm font-lighter text-black-500">Age*</label>
                 <input
                   type="number"
-                  name=" Age"
+                  name="age" // Corrected name attribute
                   value={formData.age}
                   onChange={handleInputChange}
                   placeholder="Enter Age"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
-                  placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
-                  focus:ring-black transition-colors duration-200"
+        placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
+        focus:ring-black transition-colors duration-200"
                 />
               </div>
               <div>
                 <label className="block text-sm font-lighter text-black-500">Gender*</label>
-                <select 
-                  name="Gender"
+                <select
+                  name="gender" // Corrected name attribute
                   value={formData.gender}
                   onChange={handleInputChange}
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
-                  text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
-                  focus:ring-black transition-colors duration-200 appearance-none bg-white"
+        text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
+        focus:ring-black transition-colors duration-200 appearance-none bg-white"
                 >
                   <option value="">Select Gender</option>
                   <option value="male">Male</option>
@@ -386,204 +384,207 @@ export default function TenantForm() {
                 <label className="block text-sm font-lighter text-black-500">Wing*</label>
                 <input
                   type="text"
-                  name="Wing"
+                  name="wing" // Corrected name attribute
                   value={formData.wing}
                   onChange={handleInputChange}
                   placeholder="Enter Wing"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
-                  placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
-                  focus:ring-black transition-colors duration-200"
+        placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
+        focus:ring-black transition-colors duration-200"
                 />
               </div>
               <div>
                 <label className="block text-sm font-lighter text-black-500">Unit*</label>
                 <input
                   type="text"
-                  name="Unit"
+                  name="unit" // Corrected name attribute
                   value={formData.unit}
                   onChange={handleInputChange}
                   placeholder="Enter Unit"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
-                  placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
-                  focus:ring-black transition-colors duration-200"
+        placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
+        focus:ring-black transition-colors duration-200"
                 />
               </div>
               <div>
                 <label className="block text-sm font-lighter text-black-500">Relation*</label>
                 <input
                   type="text"
-                  name="Relation"
+                  name="relation" // Corrected name attribute
                   value={formData.relation}
                   onChange={handleInputChange}
                   placeholder="Enter Relation"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
-                  placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
-                  focus:ring-black transition-colors duration-200"
+        placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
+        focus:ring-black transition-colors duration-200"
                 />
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Document Upload Section */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
-          {/* Aadhar Front */}
-          <div>
-            <label className="block text-sm font-lighter text-black-700 mb-2">
-              Upload Aadhar Card (Front Side)
-            </label>
-            <div className="relative">
-              <input
-                name="Aadhar_front"
-                type="file"
-                accept=".pdf,.jpg,.jpeg,.png"
-                onChange={(e) => handleFileUpload(e, 'aadharFront')}
-                className="hidden"
-                id="aadharFrontInput"
-              />
-              <label 
-                htmlFor="aadharFrontInput"
-                className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
-              >
-                {formData.aadharFront ? (
-                  <div className="text-sm text-green-600">
-                    <FaCheckCircle className="mx-auto mb-2" size={20} />
-                    {formData.aadharFront.name}
+
+
+              {/* Document Upload Section */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
+                {/* Aadhar Front */}
+                <div>
+                  <label className="block text-sm font-lighter text-black-700 mb-2">
+                    Upload Aadhar Card (Front Side)
+                  </label>
+                  <div className="relative">
+                    <input
+                      name="Aadhar_front"
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      onChange={(e) => handleFileUpload(e, 'aadharFront')}
+                      className="hidden"
+                      id="aadharFrontInput"
+                    />
+                    <label
+                      htmlFor="aadharFrontInput"
+                      className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
+                    >
+                      {formData.aadharFront ? (
+                        <div className="text-sm text-green-600">
+                          <FaCheckCircle className="mx-auto mb-2" size={20} />
+                          {formData.aadharFront.name}
+                        </div>
+                      ) : (
+                        <>
+                          <FaImage className="mx-auto text-gray-400 mb-2" size={20} />
+                          <p className="text-sm text-blue-500">Upload a file or drag and drop</p>
+                          <p className="text-xs text-gray-400">PDF, JPG, PNG up to 10MB</p>
+                        </>
+                      )}
+                    </label>
                   </div>
-                ) : (
-                  <>
-                    <FaImage className="mx-auto text-gray-400 mb-2" size={20} />
-                    <p className="text-sm text-blue-500">Upload a file or drag and drop</p>
-                    <p className="text-xs text-gray-400">PDF, JPG, PNG up to 10MB</p>
-                  </>
-                )}
-              </label>
-            </div>
-          </div>
+                </div>
 
-          {/* Aadhar Back - Similar structure */}
-          <div>
-            <label className="block text-sm font-lighter text-black-700 mb-2">
-              Upload Aadhar Card (Back Side)
-            </label>
-            <div className="relative">
-              <input
-                name="Aadhar_back"
-                type="file"
-                accept=".pdf,.jpg,.jpeg,.png"
-                onChange={(e) => handleFileUpload(e, 'aadharBack')}
-                className="hidden"
-                id="aadharBackInput"
-              />
-              <label 
-                htmlFor="aadharBackInput"
-                className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
-              >
-                {formData.aadharBack ? (
-                  <div className="text-sm text-green-600">
-                    <FaCheckCircle className="mx-auto mb-2" size={20} />
-                    {formData.aadharBack.name}
+                {/* Aadhar Back - Similar structure */}
+                <div>
+                  <label className="block text-sm font-lighter text-black-700 mb-2">
+                    Upload Aadhar Card (Back Side)
+                  </label>
+                  <div className="relative">
+                    <input
+                      name="Aadhar_back"
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      onChange={(e) => handleFileUpload(e, 'aadharBack')}
+                      className="hidden"
+                      id="aadharBackInput"
+                    />
+                    <label
+                      htmlFor="aadharBackInput"
+                      className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
+                    >
+                      {formData.aadharBack ? (
+                        <div className="text-sm text-green-600">
+                          <FaCheckCircle className="mx-auto mb-2" size={20} />
+                          {formData.aadharBack.name}
+                        </div>
+                      ) : (
+                        <>
+                          <FaImage className="mx-auto text-gray-400 mb-2" size={20} />
+                          <p className="text-sm text-blue-500">Upload a file or drag and drop</p>
+                          <p className="text-xs text-gray-400">PDF, JPG, PNG up to 10MB</p>
+                        </>
+                      )}
+                    </label>
                   </div>
-                ) : (
-                  <>
-                    <FaImage className="mx-auto text-gray-400 mb-2" size={20} />
-                    <p className="text-sm text-blue-500">Upload a file or drag and drop</p>
-                    <p className="text-xs text-gray-400">PDF, JPG, PNG up to 10MB</p>
-                  </>
-                )}
-              </label>
-            </div>
-          </div>
+                </div>
 
-          {/* Address Proof - Similar structure */}
-          <div>
-            <label className="block text-sm font-lighter text-black-700 mb-2">
-              Address Proof (With Bill Light Bill)
-            </label>
-            <div className="relative">
-              <input
-                name="Address_proof"
-                type="file"
-                accept=".pdf,.jpg,.jpeg,.png"
-                onChange={(e) => handleFileUpload(e, 'addressProof')}
-                className="hidden"
-                id="addressProofInput"
-              />
-              <label 
-                htmlFor="addressProofInput"
-                className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
-              >
-                {formData.addressProof ? (
-                  <div className="text-sm text-green-600">
-                    <FaCheckCircle className="mx-auto mb-2" size={20} />
-                    {formData.addressProof.name}
+                {/* Address Proof - Similar structure */}
+                <div>
+                  <label className="block text-sm font-lighter text-black-700 mb-2">
+                    Address Proof (With Bill Light Bill)
+                  </label>
+                  <div className="relative">
+                    <input
+                      name="Address_proof"
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      onChange={(e) => handleFileUpload(e, 'addressProof')}
+                      className="hidden"
+                      id="addressProofInput"
+                    />
+                    <label
+                      htmlFor="addressProofInput"
+                      className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
+                    >
+                      {formData.addressProof ? (
+                        <div className="text-sm text-green-600">
+                          <FaCheckCircle className="mx-auto mb-2" size={20} />
+                          {formData.addressProof.name}
+                        </div>
+                      ) : (
+                        <>
+                          <FaImage className="mx-auto text-gray-400 mb-2" size={20} />
+                          <p className="text-sm text-blue-500">Upload a file or drag and drop</p>
+                          <p className="text-xs text-gray-400">PDF, JPG, PNG up to 10MB</p>
+                        </>
+                      )}
+                    </label>
                   </div>
-                ) : (
-                  <>
-                    <FaImage className="mx-auto text-gray-400 mb-2" size={20} />
-                    <p className="text-sm text-blue-500">Upload a file or drag and drop</p>
-                    <p className="text-xs text-gray-400">PDF, JPG, PNG up to 10MB</p>
-                  </>
-                )}
-              </label>
-            </div>
-          </div>
+                </div>
 
-          <div>
-            <label className="block text-sm font-lighter text-black-700 mb-2">
-              Rent Agreement
-            </label>
-            <div className="relative">
-              <input
-                name="Rent_Agreement"
-                type="file"
-                accept=".pdf,.jpg,.jpeg,.png"
-                onChange={(e) => handleFileUpload(e, 'rentAgreement')}
-                className="hidden"
-                id="rentAgreementInput"
-              />
-              <label 
-                htmlFor="rentAgreementInput"
-                className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
-              >
-                {formData.rentAgreement ? (
-                  <div className="text-sm text-green-600">
-                    <FaCheckCircle className="mx-auto mb-2" size={20} />
-                    {formData.rentAgreement.name}
+                <div>
+                  <label className="block text-sm font-lighter text-black-700 mb-2">
+                    Rent Agreement
+                  </label>
+                  <div className="relative">
+                    <input
+                      name="Rent_agreement"
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      onChange={(e) => handleFileUpload(e, 'rentAgreement')}
+                      className="hidden"
+                      id="rentAgreementInput"
+                    />
+                    <label
+                      htmlFor="rentAgreementInput"
+                      className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
+                    >
+                      {formData.rentAgreement ? (
+                        <div className="text-sm text-green-600">
+                          <FaCheckCircle className="mx-auto mb-2" size={20} />
+                          {formData.rentAgreement.name}
+                        </div>
+                      ) : (
+                        <>
+                          <FaImage className="mx-auto text-gray-400 mb-2" size={20} />
+                          <p className="text-sm text-blue-500">Upload a file or drag and drop</p>
+                          <p className="text-xs text-gray-400">PDF, JPG, PNG up to 10MB</p>
+                        </>
+                      )}
+                    </label>
                   </div>
-                ) : (
-                  <>
-                    <FaImage className="mx-auto text-gray-400 mb-2" size={20} />
-                    <p className="text-sm text-blue-500">Upload a file or drag and drop</p>
-                    <p className="text-xs text-gray-400">PDF, JPG, PNG up to 10MB</p>
-                  </>
-                )}
-              </label>
-            </div>
-          </div>
-        </div>
+                </div>
+              </div>
 
-      </div>
+            </div>
         {/* Member and Vehicle Section */}
         <div className="flex flex-col gap-6 mt-8">
           {/* Member Section */}
           <div className="bg-white rounded-lg p-4">
             <div className="flex justify-between items-center mb-4">
-              <label className="text-sm text-black-700 font-medium">Member Counting <span className='text-gray-500'> : (Other Members)</span></label>
+              <label className="text-sm text-black-700 font-medium">
+                Member Counting <span className='text-gray-500'> : (Other Members)</span>
+              </label>
               <div className="relative">
-                <select 
+                <select
                   className="w-32 h-10 px-3 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-black-600 focus:outline-none appearance-none bg-white cursor-pointer"
                   onChange={(e) => setMemberCount(Number(e.target.value))}
                 >
                   <option value="0">Select Member</option>
-                  {[1,2,3,4,5].map(num => (
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
                     <option key={num} value={num}>{num}</option>
                   ))}
                 </select>
                 <IoIosArrowDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
               </div>
             </div>
-            
+
             {/* Member Form Fields */}
             {[...Array(memberCount)].map((_, index) => (
               <div key={index} className="grid grid-cols-1 md:grid-cols-6 gap-4 mt-4 items-start">
@@ -606,7 +607,7 @@ export default function TenantForm() {
                   />
                 </div>
                 <div>
-                    <label className="block text-xs text-black-500 font-lighter  mb-1">Email</label>
+                  <label className="block text-xs text-black-500 font-lighter  mb-1">Email</label>
                   <input
                     name="Email_address"
                     type="email"
@@ -650,12 +651,12 @@ export default function TenantForm() {
             <div className="flex justify-between items-center mb-4">
               <label className="text-sm text-black font-medium">Vehicle Counting :</label>
               <div className="relative">
-                <select 
+                <select
                   className="w-32 h-10 px-3 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-black-600 focus:outline-none appearance-none bg-white cursor-pointer"
                   onChange={(e) => setVehicleCount(Number(e.target.value))}
                 >
                   <option value="0">Select Vehicle</option>
-                  {[1,2,3].map(num => (
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
                     <option key={num} value={num}>{num}</option>
                   ))}
                 </select>
@@ -668,6 +669,7 @@ export default function TenantForm() {
               <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 <div className="relative">
                   <label className="block text-xs text-black-500 font-lighter mb-1">Vehicle Type*</label>
+
                   <select className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer">
                     <option value="">Two Wheelers</option>
                     <option value="four">Four Wheelers</option>
@@ -702,16 +704,18 @@ export default function TenantForm() {
           <button className="px-6 py-2 border border-gray-200 rounded-lg text-gray-700 bg-white">
             Cancel
           </button>
-          <button 
-            className={`px-6 py-2 rounded-lg transition-colors duration-200 ${
-              isFormValid 
-                ? 'bg-[#FF6B07] text-white hover:bg-[#FF5500]' 
+          <button
+            className={`px-6 py-2 rounded-lg transition-colors duration-200 ${isFormValid
+                ? 'bg-[#FF6B07] text-white hover:bg-[#FF5500]'
                 : 'bg-[#F6F8FB] text-gray-400 cursor-not-allowed'
-            }`}
+              }`}
             disabled={!isFormValid}
           >
             Create
           </button>
         </div>
       </div>
-  )};
+    </div>
+
+  )
+};

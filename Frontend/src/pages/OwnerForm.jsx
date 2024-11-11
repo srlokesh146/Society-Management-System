@@ -259,130 +259,129 @@ export default function OwnerForm() {
           </div>
 
           {/* Form Fields */}
-          <div className="md:col-span-10">
-            {/* First Row - 3 inputs */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-lighter text-black-500">Full Name*</label>
-                <input
-                  type="text"
-                  name="full_Name"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  placeholder="Enter Full Name"
-                  className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
-                  placeholder:text-[#ADADAD] focus:outline-none focus:border-black 
-                  focus:ring-1 focus:ring-black transition-colors duration-200"
-                />
-              </div>
-              <div>
-                <label className="block  text-sm font-lighter text-black-500">Phone Number*</label>
-                <input
-                  type="tel"
-                  name="phone-number"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  placeholder="+91"
-                  className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
-                  placeholder:text-[#ADADAD] 
-                  focus:outline-none 
-                  focus:border-blue-500 
-                  focus:ring-1 
-                  focus:ring-blue-500 
-                  transition-colors duration-200"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-lighter text-black-500">Email Address</label>
-                <input
-                  type="email"
-                  name="  Email_address:"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="Enter Email Address"
-                  className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
-                  placeholder:text-[#ADADAD] 
-                  focus:outline-none 
-                  focus:border-[#FF6B07] 
-                  focus:ring-1 
-                  focus:ring-[#FF6B07] 
-                  transition-colors duration-200"
-                />
-              </div>
-            </div>
+       <div className="md:col-span-10">
+  {/* First Row - 3 inputs */}
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div>
+      <label className="block text-sm font-lighter text-black-500">Full Name*</label>
+      <input
+        type="text"
+        name="fullName" // Corrected name attribute
+        value={formData.fullName}
+        onChange={handleInputChange}
+        placeholder="Enter Full Name"
+        className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
+        placeholder:text-[#ADADAD] focus:outline-none focus:border-black 
+        focus:ring-1 focus:ring-black transition-colors duration-200"
+      />
+    </div>
+    <div>
+      <label className="block text-sm font-lighter text-black-500">Phone Number*</label>
+      <input
+        type="tel"
+        name="phone" // Corrected name attribute
+        value={formData.phone}
+        onChange={handleInputChange}
+        placeholder="+91"
+        className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
+        placeholder:text-[#ADADAD] 
+        focus:outline-none 
+        focus:border-blue-500 
+        focus:ring-1 
+        focus:ring-blue-500 
+        transition-colors duration-200"
+      />
+    </div>
+    <div>
+      <label className="block text-sm font-lighter text-black-500">Email Address</label>
+      <input
+        type="email"
+        name="email" // Corrected name attribute
+        value={formData.email}
+        onChange={handleInputChange}
+        placeholder="Enter Email Address"
+        className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
+        placeholder:text-[#ADADAD] 
+        focus:outline-none 
+        focus:border-[#FF6B07] 
+        focus:ring-1 
+        focus:ring-[#FF6B07] 
+        transition-colors duration-200"
+      />
+    </div>
+  </div>
 
-            {/* Second Row - 5 inputs */}
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mt-4">
-              <div>
-                <label className="block text-sm font-lighter text-black-500">Age*</label>
-                <input
-                  type="number"
-                  name="Age"
-                  value={formData.age}
-                  onChange={handleInputChange}
-                  placeholder="Enter Age"
-                  className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
-                  placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
-                  focus:ring-black transition-colors duration-200"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-lighter text-black-500">Gender*</label>
-                <select 
-                  name="Gender"
-                  value={formData.gender}
-                  onChange={handleInputChange}
-                  className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
-                  text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
-                  focus:ring-black transition-colors duration-200 appearance-none bg-white"
-                >
-                  <option value="">Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-lighter text-black-500">Wing*</label>
-                <input
-                  type="text"
-                  name="Wing"
-                  value={formData.wing}
-                  onChange={handleInputChange}
-                  placeholder="Enter Wing"
-                  className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
-                  placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
-                  focus:ring-black transition-colors duration-200"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-lighter text-black-500">Unit*</label>
-                <input
-                  type="text"
-                  name="Unit"
-                  value={formData.unit}
-                  onChange={handleInputChange}
-                  placeholder="Enter Unit"
-                  className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
-                  placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
-                  focus:ring-black transition-colors duration-200"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-lighter text-black-500">Relation*</label>
-                <input
-                  type="text"
-                  name="Relation"
-                  value={formData.relation}
-                  onChange={handleInputChange}
-                  placeholder="Enter Relation"
-                  className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
-                  placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
-                  focus:ring-black transition-colors duration-200"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+  {/* Second Row - 5 inputs */}
+  <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mt-4">
+    <div>
+      <label className="block text-sm font-lighter text-black-500">Age*</label>
+      <input
+        type="number"
+        name="age" // Corrected name attribute
+        value={formData.age}
+        onChange={handleInputChange}
+        placeholder="Enter Age"
+        className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
+        placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
+        focus:ring-black transition-colors duration-200"
+      />
+    </div>
+    <div>
+      <label className="block text-sm font-lighter text-black-500">Gender*</label>
+      <select 
+        name="gender" // Corrected name attribute
+        value={formData.gender}
+        onChange={handleInputChange}
+        className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
+        text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
+        focus:ring-black transition-colors duration-200 appearance-none bg-white"
+      >
+        <option value="">Select Gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+    </div>
+    <div>
+      <label className="block text-sm font-lighter text-black-500">Wing*</label>
+      <input
+        type="text"
+        name="wing" // Corrected name attribute
+        value={formData.wing}
+        onChange={handleInputChange}
+        placeholder="Enter Wing"
+        className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
+        placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
+        focus:ring-black transition-colors duration-200"
+      />
+    </div>
+    <div>
+      <label className="block text-sm font-lighter text-black-500">Unit*</label>
+      <input
+        type="text"
+        name="unit" // Corrected name attribute
+        value={formData.unit}
+        onChange={handleInputChange}
+        placeholder="Enter Unit"
+        className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
+        placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
+        focus:ring-black transition-colors duration-200"
+      />
+    </div>
+    <div>
+      <label className="block text-sm font-lighter text-black-500">Relation*</label>
+      <input
+        type="text"
+        name="relation" // Corrected name attribute
+        value={formData.relation}
+        onChange={handleInputChange}
+        placeholder="Enter Relation"
+        className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm 
+        placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 
+        focus:ring-black transition-colors duration-200"
+      />
+    </div>
+  </div>
+
 
         {/* Document Upload Section */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
@@ -545,13 +544,13 @@ export default function OwnerForm() {
               </div>
             </div>
             
-            {/* Member Form Fields */}
+       {/* Member Form Fields */}
             {[...Array(memberCount)].map((_, index) => (
               <div key={index} className="grid grid-cols-1 md:grid-cols-6 gap-4 mt-4 items-start">
                 <div>
                   <label className="block text-xs text-black-500 font-lighter  mb-1">Full Name*</label>
                   <input
-                  name="Full_Name"
+                    name="Full_Name"
                     type="text"
                     placeholder="Enter Full Name"
                     className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
@@ -560,16 +559,16 @@ export default function OwnerForm() {
                 <div>
                   <label className="block text-xs text-black-500 font-lighter  mb-1">Phone No*</label>
                   <input
-                  name="Phone_number"
+                    name="Phone_number"
                     type="tel"
                     placeholder="+91"
                     className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
                   />
                 </div>
                 <div>
-                    <label className="block text-xs text-black-500 font-lighter  mb-1">Email</label>
+                  <label className="block text-xs text-black-500 font-lighter  mb-1">Email</label>
                   <input
-                  name="Email_address"
+                    name="Email_address"
                     type="email"
                     placeholder="Enter Email Address"
                     className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
@@ -578,7 +577,7 @@ export default function OwnerForm() {
                 <div>
                   <label className="block text-xs text-black-500 font-lighter  mb-1">Age*</label>
                   <input
-                  name="Age"
+                    name="Age"
                     type="number"
                     placeholder="Enter Age"
                     className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
@@ -596,7 +595,7 @@ export default function OwnerForm() {
                 <div>
                   <label className="block text-xs text-black-500 font-lighter mb-1">Relation*</label>
                   <input
-                  name="Relation"
+                    name="Relation"
                     type="text"
                     placeholder="Enter Relation"
                     className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
@@ -611,12 +610,12 @@ export default function OwnerForm() {
             <div className="flex justify-between items-center mb-4">
               <label className="text-sm text-black font-medium">Vehicle Counting :</label>
               <div className="relative">
-                <select 
+                <select
                   className="w-32 h-10 px-3 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-black-600 focus:outline-none appearance-none bg-white cursor-pointer"
                   onChange={(e) => setVehicleCount(Number(e.target.value))}
                 >
                   <option value="0">Select Vehicle</option>
-                  {[1,2,3,4,5,6,7,8,9,10].map(num => (
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
                     <option key={num} value={num}>{num}</option>
                   ))}
                 </select>
@@ -639,7 +638,7 @@ export default function OwnerForm() {
                 <div>
                   <label className="block text-xs text-black-500 font-lighter mb-1">Vehicle Name</label>
                   <input
-                  name="vehicle_name"
+                    name="vehicle_name"
                     type="text"
                     placeholder="Enter Name"
                     className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
@@ -648,7 +647,7 @@ export default function OwnerForm() {
                 <div>
                   <label className="block text-xs text-black-500 font-lighter mb-1">Vehicle Number</label>
                   <input
-                  name="vehicle_number"
+                    name="vehicle_number"
                     type="text"
                     placeholder="Enter Number"
                     className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
@@ -687,6 +686,10 @@ export default function OwnerForm() {
         <TenantForm />
       )}
     </div>
+    </div>
+    </div>
+    
+
   );
 }
    

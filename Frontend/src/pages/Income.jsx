@@ -190,13 +190,7 @@ const Income = () => {
                 <span className="text-[#39973D] text-2xl font-semibold mr-2">
                   ₹
                 </span>
-                <input
-                  type="number"
-                  value={maintenance}
-                  onChange={(e) => setMaintenance(e.target.value)}
-                  className="w-full bg-transparent text-2xl text-[#39973D] font-semibold outline-none"
-                  placeholder="0"
-                />
+               <span className="text-[#39973D] text-2xl font-semibold mr-2">0</span>
               </div>
             </div>
           </div>
@@ -211,13 +205,8 @@ const Income = () => {
                 <span className="text-[#E74C3C] text-2xl font-semibold mr-2">
                   ₹
                 </span>
-                <input
-                  type="number"
-                  value={penalty}
-                  onChange={(e) => setPenalty(e.target.value)}
-                  className="w-full bg-transparent text-2xl text-[#E74C3C] font-semibold outline-none"
-                  placeholder="0"
-                />
+                <span className="text-[#E74C3C] text-2xl font-semibold mr-2">0</span>
+
               </div>
             </div>
           </div>
@@ -234,29 +223,28 @@ const Income = () => {
       <br />
       {/* Tabs Section */}
       <div>
-        <div className="flex">
-          <button
-            className={`relative py-2 px-6 ${
-              activeTab === "maintenance"
-                ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-lg text-white"
-                : "bg-gray-100 text-black-600"
-            }`}
-            onClick={() => setActiveTab("maintenance")}
-          >
-            Maintenance
-          </button>
-          <button
-            className={`relative py-2 px-6 ${
-              activeTab === "otherIncome"
-                ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white"
-                : "bg-gray-100 text-black-600"
-            }`}
-            onClick={handleOtherIncomeClick}
-          >
-            Other Income
-          </button>
-        </div>
-
+      <div className="flex">
+        <button
+          className={`relative py-2 px-6 ${
+            activeTab === "maintenance"
+              ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-lg text-white"
+              : "bg-gray-100 text-black-600"
+          }`}
+          onClick={() => setActiveTab("maintenance")}
+        >
+          Maintenance
+        </button>
+        <button
+          className={`relative py-2 px-6 ${
+            activeTab === "otherIncome"
+              ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white"
+              : "bg-gray-100 text-black-600"
+          }`}
+          onClick={handleOtherIncomeClick} // Navigate to Other Income
+        >
+          Other Income
+        </button>
+      </div>
         {/* Table Section */}
         <div className="overflow-x-auto bg-white rounded-lg shadow-md p-6 mb-4">
           <div className="mb-4">
@@ -577,3 +565,4 @@ const Income = () => {
 };
 
 export default Income;
+
