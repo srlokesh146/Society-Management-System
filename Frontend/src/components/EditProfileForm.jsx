@@ -4,13 +4,14 @@ import Navbar from "./Navbar";
 import editimage from "../assets/images/editimage.png";
 import { IoSearchOutline } from "react-icons/io5";
 import { IoNotifications } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import avatar from "../assets/images/Avatar.png";
 import { useSelector } from "react-redux";
 import { getSocieties, UpdateUserProfile } from "../services/AuthService";
 import toast from "react-hot-toast";
 
 function EditProfileForm() {
+  const location = useLocation();
   const { user } = useSelector((store) => store.auth);
   const [profile, setProfile] = useState({
     FirstName: user?.FirstName,
@@ -70,6 +71,7 @@ function EditProfileForm() {
   useEffect(() => {
     fetchSocieties();
   }, []);
+  
 
   return (
     <>

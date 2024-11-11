@@ -89,26 +89,26 @@ const ComplaintPage = () => {
             <table className="w-full">
               <thead>
                 <tr className="border-b bg-indigo-50 rounded-lg overflow-hidden">
-                  <th className="text-left px-8 py- text-md  font-bold text-black-500 first:rounded-l-lg last:rounded-r-lg">
+                  <th className="text-left px-8 py- text-md  font-semibold text-black-500 first:rounded-l-lg last:rounded-r-lg">
                     Complainer Name
                   </th>
-                  <th className="text-left px-9 py-3 text-md font-bold text-black-500">
+                  <th className="text-left px-9 py-3 text-md font-semibold text-black-500">
                     Complaint Name
                   </th>
-                  <th className="text-left px-24 py-3 text-md font-bold text-black-500">
+                  <th className="text-left px-24 py-3 text-md font-semibold text-black-500">
                     Description
                   </th>
                   {/* <th className="text-left px-4 py-3 text-md font-medium text-black-500">Complaint Date</th> */}
-                  <th className="text-left px-4 py-3 text-md font-bold text-black-500">
+                  <th className="text-left px-4 py-3 text-md font-semibold text-black-500">
                     Unit Number
                   </th>
-                  <th className="text-left px-7  py-3 text-md font-bold text-black-500">
+                  <th className="text-left px-7  py-3 text-md font-semibold text-black-500">
                     Priority
                   </th>
-                  <th className="text-left px-8    py-3 text-md font-bold text-black-500">
+                  <th className="text-left px-8    py-3 text-md font-semibold text-black-500">
                     Status
                   </th>
-                  <th className="text-left px-14 py-3 text-md font-bold text-black-500">
+                  <th className="text-left px-14 py-3 text-md font-semibold text-black-500">
                     Action
                   </th>
                 </tr>

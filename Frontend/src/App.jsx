@@ -44,7 +44,7 @@ function App() {
   const shouldRenderSidebarAndNavbar = !layoutRoutes.includes(
     location.pathname
   );
-
+  
   const toggleSidebar = () => {
     setSidebaropen((prevState) => !prevState);
   };
@@ -80,14 +80,14 @@ function App() {
             {shouldRenderSidebarAndNavbar && (
               <>
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/editprofile" element={<EditProfileForm />} />
                 <Route path="/residentmanagement" element={<Residentmanagement />} />
                 <Route path="/complainttable" element={<ComplaintTable />} />
                 <Route path="/reqtracking" element={<ReqTracking />} />
                 <Route path="/visitorlog" element={<VisitorLog />} />
-                <Route path="/securityprotocols" element={<SecurityProtocols />} />
+                <Route path="/SecurityProtocols" element={<SecurityProtocols />} />
                 <Route path="/securityguard" element={<SecurityGuardDetails />} />
                 <Route path="/announcement" element={<Announcement />} />
-                <Route path="/editprofile" element={<EditProfileForm />} />
                 <Route path="/facilitymanagement" element={<Facilitymanagement />} />
                 <Route path="/note" element={<Note />} />
                 <Route path="/expense" element={<Expense />} />
