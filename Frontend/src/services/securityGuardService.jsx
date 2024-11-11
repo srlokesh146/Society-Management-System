@@ -32,3 +32,8 @@ export const UpdateSecurityGuard = async (id, data) => {
   });
   return response;
 };
+
+// visitor Logs
+
+// get all Visitors
+export const GetVisitors = async () => await api.get("/v2/visitor/viewvisitor");

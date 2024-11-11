@@ -32,7 +32,7 @@ import OwnerForm from "./pages/OwnerForm.jsx";
 function App() {
   const [isSidebaropen, setSidebaropen] = useState(false);
   const location = useLocation();
-  
+
   // List of routes without sidebar and navbar
   const layoutRoutes = [
     "/login",
@@ -60,9 +60,8 @@ function App() {
       )}
 
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 ${
-          isSidebaropen && shouldRenderSidebarAndNavbar ? "ml-[280px]" : "ml-0"
-        }`}
+        className={`flex-1 flex flex-col transition-all duration-300 ${isSidebaropen && shouldRenderSidebarAndNavbar ? "ml-[280px]" : "ml-0"
+          }`}
       >
         {shouldRenderSidebarAndNavbar && (
           <Navbar toggleSidebar={toggleSidebar} />
@@ -78,30 +77,27 @@ function App() {
             <Route path="/resetpassword" element={<ResetPassword />} />
 
             {/* Protected Routes with Sidebar and Navbar */}
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route
-              path="/residentmanagement"
-              element={<Residentmanagement />}
-            />
-            <Route path="/complainttable" element={<ComplaintTable />} />
-            <Route path="/reqtracking" element={<ReqTracking />} />
-            <Route path="/visitorlog" element={<VisitorLog />} />
-            <Route path="/securityprotocols" element={<SecurityProtocols />} />
-            <Route path="/securityguard" element={<SecurityGuardDetails />} />
-            <Route path="/announcement" element={<Announcement />} />
-            <Route path="/editprofile" element={<EditProfileForm />} />
-            <Route
-              path="/facilitymanagement"
-              element={<Facilitymanagement />}
-            />
-            <Route path="/note" element={<Note />} />
-            <Route path="/expense" element={<Expense />} />
-            <Route path="/income" element={<Income />} />
-            <Route path="/other-income" element={<OtherIncome />} />
-            <Route path="/ownerform" element={<OwnerForm/>} />
-            <Route path="/tenantform" element={<TenantForm/>} />
-            <Route path="/residentmanagement" element={<ResidentManagement/>} />
-          
+            {shouldRenderSidebarAndNavbar && (
+              <>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/residentmanagement" element={<Residentmanagement />} />
+                <Route path="/complainttable" element={<ComplaintTable />} />
+                <Route path="/reqtracking" element={<ReqTracking />} />
+                <Route path="/visitorlog" element={<VisitorLog />} />
+                <Route path="/securityprotocols" element={<SecurityProtocols />} />
+                <Route path="/securityguard" element={<SecurityGuardDetails />} />
+                <Route path="/announcement" element={<Announcement />} />
+                <Route path="/editprofile" element={<EditProfileForm />} />
+                <Route path="/facilitymanagement" element={<Facilitymanagement />} />
+                <Route path="/note" element={<Note />} />
+                <Route path="/expense" element={<Expense />} />
+                <Route path="/income" element={<Income />} />
+                <Route path="/other-income" element={<OtherIncome />} />
+                <Route path="/ownerform" element={<OwnerForm />} />
+                <Route path="/tenantform" element={<TenantForm />} />
+                <Route path="/residentmanagement" element={<ResidentManagement />} />
+              </>
+            )}
           </Routes>
         </div>
       </div>

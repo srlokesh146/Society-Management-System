@@ -10,12 +10,18 @@ import avatar2 from '../assets/images/Avatar2.png';
 import AddResidentModal from '../components/modal/AddResidentModal';
 import { useNavigate } from 'react-router-dom';
 import ViewResidentModal from '../components/modal/ViewResidentModal';
+import VacateModal from '../components/modal/VacateModal';
+import ConfirmationModal from '../components/modal/ConfirmationModal';
 
 export default function ResidentManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedResident, setSelectedResident] = useState(null);
+  const [showVacateModal, setShowVacateModal] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [selectedResident, setSelectedResident] = useState(null);
   const [viewResident, setViewResident] = useState(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [wing, setWing] = useState("A");
+  const [unit, setUnit] = useState("1001");
   const navigate = useNavigate();
 
   const handleCloseModal = () => {
@@ -43,6 +49,8 @@ export default function ResidentManagement() {
   const handleAddResident = () => {
     navigate('/ownerform');
   };
+
+
 
   return (
     <div className="container">
@@ -206,6 +214,18 @@ export default function ResidentManagement() {
         onSave={handleSaveResident}
         resident={selectedResident}
         mode="edit"
+        setShowVacateModal={setShowVacateModal}
+      />
+
+      <VacateModal
+        showVacateModal={showVacateModal}
+        setShowConfirmModal={setShowConfirmModal}
+        onClose={() => setShowVacateModal(false)}
+      />
+
+      <ConfirmationModal
+        showConfirmModal={showConfirmModal}
+        onClose={() => { setShowConfirmModal(false); setShowVacateModal(false) }}
       />
 
       <ViewResidentModal
@@ -213,6 +233,8 @@ export default function ResidentManagement() {
         onClose={() => setIsViewModalOpen(false)}
         resident={viewResident}
       />
+
+
     </div>
   );
 }

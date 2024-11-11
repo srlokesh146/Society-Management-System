@@ -68,6 +68,48 @@ exports.GetComplaints = async (req, res) => {
     });
   }
 };
+
+//filtering apis 
+exports.filterComplaint = async (req, res) => {
+  try {
+    const { timePeriod } = req.query;
+    let dateFrom;
+    const currentDate = new Date();
+
+    switch (timePeriod) {
+      case "lastWeek":
+        dateFrom = new Date(currentDate.setDate(currentDate.getDate() - 7));
+        break;
+      case "lastMonth":
+        dateFrom = new Date(currentDate.setMonth(currentDate.getMonth() - 1));
+        break;
+      case "lastYear":
+        dateFrom = new Date(currentDate.setFullYear(currentDate.getFullYear() - 1));
+        break;
+      default:
+        dateFrom = null; 
+    }
+
+   
+    const filter = dateFrom ? { createdAt: { $gte: dateFrom } } : {};
+
+    const complaints = await Complaint.find(filter)
+      .populate("apply", "profileImage")
+      .sort({ wing: 1, unit: 1 });
+
+    return res.status(200).json({
+      success: true,
+      data: complaints,
+    });
+  } catch (error) {
+    console.error("Error fetching complaints:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching complaints",
+    });
+  }
+};
+
 //get By Id complaint
 exports.GetByIdComplaints = async (req, res) => {
   try {

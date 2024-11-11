@@ -101,7 +101,7 @@ const Income = () => {
   };
 
   const ViewDetailsModal = ({ user, onClose }) => (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
       <div className="bg-white rounded-xl w-[450px] overflow-hidden">
         {/* Header */}
         <div className="flex justify-between items-center px-6 py-4">
@@ -377,7 +377,7 @@ const Income = () => {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
           <div className="bg-white rounded-lg w-[400px] p-6">
             <h2 className="text-lg font-semibold mb-4">Set Maintenance</h2>
 
@@ -429,7 +429,7 @@ const Income = () => {
       )}
 
       {isMaintenanceModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
           <div className="bg-white rounded-lg w-[400px] p-6 shadow-lg">
             <h2 className="text-lg font-semibold mb-6">
               Add Maintenance Detail

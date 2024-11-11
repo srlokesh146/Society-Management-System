@@ -179,12 +179,13 @@ function Note() {
 
       {/* Create/Edit Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
           <div className="bg-white rounded-lg w-full max-w-md">
             <div className="p-6">
               <h2 className="text-xl font-semibold mb-6">
                 {modalType === "create" ? "Create Note" : "Edit Note"}
               </h2>
+              <div className="border-b border-[#F4F4F4] mb-[30px]"></div>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">

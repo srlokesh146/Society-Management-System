@@ -4,6 +4,8 @@ import { FiMenu } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 import { sidebarItems } from "../../constantdata";
 import Logo from "../Logo";
+import { FiLogOut } from "react-icons/fi";
+import logout from "../../assets/images/logout.png";
 
 export default function Sidebar() {
   const [activeItem, setActiveItem] = useState(1);
@@ -27,9 +29,9 @@ export default function Sidebar() {
 
   useEffect(() => {
     if (isSidebarOpen) {
-      document.body.style.overflow = "hidden"; 
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto"; 
+      document.body.style.overflow = "auto";
     }
 
     return () => {
@@ -39,7 +41,7 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Menu Button for Smaller Screens */}
+      {/*  Smaller Screens */}
       <button
         className="lg:hidden fixed top-[26px] left-4 z-[9999] max-sm:block"
         onClick={toggleSidebar}
@@ -62,7 +64,7 @@ export default function Sidebar() {
           </button>
         </div>
 
-        <nav>
+        <nav className="mb-[300px] max-sm:mb-[450px]  max-md:mb-[450px]">
           <ul>
             {sidebarItems.map((item) => (
               <li key={item.id}>
@@ -70,8 +72,8 @@ export default function Sidebar() {
                   <NavLink
                     to={item.path || "#"}
                     className={`flex items-center mb-[10px] text-sm font-medium rounded-lg p-[14px] ${activeItem === item.id
-                        ? "bg-custom-gradient text-white"
-                        : "hover:bg-custom-gradient hover:text-white"
+                      ? "bg-custom-gradient text-white"
+                      : "hover:bg-custom-gradient hover:text-white"
                       }`}
                     onClick={() => handleItemClick(item)}
                   >
@@ -88,27 +90,27 @@ export default function Sidebar() {
                       <li
                         key={subItem.id}
                         className={`border-l-2 pl-2 ${activeItem === subItem.id
-                            ? "border-black"
-                            : "border-gray-300 hover:border-black"
+                          ? "border-black"
+                          : "border-gray-300 hover:border-black"
                           }`}
                       >
                         <NavLink
                           to={subItem.path}
                           className={`flex items-center text-sm rounded-lg pt-[6px] pb-[5px] ${activeItem === subItem.id
-                              ? "text-[#202224] font-medium"
-                              : "hover:text-[#202224] font-medium"
+                            ? "text-[#202224] font-medium"
+                            : "hover:text-[#202224] font-medium"
                             }`}
                           onClick={() => setActiveItem(subItem.id)}
                         >
                           <span
                             className={`ml-2 ${activeItem === subItem.id
-                                ? "text-black"
-                                : "text-[#4F4F4F] hover:text-black"
+                              ? "text-black"
+                              : "text-[#4F4F4F] hover:text-black"
                               }`}
                           >
-                            {subItem.label}   
+                            {subItem.label}
                           </span>
-                        </NavLink>   
+                        </NavLink>
                       </li>
                     ))}
                   </ul>
@@ -117,9 +119,21 @@ export default function Sidebar() {
             ))}
           </ul>
         </nav>
+
+        {/* Logout */}
+        <div className="w-full mt-[15px] h-auto">
+          <div className="border border-[#F4F4F4] max-sm:mt-[320px] mr-[34px]"></div>
+          <NavLink
+            to="/login"
+            className="flex items-center justify-items-end mb-[10px] text-[16px] font-medium rounded-lg p-[14px] text-[#E74C3C]"
+          >
+            <img src={logout} alt="" className="mr-[12px]" />
+            Logout
+          </NavLink>
+        </div>
       </aside>
 
-      {/* Sidebar Overlay (visible only when sidebar is open on smaller screens) */}
+      {/* Sidebar screen*/}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black opacity-50 lg:hidden z-50"
