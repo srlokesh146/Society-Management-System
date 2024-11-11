@@ -113,8 +113,8 @@ const Register = () => {
       const response = await getSocieties();
       setSocietyList(response.data.Society || []);
     } catch (error) {
-      console.error('Error:', error);
-      toast.error('Failed to fetch societies');
+      console.error("Error:", error);
+      toast.error("Failed to fetch societies");
       setSocietyList([]);
     } finally {
       setIsLoading(false);
@@ -137,10 +137,19 @@ const Register = () => {
   };
 
   return (
-    <div >
-      <div className="min-h-screen  flex flex-col md:flex-row" style={{ backgroundImage: `url(${BackgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <div>
+      <div
+        className="min-h-screen  flex flex-col md:flex-row"
+        style={{
+          backgroundImage: `url(${BackgroundImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         {/* Left Section - Branding and Illustration */}
-        <div className="min-h-screen flex flex-col items-center justify-center md:w-2/5"> {/* Set width to 40% */}
+        <div className="min-h-screen flex flex-col items-center justify-center md:w-2/5">
+          {" "}
+          {/* Set width to 40% */}
           <div className="bg-[#F6F8FB] rounded-lg shadow-lg p-8 max-w-[900px] w-full flex flex-col items-start h-auto md:h-[950px] relative overflow-hidden">
             <h1 className="text-5xl mt-20 font-bold text-gray-700 z-10 mb-4">
               <span className="text-[#FE512E]">Dash</span>
@@ -148,7 +157,11 @@ const Register = () => {
             </h1>
             <div className="flex-grow flex items-center justify-center w-full">
               <div className="text-center mb-8">
-                <img src={RegisterImage} alt="Society" className="w-full h-auto max-w-[480px] object-contain z-10" />
+                <img
+                  src={RegisterImage}
+                  alt="Society"
+                  className="w-full h-auto max-w-[480px] object-contain z-10"
+                />
               </div>
             </div>
           </div>
@@ -157,12 +170,16 @@ const Register = () => {
         {/* Right Section - Form */}
         <div className="md:w-3/5 w-full flex items-center justify-center p-6">
           <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-[600px]">
-            <h2 className="text-3xl font-semibold mb-6 text-gray-800">Registration</h2>
+            <h2 className="text-3xl font-semibold mb-6 text-gray-800">
+              Registration
+            </h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name Fields */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">First Name*</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    First Name*
+                  </label>
                   <input
                     type="text"
                     name="FirstName"
@@ -174,7 +191,9 @@ const Register = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Last Name*</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Last Name*
+                  </label>
                   <input
                     type="text"
                     name="LastName"
@@ -190,7 +209,9 @@ const Register = () => {
               {/* Email and Phone */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email Address*</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Email Address*
+                  </label>
                   <input
                     type="email"
                     name="Email"
@@ -202,7 +223,9 @@ const Register = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number*</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Phone Number*
+                  </label>
                   <input
                     type="tel"
                     name="Phone"
@@ -218,7 +241,9 @@ const Register = () => {
               {/* Country, State, City */}
               <div className="grid grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Country*</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Country*
+                  </label>
                   <input
                     type="text"
                     name="Country"
@@ -230,7 +255,9 @@ const Register = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">State*</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    State*
+                  </label>
                   <input
                     type="text"
                     name="State"
@@ -242,7 +269,9 @@ const Register = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">City*</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    City*
+                  </label>
                   <input
                     type="text"
                     name="City"
@@ -256,8 +285,10 @@ const Register = () => {
               </div>
 
               {/* Society Selection */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Select Society*</label>
+              <div className="">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Select Society*
+                </label>
                 <select
                   name="select_society"
                   value={formData.select_society}
@@ -267,7 +298,9 @@ const Register = () => {
                 >
                   <option value="">Select Society</option>
                   {societyList?.map(({ _id, Society_name }) => (
-                    <option key={_id} value={_id}>{Society_name}</option>
+                    <option key={_id} value={_id}>
+                      {Society_name}
+                    </option>
                   ))}
                   <option value="createNew">Create New Society</option>
                 </select>
@@ -277,13 +310,17 @@ const Register = () => {
               {showModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
                   <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-                    <h2 className="text-xl font-semibold mb-4">Add New Society</h2>
+                    <h2 className="text-xl font-semibold mb-4">
+                      Add New Society
+                    </h2>
                     <form onSubmit={handleSocietySubmit} className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-black-700">Society Name*</label>
+                        <label className="block text-sm font-medium text-black-700">
+                          Society Name*
+                        </label>
                         <input
                           type="text"
-                          name=" Society_name"
+                          name="Society_name"
                           value={society.Society_name}
                           onChange={handleSocietyChange}
                           className="w-full px-4 py-2.5 border rounded-lg"
@@ -292,7 +329,9 @@ const Register = () => {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-black-700">Society Address*</label>
+                        <label className="block text-sm font-medium text-black-700">
+                          Society Address*
+                        </label>
                         <input
                           type="text"
                           name="Society_address"
@@ -305,7 +344,9 @@ const Register = () => {
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-black-700">Country*</label>
+                          <label className="block text-sm font-medium text-black-700">
+                            Country*
+                          </label>
                           <input
                             type="text"
                             name="Country"
@@ -317,7 +358,9 @@ const Register = () => {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-black-700">State*</label>
+                          <label className="block text-sm font-medium text-black-700">
+                            State*
+                          </label>
                           <input
                             type="text"
                             name="State"
@@ -332,7 +375,9 @@ const Register = () => {
 
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-black-700">City*</label>
+                          <label className="block text-sm font-medium text-black-700">
+                            City*
+                          </label>
                           <input
                             type="text"
                             name="City"
@@ -344,7 +389,9 @@ const Register = () => {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-black-700">Zip code*</label>
+                          <label className="block text-sm font-medium text-black-700">
+                            Zip code*
+                          </label>
                           <input
                             type="text"
                             name="ZipCode"
@@ -358,12 +405,20 @@ const Register = () => {
                       </div>
 
                       <div className="flex justify-center space-x-4">
-                        <button type="button" onClick={() => setShowModal(false)} className="bg-gray-300 w-[180px] text-gray-700 px-4 py-2 rounded-lg">
+                        <button
+                          type="button"
+                          onClick={() => setShowModal(false)}
+                          className="bg-gray-300 w-[180px] text-gray-700 px-4 py-2 rounded-lg"
+                        >
                           Cancel
                         </button>
                         <button
                           type="submit"
-                          className={`w-[180px] px-4 py-2 rounded-lg ${isFormValid() ? 'bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white' : 'bg-[#F6F8FB] text-gray-400'}`}
+                          className={`w-[180px] px-4 py-2 rounded-lg ${
+                            isFormValid()
+                              ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white"
+                              : "bg-[#F6F8FB] text-gray-400"
+                          }`}
                           disabled={!isFormValid()} // Disable button if form is not valid
                         >
                           Save
@@ -375,7 +430,9 @@ const Register = () => {
               )}
               {/* Password Fields */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Password*</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Password*
+                </label>
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
@@ -397,7 +454,9 @@ const Register = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password*</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Confirm Password*
+                </label>
                 <input
                   type={showPassword ? "text" : "password"}
                   name="Cpassword"
@@ -412,9 +471,15 @@ const Register = () => {
               {/* Terms and Register Button */}
               <div className="space-y-6">
                 <div className="flex items-center">
-                  <input type="checkbox" required className="w-4 h-4 text-[#FE512E] border-gray-300 rounded focus:ring-[#FE512E]" />
+                  <input
+                    type="checkbox"
+                    required
+                    className="w-4 h-4 text-[#FE512E] border-gray-300 rounded focus:ring-[#FE512E]"
+                  />
                   <span className="ml-2 text-sm text-gray-600">
-                    I agree to all the <Link className="text-[#FE512E]">Terms</Link> and <Link className="text-[#FE512E]">Privacy Policies</Link>.
+                    I agree to all the{" "}
+                    <Link className="text-[#FE512E]">Terms</Link> and{" "}
+                    <Link className="text-[#FE512E]">Privacy Policies</Link>.
                   </span>
                 </div>
 
@@ -428,11 +493,13 @@ const Register = () => {
             </form>
 
             <p className="mt-6 text-center text-gray-600">
-              Already have an account? <Link to="/login" className="text-[#FE512E] hover:underline">Login here</Link>
+              Already have an account?{" "}
+              <Link to="/login" className="text-[#FE512E] hover:underline">
+                Login here
+              </Link>
             </p>
           </div>
         </div>
-
       </div>
     </div>
   );
