@@ -4,7 +4,7 @@ const router=require("express").Router()
 //add visitor
 router.post("/addvisitor",auth,IsSecurity,VisitorController.CreateVisitor)
 //get visitor
-router.get("/viewvisitor",auth,IsSecurity,VisitorController.GetAllVisitor)
+router.get("/viewvisitor",auth,VisitorController.GetAllVisitor)
 
 //filter data
 router.get("/filter",auth,IsSecurity,VisitorController.FilterVisitor)
