@@ -112,19 +112,19 @@ const VisitorLogs = () => {
           <table className="min-w-full table-auto border-collapse">
             <thead className="bg-indigo-50">
               <tr>
-                <th className="px-4 sm:px-6 py-4 text-left text-md font-bold text-black-500 tracking-wider">
+                <th className="px-4 sm:px-6 py-4 text-left text-md font-semibold text-black-500 tracking-wider">
                   Visitor Name
                 </th>
-                <th className="px-4 sm:px-6 py-4 text-left text-md font-bold text-black-500 tracking-wider">
+                <th className="px-4 sm:px-6 py-4 text-left text-md font-semibold text-black-500 tracking-wider">
                   Phone Number
                 </th>
-                <th className="px-4 sm:px-6 py-4 text-left text-md font-bold text-black-500 tracking-wider">
+                <th className="px-4 sm:px-6 py-4 text-left text-md font-semibold text-black-500 tracking-wider">
                   Date
                 </th>
-                <th className="px-4 sm:px-6 py-4 text-left text-md font-bold text-black-500 tracking-wider">
+                <th className="px-4 sm:px-6 py-4 text-left text-md font-semibold text-black-500 tracking-wider">
                   Unit Number
                 </th>
-                <th className="px-4 sm:px-10 py-4 text-left text-md font-bold text-black-500 tracking-wider">
+                <th className="px-4 sm:px-10 py-4 text-left text-md font-semibold text-black-500 tracking-wider">
                   Time
                 </th>
               </tr>

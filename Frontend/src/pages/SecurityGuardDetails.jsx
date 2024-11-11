@@ -255,7 +255,7 @@ function SecurityGuardDetails() {
                 ].map((header) => (
                   <th
                     key={header}
-                    className="px-4 py-4 text-left text-md font-bold text-black-500 max-sm:min-w-[209px] md:min-w-[166px] max-md:min-w-[180px]"
+                    className="px-4 py-4 text-left text-md font-semibold text-black-500 max-sm:min-w-[209px] md:min-w-[166px] max-md:min-w-[180px]"
                   >
                     {header}
                   </th>
@@ -280,7 +280,7 @@ function SecurityGuardDetails() {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm font-bold text-gray-500">
+                    <div className="text-sm font-semibold text-gray-500">
                       {guard.MailOrPhone}
                     </div>
                   </td>
@@ -300,7 +300,7 @@ function SecurityGuardDetails() {
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm font-bold text-gray-500">
+                    <div className="text-sm font-semibold text-gray-500">
                       {new Date(guard.date).toLocaleDateString("en-GB", {
                         day: "2-digit",
                         month: "2-digit",
@@ -309,7 +309,7 @@ function SecurityGuardDetails() {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="inline-flex px-3 py-1 font-bold text-sm text-gray-500 bg-[#F6F8FB] rounded-md">
+                    <div className="inline-flex px-3 py-1 font-semibold text-sm text-gray-500 bg-[#F6F8FB] rounded-md">
                       {guard.time}
                     </div>
                   </td>

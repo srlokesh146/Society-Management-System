@@ -205,7 +205,7 @@ function FacilityManagement() {
   return (
     <div className="container mx-auto p-4 sm:p-6 bg-white rounded-lg">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">
+        <h1 className="text-[20px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px]">
           Facility Management
         </h1>
         <button

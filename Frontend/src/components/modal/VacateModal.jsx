@@ -2,7 +2,7 @@
 import React from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 
-const VacateModal = ({ showVacateModal, setShowVacateModal, onClose, setWing, wing, setUnit, unit, setShowConfirmModal }) => {
+const VacateModal = ({ showVacateModal, onClose, setWing, wing, setUnit, unit, setShowConfirmModal }) => {
   if (!showVacateModal) return null;
 
   return (

@@ -121,13 +121,13 @@ export default function Sidebar() {
         </nav>
 
         {/* Logout */}
-        <div className="w-full mt-[15px] h-auto">
-          <div className="border border-[#F4F4F4] max-sm:mt-[320px] mr-[34px]"></div>
+        <div className="w-full mt-auto">
+          <div className="border border-[#F4F4F4]"></div>
           <NavLink
             to="/login"
-            className="flex items-center justify-items-end mb-[10px] text-[16px] font-medium rounded-lg p-[14px] text-[#E74C3C]"
+            className="flex items-center mb-[10px] text-[16px] font-medium rounded-lg p-[14px] text-[#E74C3C]"
           >
-            <img src={logout} alt="" className="mr-[12px]" />
+            <img src={logout} alt="Logout Icon" className="mr-[12px]" />
             Logout
           </NavLink>
         </div>
