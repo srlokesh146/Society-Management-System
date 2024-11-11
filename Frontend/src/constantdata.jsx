@@ -207,6 +207,25 @@ export const notifications = [
     ),
   },
   {
+    title: "Ganesh Chaturthi (A- 101)",
+    description:
+      "Ganesh Chaturthi celebration involves installing Lord Ganesa clay idols.",
+      description: (
+        <>
+          <p> Per Person Amount : <span className="text-[#5678E9]">1,500</span> </p> 
+          <span className="tag text-[#4F4F4F] text-[14px]">The celebration of Ganesh Chaturthi involves the installation of clay idols of Lord Ganesa in  OurResident.</span>
+        </>
+      ),
+    time: "Saturday 11:41 AM",
+    options: ["Accept"],
+    options2: ["Decline"],
+    icon: (
+      <div className="icon-wrapper-text mr-[10px]">
+        <p className="relative top-[-1px] left-[2px] mr-[20px] font-bold">G</p>
+      </div>
+    ),
+  },
+  {
     title: "Update Maintenance",
     icon:
       <div className="icon-wrapper">
