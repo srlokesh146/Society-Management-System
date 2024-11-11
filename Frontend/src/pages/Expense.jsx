@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { FaCheck, FaEye, FaTrash, FaPen, FaPlus, FaUpload } from 'react-icons/fa';
-import { FaPencil } from 'react-icons/fa6';
-import { FiDownload } from 'react-icons/fi';
+import { FaEye, FaFileUpload, FaPencilAlt, FaPlus, FaTrash } from 'react-icons/fa';
+
 
 const initialExpenses = [
   {
@@ -15,28 +14,12 @@ const initialExpenses = [
   {
     id: 2,
     title: "Housing Costs",
-    description: "Back the fluctuations in your spending over we time...",
+    description: "Rack the fluctuations in your spending over time...",
     date: "11/02/2024",
     amount: "₹ 1000",
     billFormat: "PDF"
   },
-  {
-    id: 3,
-    title: "Housing Costs",
-    description: "Back the fluctuations in your spending over we time...",
-    date: "11/02/2024",
-    amount: "₹ 1000",
-    billFormat: "PDF"
-  },
-  {
-    id: 4,
-    title: "Housing Costs",
-    description: "Back the fluctuations in your spending over we time...",
-    date: "11/02/2024",
-    amount: "₹ 1000",
-    billFormat: "PDF"
-  },
-  // ... add more initial data
+  // ... other initial expenses
 ];
 
 function Expense() {
@@ -49,45 +32,39 @@ function Expense() {
     amount: '',
     bill: null
   });
-  const [isDragging, setIsDragging] = useState(false);
-  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [selectedExpense, setSelectedExpense] = useState(null);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    setIsDragging(true);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewExpense({ ...newExpense, [name]: value });
   };
 
-  const handleDragLeave = () => {
-    setIsDragging(false);
-  };
-
-  const handleDrop = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setIsDragging(false);
-    const file = e.dataTransfer.files[0];
-    if (file) {
-      setNewExpense({ ...newExpense, bill: file });
+
+    // Validate the input fields
+    if (!newExpense.title || !newExpense.description || !newExpense.date || !newExpense.amount || !newExpense.bill) {
+      alert("Please fill in all fields.");
+      return;
     }
-  };
 
-  const handleFileInput = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setNewExpense({ ...newExpense, bill: file });
-    }
-  };
+    // Create a new expense object
+    const newId = expenses.length + 1; // Generate a new ID
+    const billFormat = newExpense.bill.name.split('.').pop().toUpperCase(); // Get the file format
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('title', newExpense.title);
-    formData.append('description', newExpense.description);
-    formData.append('date', newExpense.date);
-    formData.append('amount', newExpense.amount);
-    formData.append('bill', newExpense.bill);
+
+    const newExpenseData = {
+      id: newId,
+      title: newExpense.title,
+      description: newExpense.description,
+      date: newExpense.date,
+      amount: `₹ ${newExpense.amount}`, // Format the amount
+      billFormat: billFormat // Add the bill format
+    };
+
+    // Update the expenses state
+    setExpenses([...expenses, newExpenseData]);
+
+    // Reset the form
 
     const newId = expenses.length + 1;
     const billFormat = newExpense.bill?.name.split('.').pop().toUpperCase();
@@ -109,8 +86,28 @@ function Expense() {
     });
   };
 
-  const handleEditSubmit = async (e) => {
+  const handleFileChange = (e) => {
+    setNewExpense({ ...newExpense, bill: e.target.files[0] });
+  };
+
+  const handleDrop = (e) => {
     e.preventDefault();
+
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      setNewExpense({ ...newExpense, bill: files[0] });
+    }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleIconClick = () => {
+    document.getElementById('fileInput').click(); // Trigger the file input click
+  };
+  const isFormValid = newExpense.title && newExpense.description && newExpense.date && newExpense.amount && newExpense.bill;
+
     const updatedExpenses = expenses.map(exp => {
       if (exp.id === selectedExpense.id) {
         return {
@@ -155,43 +152,56 @@ function Expense() {
               />
             </div>
 
-            <div>
-              <label className="block text-sm text-black-600 mb-1">Description*</label>
-              <textarea
-                name="description"
-                placeholder="Enter Description"
-                className="w-full p-2 border border-gray-200 rounded-lg"
-                value={newExpense.description}
-                onChange={(e) => setNewExpense({ ...newExpense, description: e.target.value })}
-              />
-            </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm text-black-600 mb-1">Date*</label>
-                <input
-                  name="date"
-                  type="date"
-                  className="w-full p-2 border border-gray-200 rounded-lg"
-                  value={newExpense.date}
-                  onChange={(e) => setNewExpense({ ...newExpense, date: e.target.value })}
-                />
-              </div>
-              <div>
-                <label className="block text-sm text-black-600 mb-1">Amount*</label>
-                <div className="relative">
-                  <span className="absolute left-3 top-2.5">₹</span>
+  return (
+    <div className='flex flex-col p-8'>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">Add Expenses Details</h1>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white px-4 py-2 rounded-md hover:opacity-90 flex items-center gap-2"
+        >
+          <FaPlus size={16} /> Add New Expenses details
+        </button>
+      </div>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg w-full max-w-md mx-4">
+            <div className="p-6">
+              <h2 className="text-xl font-semibold mb-6">Add Expense Details</h2>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm text-black-600 mb-1">Title*</label>
                   <input
+
+                    name="title"
+                    type="text"
+                    placeholder="Enter Title"
+                    className="w-full p-2 border border-gray-200 rounded-lg"
+                    value={newExpense.title}
+                    onChange={handleInputChange}
+
                     name="amount"
                     type="number"
                     placeholder="0000"
                     className="w-full p-2 pl-7 border border-gray-200 rounded-lg"
                     value={newExpense.amount}
-                    onChange={(e) => setNewExpense({ ...newExpense, amount: e.target.value })}
+
                   />
                 </div>
-              </div>
-            </div>
+
+
+                <div>
+                  <label className="block text-sm text-black-600 mb-1">Description*</label>
+                  <textarea
+                    name="description"
+                    placeholder="Enter Description"
+                    className="w-full p-2 border border-gray-200 rounded-lg"
+                    value={newExpense.description}
+                    onChange={handleInputChange}
+                  />
+                </div>
 
             <div>
               <label className="block text-sm text-black-600 mb-1">Upload Bill*</label>
@@ -204,11 +214,63 @@ function Expense() {
                 onDrop={handleDrop}
                 onClick={() => document.getElementById('fileInput').click()}
 
-              >
-                {newExpense.bill ? (
-                  <div className="text-sm text-gray-600">
-                    File selected: {newExpense.bill.name}
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm text-black-600 mb-1">Date*</label>
+                    <input
+                      name="date"
+                      type="date"
+                      className="w-full p-2 border border-gray-200 rounded-lg"
+                      value={newExpense.date}
+                      onChange={handleInputChange}
+                    />
                   </div>
+                  <div>
+                    <label className="block text-sm text-black-600 mb-1">Amount*</label>
+                    <div className="relative">
+                      <span className="absolute left-3 top-2.5">₹</span>
+                      <input
+                        name="amount"
+                        type="text" // Change to text
+                        placeholder="0000"
+                        className="w-full p-2 pl-7 border border-gray-200 rounded-lg"
+                        value={newExpense.amount}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/[^0-9]/g, ''); // Allow only numbers
+                          setNewExpense({ ...newExpense, amount: value });
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                </div>
+
+                <div>
+                  <label className="block text-sm text-black-600 mb-1">Upload Bill*</label>
+                  <div
+                    className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer"
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}
+                    onClick={handleIconClick} // Open file dialog on click
+                  >
+                    {newExpense.bill ? (
+                      <p className="text-gray-600">{newExpense.bill.name}</p>
+                    ) : (
+                      <div>
+                        <FaFileUpload className="mx-auto text-gray-400 mb-2" size={24} /> {/* Icon */}
+                        <p className="text-gray-400">Upload a file or drag and drop</p>
+                      </div>
+                    )}
+                    <p className="text-xs text-gray-500">PNG, JPG, or up to 10MB</p>
+                  </div>
+                  <input
+                    id="fileInput" // Add an ID to the input
+                    type="file"
+                    onChange={handleFileChange}
+                    className="hidden" // Hide the default file input
+                    accept=".png, .jpg, .jpeg"
+
                 ) : (
                   <>
                     <FaUpload className="mx-auto text-gray-400 mb-2" size={24} />
@@ -405,9 +467,22 @@ function Expense() {
                     className="w-full p-2 pl-7 border border-gray-200 rounded-lg"
                     value={selectedExpense?.amount?.replace('₹ ', '') || ''}
                     onChange={(e) => setSelectedExpense({ ...selectedExpense, amount: e.target.value })}
+
                   />
                 </div>
-              </div>
+
+
+                <div className='flex gap-5'>
+                  <button type="button" onClick={() => setIsModalOpen(false)} className="bg-white text-black w-[190px] px-4 py-2 border rounded-md">Cancel</button>
+                  <button 
+                    type="submit" 
+                    className={`w-[190px] px-4 py-2 border rounded-md ${isFormValid ? 'bg-[#F6F8FB] font-semibold text-black' : 'bg-white text-gray-400 cursor-not-allowed'}`} 
+                    disabled={!isFormValid} // Disable button if form is not valid
+                  >
+                    Save
+                  </button>
+                </div>
+              </form>
             </div>
 
             <div>
@@ -571,14 +646,58 @@ function Expense() {
                 ))}
               </tbody>
             </table>
+
           </div>
         </div>
-      </div>
+      )}
 
-      {isModalOpen && <ExpenseModal />}
-      {isViewModalOpen && selectedExpense && <ViewExpenseModal />}
-      {isDeleteModalOpen && selectedExpense && <DeleteExpenseModal />}
-      {isEditModalOpen && selectedExpense && <EditExpenseModal />}
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="bg-indigo-50">
+              <th className="text-left px-6 py-3 text-md font-semibold text-black-800">Title</th>
+              <th className="text-left px-6 py-3 text-md font-semibold text-black-800">Description</th>
+              <th className="text-left px-6 py-3 text-md font-semibold text-black-800">Date</th>
+              <th className="text-left px-6 py-3 text-md font-semibold text-black-800">Amount</th>
+              <th className="text-left px-6 py-3 text-md font-semibold text-black-800">Bill Format</th>
+              <th className="text-left px-6 py-3 text-md font-semibold text-black-800">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {expenses.map(expense => (
+              <tr key={expense.id}>
+                <td className="px-6 py-4">{expense.title}</td>
+                <td className="px-6 py-4">{expense.description}</td>
+                <td className="px-6 py-4">{expense.date}</td>
+                <td className="px-6 py-4">{expense.amount}</td>
+                <td className="px-6 py-4">{expense.billFormat}</td>
+                <td className="px-6 py-4">
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => alert(`Editing ${expense.title}`)} // Replace with actual edit logic
+                      className="p-1.5 rounded-md bg-green-50 text-green-600 hover:bg-green-100"
+                    >
+                      <FaPencilAlt size={14} />
+                    </button>
+                    <button
+                      onClick={() => alert(`Viewing ${expense.title}`)} // Replace with actual view logic
+                      className="p-1.5 rounded-md bg-blue-50 text-blue-600 hover:bg-blue-100"
+                    >
+                      <FaEye size={14} />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(expense.id)} // Delete logic
+                      className="p-1.5 rounded-md bg-red-50 text-red-600 hover:bg-red-100"
+                    >
+                      <FaTrash size={14} />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

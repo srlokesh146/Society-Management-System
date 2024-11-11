@@ -6,6 +6,7 @@ import { loginUser } from "../../services/AuthService";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { StoreUser } from "../../redux/features/AuthSlice";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -66,18 +67,22 @@ const Login = () => {
     }
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   return (
     <div
       className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: `url(${BackgroundImage})` }} // Background image
     >
       {/* Left Section (Image and Title) */}
-      <div className="bg-gray-100 rounded-lg shadow-lg p-8 max-w-[900px] w-full flex flex-col items-center h-auto md:h-[950px] relative overflow-hidden">
+      <div className="bg-gray-100 rounded-lg shadow-lg p-8 max-w-[800px] w-full flex flex-col items-left h-auto md:h-[950px] relative overflow-hidden">
         {/* Decorative Background Section */}
         <div className="absolute inset-0 opacity-10 rounded-lg"></div>
 
         {/* Title Section */}
-        <h1 className="text-6xl mt-20 font-bold mr-96 text-gray-700 z-10 mb-4">
+        <h1 className="text-5xl mt-20 font-bold mr-96 text-gray-700 z-10 mb-4">
           <span className="text-[#FE512E]">Dash</span>Stack
         </h1>
 
@@ -93,7 +98,11 @@ const Login = () => {
 
       {/* Right Section (Login Form) */}
       <div className="md:w-1/2 w-full flex items-center justify-center p-6">
+
+        <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg">
+=======
         <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-[530px]">
+
           <h2 className="text-2xl font-bold mb-6 text-gray-800">Login</h2>
           <form onSubmit={handleLogin} className="space-y-4">
             {/* Email or Phone Input */}
@@ -126,20 +135,37 @@ const Login = () => {
                 htmlFor="password"
                 className="block text-gray-700 font-medium mb-2"
               >
+                
                 Password
               </label>
-              <input
-                type="password"
+
+            <div className="relative">
+            <input
+              
+              type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
                 value={user.password}
                 onChange={handleChange}
                 placeholder="Enter Password"
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+
+                required
+                />
+                   <button
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+            </div>
+
               />
               {errors.password && (
                 <p className="text-red-500 text-sm mt-1">{errors.password}</p>
               )}
+
             </div>
 
             {/* Remember Me and Forgot Password */}
@@ -162,7 +188,11 @@ const Login = () => {
             {/* Submit Button */}
             <button
               type="submit"
+
+      className="w-full bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white py-3 rounded-lg font-medium hover:bg-orange-600 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500"
+
               className="w-full bg-orange-500 text-white py-3 rounded-lg font-medium hover:bg-orange-600 transition-transform transform focus:outline-none focus:ring-2 focus:ring-orange-500"
+
             >
               Sign In
             </button>

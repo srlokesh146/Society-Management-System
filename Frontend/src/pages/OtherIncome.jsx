@@ -1,33 +1,33 @@
-import React, { useState } from 'react';
-import { FaEllipsisV } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import CreateIncomeModal from '../components/modal/CreateIncomeModal';
 
 const OtherIncome = () => {
-  const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('Other Income');
-  const [dropdownOpen, setDropdownOpen] = useState(null);
+  const navigate = useNavigate(); // Initialize useNavigate
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [title, setTitle] = useState('');
-  const [date, setDate] = useState('');
-  const [dueDate, setDueDate] = useState('');
-  const [description, setDescription] = useState('');
-  const [amount, setAmount] = useState('');
-
-  const [otherIncomeData] = useState([
+  const [formData, setFormData] = useState({
+    title: '',
+    date: '',
+    dueDate: '',
+    description: '',
+    amount: ''
+  });
+  
+  const [incomeEntries, setIncomeEntries] = useState([
     {
       id: 1,
-      title: "Ganesh chaturthi",
-      amountPerMember: "₹ 1,500",
-      totalMember: "12",
+      title: "Ganesh Chaturthi",
+      amount: "₹1,500",
+      totalMembers: 12,
       date: "01/07/2024",
       dueDate: "10/07/2024",
-      description: "The celebration of Ganesh Chaturthi involves the installation of clay idols of Ganesh in..."
+      description: "The celebration of Ganesh Chaturthi involves the installation of clay idols of Ganesa in..."
     },
     {
       id: 2,
       title: "Navratri",
-      amountPerMember: "₹ 1,500",
-      totalMember: "12",
+      amount: "₹1,800",
+      totalMembers: 12,
       date: "01/07/2024",
       dueDate: "10/07/2024",
       description: "The celebration of Navratri involves the installation of clay idols of Durga in Resident..."
@@ -35,14 +35,22 @@ const OtherIncome = () => {
     {
       id: 3,
       title: "Diwali",
-      amountPerMember: "₹ 1,500",
-      totalMember: "12",
+      amount: "₹1,500",
+      totalMembers: 12,
       date: "01/07/2024",
       dueDate: "10/07/2024",
-      description: "The celebration of Ganesh Chaturthi involves the installation of clay idols of Ganesh in..."
+      description: "The celebration of Diwali involves lighting diyas and fireworks to celebrate the triumph..."
     },
     {
       id: 4,
+
+      title: "Holi",
+      amount: "₹1,200",
+      totalMembers: 12,
+      date: "01/03/2024",
+      dueDate: "08/03/2024",
+      description: "Holi is celebrated with colors and sweets, marking the arrival of spring and good harvest..."
+
       title: "Ganesh Chaturthi",
       amountPerMember: "₹ 1,500",
       totalMember: "12",
@@ -65,15 +73,12 @@ const OtherIncome = () => {
       phoneNumber: '92524 12365',
       amount: '1000',
       paymentType: 'Cash'
-    },
-    {
-      unitNumber: '1002',
-      paymentDate: '11/07/2024',
-      status: 'Tenant',
-      phoneNumber: '92458 12865',
-      amount: '1000',
-      paymentType: 'Online'
-    },
+
+     
+   
+
+  ]);
+
     // ... add more participants
   ];
 
@@ -144,45 +149,36 @@ const OtherIncome = () => {
     navigate('/income'); // Income पेज पर नेविगेट (रूट पेज)
   };
 
-  const toggleDropdown = (id) => {
-    setDropdownOpen(dropdownOpen === id ? null : id);
-  };
 
-  // Handle form input changes
+  const [activeTab, setActiveTab] = useState('otherIncome'); // State for active tab
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'title') setTitle(value);
-    if (name === 'date') setDate(value);
-    if (name === 'dueDate') setDueDate(value);
-    if (name === 'description') setDescription(value);
-    if (name === 'amount') setAmount(value);
+    setFormData({ ...formData, [name]: value });
   };
 
-  // Add a new state to track the item being edited
-  const [itemToEdit, setItemToEdit] = useState(null);
-
-  // Update the handleViewClick function to set the item to edit
-  const handleEditClick = (item) => {
-    setItemToEdit(item); // Set the item to edit
-    setTitle(item.title); // Pre-fill the title
-    setDate(item.date); // Pre-fill the date
-    setDueDate(item.dueDate); // Pre-fill the due date
-    setDescription(item.description); // Pre-fill the description
-    setAmount(item.amount); // Pre-fill the amount
-    setIsModalOpen(true); // Open the modal
-  };
-
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (itemToEdit) {
-      // Logic to update the existing item
-      console.log('Updating item:', { title, date, dueDate, description, amount });
-    } else {
-      // Logic to create a new item
-      console.log('Creating new item:', { title, date, dueDate, description, amount });
-    }
+    const newEntry = {
+      id: incomeEntries.length + 1,
+      ...formData
+    };
+    setIncomeEntries([...incomeEntries, newEntry]);
     setIsModalOpen(false);
+
+    setFormData({
+      title: '',
+      date: '',
+      dueDate: '',
+      description: '',
+      amount: ''
+    });
+  };
+
+  const handleIncomeClick = () => {
+    setActiveTab('income'); // Set active tab to income
+    navigate("/income"); // Navigate to the Income page
+
     // Reset the itemToEdit state after submission
     setItemToEdit(null);
   };
@@ -350,91 +346,61 @@ const OtherIncome = () => {
     console.log('Deleting item:', item);
     setIsDeleteModalOpen(false);
     setItemToDelete(null);
+
   };
 
-  // Update delete button click handler
-  const handleDeleteClick = (item) => {
-    setItemToDelete(item);
-    setIsDeleteModalOpen(true);
-    setDropdownOpen(null);
+  const handleOtherIncomeClick = () => {
+    setActiveTab('otherIncome'); // Set active tab to other income
   };
 
   return (
-    <div className='flex flex-col'>
-      <div className="rounded-xl">
-        <div className="flex gap-2 shadow-sm bg-[#F8F9FC] p-1 rounded-xl w-fit">
-          <button
-            onClick={handleMaintenanceClick}
-            className={`px-6 py-2 rounded-lg transition-all ${
-              activeTab === 'Maintenance'
-                ? 'bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] font-bold text-white'
-                : 'text-black-600'
-            }`}
-          >
-            Maintenance
-          </button>
-          <button
-            onClick={() => setActiveTab('Other Income')}
-            className={`px-6 py-2 rounded-lg transition-all ${
-              activeTab === 'Other Income'
-                ? 'bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] font-bold text-white'
-                : 'text-black-600'
-            }`}
-          >
-            Other Income
-          </button>
-        </div>
+    <div className='flex flex-col p-8' >
+       <div className="flex gap-4 mb-4">
+        <button 
+           className={`px-4 py-2 rounded-lg shadow-md transition duration-200 ${activeTab === 'income' ? 'bg-orange-500 text-white' : 'bg-white-200 text-black'}`}
+          onClick={handleIncomeClick}
+        >
+          Maintenance
+        </button>
+        <button 
+          className={`px-4 py-2 rounded-lg shadow-md transition duration-200 ${activeTab === 'otherIncome' ? 'bg-orange-500 text-white' : 'bg-gray-200 text-black hover:bg-gray-300'}`}
+          onClick={handleOtherIncomeClick}
+        >
+          Other Income
+        </button>
       </div>
-      
-      <div className="bg-[#F8F9FC] min-h-screen px-6">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold text-gray-800">Other Income</h2> 
-          <button 
-            className="px-4 py-2 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] mt-5 text-white rounded-lg hover:opacity-90 flex items-center gap-2"
+     <div className="flex flex-col  rounded-lg p-8 bg-white min-h-screen">
+    
+      <div className=" ">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold text-gray-800">Other Income</h2>
+          <button
+            className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
             onClick={() => setIsModalOpen(true)}
           >
             Create Other Income
           </button>
         </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {otherIncomeData.map((item) => (
-            <div key={item.id} className="bg-white rounded-xl overflow-hidden w-[370px] shadow-sm">
-              {/* Card Header */}
-              <div className="bg-[#5B7BF0] p-3 flex justify-between items-center">
-                <h3 className="text-white font-medium text-sm">{item.title}</h3>
-                <div className="relative">
-                  <button 
-                    onClick={() => toggleDropdown(item.id)}
-                    className="text-white hover:opacity-80"
-                  >
-                    <FaEllipsisV size={14} />
-                  </button>
-                  
-                  {dropdownOpen === item.id && (
-                    <div className="absolute right-0 mt-2 w-24 bg-white rounded-md shadow-lg z-10">
-                      <button 
-                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                        onClick={() => handleEditClick(item)} // Call handleEditClick on Edit button click
-                      >
-                        Edit
-                      </button>
-                      <button 
-                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                        onClick={() => handleViewClick(item)}
-                      >
-                        View
-                      </button>
-                      <button 
-                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                        onClick={() => handleDeleteClick(item)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  )}
+
+        <CreateIncomeModal 
+          isOpen={isModalOpen} 
+          onClose={() => setIsModalOpen(false)} 
+          formData={formData} 
+          handleInputChange={handleInputChange} 
+          handleSubmit={handleSubmit} 
+        />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+          {incomeEntries.map((entry) => (
+            <div key={entry.id} className="bg-white shadow-lg rounded-lg  border border-blue-300">
+              <div className="flex flex-col  mb-2">
+                <div className="bg-[#5678E9] text-white w-full p-2 rounded-t-lg">
+                  <h3 className="text-lg h-11 p-2 font-semibold">{entry.title}</h3>
                 </div>
-              </div>
+                <div className="flex justify-between items-center">
+                  <button className="text-gray-500 hover:text-gray-700">
+                    <i className="fas fa-ellipsis-v"></i>
+                  </button> 
 
               {/* Card Content */}
               <div className="p-4 space-y-2.5">
@@ -459,17 +425,22 @@ const OtherIncome = () => {
                   <p className="text-[14px] font-semibold text-gray-600 line-clamp-2">
                     The celebration of Ganesh Chaturthi involves the installation of clay idols of Ganesh in...
                   </p>
+
                 </div>
               </div>
+              <p className="text-gray-600 p-2">Amount Per Member: <strong>{entry.amount}</strong></p>
+              <p className="text-gray-600 p-2">Total Members: <strong>{entry.totalMembers}</strong></p>
+              <p className="text-gray-600 p-2">Date: <strong>{entry.date}</strong></p>
+              <p className="text-gray-600 p-2">Due Date: <strong>{entry.dueDate}</strong></p>
+              <p className="text-gray-600 p-2 mt-2 text-sm">
+                Description: <br />
+                {entry.description.length > 100 ? entry.description.slice(0, 100) + '...' : entry.description}
+              </p>
             </div>
           ))}
         </div>
-
-        {/* Render Modal */}
-        {isModalOpen && <CreateIncomeModal />}
-        {isParticipantModalOpen && <ParticipantListModal item={selectedItem} />}
-        {isDeleteModalOpen && <DeleteConfirmationModal item={itemToDelete} />}
       </div>
+     </div>
     </div>
   );
 };

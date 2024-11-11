@@ -1,97 +1,83 @@
 import React from 'react';
 
-const CreateIncomeModal = ({ isModalOpen, setIsModalOpen, handleSubmit, title, date, dueDate, description, amount, handleInputChange, isFormValid }) => {
+const CreateIncomeModal = ({ isOpen, onClose, formData, handleInputChange, handleSubmit }) => {
+  if (!isOpen) return null;
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg w-[400px] flex flex-col">
+      <div className="bg-white rounded-lg w-full max-w-md mx-4">
         <div className="p-6">
           <h2 className="text-xl font-semibold mb-4">Create Other Income</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm text-black-600 mb-1">Title*</label>
               <input
-                type="text"
                 name="title"
-                value={title}
-                onChange={handleInputChange}
-                className="w-full border rounded-lg px-3 py-2"
+                type="text"
                 placeholder="Enter Title"
+                className="w-full p-2 border border-gray-200 rounded-lg"
+                value={formData.title}
+                onChange={handleInputChange}
                 required
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm text-black-600 mb-1">Date*</label>
-                <input
-                  type="date"
-                  name="date"
-                  value={date}
-                  onChange={handleInputChange}
-                  className="w-full border rounded-lg px-3 py-2"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm text-black-600 mb-1">Due Date*</label>
-                <input
-                  type="date"
-                  name="dueDate"
-                  value={dueDate}
-                  onChange={handleInputChange}
-                  className="w-full border rounded-lg px-3 py-2"
-                  required
-                />
-              </div>
+
+            <div>
+              <label className="block text-sm text-black-600 mb-1">Date*</label>
+              <input
+                name="date"
+                type="date"
+                className="w-full p-2 border border-gray-200 rounded-lg"
+                value={formData.date}
+                onChange={handleInputChange}
+                required
+              />
             </div>
+
+            <div>
+              <label className="block text-sm text-black-600 mb-1">Due Date*</label>
+              <input
+                name="dueDate"
+                type="date"
+                className="w-full p-2 border border-gray-200 rounded-lg"
+                value={formData.dueDate}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+
             <div>
               <label className="block text-sm text-black-600 mb-1">Description*</label>
               <textarea
                 name="description"
-                value={description}
-                onChange={handleInputChange}
-                className="w-full border rounded-lg px-3 py-2"
                 placeholder="Enter Description"
-                rows="3"
+                className="w-full p-2 border border-gray-200 rounded-lg"
+                value={formData.description}
+                onChange={handleInputChange}
                 required
               />
             </div>
+
             <div>
               <label className="block text-sm text-black-600 mb-1">Amount*</label>
               <div className="relative">
                 <span className="absolute left-3 top-2">₹</span>
                 <input
-                  type="number"
                   name="amount"
-                  value={amount}
-                  onChange={handleInputChange}
-                  className="w-full border rounded-lg pl-7 pr-3 py-2"
+                  type="number"
                   placeholder="0.00"
+                  className="w-full p-2 pl-7 border border-gray-200 rounded-lg"
+                  value={formData.amount}
+                  onChange={handleInputChange}
                   required
                 />
               </div>
             </div>
-            <div className="border-t w-full mt-auto">
-              <div className="flex gap-4 p-4">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="flex-1 px-4 py-3 text-gray-600 border rounded-lg hover:bg-gray-50"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className={`flex-1 px-4 py-3 rounded-lg ${
-                    isFormValid
-                      ? 'bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90'
-                      : 'bg-[#F6F8FB] text-black-400 cursor-not-allowed'
-                  }`}
-                  disabled={!isFormValid}
-                >
-                  Save
-                </button>
-              </div>
-            </div>
+
+            <div className='flex gap-5'>
+           <button type="submit" className="bg-white text-black w-[190px] px-4 py-2 border  rounded-md">cancel</button>
+           <button type="submit" className="bg-[#F6F8FB] font-semibold text-black px-4 py-2 w-[190px] border rounded-md">save</button>
+           </div>
           </form>
         </div>
       </div>
