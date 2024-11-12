@@ -3,7 +3,7 @@ import { IoSearchOutline, IoNotifications } from "react-icons/io5";
 import { AiOutlineClose } from "react-icons/ai";
 import { useLocation, useNavigate } from "react-router-dom";
 import Avatar from "../assets/images/Avatar.png";
-import { notifications } from "../constantdata";
+import { Navigationbar, notifications } from "../constantdata";
 import NotificationImage from "../assets/images/notificationimage.png";
 import useCurrentPath from "./useCurrentPath";
 import { FaChevronRight } from "react-icons/fa6";
@@ -30,7 +30,9 @@ const Navbar = () => {
 
   const handleProfileClick = () => {
     setShowSearch(false);
-    navigate('/editprofile');
+    if (isDashboard) {
+      navigate('/editprofile');
+    }
   };
 
   const handleNotificationClick = () => {
@@ -68,93 +70,27 @@ const Navbar = () => {
       ) : (
         <div className="flex items-center">
           <span
-            className="cursor-pointer text-[18px] leading-[27px] font-normal text-[#A7A7A7] ps-[35px] mr-[12px]"
+            className="cursor-pointer text-[18px] leading-[27px] font-normal text-[#A7A7A7] mr-[12px]"
             onClick={() => navigate("/dashboard")}
           >
             Home
           </span>
           <FaChevronRight className="mr-[3px] w-[12px]" />
 
-          {/* Edit Profile */}
-          <span
-            className={location.pathname === "/editprofile" ? "text-[#5678E9] ml-[12px] text-[18px] w-[30px] font-normal leading-[27px]" : ""}
-          >
-            {location.pathname === "/editprofile" ? "Edit Profile" : ""}
-          </span>
+          {Navigationbar.map((item, index) => (
+            <React.Fragment key={item.path}>
+              <span
+                className={location.pathname === item.path ? "text-[#5678E9] ml-[12px] text-[18px] font-normal leading-[27px]" : ""}
+              >
+                {location.pathname === item.path ? item.label : ""}
+              </span>
 
-          {/* Resident Management */}
-          <span
-            className={location.pathname === "/residentmanagement" ? "text-[#5678E9] ml-[12px] text-[18px] font-normal leading-[27px]" : ""}
-          >
-            {location.pathname === "/residentmanagement" ? "ResidentManagement" : ""}
-          </span>
-
-          {/* Resident Management */}
-          <span
-            className={location.pathname === "/reqtracking" ? "text-[#5678E9] ml-[12px] text-[18px] font-normal leading-[27px]" : ""}
-          >
-            {location.pathname === "/reqtracking" ? "RequestTracking" : ""}
-          </span>
-          <span
-            className={location.pathname === "/visitorlog" ? "text-[#5678E9] ml-[12px] text-[18px] font-normal leading-[27px]" : ""}
-          >
-            {location.pathname === "/visitorlog" ? "VisitorLog" : ""}
-          </span>
-          <span
-            className={location.pathname === "/securityprotocols" ? "text-[#5678E9] ml-[12px] text-[18px] font-normal leading-[27px]" : ""}
-          >
-            {location.pathname === "/securityprotocols" ? "SecurityProtocols" : ""}
-          </span>
-          <span
-            className={location.pathname === "/announcement" ? "text-[#5678E9] ml-[12px] text-[18px] font-normal leading-[27px]" : ""}
-          >
-            {location.pathname === "/announcement" ? "Announcement" : ""}
-          </span>
-          <span
-            className={location.pathname === "/facilitymanagement" ? "text-[#5678E9] ml-[12px] text-[18px] font-normal leading-[27px]" : ""}
-          >
-            {location.pathname === "/facilitymanagement" ? "FacilityManagement" : ""}
-          </span>
-          <span
-            className={location.pathname === "/note" ? "text-[#5678E9] ml-[12px] text-[18px] font-normal leading-[27px]" : ""}
-          >
-            {location.pathname === "/other-income" ? "OtherIncome" : ""}
-          </span>
-          <span
-            className={location.pathname === "/ownerform" ? "text-[#5678E9] ml-[12px] text-[18px] font-normal leading-[27px]" : ""}
-          >
-            {location.pathname === "/ownerform" ? "OwnerForm" : ""}
-          </span>
-          <span
-            className={location.pathname === "/tenantform" ? "text-[#5678E9] ml-[12px] text-[18px] w-[30px] font-normal leading-[27px]" : ""}
-          >
-            {location.pathname === "/tenantform" ? "TenantForm" : ""}
-          </span>
-          <span
-            className={location.pathname === "/tenantform" ? "text-[#5678E9] ml-[12px] text-[18px] font-normal leading-[27px]" : ""}
-          >
-            {location.pathname === "/complainttable" ? "ComplainTable" : ""}
-          </span>
-          <span
-            className={location.pathname === "/income" ? "text-[#5678E9] ml-[12px] text-[18px]  font-normal leading-[27px]" : ""}
-          >
-            {location.pathname === "/income" ? "Income" : ""}
-          </span>
-          <span
-            className={location.pathname === "/expense" ? "text-[#5678E9] ml-[12px] text-[18px]  font-normal leading-[27px]" : ""}
-          >
-            {location.pathname === "/expense" ? "Expense" : ""}
-          </span>
-          <span
-            className={location.pathname === "/note" ? "text-[#5678E9] ml-[12px] text-[18px] font-normal leading-[27px]" : ""}
-          >
-            {location.pathname === "/note" ? "Note" : ""}
-          </span>
-          <span
-            className={location.pathname === "/securityguard" ? "text-[#5678E9] ml-[12px] text-[18px] font-normal leading-[27px]" : ""}
-          >
-            {location.pathname === "/securityguard" ? "SecurityGuard" : ""}
-          </span>
+              {index < Navigationbar.length - 1 && location.pathname === item.path && (
+                // <FaChevronRight className="mr-[3px] w-[12px]" />
+                <></>
+              )}
+            </React.Fragment>
+          ))}
         </div>
 
       )}

@@ -15,12 +15,8 @@ import evelynHarperimage from "./assets/images/EvelynHarperimage.png";
 import moneys from "./assets/images/moneys.png";
 
 export const sidebarItems = [
-  {
-    id: 1,
-    path: "/dashboard",
-    label: "Dashboard",
-    icon: <TbLayoutDashboardFilled />,
-  },
+
+  { id: 1, path: "/dashboard",  label: "Dashboard", icon: <TbLayoutDashboardFilled /> },
   {
     id: 2,
     path: "/residentmanagement",
@@ -73,6 +69,24 @@ export const sidebarItems = [
     label: "Announcement",
     icon: <FaBullhorn />,
   },
+
+];
+
+export const Navigationbar = [
+  { path: "/editprofile", label: "EditProfile" },
+  { path: "/residentmanagement", label: "ResidentManagement" },
+  { path: "/reqtracking", label: "RequestTracking" },
+  { path: "/visitorlog", label: "VisitorLog" },
+  { path: "/securityprotocols", label: "SecurityProtocols" },
+  { path: "/announcement", label: "Announcement" },
+  { path: "/facilitymanagement", label: "FacilityManagement" },
+  { path: "/note", label: "Note" },
+  { path: "/ownerform", label: "OwnerForm" },
+  { path: "/tenantform", label: "TenantForm" },
+  { path: "/complainttable", label: "CreateComplaint" },
+  { path: "/income", label: "Income" },
+  { path: "/expense", label: "Expense" },
+  { path: "/securityguard", label: "SecurityGuard" },
 ];
 
 export const cardData = [
