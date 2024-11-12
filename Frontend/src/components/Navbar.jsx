@@ -10,6 +10,7 @@ import { FaChevronRight } from "react-icons/fa6";
 
 const Navbar = () => {
   const [showSearch, setShowSearch] = useState(true);
+  const [activeItem, setActiveItem] = useState(null);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [clearedNotifications, setClearedNotifications] = useState(false);
   const navigate = useNavigate();
@@ -17,15 +18,6 @@ const Navbar = () => {
 
   const {
     isDashboard,
-    isResidentManagement,
-    isEditProfile,
-    isHome,
-    isReqTracking,
-    isVisitorLog,
-    isSecurityProtocols,
-    isSecurityGuard,
-    isAnnouncement,
-    isIncome,
   } = useCurrentPath();
 
   const handleProfileClick = () => {
@@ -37,9 +29,8 @@ const Navbar = () => {
 
   const handleNotificationClick = () => {
     setIsNotificationOpen(!isNotificationOpen);
-    setClearedNotifications(false)
+    setClearedNotifications(false);
   };
-
 
   const handleClearNotifications = () => {
     setClearedNotifications(true);
@@ -51,11 +42,14 @@ const Navbar = () => {
     } else {
       setShowSearch(false);
     }
-  }, [isDashboard, isResidentManagement, isEditProfile, isHome, isReqTracking, isVisitorLog, isSecurityProtocols, isSecurityGuard, isAnnouncement, isIncome]);
+  }, [isDashboard]);
+
+  const handleSubItemClick = (id) => {
+    setActiveItem(id);
+  };
 
   return (
     <div className="flex justify-between items-center p-4 bg-white shadow-md sticky top-0 left-0 w-full z-[99] max-md:flex-col max-md:justify-start max-md:flex max-md:items-start max-sm:flex-col max-sm:justify-start max-sm:items-start max-lg:pl-[50px]">
-
       {showSearch ? (
         <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-[35px]">
           <input
@@ -78,25 +72,23 @@ const Navbar = () => {
           <FaChevronRight className="mr-[3px] w-[12px]" />
 
           {Navigationbar.map((item, index) => (
-            <React.Fragment key={item.path}>
+            <div key={item.path}>
               <span
                 className={location.pathname === item.path ? "text-[#5678E9] ml-[12px] text-[18px] font-normal leading-[27px]" : ""}
+                onClick={() => handleSubItemClick(subItem.path)}
               >
                 {location.pathname === item.path ? item.label : ""}
               </span>
 
               {index < Navigationbar.length - 1 && location.pathname === item.path && (
-                // <FaChevronRight className="mr-[3px] w-[12px]" />
                 <></>
               )}
-            </React.Fragment>
+            </div>
           ))}
         </div>
-
       )}
 
       <div className="flex items-center space-x-4 justify-end w-full max-md:justify-start max-sm:justify-start max-sm:ms-[35px] max-md:ml-[35px]">
-
         {/* Notification Icon */}
         <div className="relative">
           <IoNotifications
@@ -104,7 +96,6 @@ const Navbar = () => {
             className="text-black cursor-pointer border border-[#D3D3D3] rounded-[10px] p-[8px] md:block"
             onClick={handleNotificationClick}
           />
-
           {/* Notification Dropdown */}
           {isNotificationOpen && (
             <div
@@ -122,7 +113,6 @@ const Navbar = () => {
                   <button className="text-sm text-gray-500" onClick={handleClearNotifications}>Clear all</button>
                 )}
               </div>
-
               {clearedNotifications ? (
                 <div className="text-center py-10">
                   <img src={NotificationImage} alt="No Notifications" className="mx-auto mb-[24px]" />
@@ -137,19 +127,6 @@ const Navbar = () => {
                     </div>
                     <p className="text-[12px] text-[#A7A7A7] font-normal mt-1 ml-[50px] mb-[4px]">{notification.time}</p>
                     <p className="text-sm text-gray-600 ml-[50px]">{notification.description}</p>
-                    {notification.title === "Update Maintenance" && (
-                      <div className="flex flex-col">
-                        <div className="bg-[#F6F8FB] flex justify-between leading-[21px] ml-[50px] pt-[10px] pb-[10px] px-[15px]">
-                          <p className="text-sm text-[#4F4F4F]">Maintenance Amount:</p>
-                          <p className="text-[#E74C3C]">$ 1500</p>
-                        </div>
-                        <div className="border border-[#FFFFFF]"></div>
-                        <div className="flex justify-between bg-[#F6F8FB] leading-[21px] ml-[50px] pt-[10px] pb-[10px] px-[15px]">
-                          <p className="text-sm text-[#4F4F4F]">Penalty:</p>
-                          <p className="text-[#39973D]">$ 350</p>
-                        </div>
-                      </div>
-                    )}
                     <div className="flex space-x-2 mt-2 ml-[50px] max-md:justify-start max-sm:flex-col max-sm:justify-start max-sm:space-x-0">
                       {notification.options &&
                         notification.options.map((option, i) => (

@@ -10,7 +10,7 @@ import {
   FaClock,
 } from "react-icons/fa";
 import {
-  CreateProtocol,  
+  CreateProtocol,
   DeleteProtocol,
   GetProtocols,
   UpdateProtocol,
@@ -94,8 +94,8 @@ function SecurityProtocols() {
     if (isCreateOpen) {
       return protocol.title.trim() !== '' && protocol.description.trim() !== '';
     }
-    return protocol.title.trim() !== '' && protocol.description.trim() !== '' && 
-           protocol.date.trim() !== '' && protocol.time.trim() !== '';
+    return protocol.title.trim() !== '' && protocol.description.trim() !== '' &&
+      protocol.date.trim() !== '' && protocol.time.trim() !== '';
   };
 
   const handleProtocolChange = (field, value) => {
@@ -247,10 +247,10 @@ function SecurityProtocols() {
 
       {/* Create/Edit Modal */}
       {(isCreateOpen || isEditOpen) && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center p-4 z-[9999]">
           <div className="bg-white p-6 sm:p-8 rounded-lg shadow-2xl w-full max-w-md">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl sm:text-2xl font-bold text-gray-800">
+            <div className="flex justify-between items-center mb-[10px]">
+              <h2 className="text-[20px] sm:text-2xl font-bold text-gray-800">
                 {isCreateOpen ? "Create Protocol" : "Edit Protocol"}
               </h2>
               <button
@@ -263,6 +263,7 @@ function SecurityProtocols() {
                 <FaTimes size={24} />
               </button>
             </div>
+            <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
             <form className="space-y-4 sm:space-y-6">
               <div>
                 <label className="block text-sm font-medium text-black-700 mb-1">
@@ -309,8 +310,8 @@ function SecurityProtocols() {
                         defaultValue={
                           newProtocol?.date
                             ? new Date(newProtocol.date)
-                                .toISOString()
-                                .split("T")[0]
+                              .toISOString()
+                              .split("T")[0]
                             : ""
                         }
                         onChange={(e) =>
@@ -372,11 +373,11 @@ function SecurityProtocols() {
 
       {/* View Modal */}
       {isViewOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center p-4 z-[9999]">
           <div className="bg-white p-6 sm:p-8 rounded-lg shadow-2xl w-full max-w-md">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
-                Protocol Details
+            <div className="flex justify-between items-center mb-[10px]">
+              <h2 className="text-[20px] font-semibold text-gray-800">
+                View Security Protocol
               </h2>
               <button
                 onClick={() => setIsViewOpen(false)}
@@ -385,15 +386,16 @@ function SecurityProtocols() {
                 <FaTimes size={24} />
               </button>
             </div>
+            <div className="border-b border-[#F4F4F4] mb-[30px]"></div>
             <div className="space-y-4 bg-gray-50 p-4 rounded-md">
               <div>
-                <h3 className="text-sm font-medium text-gray-500">Title</h3>
+                <h3 className="font-normal text-[#A7A7A7] text-[16px]">Title</h3>
                 <p className="mt-1 text-lg font-semibold text-gray-900">
                   {currentProtocol.title}
                 </p>
               </div>
               <div>
-                <h3 className="text-sm font-medium text-gray-500">
+                <h3 className="font-normal text-[#A7A7A7] text-[16px]">
                   Description
                 </h3>
                 <p className="mt-1 text-md text-black-700">
@@ -402,18 +404,18 @@ function SecurityProtocols() {
               </div>
               <div className="flex flex-col sm:flex-row justify-between">
                 <div className="mb-2 sm:mb-0">
-                  <h3 className="text-sm font-medium text-gray-500">Date</h3>
+                  <h3 className="font-normal text-[#A7A7A7] text-[16px]">Date</h3>
                   <p className="mt-1 text-md text-black-700 flex items-center">
                     <FaCalendarAlt className="mr-2 text-blue-500" />{" "}
                     {new Date(currentProtocol.date).toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })}
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-sm font-medium text-gray-500">Time</h3>
+                  <h3 className="font-normal text-[#A7A7A7] text-[16px]">Time</h3>
                   <p className="mt-1 text-md text-black-700 flex items-center">
                     <FaClock className="mr-2 text-blue-500" />{" "}
                     {currentProtocol.time}
@@ -435,10 +437,10 @@ function SecurityProtocols() {
 
       {/* Delete Confirmation Modal */}
       {isDeleteOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center p-4 z-[9999]">
           <div className="bg-white p-6 sm:p-8 rounded-lg shadow-2xl w-full max-w-md">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">
+            <div className="flex justify-between items-center mb-[10px]">
+              <h2 className="text-2xl font-semibold text-gray-800">
                 Delete Protocol ?
               </h2>
               <button
@@ -448,6 +450,7 @@ function SecurityProtocols() {
                 <FaTimes size={24} />
               </button>
             </div>
+            <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
 
             <p className="text-gray-600 mb-6">
               Are you sure you want to delete this protocol?

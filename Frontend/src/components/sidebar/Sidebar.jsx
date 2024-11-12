@@ -1,33 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 import { sidebarItems } from "../../constantdata";
 import Logo from "../Logo";
-import { FiLogOut } from "react-icons/fi";
 import logout from "../../assets/images/logout.png";
+import { IoChevronDownOutline } from "react-icons/io5";
+
 
 export default function Sidebar() {
   const [activeItem, setActiveItem] = useState(1);
   const [openSubItems, setOpenSubItems] = useState({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const location = useLocation();
-
 
   const handleItemClick = (item) => {
     if (item.subItems) {
-      setOpenSubItems((prev) => ({
-        [item.id]: !prev[item.id],
-      }));
+      setOpenSubItems((prev) => {
+        const newState = {
+          ...prev,
+          [item.id]: !prev[item.id],
+        };
+        localStorage.setItem("openSubItems", JSON.stringify(newState));
+        return newState;
+      });
     } else {
       setOpenSubItems({});
+      localStorage.removeItem("openSubItems");
     }
     setActiveItem(item.id);
   };
 
-  const toggleSidebar = () => {
+    const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  useEffect(() => {
+    const currentPath = location.pathname;
+    if (currentPath === "/dashboard" || currentPath === "/editprofile") {
+      setActiveItem("dashboard");
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const activeNavItem = sidebarItems.find((item) => item.path === currentPath);
+    setActiveItem(activeNavItem ? activeNavItem.id : null);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (isSidebarOpen) {
@@ -40,6 +58,14 @@ export default function Sidebar() {
       document.body.style.overflow = "auto";
     };
   }, [isSidebarOpen]);
+
+  useEffect(() => {
+    const savedSubItems = localStorage.getItem("openSubItems");
+    if (savedSubItems) {
+      setOpenSubItems(JSON.parse(savedSubItems));
+    }
+  }, []);
+
 
   return (
     <>
@@ -66,7 +92,7 @@ export default function Sidebar() {
           </button>
         </div>
 
-        <nav className="mb-[300px] max-sm:mb-[450px]  max-md:mb-[450px]">
+        <nav>
           <ul>
             {sidebarItems.map((item) => (
               <li key={item.id}>
@@ -74,69 +100,71 @@ export default function Sidebar() {
                   <div className="relative">
                     <NavLink
                       to={item.path || "#"}
-                      isActive={() => location.pathname !== item.path}
-                      className={`flex items-center mb-[10px] text-sm font-medium rounded-lg p-[14px] ${activeItem === item.id || location.pathname.includes(item.path)
-                        ? "bg-custom-gradient text-white"
-                        : "hover:bg-custom-gradient hover:text-white"
+                      className={`flex items-center mb-[10px] text-sm font-medium rounded-lg p-[14px] ${activeItem === "dashboard" || activeItem === item.id
+                          ? "bg-custom-gradient text-white border"
+                          : "hover:bg-custom-gradient hover:text-white"
                         }`}
                       onClick={() => handleItemClick(item)}
                     >
                       <span className="mr-[10px]">{item.icon}</span>
                       <span className="lg:inline">{item.label}</span>
+                      {item.subItems && (
+                        <IoChevronDownOutline
+                          className={`ml-auto transition-transform duration-300 ${openSubItems[item.id] ? "rotate-180" : ""}`}
+                        />
+                      )}
                     </NavLink>
-                    {activeItem === item.id || location.pathname.includes(item.path) ? (
+                    { activeItem === "dashboard" || activeItem === item.id && (
                       <div className="sidebar-border sidebar-border-active"></div>
-                    ): null}
+                    )}
                   </div>
                 )}
                 {item.subItems && openSubItems[item.id] && (
                   <ul className="ml-4 mt-2 mb-2">
-                    {item.subItems.map((subItem) => (
-                      <li
-                        key={subItem.id}
-                        className={`border-l-2 pl-2 ${activeItem === subItem.id
-                          ? "border-black"
-                          : "border-gray-300 hover:border-black"
+                  {item.subItems.map((subItem) => (
+                    <li
+                      key={subItem.id}
+                      className={`border-l-2 pl-2 ${location.pathname === subItem.path && subItem.id
+                        ? "border-black"
+                        : "border-gray-300 hover:border-black"
+                        }`}
+                    >
+                      <NavLink
+                        to={subItem.path}
+                        className={`flex items-center text-sm rounded-lg pt-[6px] pb-[5px] ${location.pathname === subItem.path && subItem.id
+                          ? "text-black font-medium"
+                          : "hover:text-[#202224] font-medium"
                           }`}
+                        onClick={() => setActiveItem(subItem.id)}
                       >
-                        <NavLink
-                          to={subItem.path}
-                          className={`flex items-center text-sm rounded-lg pt-[6px] pb-[5px] ${activeItem === subItem.id
-                            ? "text-[#202224] font-medium"
-                            : "hover:text-[#202224] font-medium"
+                        <span
+                          className={`ml-2 ${location.pathname === subItem.path
+                            ? "text-black"
+                            : "text-[#4F4F4F] hover:text-black"
                             }`}
-                          onClick={() => setActiveItem(subItem.id)}
                         >
-                          <span
-                            className={`ml-2 ${activeItem === subItem.id
-                              ? "text-black"
-                              : "text-[#4F4F4F] hover:text-black"
-                              }`}
-                          >
-                            {subItem.label}
-                          </span>
-                        </NavLink>
-                      </li>
-                    ))}
-                  </ul>
+                          {subItem.label}
+                        </span>
+                      </NavLink>
+                    </li>
+                  ))}
+                </ul>
                 )}
               </li>
-
             ))}
           </ul>
+          {/* Logout */}
+          <div className="w-full absolute bottom-0 left-0 p-4">
+            <div className="border border-[#F4F4F4]"></div>
+            <NavLink
+              to="/login"
+              className="flex items-center mb-[10px] text-[16px] font-medium rounded-lg p-[14px] text-[#E74C3C]"
+            >
+              <img src={logout} alt="Logout Icon" className="mr-[12px]" />
+              Logout
+            </NavLink>
+          </div>
         </nav>
-
-        {/* Logout */}
-        <div className="w-full mt-auto">
-          <div className="border border-[#F4F4F4]"></div>
-          <NavLink
-            to="/login"
-            className="flex items-center mb-[10px] text-[16px] font-medium rounded-lg p-[14px] text-[#E74C3C]"
-          >
-            <img src={logout} alt="Logout Icon" className="mr-[12px]" />
-            Logout
-          </NavLink>
-        </div>
       </aside>
 
       {/* Sidebar screen*/}
@@ -149,3 +177,4 @@ export default function Sidebar() {
     </>
   );
 }
+

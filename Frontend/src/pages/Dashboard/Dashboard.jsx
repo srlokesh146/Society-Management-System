@@ -290,7 +290,7 @@ const Dashboard = () => {
                 <div>
                   <select
                     id="month-select"
-                    className="text-[15px] border border-gray-300 rounded-lg px-2 py-1 text-gray-700 flex items-center outline-none w-[114px]"
+                    className="text-[15px] border border-gray-300 rounded-lg px-2 py-1 text-gray-700 flex items-center outline-none w-[116px]"
                   >
                     <option value="" disabled defaultValue>
                       Month

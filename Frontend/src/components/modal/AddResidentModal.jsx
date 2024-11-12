@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import VacateModal from "./VacateModal"; // Keep this import
 import ConfirmationModal from "./ConfirmationModal";
 
-export default function AddResidentModal({ isOpen, onClose, onSave, resident, setShowVacateModal }) {
+export default function AddResidentModal({ isOpen, onClose, resident, setShowVacateModal }) {
   const [selectedStatus, setSelectedStatus] = useState("Occupied");
   const navigate = useNavigate();
 

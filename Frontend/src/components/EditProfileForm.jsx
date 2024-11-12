@@ -218,7 +218,7 @@ function EditProfileForm() {
                       >
                         <option value="{">select society</option>
                         {societyList.map((society) => (
-                          <option value={society._id}>
+                          <option key={society._id} value={society._id}>
                             {society.Society_name}
                           </option>
                         ))}
