@@ -263,7 +263,7 @@ function FacilityManagement() {
 
       {/* Create/Edit Modal - Updated for better responsiveness */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-2 sm:p-4">
           <div className="bg-white rounded-xl w-[95%] sm:w-[85%] md:w-[65%] lg:w-[50%] max-w-md max-h-[90vh] sm:max-h-[85vh] overflow-y-auto my-2 sm:my-8 mx-auto relative">
             <div className="p-3 sm:p-6">
               {/* Header */}

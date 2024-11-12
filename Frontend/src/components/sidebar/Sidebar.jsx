@@ -84,9 +84,9 @@ export default function Sidebar() {
                       <span className="mr-[10px]">{item.icon}</span>
                       <span className="lg:inline">{item.label}</span>
                     </NavLink>
-                    {location.pathname.includes(item.path) && (
+                    {activeItem === item.id || location.pathname.includes(item.path) ? (
                       <div className="sidebar-border sidebar-border-active"></div>
-                    )}
+                    ): null}
                   </div>
                 )}
                 {item.subItems && openSubItems[item.id] && (
