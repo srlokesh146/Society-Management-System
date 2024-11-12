@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 import { sidebarItems } from "../../constantdata";
@@ -11,6 +11,8 @@ export default function Sidebar() {
   const [activeItem, setActiveItem] = useState(1);
   const [openSubItems, setOpenSubItems] = useState({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const location = useLocation();
+
 
   const handleItemClick = (item) => {
     if (item.subItems) {
@@ -68,22 +70,25 @@ export default function Sidebar() {
           <ul>
             {sidebarItems.map((item) => (
               <li key={item.id}>
-                <div className="relative">
-                  <NavLink
-                    to={item.path || "#"}
-                    className={`flex items-center mb-[10px] text-sm font-medium rounded-lg p-[14px] ${activeItem === item.id
-                      ? "bg-custom-gradient text-white"
-                      : "hover:bg-custom-gradient hover:text-white"
-                      }`}
-                    onClick={() => handleItemClick(item)}
-                  >
-                    <span className="mr-[10px]">{item.icon}</span>
-                    <span className="lg:inline">{item.label}</span>
-                  </NavLink>
-                  {activeItem === item.id && (
-                    <div className="sidebar-border sidebar-border-active"></div>
-                  )}
-                </div>
+                {item.name === "dashboard" && location.pathname === "/dashboard" ? null : (
+                  <div className="relative">
+                    <NavLink
+                      to={item.path || "#"}
+                      isActive={() => location.pathname !== item.path}
+                      className={`flex items-center mb-[10px] text-sm font-medium rounded-lg p-[14px] ${activeItem === item.id || location.pathname.includes(item.path)
+                        ? "bg-custom-gradient text-white"
+                        : "hover:bg-custom-gradient hover:text-white"
+                        }`}
+                      onClick={() => handleItemClick(item)}
+                    >
+                      <span className="mr-[10px]">{item.icon}</span>
+                      <span className="lg:inline">{item.label}</span>
+                    </NavLink>
+                    {location.pathname.includes(item.path) && (
+                      <div className="sidebar-border sidebar-border-active"></div>
+                    )}
+                  </div>
+                )}
                 {item.subItems && openSubItems[item.id] && (
                   <ul className="ml-4 mt-2 mb-2">
                     {item.subItems.map((subItem) => (
@@ -116,6 +121,7 @@ export default function Sidebar() {
                   </ul>
                 )}
               </li>
+
             ))}
           </ul>
         </nav>

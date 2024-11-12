@@ -13,15 +13,15 @@ import toast from "react-hot-toast";
 function EditProfileForm() {
   const { user } = useSelector((store) => store.auth);
   const [profile, setProfile] = useState({
-    FirstName: user.FirstName,
-    LastName: user.LastName,
-    Email: user.Email,
-    Phone: user.Phone,
-    Country: user.Country,
-    State: user.State,
-    City: user.City,
-    select_society: user.select_society,
-    profileImage: user.profileImage,
+    FirstName: user?.FirstName,
+    LastName: user?.LastName,
+    Email: user?.Email,
+    Phone: user?.Phone,
+    Country: user?.Country,
+    State: user?.State,
+    City: user?.City,
+    select_society: user?.select_society,
+    profileImage: user?.profileImage,
   });
   const [profileImage, setProfileImage] = useState(editimage);
   const [isEditing, setIsEditing] = useState(false);
@@ -76,7 +76,7 @@ function EditProfileForm() {
       <div className="flex flex-col justify-start items-center h-screen bg-edit-images pt-16 px-4 md:px-8">
         <div className="max-w-[991px] w-full">
           <div className="flex justify-between items-center">
-            <h2 className="text-xl font-bold mb-4 mt-4">
+            <h2 className="text-xl font-semibold mb-4 mt-4">
               {isEditing ? "Edit Profile" : "Profile"}
             </h2>
             {!isEditing && (
@@ -93,12 +93,12 @@ function EditProfileForm() {
           <div className="bg-white p-8 rounded-lg shadow-md">
             <div className="flex flex-col md:flex-row items-start">
               <div className="relative w-full md:w-1/4 flex flex-col items-center">
-                {profile.profileImage ? (
+                {profile?.profileImage ? (
                   <>
                     <img
                       src={
-                        profile.profileImage
-                          ? profile.profileImage
+                        profile?.profileImage
+                          ? profile?.profileImage
                           : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
                       }
                       alt="Profile"
@@ -132,8 +132,8 @@ function EditProfileForm() {
                   disabled={!isEditing}
                 />
                 <p className="font-semibold">
-                  {user.FirstName || "First Name"}{" "}
-                  {user.LastName || "Last Name"}
+                  {user?.FirstName || "First Name"}{" "}
+                  {user?.LastName || "Last Name"}
                 </p>
               </div>
 
