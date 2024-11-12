@@ -14,9 +14,13 @@ import vacate from "./assets/images/vacate.png";
 import evelynHarperimage from "./assets/images/EvelynHarperimage.png";
 import moneys from "./assets/images/moneys.png";
 
-
 export const sidebarItems = [
-  { id: 1, path: "/dashboard", label: "Dashboard", icon: <TbLayoutDashboardFilled /> },
+  {
+    id: 1,
+    path: "/dashboard",
+    label: "Dashboard",
+    icon: <TbLayoutDashboardFilled />,
+  },
   {
     id: 2,
     path: "/residentmanagement",
@@ -69,45 +73,46 @@ export const sidebarItems = [
     label: "Announcement",
     icon: <FaBullhorn />,
   },
-
 ];
 
 export const cardData = [
   {
     title: "Total Balance",
     amount: "2,22,520",
-    bgColor: 'rgba(255, 106, 0, 0.5)',
-    gradient: 'linear-gradient(255.6deg, #FF6A00 7.71%, rgba(255, 255, 255, 0) 18.54%)',
-    iconBg: '#FF6A00',
+    bgColor: "rgba(255, 106, 0, 0.5)",
+    gradient:
+      "linear-gradient(255.6deg, #FF6A00 7.71%, rgba(255, 255, 255, 0) 18.54%)",
+    iconBg: "#FF6A00",
     icon: icon1,
   },
   {
     title: "Total Income",
     amount: "55,000",
-    bgColor: 'rgba(57, 151, 61, 0.5)',
-    gradient: 'linear-gradient(255.6deg, #39973D 7.71%, rgba(255, 255, 255, 0) 18.54%)',
-    iconBg: '#39973D',
+    bgColor: "rgba(57, 151, 61, 0.5)",
+    gradient:
+      "linear-gradient(255.6deg, #39973D 7.71%, rgba(255, 255, 255, 0) 18.54%)",
+    iconBg: "#39973D",
     icon: moneyrecive,
   },
   {
     title: "Total Expense",
     amount: "20,550",
-    bgColor: 'rgba(134, 159, 243, 0.5)',
-    gradient: 'linear-gradient(255.6deg, #869FF3 7.71%, rgba(255, 255, 255, 0) 18.54%)',
-    iconBg: '#869FF3',
+    bgColor: "rgba(134, 159, 243, 0.5)",
+    gradient:
+      "linear-gradient(255.6deg, #869FF3 7.71%, rgba(255, 255, 255, 0) 18.54%)",
+    iconBg: "#869FF3",
     icon: moneysend,
   },
   {
     title: "Total Unit",
     amount: "20,550",
-    bgColor: 'rgba(235, 55, 195, 0.5)',
-    gradient: 'linear-gradient(255.6deg, #EB37C3 7.71%, rgba(255, 255, 255, 0) 18.54%)',
-    iconBg: '#EB37C3',
+    bgColor: "rgba(235, 55, 195, 0.5)",
+    gradient:
+      "linear-gradient(255.6deg, #EB37C3 7.71%, rgba(255, 255, 255, 0) 18.54%)",
+    iconBg: "#EB37C3",
     icon: vacate,
   },
 ];
-
-
 
 export const importantNumbers = [
   { name: "Hanna Danin", work: "Plumber", phone: "+91 995867 33657" },
@@ -155,7 +160,6 @@ export const complaintsData = [
   },
 ];
 
-
 export const activities = [
   { name: "Society Meeting", date: "24-09-2024", time: "8:00 PM to 10:00 PM" },
   { name: "Holi Festival", date: "24-09-2024", time: "8:00 PM to 10:00 PM" },
@@ -173,8 +177,10 @@ export const notifications = [
     title: "Evelyn Harper (A- 101)",
     description: (
       <>
-        Evelyn Harper gave a fund 
-        <span className="ml-1 text-[#5678E9] text-[14px]">of 1000 rupees for Navratri.</span>
+        Evelyn Harper gave a fund
+        <span className="ml-1 text-[#5678E9] text-[14px]">
+          of 1000 rupees for Navratri.
+        </span>
       </>
     ),
     event: "for Navratri",
@@ -193,8 +199,10 @@ export const notifications = [
     title: "Maintenance (A- 101)",
     description: (
       <>
-        Evelyn Harper gave a 
-        <span className="text-[#5678E9] text-[14px] ml-1">Maintenance of 1000 rupees.</span>
+        Evelyn Harper gave a
+        <span className="text-[#5678E9] text-[14px] ml-1">
+          Maintenance of 1000 rupees.
+        </span>
       </>
     ),
     time: "Tuesday 11:41 AM",
@@ -202,20 +210,28 @@ export const notifications = [
     options2: ["Decline"],
     icon: (
       <div className="icon-wrapper">
-        <img src={moneys} alt="Evelyn" className="w-[22px] h-[22px] rounded-full relative top-[-3px] mr-[20px]" />
+        <img
+          src={moneys}
+          alt="Evelyn"
+          className="w-[22px] h-[22px] rounded-full relative top-[-3px] mr-[20px]"
+        />
       </div>
     ),
   },
   {
     title: "Ganesh Chaturthi (A- 101)",
-    description:
-      "Ganesh Chaturthi celebration involves installing Lord Ganesa clay idols.",
-      description: (
-        <>
-          <p> Per Person Amount : <span className="text-[#5678E9]">1,500</span> </p> 
-          <span className="tag text-[#4F4F4F] text-[14px]">The celebration of Ganesh Chaturthi involves the installation of clay idols of Lord Ganesa in  OurResident.</span>
-        </>
-      ),
+    description: (
+      <>
+        <p>
+          {" "}
+          Per Person Amount : <span className="text-[#5678E9]">1,500</span>{" "}
+        </p>
+        <span className="tag text-[#4F4F4F] text-[14px]">
+          The celebration of Ganesh Chaturthi involves the installation of clay
+          idols of Lord Ganesa in OurResident.
+        </span>
+      </>
+    ),
     time: "Saturday 11:41 AM",
     options: ["Accept"],
     options2: ["Decline"],
@@ -227,29 +243,120 @@ export const notifications = [
   },
   {
     title: "Update Maintenance",
-    icon:
+    icon: (
       <div className="icon-wrapper">
-        <img src={moneys} alt="Evelyn" className="w-[22px] h-[22px] rounded-full relative top-[-3px] mr-[20px]" />
+        <img
+          src={moneys}
+          alt="Evelyn"
+          className="w-[22px] h-[22px] rounded-full relative top-[-3px] mr-[20px]"
+        />
       </div>
+    ),
   },
 ];
-
-
 
 //   dashboard constant end
 
 // residentmanagement data constant
 
 export const Residentmanagementdata = [
-  { fullName: "Evelyn Harper", unit: "A 1001", unitStatus: "Occupied", residentStatus: "Tenant", phone: "97587 85828", member: 1, vehicle: 2 },
-  { fullName: "Evelyn Harper", unit: "B 1002", unitStatus: "Vacate", residentStatus: "--", phone: "97587 85828", member: 2, vehicle: 2 },
-  { fullName: "Evelyn Harper", unit: "C 1003", unitStatus: "Occupied", residentStatus: "Owner", phone: "97587 85828", member: 1, vehicle: 4 },
-  { fullName: "Evelyn Harper", unit: "D 1004", unitStatus: "Occupied", residentStatus: "Tenant", phone: "97587 85828", member: 4, vehicle: 2 },
-  { fullName: "Evelyn Harper", unit: "E 2001", unitStatus: "--", residentStatus: "--", phone: "97587 85828", member: 2, vehicle: 2 },
-  { fullName: "Robert Fox", unit: "F 2002", unitStatus: "Occupied", residentStatus: "Tenant", phone: "97587 85828", member: 3, vehicle: 2 },
-  { fullName: "Evelyn Harper", unit: "G 2003", unitStatus: "Occupied", residentStatus: "Owner", phone: "97587 85828", member: 2, vehicle: 2 },
-  { fullName: "Evelyn Harper", unit: "H 2004", unitStatus: "Occupied", residentStatus: "Tenant", phone: "97587 85828", member: 6, vehicle: 3 },
-  { fullName: "Evelyn Harper", unit: "I 3001", unitStatus: "Vacate", residentStatus: "--", phone: "97587 85828", member: 2, vehicle: 2 },
-  { fullName: "Evelyn Harper", unit: "A 3002", unitStatus: "Occupied", residentStatus: "Owner", phone: "97587 85828", member: 3, vehicle: 3 },
-  { fullName: "Evelyn Harper", unit: "I 3003", unitStatus: "Occupied", residentStatus: "Tenant", phone: "97587 85828", member: 3, vehicle: 2 }
+  {
+    fullName: "Evelyn Harper",
+    unit: "A 1001",
+    unitStatus: "Occupied",
+    residentStatus: "Tenant",
+    phone: "97587 85828",
+    member: 1,
+    vehicle: 2,
+  },
+  {
+    fullName: "Evelyn Harper",
+    unit: "B 1002",
+    unitStatus: "Vacate",
+    residentStatus: "--",
+    phone: "97587 85828",
+    member: 2,
+    vehicle: 2,
+  },
+  {
+    fullName: "Evelyn Harper",
+    unit: "C 1003",
+    unitStatus: "Occupied",
+    residentStatus: "Owner",
+    phone: "97587 85828",
+    member: 1,
+    vehicle: 4,
+  },
+  {
+    fullName: "Evelyn Harper",
+    unit: "D 1004",
+    unitStatus: "Occupied",
+    residentStatus: "Tenant",
+    phone: "97587 85828",
+    member: 4,
+    vehicle: 2,
+  },
+  {
+    fullName: "Evelyn Harper",
+    unit: "E 2001",
+    unitStatus: "--",
+    residentStatus: "--",
+    phone: "97587 85828",
+    member: 2,
+    vehicle: 2,
+  },
+  {
+    fullName: "Robert Fox",
+    unit: "F 2002",
+    unitStatus: "Occupied",
+    residentStatus: "Tenant",
+    phone: "97587 85828",
+    member: 3,
+    vehicle: 2,
+  },
+  {
+    fullName: "Evelyn Harper",
+    unit: "G 2003",
+    unitStatus: "Occupied",
+    residentStatus: "Owner",
+    phone: "97587 85828",
+    member: 2,
+    vehicle: 2,
+  },
+  {
+    fullName: "Evelyn Harper",
+    unit: "H 2004",
+    unitStatus: "Occupied",
+    residentStatus: "Tenant",
+    phone: "97587 85828",
+    member: 6,
+    vehicle: 3,
+  },
+  {
+    fullName: "Evelyn Harper",
+    unit: "I 3001",
+    unitStatus: "Vacate",
+    residentStatus: "--",
+    phone: "97587 85828",
+    member: 2,
+    vehicle: 2,
+  },
+  {
+    fullName: "Evelyn Harper",
+    unit: "A 3002",
+    unitStatus: "Occupied",
+    residentStatus: "Owner",
+    phone: "97587 85828",
+    member: 3,
+    vehicle: 3,
+  },
+  {
+    fullName: "Evelyn Harper",
+    unit: "I 3003",
+    unitStatus: "Occupied",
+    residentStatus: "Tenant",
+    phone: "97587 85828",
+    member: 3,
+    vehicle: 2,
+  },
 ];
