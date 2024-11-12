@@ -352,18 +352,39 @@ function Expense() {
                   </div>
                 </div>
               </div>
-
               <div>
-                <label className="block text-sm text-black-600 mb-1">Upload Bill*</label>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer">
-                  {selectedExpense?.bill ? (
-                    <p className="text-gray-600">{selectedExpense.bill.name}</p>
-                  ) : (
-                    <p className="text-gray-400">Upload a file or drag and drop</p>
-                  )}
-                  <p className="text-xs text-gray-500">PNG, JPG, or up to 10MB</p>
+                  <label className="block text-sm text-black-600 mb-1">Upload Bill*</label>
+                  <div
+                    className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer"
+                    onClick={() => document.getElementById('fileInput').click()} // Trigger file input on click
+                    onDragOver={(e) => e.preventDefault()} // Prevent default behavior for drag over
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      const files = e.dataTransfer.files;
+                      if (files.length > 0) {
+                        setNewExpense({ ...newExpense, bill: files[0] }); // Set the first file
+                      }
+                    }}
+                  >
+                    {newExpense.bill ? ( // Change selectedExpense to newExpense
+                      <p className="text-gray-600">{newExpense.bill.name}</p> // Change selectedExpense to newExpense
+                    ) : (
+                      <p className="text-gray-400">Upload a file or drag and drop</p>
+                    )}
+                    <p className="text-xs text-gray-500">PNG, JPG, or up to 10MB</p>
+                  </div>
+                  <input
+                    id="fileInput" // Hidden file input
+                    type="file"
+                    accept=".png, .jpg, .jpeg, .gif" // Acceptable file types
+                    onChange={(e) => {
+                      if (e.target.files.length > 0) {
+                        setNewExpense({ ...newExpense, bill: e.target.files[0] }); // Set the selected file
+                      }
+                    }}
+                    className="hidden" // Hide the default file input
+                  />
                 </div>
-              </div>
 
               <div className='flex gap-5 mt-4'>
                 <button type="button" onClick={() => setEditModalOpen(false)} className="bg-gray-300 text-black w-[190px] px-4 py-2 border rounded-md">Cancel</button>
