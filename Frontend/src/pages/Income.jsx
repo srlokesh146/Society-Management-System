@@ -223,7 +223,7 @@ const Income = () => {
       <br />
       {/* Tabs Section */}
       <div>
-      <div className="flex">
+      <div className="flex relative rounded-md  h-14 mb-0">
         <button
           className={`relative py-2 px-6 ${
             activeTab === "maintenance"

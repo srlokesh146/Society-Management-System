@@ -21,7 +21,7 @@ const DeleteConfirmationModal = ({ isOpen, onClose, onDelete }) => {
               onDelete(); 
               onClose(); 
             }}
-            className="bg-custom-gradient text-white py-[12px] px-[57.5px] rounded-[10px] w-full font-semibold leading-[27px]"
+            className="bg-red-500 text-white py-[12px] px-[57.5px] rounded-[10px] w-full font-semibold leading-[27px]"
           >
             Delete
           </button>
