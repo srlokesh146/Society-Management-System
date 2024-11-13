@@ -72,7 +72,7 @@ const Register = () => {
     try {
       const response = await registerUser(formData);
       toast.success(response.data.message);
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       toast.error(error.response?.data?.message || "Registration failed");
     } finally {
