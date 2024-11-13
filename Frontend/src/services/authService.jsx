@@ -30,9 +30,14 @@ export const resetPassword = async (data) =>
   await api.post("/v1/auth/reset", data);
 
 // Update user profile
-export const UpdateUserProfile = async (userId, data) =>
-  await api.patch(`/v1/auth/${userId}`, data);
-
+export const UpdateUserProfile = async (userId, data) => {
+  const response = await api.patch(`/v1/auth/${userId}`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response;
+};
 // View user profile
 export const ViewUserProfile = async (userId) =>
   await api.get(`/v1/auth/${userId}`);

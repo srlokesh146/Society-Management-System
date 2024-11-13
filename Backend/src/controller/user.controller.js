@@ -193,16 +193,14 @@ exports.login = async (req, res) => {
 
     let query = {};
     if (EmailOrPhone.includes("@")) {
-      query = { $or: [{ Email: EmailOrPhone }, { MailOrPhone: EmailOrPhone }]}; // It's an email
+      query = { $or: [{ Email: EmailOrPhone }, { MailOrPhone: EmailOrPhone }] }; // It's an email
     } else {
       query = { $or: [{ Phone: EmailOrPhone }, { MailOrPhone: EmailOrPhone }] }; // It's a phone number
     }
 
-    
     const user = await User.findOne(query);
     const guard = await Guard.findOne(query);
 
-    
     const account = user || guard;
     if (!account) {
       return res.status(404).json({
@@ -211,7 +209,6 @@ exports.login = async (req, res) => {
       });
     }
 
-   
     const isPasswordValid = await compare(password, account.password);
     if (!isPasswordValid) {
       return res.status(401).json({
@@ -220,14 +217,13 @@ exports.login = async (req, res) => {
       });
     }
 
-   //jwt
+    //jwt
     generateToeken(account._id, res);
 
     return res.status(200).json({
       success: true,
       message: "User logged in successfully",
       user: { ...user._doc, password: "" },
-
     });
   } catch (error) {
     console.error("Error during login:", error);
@@ -237,7 +233,6 @@ exports.login = async (req, res) => {
     });
   }
 };
-
 
 exports.logout = async (req, res) => {
   try {
@@ -397,10 +392,13 @@ exports.SendOtp = async (req, res) => {
     });
     const currentTime = new Date();
 
-    
-    let account = await User.findOne({ $or: [{ Email: EmailOrPhone }, { Phone: EmailOrPhone }] });
+    let account = await User.findOne({
+      $or: [{ Email: EmailOrPhone }, { Phone: EmailOrPhone }],
+    });
     if (!account) {
-      account = await Guard.findOne({ $or: [{ MailOrPhone: EmailOrPhone }, { MailOrPhone: EmailOrPhone }] });
+      account = await Guard.findOne({
+        $or: [{ MailOrPhone: EmailOrPhone }, { MailOrPhone: EmailOrPhone }],
+      });
     }
 
     if (!account) {
@@ -410,7 +408,6 @@ exports.SendOtp = async (req, res) => {
       });
     }
 
-    
     if (account.otpExpiration && account.otpExpiration > currentTime) {
       return res.status(400).json({
         success: false,
@@ -418,17 +415,18 @@ exports.SendOtp = async (req, res) => {
       });
     }
 
-    
     const otpExpiration = new Date(currentTime.getTime() + OTP_EXPIRATION_TIME);
     account.otp = otp;
     account.otpExpiration = otpExpiration;
     await account.save();
 
-   
-    
     if (EmailOrPhone.includes("@")) {
       // Send OTP via email
-      await senData(account.Email || account.MailOrPhone, "Forgot your password", otp);
+      await senData(
+        account.Email || account.MailOrPhone,
+        "Forgot your password",
+        otp
+      );
       return res.status(200).json({
         success: true,
         message: "OTP sent successfully to email",
@@ -467,14 +465,15 @@ exports.verifyOtp = async (req, res) => {
 
     let account;
     if (EmailOrPhone.includes("@")) {
-     
-      account = await User.findOne({ Email: EmailOrPhone }) || await Guard.findOne({ MailOrPhone: EmailOrPhone });
+      account =
+        (await User.findOne({ Email: EmailOrPhone })) ||
+        (await Guard.findOne({ MailOrPhone: EmailOrPhone }));
     } else {
-     
-      account = await User.findOne({ Phone: EmailOrPhone }) || await Guard.findOne({ MailOrPhone: EmailOrPhone });
+      account =
+        (await User.findOne({ Phone: EmailOrPhone })) ||
+        (await Guard.findOne({ MailOrPhone: EmailOrPhone }));
     }
 
-    
     if (!account) {
       return res.status(404).json({
         success: false,
@@ -482,7 +481,6 @@ exports.verifyOtp = async (req, res) => {
       });
     }
 
-   
     if (account.otp !== otp) {
       return res.status(400).json({
         success: false,
@@ -490,7 +488,6 @@ exports.verifyOtp = async (req, res) => {
       });
     }
 
-    
     // const currentTime = new Date();
     // if (account.otpExpiration && currentTime > account.otpExpiration) {
     //   return res.status(400).json({
@@ -499,7 +496,6 @@ exports.verifyOtp = async (req, res) => {
     //   });
     // }
 
-    
     return res.status(200).json({
       success: true,
       message: "OTP verified successfully",
@@ -539,8 +535,9 @@ exports.ResetPassword = async (req, res) => {
       });
     }
 
-    
-    const account = await User.findOne({ Email: email }) || await Guard.findOne({ MailOrPhone: email });
+    const account =
+      (await User.findOne({ Email: email })) ||
+      (await Guard.findOne({ MailOrPhone: email }));
 
     if (!account) {
       return res.status(404).json({
@@ -549,10 +546,8 @@ exports.ResetPassword = async (req, res) => {
       });
     }
 
-    
     const hashedPassword = await hash(new_pass);
 
-   
     account.password = hashedPassword;
     await account.save();
 
@@ -598,6 +593,15 @@ exports.UpdateProfile = async (req, res) => {
         unique_filename: false,
       });
       imageUrl = result.secure_url;
+
+      // delete image from local after upload
+      fs.unlink(req.file.path, (err) => {
+        if (err) {
+          console.log("error a deleting file", err);
+        } else {
+          console.log("file  deleted from server");
+        }
+      });
     }
     const user = await User.findByIdAndUpdate(
       req.params.id,
@@ -616,17 +620,11 @@ exports.UpdateProfile = async (req, res) => {
       { new: true }
     );
 
-    fs.unlink(req.file.path, (err) => {
-      if (err) {
-        console.log("error a deleting file", err);
-      } else {
-        console.log("file  deleted from server");
-      }
-    });
     if (user) {
       res.status(200).json({
         success: true,
         message: "User  Profile Updated...",
+        user: { ...user._doc, password: "" },
       });
     }
   } catch (error) {
