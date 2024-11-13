@@ -11,6 +11,7 @@ import {
   ConfirmPassword,
   CreateMaintenance,
 } from "../services/maintenanceService";
+import { cardData, data } from "../constantdata";
 
 const maintenanceData = [
   {
@@ -176,46 +177,63 @@ const Income = () => {
   };
 
   return (
-    <div className="p-6">      
+    <div>
       {/* Top Section */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-4">
-        <div className="flex items-center justify-between space-x-4">
-          {/* Maintenance Amount Input */}
-          <div className="flex">
-            <div 
-                className="border shadow-lg w-[240px] rounded-md p-4">
-              <label className="block text-md font-semibold text-black-600 mb-2">
-                Maintenance Amount
-              </label>
-              <div className="flex items-center h-[40px]">
-                <span className="text-[#39973D] text-2xl font-semibold mr-2">
-                  ₹
-                </span>
-               <span className="text-[#39973D] text-2xl font-semibold mr-2">0</span>
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="flex items-center justify-between space-x-4 max-sm:flex-col ">
+          <div className="grid grid-cols-2 col-span-2 gap-4 max-xl:grid-cols-2 max-sm:grid-cols-1 max-2xl:grid-cols-2 relative z-[9]">
+            {data.map((card, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-center relative w-full"
+                style={{
+                  borderRadius: '15px',
+                }}
+              >
+                <div
+                  style={{
+                    borderRight: "1px solid transparent",
+                    borderTop: "2px solid transparent",
+                    borderRadius: "8px",
+                  }}
+                  className="relative flex flex-col justify-start items-start w-full max-md:flex-col max-md:justify-start max-md:flex max-md:items-start max-sm:flex-col max-sm:justify-start max-sm:flex max-sm:items-start"
+                >
+                  <div
+                    className="w-[7px] h-[52px] mr-[10px] absolute z-[99] top-[50%] rounded-tr-[10px] rounded-br-[10px]"
+                    style={{
+                      backgroundColor: card.bgColor,
+                      transform: "translateY(-50%)",
+                    }}
+                  />
+                  <div
+                    className="relative flex flex-col justify-between items-start py-[19px] px-[30px] flex-grow bg-white shadow-lg border-2 border-gray-200 w-full max-sm:pt-[12px] max-sm:pb-[12px] max-md:pt-[12px] max-md:pb-[12px] sm:max-w-full max-sm:max-w-full max-md:col-span-2"
+                    style={{
+                      borderImageSource: card.gradient,
+                      borderImageSlice: 1,
+                      borderRadius: 10,
+                    }}
+                  >
+                    <div className="flex justify-between items-center w-full">
+                      <div className="flex flex-col items-start">
+                        <h6 className="text-[#202224] font-semibold text-[16px] leading-2 max-sm:text-[14px] max-md:text-[18px] mb-[5px]">
+                          {card.title}
+                        </h6>
+                        <h3 className={`font-bold text-[26px] max-sm:text-[20px] max-sm:font-medium max-md:text-[20px] max-lg:text-[20px] max-xl:text-[20px] max-2xl:text-[20px] ${card.textColor}`}>
+                          <span className="text-[26px] mr-[5px]">{` ₹`}</span>
+                          <span className="text-[26px]">{card.amount}</span>
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-
-          {/* Penalty Amount Input */}
-          <div className="flex-1">
-            <div className="border shadow-lg w-[240px] rounded-md p-4">
-              <label className="block text-md font-semibold text-black-600 mb-2">
-                Penalty Amount
-              </label>
-              <div className="flex items-center h-[40px]">
-                <span className="text-[#E74C3C] text-2xl font-semibold mr-2">
-                  ₹
-                </span>
-                <span className="text-[#E74C3C] text-2xl font-semibold mr-2">0</span>
-
-              </div>
-            </div>
+            ))}
           </div>
 
           {/* Set Maintenance Button */}
           <button
             onClick={handleSetMaintenance}
-            className="bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white px-6 py-3 rounded-md transition-colors"
+            className="bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white px-6 py-3 rounded-md transition-colors max-sm:mt-3"
           >
             Set Maintenance
           </button>
@@ -224,30 +242,29 @@ const Income = () => {
       <br />
       {/* Tabs Section */}
       <div>
-      <div className="flex relative rounded-md  h-14 mb-0">
-        <button
-          className={`relative py-2 px-6 ${
-            activeTab === "maintenance"
+        <div className="flex flex-1 rounded-md  h-14 mb-0 max-sm:container max-sm:mx-auto max-md:container max-md:mx-auto max-lg:container max-lg:mx-auto max-2xl:container max-2xl:mx-auto">
+          <button
+            className={`relative py-2 px-6 ${activeTab === "maintenance"
               ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-lg text-white"
               : "bg-gray-100 text-black-600"
-          }`}
-          onClick={() => setActiveTab("maintenance")}
-        >
-          Maintenance
-        </button>
-        <button
-          className={`relative py-2 px-6 ${
-            activeTab === "otherIncome"
+              }`}
+            onClick={() => setActiveTab("maintenance")}
+          >
+            Maintenance
+          </button>
+            <button
+            className={`relative py-2 px-6 ${activeTab === "otherIncome"
               ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white"
               : "bg-gray-100 text-black-600"
-          }`}
-          onClick={handleOtherIncomeClick} // Navigate to Other Income
-        >
-          Other Income
-        </button>
-      </div>
+              }`}
+            onClick={handleOtherIncomeClick} 
+          >
+            Other Income
+          </button>
+        </div>
         {/* Table Section */}
-        <div className="overflow-x-auto bg-white rounded-lg shadow-md p-6 mb-4">
+        <div className="overflow-x-auto bg-white rounded-lg shadow-md p-6 mb-4 max-sm:container max-sm:mx-auto max-md:container max-md:mx-auto max-lg:container max-lg:mx-auto    
+    security-table max-md:flex-1 max-2xl:container max-2xl:mx-auto">
           <div className="mb-4">
             <h1 className="text-2xl font-semibold text-black-500">
               Maintenace Details
@@ -287,11 +304,10 @@ const Income = () => {
                   <td className="py-3 px-4">{item.date}</td>
                   <td className="py-3 px-4">
                     <span
-                      className={`px-3 py-1 rounded-full text-xs inline-flex items-center gap-1.5 w-fit ${
-                        item.status === "Tenant"
-                          ? "bg-pink-50 text-pink-500"
-                          : "bg-purple-50 text-purple-500"
-                      }`}
+                      className={`px-3 py-1 rounded-full text-xs inline-flex items-center gap-1.5 w-fit ${item.status === "Tenant"
+                        ? "bg-pink-50 text-pink-500"
+                        : "bg-purple-50 text-purple-500"
+                        }`}
                     >
                       {item.status === "Tenant" ? (
                         <FaUser size={12} />
@@ -318,11 +334,10 @@ const Income = () => {
                   </td>
                   <td className="py-3   px-4">
                     <span
-                      className={`py-1 px-2.5 rounded-full text-xs inline-flex items-center w-fit gap-1.5 ${
-                        item.paymentStatus === "Pending"
-                          ? "bg-yellow-50 text-yellow-500"
-                          : "bg-green-50 text-green-500"
-                      }`}
+                      className={`py-1 px-2.5 rounded-full text-xs inline-flex items-center w-fit gap-1.5 ${item.paymentStatus === "Pending"
+                        ? "bg-yellow-50 text-yellow-500"
+                        : "bg-green-50 text-green-500"
+                        }`}
                     >
                       {item.paymentStatus === "Pending" ? (
                         <BsClockFill size={12} />
@@ -335,11 +350,10 @@ const Income = () => {
                   <td className="py-3 px-4">
                     <div className="flex items-center">
                       <span
-                        className={`inline-flex items-center ${
-                          item.payment === "Online"
-                            ? "text-blue-600 bg-blue-50"
-                            : "text-gray-600 bg-gray-50"
-                        } px-2 py-1 rounded-full text-xs`}
+                        className={`inline-flex items-center ${item.payment === "Online"
+                          ? "text-blue-600 bg-blue-50"
+                          : "text-gray-600 bg-gray-50"
+                          } px-2 py-1 rounded-full text-xs`}
                       >
                         {item.payment === "Online" ? (
                           <BsBank className="mr-1.5 text-blue-600" size={14} />
@@ -546,14 +560,13 @@ const Income = () => {
                   !dueDate ||
                   !penaltyDay
                 }
-                className={`w-60 h-10 rounded-md transition-colors ${
-                  !maintenanceAmount ||
+                className={`w-60 h-10 rounded-md transition-colors ${!maintenanceAmount ||
                   !penaltyAmount ||
                   !dueDate ||
                   !penaltyDay
-                    ? "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
-                }`}
+                  ? "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
+                  : "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
+                  }`}
               >
                 Apply
               </button>

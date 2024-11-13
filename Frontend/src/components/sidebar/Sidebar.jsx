@@ -7,19 +7,16 @@ import Logo from "../Logo";
 import logout from "../../assets/images/logout.png";
 import { IoChevronDownOutline } from "react-icons/io5";
 
-
 export default function Sidebar() {
-  const [activeItem, setActiveItem] = useState(1);
+  const [activeItem, setActiveItem] = useState(null);
   const [openSubItems, setOpenSubItems] = useState({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [activeSubItem, setActiveSubItem] = useState(null);
 
   const handleItemClick = (item) => {
     if (item.subItems) {
       setOpenSubItems((prev) => {
-        const newState = {
-          ...prev,
-          [item.id]: !prev[item.id],
-        };
+        const newState = { [item.id]: !prev[item.id] };
         localStorage.setItem("openSubItems", JSON.stringify(newState));
         return newState;
       });
@@ -28,24 +25,17 @@ export default function Sidebar() {
       localStorage.removeItem("openSubItems");
     }
     setActiveItem(item.id);
+    localStorage.setItem("activeItem", item.id);
   };
 
-    const toggleSidebar = () => {
+  const handleSubItemClick = (subItem) => {
+    setActiveSubItem(subItem.id);
+    localStorage.setItem("activeSubItem", subItem.id);
+  };
+
+  const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
-  useEffect(() => {
-    const currentPath = location.pathname;
-    if (currentPath === "/dashboard" || currentPath === "/editprofile") {
-      setActiveItem("dashboard");
-    }
-  }, [location.pathname]);
-
-  useEffect(() => {
-    const currentPath = location.pathname;
-    const activeNavItem = sidebarItems.find((item) => item.path === currentPath);
-    setActiveItem(activeNavItem ? activeNavItem.id : null);
-  }, [location.pathname]);
 
   useEffect(() => {
     if (isSidebarOpen) {
@@ -60,16 +50,33 @@ export default function Sidebar() {
   }, [isSidebarOpen]);
 
   useEffect(() => {
+    const storedActiveItem = localStorage.getItem("activeItem");
+    const storedActiveSubItem = localStorage.getItem("activeSubItem");
+
+    if (storedActiveItem) {
+      setActiveItem(storedActiveItem);
+    }
+    if (storedActiveSubItem) {
+      setActiveSubItem(storedActiveSubItem);
+    }
+  }, []);
+
+  // Get the open subitems from localStorage on page load
+  useEffect(() => {
     const savedSubItems = localStorage.getItem("openSubItems");
     if (savedSubItems) {
       setOpenSubItems(JSON.parse(savedSubItems));
     }
   }, []);
 
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const activeNavItem = sidebarItems.find((item) => item.path === currentPath);
+    setActiveItem(activeNavItem ? activeNavItem.id : null);
+  }, [location.pathname]);
 
   return (
     <>
-      {/*  Smaller Screens */}
       <button
         className="lg:hidden fixed top-[26px] left-4 z-[9999] max-sm:block"
         onClick={toggleSidebar}
@@ -77,7 +84,6 @@ export default function Sidebar() {
         <FiMenu size={24} />
       </button>
 
-      {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 h-full w-[280px] bg-white p-4 shadow-lg border border-gray-200 transition-transform duration-300 lg:transition-none lg:relative lg:transform-none ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } lg:w-[280px] lg:block z-[9999]`}
@@ -121,38 +127,39 @@ export default function Sidebar() {
                 )}
                 {item.subItems && openSubItems[item.id] && (
                   <ul className="ml-4 mt-2 mb-2">
-                  {item.subItems.map((subItem) => (
-                    <li
-                      key={subItem.id}
-                      className={`border-l-2 pl-2 ${location.pathname === subItem.path && subItem.id
-                        ? "border-black"
-                        : "border-gray-300 hover:border-black"
-                        }`}
-                    >
-                      <NavLink
-                        to={subItem.path}
-                        className={`flex items-center text-sm rounded-lg pt-[6px] pb-[5px] ${location.pathname === subItem.path && subItem.id
-                          ? "text-black font-medium"
-                          : "hover:text-[#202224] font-medium"
+                    {item.subItems.map((subItem) => (
+                      <li
+                        key={subItem.id}
+                        className={`border-l-2 pl-2 ${location.pathname === subItem.path && subItem.id
+                          ? "border-black"
+                          : "border-gray-300 hover:border-black"
                           }`}
-                        onClick={() => setActiveItem(subItem.id)}
                       >
-                        <span
-                          className={`ml-2 ${location.pathname === subItem.path
-                            ? "text-black"
-                            : "text-[#4F4F4F] hover:text-black"
+                        <NavLink
+                          to={subItem.path}
+                          className={`flex items-center text-sm rounded-lg pt-[6px] pb-[5px] ${location.pathname === subItem.path && subItem.id
+                            ? "text-black font-medium"
+                            : "hover:text-[#202224] font-medium"
                             }`}
+                          onClick={() => handleSubItemClick(subItem)} // Handle click on subitem
                         >
-                          {subItem.label}
-                        </span>
-                      </NavLink>
-                    </li>
-                  ))}
-                </ul>
+                          <span
+                            className={`ml-2 ${activeSubItem === subItem.id
+                              ? "text-black font-medium" // Highlight the active subitem
+                              : "text-[#4F4F4F] hover:text-black"
+                              }`}
+                          >
+                            {subItem.label}
+                          </span>
+                        </NavLink>
+                      </li>
+                    ))}
+                  </ul>
                 )}
               </li>
             ))}
           </ul>
+
           {/* Logout */}
           <div className="w-full absolute bottom-0 left-0 p-4">
             <div className="border border-[#F4F4F4]"></div>
@@ -177,4 +184,3 @@ export default function Sidebar() {
     </>
   );
 }
-

@@ -16,7 +16,7 @@ import moneys from "./assets/images/moneys.png";
 
 export const sidebarItems = [
 
-  { id: 1, path: "/dashboard",  label: "Dashboard", icon: <TbLayoutDashboardFilled /> },
+  { id: 1, path: "/dashboard", label: "Dashboard", icon: <TbLayoutDashboardFilled /> },
   {
     id: 2,
     path: "/residentmanagement",
@@ -75,8 +75,8 @@ export const sidebarItems = [
     label: "Security",
     icon: <FaUserShield />,
     subItems: [
-      { id: 15, path: "/visitortracking", label: "Visitor Tracking" },
-      { id: 16, path: "/emergencymanagement", label: "Emergency Management" },
+      { id: 17, path: "/visitortracking", label: "Visitor Tracking" },
+      { id: 18, path: "/emergencymanagement", label: "Emergency Management" },
     ],
   },
 
@@ -94,9 +94,11 @@ export const Navigationbar = [
   { path: "/ownerform", label: "OwnerForm" },
   { path: "/tenantform", label: "TenantForm" },
   { path: "/complainttable", label: "CreateComplaint" },
-  { path: "/income", label: "Income" },
+  { path: "/income", label: "FinancialMaintenance" },
   { path: "/expense", label: "Expense" },
   { path: "/securityguard", label: "SecurityGuard" },
+  { path: "/other-income", label: "OtherIncome" },
+  { path: "/visitortracking", label: "visitortracking" },
 ];
 
 export const cardData = [
@@ -384,7 +386,7 @@ export const Residentmanagementdata = [
 
 // securitypage
 
-    
+
 export const visitors = [
   { name: "Evelyn Harper", phone: "97852 12368", date: "10/01/2024", unit: "A 1001", time: "3:45 PM" },
   { name: "Wade Warren", phone: "97852 25893", date: "11/01/2024", unit: "B 1002", time: "2:45 AM" },
@@ -397,4 +399,57 @@ export const visitors = [
   { name: "Theresa Webb", phone: "97258 36973", date: "18/01/2024", unit: "I 3001", time: "7:00 PM" },
   { name: "Kathryn Murphy", phone: "97577 66663", date: "19/01/2024", unit: "A 3002", time: "6:00 AM" },
   { name: "Eleanor Pena", phone: "97259 69963", date: "20/01/2024", unit: "B 3003", time: "7:00 PM" },
+];
+
+
+// const initialNotes = [
+//   {
+//     id: 1,
+//     title: "Rent or Mortgage",
+//     date: "2024-01-07",
+//     description:
+//       "A visual representation of your spending categories visual representation.",
+//   },
+//   {
+//     id: 2,
+//     title: "Housing Costs",
+//     description:
+//       "A visual representation of your spending categories visual representation.",
+//   },
+//   {
+//     id: 3,
+//     title: "Property Taxes",
+//     description:
+//       "A visual representation of your spending categories visual representation.",
+//   },
+//   {
+//     id: 4,
+//     title: "Maintenance Fees",
+//     description:
+//       "A visual representation of your spending categories visual representation.",
+//   },
+//   {
+//     id: 5,
+//     title: "Rent or Transportation",
+//     description:
+//       "A visual representation of your spending categories visual representation.",
+//   },
+// ];
+export const data = [
+  {
+    title: "Maintenance Amount",
+    amount: "0",
+    bgColor: 'rgba(57, 151, 61, 0.5)',
+    gradient: 'linear-gradient(255.6deg, #39973D 7.71%, rgba(255, 255, 255, 0) 18.54%)',
+    iconBg: "#E6F7E6",
+    textColor: "text-green-500" 
+  },
+  {
+    title: "Penalty Amount",
+    amount: "0",
+    bgColor: 'rgba(255, 106, 0, 0.5)',
+    gradient: 'linear-gradient(255.6deg, #FF6A00 7.71%, rgba(255, 255, 255, 0) 40.54%)',
+    iconBg: "#FFE6E6",
+    textColor: "text-red-500" 
+  }
 ];
