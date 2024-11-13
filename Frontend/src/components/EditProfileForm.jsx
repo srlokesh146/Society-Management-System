@@ -250,30 +250,7 @@ function EditProfileForm() {
                         disabled={!isEditing}
                       />
                     </div>
-                    {/* <div>
-                      <label className="block text-gray-600 mb-1">
-                        Select Society*
-                      </label>
-                      {dropdownOpen && (
-                        <div className="absolute max-h-[350px] overflow-y-auto custom-scrollbar w-[535px] mt-0 p-3 bg-white border border-gray-300 rounded-md shadow-lg z-10">
-                          {societyList.map((option, index) => (
-                            <div
-                              key={index}
-                              onClick={() => handleOptionClick(option)}
-                              className="p-2 hover:bg-gray-100 cursor-pointer"
-                            >
-                              {option.Society_name}
-                            </div>
-                          ))}
-                          <button
-                            className="button-gradient  w-full bg-custom-gradient h-12 text-white text-center rounded-lg cursor-pointer"
-                            onClick={() => setShowModal(true)}
-                          >
-                            Create Society
-                          </button>
-                        </div>
-                      )}
-                    </div> */}
+              
 
                     <div className="grid grid-cols-6 gap-4 w-full  ">
                       <div className="col-span-6 ">

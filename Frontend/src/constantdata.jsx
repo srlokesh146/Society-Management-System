@@ -70,6 +70,16 @@ export const sidebarItems = [
     icon: <FaBullhorn />,
   },
 
+  {
+    id: 16,
+    label: "Security",
+    icon: <FaUserShield />,
+    subItems: [
+      { id: 15, path: "/visitortracking", label: "Visitor Tracking" },
+      { id: 16, path: "/emergencymanagement", label: "Emergency Management" },
+    ],
+  },
+
 ];
 
 export const Navigationbar = [
@@ -77,7 +87,7 @@ export const Navigationbar = [
   { path: "/residentmanagement", label: "ResidentManagement" },
   { path: "/reqtracking", label: "RequestTracking" },
   { path: "/visitorlog", label: "VisitorLog" },
-  { path: "/securityprotocols", label: "SecurityProtocols" },
+  { path: "/SecurityProtocols", label: "SecurityProtocols" },
   { path: "/announcement", label: "Announcement" },
   { path: "/facilitymanagement", label: "FacilityManagement" },
   { path: "/note", label: "Note" },
@@ -373,4 +383,22 @@ export const Residentmanagementdata = [
     member: 3,
     vehicle: 2,
   },
+];
+
+
+// securitypage
+
+    
+export const visitors = [
+  { name: "Evelyn Harper", phone: "97852 12368", date: "10/01/2024", unit: "A 1001", time: "3:45 PM" },
+  { name: "Wade Warren", phone: "97852 25893", date: "11/01/2024", unit: "B 1002", time: "2:45 AM" },
+  { name: "Guy Hawkins", phone: "97589 55563", date: "12/01/2024", unit: "C 1003", time: "3:00 PM" },
+  { name: "Robert Fox", phone: "97444 56323", date: "13/01/2024", unit: "D 1004", time: "5:30AM" },
+  { name: "Jacob Jones", phone: "97121 12583", date: "14/01/2024", unit: "E 2001", time: "12:45 PM" },
+  { name: "Ronald Richards", phone: "97259 12363", date: "15/01/2024", unit: "F 2002", time: "3:45 PM" },
+  { name: "Annette Black", phone: "97569 77783", date: "16/01/2024", unit: "G 2003", time: "6:00 AM" },
+  { name: "Jerome Bell", phone: "97123 25863", date: "17/01/2024", unit: "H 2004", time: "3:45 PM" },
+  { name: "Theresa Webb", phone: "97258 36973", date: "18/01/2024", unit: "I 3001", time: "7:00 PM" },
+  { name: "Kathryn Murphy", phone: "97577 66663", date: "19/01/2024", unit: "A 3002", time: "6:00 AM" },
+  { name: "Eleanor Pena", phone: "97259 69963", date: "20/01/2024", unit: "B 3003", time: "7:00 PM" },
 ];

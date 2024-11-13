@@ -53,7 +53,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999]">
       <div
         className="bg-white rounded-lg w-full max-w-md p-6"
         style={{ maxWidth: "410px" }}
@@ -260,13 +260,13 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
             <button
               type="button"
               onClick={onClose}
-              className="w-full py-[13.5px] px-[58.5px] border rounded-[10px] leading-[27px] font-medium text-[18px]"
+              className="w-[175px] py-[13.5px] px-[58.5px] border rounded-[10px] leading-[27px] font-medium text-[18px]"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className={`w-full px-4 py-3 text-md font-medium text-black rounded-md transition-all duration-300
+              className={`w-[175px] px-4 py-3 text-md font-medium text-black rounded-md transition-all duration-300
                 ${
                   isFormValid()
                     ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] hover:opacity-90"

@@ -26,9 +26,9 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999]">
       <div className="bg-white rounded-lg w-full max-w-md p-6">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-[10px]">
           <h2 className="text-xl font-semibold text-gray-800">
             Edit Complaint
           </h2>
@@ -39,6 +39,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
             <FaTimes size={20} />
           </button>
         </div>
+        <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Complainant Name */}

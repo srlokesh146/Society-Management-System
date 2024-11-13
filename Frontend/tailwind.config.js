@@ -1,5 +1,7 @@
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}"
+  ],
   theme: {
     extend: {
       colors: {
@@ -20,12 +22,12 @@ module.exports = {
         'lg': '1440px',
         'lg': '992px',
         '3xl': '1600px',
-        'md' : '975px',
+        'md': '975px',
         'lg': '1180px',
         'sm': '855px',
         'sm': '850px',
         'sm': '840px',
-        
+
       },
 
     },

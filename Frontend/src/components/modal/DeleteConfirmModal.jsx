@@ -10,9 +10,9 @@ const DeleteConfirmModal = ({ isOpen, onClose, complaint, onDelete }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999]">
       <div className="bg-white rounded-lg w-full max-w-md sm:max-w-[90%] md:max-w-[80%] lg:max-w-[500px] h-auto max-h-[80vh] sm:max-h-[70vh] p-4 sm:p-6">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-[10px]">
           <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
             Delete Complaint?
           </h2>
@@ -23,6 +23,7 @@ const DeleteConfirmModal = ({ isOpen, onClose, complaint, onDelete }) => {
             <FaTimes size={20} />
           </button>
         </div>
+        <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
 
         <p className="text-gray-600 text-sm sm:text-base mb-6">
           Are you sure you want to delete this complaint?

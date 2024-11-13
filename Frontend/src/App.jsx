@@ -27,6 +27,8 @@ import OtherIncome from "./pages/OtherIncome";
 import ResidentManagement from "./pages/Residentmanagement";
 import TenantForm from "./pages/TenantForm.jsx";
 import OwnerForm from "./pages/OwnerForm.jsx";
+import VisitorTracking from "./pages/securitypage/VisitorTracking.jsx";
+import EmergencyManagement from "./pages/securitypage/EmergencyManagement.jsx";
 
 
 function App() {
@@ -96,6 +98,8 @@ function App() {
                 <Route path="/ownerform" element={<OwnerForm />} />
                 <Route path="/tenantform" element={<TenantForm />} />
                 <Route path="/residentmanagement" element={<ResidentManagement />} />
+                <Route path="/visitortracking" element={<VisitorTracking />} />
+                <Route path="/emergencymanagement" element={<EmergencyManagement />} />
               </>
             )}
           </Routes>
