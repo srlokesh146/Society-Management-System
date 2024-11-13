@@ -73,7 +73,7 @@ const Dashboard = () => {
     }
   };
 
-  
+
   useEffect(() => {
     fetchImportantNumbers();
     fetchAnnouncement();
@@ -335,11 +335,11 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <p className="text-[14px] text-[#4F4F4F] leading-4">
-                    {new Date(activity.date).toLocaleDateString("en-GB", {
-  day: "2-digit",
-  month: "2-digit",
-  year: "numeric",
-}).replace(/\//g, '-')}
+                      {new Date(activity.date).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      }).replace(/\//g, '-')}
                     </p>
                   </li>
                 ))}

@@ -176,13 +176,14 @@ const Income = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6">      
       {/* Top Section */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-4">
         <div className="flex items-center justify-between space-x-4">
           {/* Maintenance Amount Input */}
           <div className="flex">
-            <div className="border shadow-lg w-[240px] rounded-md p-4">
+            <div 
+                className="border shadow-lg w-[240px] rounded-md p-4">
               <label className="block text-md font-semibold text-black-600 mb-2">
                 Maintenance Amount
               </label>
