@@ -88,6 +88,8 @@ function SecurityGuardDetails() {
     setCurrentGuard(guard);
     setIsModalOpen(true);
   };
+ 
+
 
   const handleDeleteClick = (guard) => {
     setGuardToDelete(guard);
@@ -361,10 +363,10 @@ function SecurityGuardDetails() {
         <div className="fixed inset-0  flex items-center justify-center z-[9999] p-4">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm">
             <div className="">
-             
+
 
               {modalMode !== "view" && (
-                <form className="space-y-4">
+                <form className="space-y-4 p-6">
                   {/* Photo Upload */}
                   <div className="flex flex-col items-center mb-6">
                     <div className="relative">
@@ -595,7 +597,10 @@ function SecurityGuardDetails() {
                   View Security Guard Details
                 </h2>
                 <button
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => {
+               
+                    setIsModalOpen(false); // Ensure this function is correctly defined
+                  }}
                   className="text-gray-400 hover:text-gray-600"
                 >
                   <FaTimes size={20} />

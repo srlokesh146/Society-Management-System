@@ -151,7 +151,7 @@ function Announcement() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {announcements.map((announcement) => (
-          <div key={announcement._id} className="bg-white rounded-lg shadow-sm">
+          <div key={announcement._id} className="bg-white shadow-xl rounded-lg ">
             <div className="bg-[#5678E9] text-white p-4 flex justify-between items-center rounded-t-lg">
               <h2 className="text-sm sm:text-base font-medium">{announcement.title}</h2>
               <div className="relative">
