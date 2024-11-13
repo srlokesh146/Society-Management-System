@@ -37,7 +37,7 @@ function App() {
 
   // List of routes without sidebar and navbar
   const layoutRoutes = [
-    "/login",
+    "/",
     "/register",
     "/forgotpassword",
     "/otpscreenpage",
@@ -72,7 +72,7 @@ function App() {
         <div className="flex-1 p-6 bg-gray-100 overflow-y-auto">
           <Routes>
             {/* Public Routes without Sidebar and Navbar */}
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/otpscreenpage" element={<OtpScreenpage />} />
