@@ -8,19 +8,23 @@ export default function TeantForm() {
   const [formData, setFormData] = useState({
     members: [],
     vehicles: [],
-    fullName: '',
-    phone: '',
-    email: '',
-    age: '',
-    gender: '',
-    wing: '',
-    unit: '',
-    relation: '',
+    profileImage:null,
+    Full_name: '',
+    Phone_number: '',
+    Email_address: '',
+    Age: '',
+    Gender: '',
+    Wing: '',
+    Unit: '',
+    Relation: '',
     aadharFront: null,
     aadharBack: null,
     addressProof: null,
     rentAgreement: null,
   });
+
+  const [errors, setErrors] = useState({});
+  const [submitted, setSubmitted] = useState(false); // Track submission attempts
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('tenant');
   const [memberCount, setMemberCount] = useState(0);
@@ -35,8 +39,31 @@ export default function TeantForm() {
     navigate('/ownerform');
   };
   const handleCreate = () => {
-    if (isFormValid) {
-      console.log(formData); // Log the form data to the console
+    setSubmitted(true); // Set submitted to true on button click
+    let newErrors = {};
+
+    // Validate form data
+    if (!formData.profileImage) newErrors.profileImage = "profileImage is required.";
+    if (!formData.Full_name) newErrors.Full_name = "Full Name is required.";
+    if (!formData.Phone_number) newErrors.Phone_number = "Phone Number is required.";
+    if (!formData.Email_address) newErrors.Email_address = "Email Address is required.";
+    if (!formData.Age) newErrors.Age = "Age is required.";
+    if (!formData.Gender) newErrors.Gender = "Gender is required.";
+    if (!formData.Wing) newErrors.Wing = "Wing is required.";
+    if (!formData.Unit) newErrors.Unit = "Unit is required.";
+    if (!formData.Relation) newErrors.Relation = "Relation is required.";
+    if (!formData.aadharFront) newErrors.aadharFront = "Aadhar Front is required.";
+    if (!formData.aadharBack) newErrors.aadharBack = "Aadhar Back is required.";
+    if (!formData.addressProof) newErrors.addressProof = "Address Proof is required.";
+    if (!formData.rentAgreement) newErrors.rentAgreement = "Rent Agreement is required.";
+
+    setErrors(newErrors);
+
+    // If no errors, proceed with form submission logic
+    if (Object.keys(newErrors).length === 0) {
+      // Handle successful form submission
+      console.log("Form submitted successfully:", formData);
+      // Reset form or navigate as needed
     }
   };
   const toggleDropdown = () => {
@@ -46,13 +73,14 @@ export default function TeantForm() {
   useEffect(() => {
     const validateForm = () => {
       const requiredFields = {
-        fullName: formData.fullName,
-        phone: formData.phone,
-        age: formData.age,
-        gender: formData.gender,
-        wing: formData.wing,
-        unit: formData.unit,
-        relation: formData.relation,
+        profileImage:formData.profileImage,
+        fullName: formData.Full_name, // Corrected key
+        phone: formData.Phone_number, // Corrected key
+        age: formData.Age, // Corrected key
+        gender: formData.Gender, // Corrected key
+        wing: formData.Wing, // Corrected key
+        unit: formData.Unit, // Corrected key
+        relation: formData.Relation, // Corrected key
         aadharFront: formData.aadharFront,
         aadharBack: formData.aadharBack,
         addressProof: formData.addressProof,
@@ -97,6 +125,7 @@ export default function TeantForm() {
         setProfilePhotoPreview(reader.result);
       };
       reader.readAsDataURL(file);
+      setFormData({ ...formData, [e.target.name]: file });
     }
   };
   const handleMemberChange = (index, field, value) => {
@@ -219,33 +248,36 @@ export default function TeantForm() {
                 <input
                   type="text"
                   name="Full_name"
-                  value={formData.fullName}
+                  value={formData.Full_name}
                   onChange={handleInputChange}
                   placeholder="Enter Full Name"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
+                {submitted && errors.Full_name && <p className="text-red-500">{errors.Full_name}</p>}
               </div>
               <div>
                 <label className="block text-sm font-lighter text-black-500">Phone Number*</label>
                 <input
                   type="tel"
                   name="Phone_number"
-                  value={formData.phone}
+                  value={formData.Phone_number}
                   onChange={handleInputChange}
                   placeholder="+91"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
+                {submitted && errors.Phone_number && <p className="text-red-500">{errors.Phone_number}</p>}
               </div>
               <div>
                 <label className="block text-sm font-lighter text-black-500">Email Address</label>
                 <input
                   type="email"
                   name="Email_address"
-                  value={formData.email}
+                  value={formData.Email_address}
                   onChange={handleInputChange}
                   placeholder="Enter Email Address"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
+                {submitted && errors.Email_address && <p className="text-red-500">{errors.Email_address}</p>}
               </div>
             </div>
 
@@ -256,17 +288,18 @@ export default function TeantForm() {
                 <input
                   type="number"
                   name="Age"
-                  value={formData.age}
+                  value={formData.Age}
                   onChange={handleInputChange}
                   placeholder="Enter Age"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
+                {submitted && errors.Age && <p className="text-red-500">{errors.Age}</p>}
               </div>
               <div className="relative">
                 <label className="block text-sm font-lighter text-black-500">Gender*</label>
                 <div onClick={toggleDropdown} className="cursor-pointer">
                   <div className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200 bg-white flex justify-between items-center">
-                    <span>{formData.gender || "Select Gender"}</span>
+                    <span>{formData.Gender || "Select Gender"}</span>
                     <IoIosArrowDown className="text-bold mt-1 text-black pointer-events-none" size={16} />
                   </div>
                 </div>
@@ -278,7 +311,7 @@ export default function TeantForm() {
                         type="radio"
                         name="Gender"
                         value="male"
-                        checked={formData.gender === 'male'}
+                        checked={formData.Gender === 'male'}
                         onChange={handleInputChange}
                         className="mr-2 appearance-none checked:bg-orange-400 checked:border-transparent rounded-full border border-gray-400 w-4 h-4 "
                       />
@@ -287,9 +320,9 @@ export default function TeantForm() {
                     <label className="flex items-center mt-1">
                       <input
                         type="radio"
-                        name="gender"
+                        name="Gender"
                         value="female"
-                        checked={formData.gender === 'female'}
+                        checked={formData.Gender === 'female'}
                         onChange={handleInputChange}
                         className="mr-2 appearance-none checked:bg-orange-400 checked:border-transparent rounded-full border border-gray-400 w-4 h-4"
                       />
@@ -298,9 +331,9 @@ export default function TeantForm() {
                     <label className="flex items-center mt-1">
                       <input
                         type="radio"
-                        name="gender"
+                        name="Gender"
                         value="other"
-                        checked={formData.gender === 'other'}
+                        checked={formData.Gender === 'other'}
                         onChange={handleInputChange}
                         className="mr-2 appearance-none checked:bg-orange-400 checked:border-transparent rounded-full border border-gray-400 w-4 h-4"
                       />
@@ -308,39 +341,43 @@ export default function TeantForm() {
                     </label>
                   </div>
                 )}
+                {submitted && errors.Gender && <p className="text-red-500">{errors.Gender}</p>}
               </div>
               <div>
                 <label className="block text-sm font-lighter text-black-500">Wing*</label>
                 <input
                   type="text"
                   name="Wing"
-                  value={formData.wing}
+                  value={formData.Wing}
                   onChange={handleInputChange}
                   placeholder="Enter Wing"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
+                {submitted && errors.Wing && <p className="text-red-500">{errors.Wing}</p>}
               </div>
               <div>
                 <label className="block text-sm font-lighter text-black-500">Unit*</label>
                 <input
                   type="text"
                   name="Unit"
-                  value={formData.unit}
+                  value={formData.Unit}
                   onChange={handleInputChange}
                   placeholder="Enter Unit"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
+                {submitted && errors.Unit && <p className="text-red-500">{errors.Unit}</p>}
               </div>
               <div>
                 <label className="block text-sm font-lighter text-black-500">Relation*</label>
                 <input
                   type="text"
                   name="Relation"
-                  value={formData.relation}
+                  value={formData.Relation}
                   onChange={handleInputChange}
                   placeholder="Enter Relation"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
+                {submitted && errors.Relation && <p className="text-red-500">{errors.Relation}</p>}
               </div>
             </div>
 
@@ -642,7 +679,6 @@ export default function TeantForm() {
               </button>
               <button
                 className={`px-6 py-2 rounded-lg transition-colors duration-200 ${isFormValid ? 'bg-[#FF6B07] text-white hover:bg-[#FF5500]' : 'bg-[#F6F8FB] text-gray-400 cursor-not-allowed'}`}
-                disabled={!isFormValid}
                 onClick={handleCreate} // Call the handleCreate function on click
               >
                 Create

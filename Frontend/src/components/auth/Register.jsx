@@ -195,7 +195,7 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                     placeholder="Enter First Name"
-                    required
+                  
                   />
                 </div>
                 <div>
@@ -209,7 +209,7 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                     placeholder="Enter Last Name"
-                    required
+                  
                   />
                 </div>
               </div>
@@ -227,7 +227,7 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                     placeholder="Enter Email Address"
-                    required
+                  
                   />
                 </div>
                 <div>
@@ -241,7 +241,7 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                     placeholder="91+"
-                    required
+                  
                   />
                 </div>
               </div>
@@ -259,7 +259,7 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                     placeholder="Enter Name"
-                    required
+                  
                   />
                 </div>
                 <div>
@@ -273,7 +273,7 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                     placeholder="Enter Name"
-                    required
+                  
                   />
                 </div>
                 <div>
@@ -287,7 +287,7 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                     placeholder="Enter Name"
-                    required
+                  
                   />
                 </div>
               </div>
@@ -348,7 +348,7 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                     placeholder="Enter Password"
-                    required
+                  
                   />
                   <button
                     type="button"
@@ -371,7 +371,7 @@ const Register = () => {
                   onChange={handleChange}
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                   placeholder="Enter Confirm Password"
-                  required
+                
                 />
               </div>
 
@@ -380,7 +380,7 @@ const Register = () => {
                 <div className="flex items-center">
                   <input
                     type="checkbox"
-                    required
+                  
                     className="w-4 h-4 text-[#FE512E] border-gray-300 rounded focus:ring-[#FE512E]"
                   />
                   <span className="ml-2 text-sm text-gray-600">
@@ -423,7 +423,7 @@ const Register = () => {
                   value={society.Society_name}
                   onChange={handleSocietyChange}
                   className="w-full px-4 py-2.5 border rounded-lg"
-                  required
+                
                   placeholder="Enter society Name"
                 />
               </div>
@@ -437,7 +437,7 @@ const Register = () => {
                   value={society.Society_address}
                   onChange={handleSocietyChange}
                   className="w-full px-4 py-2.5 border rounded-lg"
-                  required
+                
                   placeholder="Enter Address"
                 />
               </div>
@@ -452,7 +452,7 @@ const Register = () => {
                     value={society.Country}
                     onChange={handleSocietyChange}
                     className="w-full px-4 py-2.5 border rounded-lg"
-                    required
+                  
                     placeholder="Enter Name"
                   />
                 </div>
@@ -466,7 +466,7 @@ const Register = () => {
                     value={society.State}
                     onChange={handleSocietyChange}
                     className="w-full px-4 py-2.5 border rounded-lg"
-                    required
+                  
                     placeholder="Enter Name"
                   />
                 </div>
@@ -483,7 +483,7 @@ const Register = () => {
                     value={society.City}
                     onChange={handleSocietyChange}
                     className="w-full px-4 py-2.5 border rounded-lg"
-                    required
+                  
                     placeholder="Enter Name"
                   />
                 </div>
@@ -497,7 +497,7 @@ const Register = () => {
                     value={society.ZipCode} // Corrected from Zipcode to ZipCode
                     onChange={handleSocietyChange}
                     className="w-full px-4 py-2.5 border rounded-lg"
-                    required
+                  
                     placeholder="Enter Zip Code"
                   />
                 </div>
