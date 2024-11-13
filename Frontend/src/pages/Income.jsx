@@ -55,6 +55,8 @@ const Income = () => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const navigate = useNavigate();
+  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const handleSetMaintenance = () => {
     setIsModalOpen(true);
@@ -75,23 +77,52 @@ const Income = () => {
   };
 
   const handleApply = async () => {
-    try {
-      const data = {
-        maintenanceAmount: +maintenanceAmount,
-        penaltyAmount: +penaltyAmount,
-        dueDate,
-        penaltyDay,
-      };
-      const response = await CreateMaintenance(data);
-      toast.success(response.data.message);
-    } catch (error) {
-      toast.error(error.response.data.message);
-    } finally {
-      setIsMaintenanceModalOpen(false);
-      setMaintenanceAmount("");
-      setPenaltyAmount("");
-      setDueDate("");
-      setPenaltyDay("");
+    setSubmitted(true);
+    let newErrors = {};
+
+    const amountRegex = /^\d+(\.\d{1,2})?$/;
+
+    if (!maintenanceAmount) {
+      newErrors.maintenanceAmount = "Maintenance Amount is required.";
+    } else if (!amountRegex.test(maintenanceAmount)) {
+      newErrors.maintenanceAmount = "Invalid Maintenance Amount.";
+    }
+
+    if (!penaltyAmount) {
+      newErrors.penaltyAmount = "Penalty Amount is required.";
+    } else if (!amountRegex.test(penaltyAmount)) {
+      newErrors.penaltyAmount = "Invalid Penalty Amount.";
+    }
+
+    if (!dueDate) {
+      newErrors.dueDate = "Due Date is required.";
+    }
+
+    if (!penaltyDay) {
+      newErrors.penaltyDay = "Penalty Day is required.";
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      try {
+        const data = {
+          maintenanceAmount: +maintenanceAmount,
+          penaltyAmount: +penaltyAmount,
+          dueDate,
+          penaltyDay,
+        };
+        const response = await CreateMaintenance(data);
+        toast.success(response.data.message);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      } finally {
+        setIsMaintenanceModalOpen(false);
+        setMaintenanceAmount("");
+        setPenaltyAmount("");
+        setDueDate("");
+        setPenaltyDay("");
+      }
     }
   };
 
@@ -432,10 +463,10 @@ const Income = () => {
       {isMaintenanceModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
           <div className="bg-white rounded-lg w-[400px] p-6 shadow-lg">
-            <h2 className="text-lg font-semibold mb-6">
+            <h2 className="text-lg font-semibold mb-2">
               Add Maintenance Detail
             </h2>
-
+            <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
             {/* Maintenance and Penalty Amount Row */}
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div>
@@ -454,6 +485,7 @@ const Income = () => {
                     className="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500"
                     placeholder="0000"
                   />
+                  {submitted && errors.maintenanceAmount && <p className="text-red-500">{errors.maintenanceAmount}</p>}
                 </div>
               </div>
               <div>
@@ -472,6 +504,7 @@ const Income = () => {
                     className="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500"
                     placeholder="0000"
                   />
+                  {submitted && errors.penaltyAmount && <p className="text-red-500">{errors.penaltyAmount}</p>}
                 </div>
               </div>
             </div>
@@ -488,6 +521,7 @@ const Income = () => {
                 onChange={(e) => setDueDate(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500"
               />
+              {submitted && errors.dueDate && <p className="text-red-500">{errors.dueDate}</p>}
             </div>
 
             {/* Penalty Day Selection */}
@@ -527,6 +561,7 @@ const Income = () => {
                     />
                   </svg>
                 </div>
+                {submitted && errors.penaltyDay && <p className="text-red-500">{errors.penaltyDay}</p>}
               </div>
             </div>
 
@@ -540,12 +575,12 @@ const Income = () => {
               </button>
               <button
                 onClick={handleApply}
-                disabled={
-                  !maintenanceAmount ||
-                  !penaltyAmount ||
-                  !dueDate ||
-                  !penaltyDay
-                }
+                // disabled={
+                //   !maintenanceAmount ||
+                //   !penaltyAmount ||
+                //   !dueDate ||
+                //   !penaltyDay
+                // }
                 className={`w-60 h-10 rounded-md transition-colors ${
                   !maintenanceAmount ||
                   !penaltyAmount ||
