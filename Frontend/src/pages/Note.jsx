@@ -128,8 +128,8 @@ function Note() {
   }, []);
 
   return (
-    <div className="container mx-auto p-4 sm:p-6 bg-white rounded-lg">
-      <div className="flex justify-between items-center mb-6">
+    <div className="container mx-auto p-4 sm:p-6  bg-white rounded-lg">
+      <div className="flex justify-between items-center  mb-6">
         <h1 className="text-[20px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px]">Note</h1>
         <button
           onClick={handleCreateNote}
@@ -139,11 +139,11 @@ function Note() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {notes.map((note) => (
           <div
             key={note._id}
-            className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
+            className="bg-white rounded-lg shadow-xl hover:shadow-md transition-shadow"
           >
             <div className="bg-[#5678E9] text-white p-4 rounded-t-lg flex justify-between items-center">
               <h3 className="font-medium">{note.title}</h3>
