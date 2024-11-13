@@ -26,23 +26,20 @@ const Login = () => {
     password: "",
   });
 
+  const [submitted, setSubmitted] = useState(false); // Track submission attempts
+
   const handleLogin = async (e) => {
     e.preventDefault();
+    setSubmitted(true); // Set submitted to true on form submission
 
     let formIsValid = true;
     let newErrors = { ...errors };
     if (!user.EmailOrPhone) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        EmailOrPhone: "Please enter your email or phone number",
-      }));
+      newErrors.EmailOrPhone = "Please enter your email or phone number";
       formIsValid = false;
     }
     if (!user.password) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        password: "Please enter your password",
-      }));
+      newErrors.password = "Please enter your password";
       formIsValid = false;
     }
 
@@ -69,6 +66,7 @@ const Login = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
   return (
     <div
       className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-cover bg-center"
@@ -116,8 +114,7 @@ const Login = () => {
                 placeholder="Enter Your Phone Number or Email"
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
-
-              {errors.EmailOrPhone && (
+              {submitted && errors.EmailOrPhone && ( // Show error if submitted
                 <p className="text-red-500 text-sm mt-1">
                   {errors.EmailOrPhone}
                 </p>
@@ -142,7 +139,7 @@ const Login = () => {
                   onChange={handleChange}
                   placeholder="Enter Password"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  required
+                
                 />
                 <button
                   type="button"
@@ -153,7 +150,7 @@ const Login = () => {
                 </button>
               </div>
 
-              {errors.password && (
+              {submitted && errors.password && ( // Show error if submitted
                 <p className="text-red-500 text-sm mt-1">{errors.password}</p>
               )}
             </div>
@@ -178,7 +175,7 @@ const Login = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white py-3 rounded-lg font-medium hover:bg-orange-600 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white py-3 rounded-lg font-medium "
             >
               Sign In
             </button>
