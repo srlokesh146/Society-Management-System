@@ -204,7 +204,7 @@ const OtherIncome = () => {
 
       {/* Add Income Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
           <div className="bg-white p-6 rounded-lg shadow-lg h-[500px]">
             <h2 className="text-xl font-semibold mb-4 text-center">Create Other Income</h2>
             <form onSubmit={handleAppy} className="space-y-4">
@@ -303,7 +303,7 @@ const OtherIncome = () => {
 
       {/* Edit Modal */}
       {isEditModalOpen && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
     <div className="bg-white p-6 rounded-lg shadow-lg h-[500px] w-full max-w-md">
       <h2 className="text-xl font-semibold mb-4 text-center">Edit Income Details</h2>
       <form onSubmit={saveEdit} className="space-y-4">
@@ -379,7 +379,7 @@ const OtherIncome = () => {
 )}
 
    {isDeleteModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[9999]">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
             <h2 className="text-xl font-semibold mb-4">Delete confirmation?</h2>
             <p className="text-gray-600">Are you sure you want to delete {selectedEntry?.title}?</p>
@@ -392,7 +392,7 @@ const OtherIncome = () => {
       )}
 
        {isViewModalOpen && selectedEntry && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[9999]">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full relative">
             <button onClick={() => setViewModalOpen(false)} className="absolute top-4 right-4 text-gray-600 hover:text-gray-800">
               <FaTimes size={20} /> {/* Cancel icon */}

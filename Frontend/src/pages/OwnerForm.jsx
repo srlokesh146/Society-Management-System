@@ -8,7 +8,7 @@ export default function OwnerForm() {
   const [formData, setFormData] = useState({
     members: [],
     vehicles: [],
-    fullName: '',
+    Full_name: '',
     phone: '',
     email: '',
     age: '',
@@ -182,8 +182,8 @@ export default function OwnerForm() {
                 <label className="block text-sm font-lighter text-black-500">Full Name*</label>
                 <input
                   type="text"
-                  name="Full_name:"
-                  value={formData.fullName}
+                  name="Full_name"
+                  value={formData.Full_name}
                   onChange={handleInputChange}
                   placeholder="Enter Full Name"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"

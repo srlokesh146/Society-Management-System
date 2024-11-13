@@ -12,7 +12,6 @@ import { useSelector } from "react-redux";
 const Navbar = () => {
   const { user } = useSelector((store) => store.auth);
   const [showSearch, setShowSearch] = useState(true);
-  const [activeItem, setActiveItem] = useState(null);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [clearedNotifications, setClearedNotifications] = useState(false);
   const navigate = useNavigate();
@@ -20,6 +19,15 @@ const Navbar = () => {
 
   const {
     isDashboard,
+    isResidentManagement,
+    isEditProfile,
+    isHome,
+    isReqTracking,
+    isVisitorLog,
+    isSecurityProtocols,
+    isSecurityGuard,
+    isAnnouncement,
+    isIncome,
   } = useCurrentPath();
 
   const handleProfileClick = () => {
@@ -44,13 +52,6 @@ const Navbar = () => {
     } else {
       setShowSearch(false);
     }
-
-  }, [isDashboard]);
-
-  const handleSubItemClick = (id) => {
-    setActiveItem(id);
-  };
-
   }, [
     isDashboard,
     isResidentManagement,
@@ -63,7 +64,6 @@ const Navbar = () => {
     isAnnouncement,
     isIncome,
   ]);
-
 
   return (
     <div className="flex justify-between items-center p-4 bg-white shadow-md sticky top-0 left-0 w-full z-[99] max-md:flex-col max-md:justify-start max-md:flex max-md:items-start max-sm:flex-col max-sm:justify-start max-sm:items-start max-lg:pl-[50px]">
@@ -91,33 +91,21 @@ const Navbar = () => {
           {Navigationbar.map((item, index) => (
             <div key={item.path}>
               <span
-
-                className={location.pathname === item.path ? "text-[#5678E9] ml-[12px] text-[18px] font-normal leading-[27px]" : ""}
-                onClick={() => handleSubItemClick(subItem.path)}
-
-//                 className={
-//                   location.pathname === item.path
-//                     ? "text-[#5678E9] ml-[12px] text-[18px] font-normal leading-[27px]"
-//                     : ""
-//                 }
-
+                className={
+                  location.pathname === item.path
+                    ? "text-[#5678E9] ml-[12px] text-[18px] font-normal leading-[27px]"
+                    : ""
+                }
               >
                 {location.pathname === item.path ? item.label : ""}
               </span>
-
-
-              {index < Navigationbar.length - 1 && location.pathname === item.path && (
-                <></>
-              )}
-            </div>
 
               {index < Navigationbar.length - 1 &&
                 location.pathname === item.path && (
                   // <FaChevronRight className="mr-[3px] w-[12px]" />
                   <></>
                 )}
-            </React.Fragment>
-
+            </div>
           ))}
         </div>
       )}
@@ -130,6 +118,7 @@ const Navbar = () => {
             className="text-black cursor-pointer border border-[#D3D3D3] rounded-[10px] p-[8px] md:block"
             onClick={handleNotificationClick}
           />
+
           {/* Notification Dropdown */}
           {isNotificationOpen && (
             <div className="absolute right-0 mt-2 min-w-[540px] bg-white rounded-lg shadow-lg p-4 z-[9999] max-sm:max-h-[700px] max-sm:overflow-y-auto max-sm:min-w-[310px] max-md:min-w-[500px] max-md:left-0 max-md:translate-x-[-10%] max-sm:translate-x-[-22%] sm:min-w-[30rem] notication-class">
@@ -152,6 +141,7 @@ const Navbar = () => {
                   </button>
                 )}
               </div>
+
               {clearedNotifications ? (
                 <div className="text-center py-10">
                   <img
@@ -175,10 +165,6 @@ const Navbar = () => {
                         {notification.title}
                       </h6>
                     </div>
-
-                    <p className="text-[12px] text-[#A7A7A7] font-normal mt-1 ml-[50px] mb-[4px]">{notification.time}</p>
-                    <p className="text-sm text-gray-600 ml-[50px]">{notification.description}</p>
-
                     <p className="text-[12px] text-[#A7A7A7] font-normal mt-1 ml-[50px] mb-[4px]">
                       {notification.time}
                     </p>
@@ -200,7 +186,6 @@ const Navbar = () => {
                         </div>
                       </div>
                     )}
-
                     <div className="flex space-x-2 mt-2 ml-[50px] max-md:justify-start max-sm:flex-col max-sm:justify-start max-sm:space-x-0">
                       {notification.options &&
                         notification.options.map((option, i) => (
