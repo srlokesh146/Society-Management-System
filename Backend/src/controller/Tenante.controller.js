@@ -4,6 +4,7 @@ const crypto = require("crypto");
 const senData = require("../config/mail");
 const { hash } = require("../utils/hashpassword");
 const Tenante = require("../models/Tenent.model");
+const { ForgotFormatResident } = require("../utils/residentcrediUi");
 exports.addTenante = async (req, res) => {
   try {
     function generatePassword(length = 6) {
@@ -87,13 +88,7 @@ exports.addTenante = async (req, res) => {
         message: "All fields are required",
       });
     }
-    const existingWing = await Tenante.findOne({ Wing, Unit });
-    if (existingWing) {
-      return res.status(400).json({
-        success: false,
-        message: "An  Wing and Unit already exists.",
-      });
-    }
+   
     // Create a new owner document
     const newOwner = new Tenante({
       Owner_Full_name,
@@ -120,11 +115,12 @@ exports.addTenante = async (req, res) => {
 
     await newOwner.save();
 
-    await senData(
-      newOwner.Email_address,
-      "Tenante Registration Successful - Login Details",
-      `Dear ${newOwner.Full_name},\n\nYou have successfully registered as a Tenante. Your login details are as follows:\n\nUsername: ${newOwner.Email_address}\nPassword: <b> ${password}</b>\n\nPlease keep this information secure.\n\nBest Regards,\nManagement`
-    );
+    // await senData(
+    //   newOwner.Email_address,
+    //   "Tenante Registration Successful - Login Details",
+    //   `Dear ${newOwner.Full_name},\n\nYou have successfully registered as a Tenante. Your login details are as follows:\n\nUsername: ${newOwner.Email_address}\nPassword: <b> ${password}</b>\n\nPlease keep this information secure.\n\nBest Regards,\nManagement`
+    // );
+    await senData(newOwner.Email_address, "Registration Successfully" ,ForgotFormatResident(newOwner.Full_name,newOwner.Email_address,password));
 
     // Handle Member Counting
     if (Member_Counting) {
@@ -276,13 +272,7 @@ exports.updateTenantData = async (req, res) => {
       });
     }
 
-    const existingTenant = await Tenante.findOne({ Wing, Unit });
-    if (existingTenant && existingTenant._id.toString() !== id) {
-      return res.status(400).json({
-        success: false,
-        message: "An tenant already exists with this Wing and Unit.",
-      });
-    }
+    
 
     const tenant = await Tenante.findById(id);
     if (!tenant) {
