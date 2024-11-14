@@ -1,10 +1,15 @@
 // src/components/VacateModal.js
-import React from 'react';
-import { IoIosArrowDown } from 'react-icons/io';
+import React from "react";
+import { IoIosArrowDown } from "react-icons/io";
 
-const VacateModal = ({ showVacateModal, onClose, setWing, wing, setUnit, unit, setShowConfirmModal }) => {
+const VacateModal = ({
+  showVacateModal,
+  onClose,
+  resident,
+  setShowConfirmModal,
+}) => {
   if (!showVacateModal) return null;
-
+  console.log(resident);
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
       <div className="bg-white rounded-lg p-6 w-full max-w-[410px]">
@@ -19,15 +24,18 @@ const VacateModal = ({ showVacateModal, onClose, setWing, wing, setUnit, unit, s
             </label>
             <div className="relative">
               <select
-                value={wing}
-                onChange={(e) => setWing(e.target.value)}
+                // value={wing}
+                // onChange={(e) => setWing(e.target.value)}
                 className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] appearance-none bg-white"
               >
                 <option value="A">A</option>
                 <option value="B">B</option>
                 <option value="C">C</option>
               </select>
-              <IoIosArrowDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+              <IoIosArrowDown
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                size={16}
+              />
             </div>
           </div>
 
@@ -38,15 +46,18 @@ const VacateModal = ({ showVacateModal, onClose, setWing, wing, setUnit, unit, s
             </label>
             <div className="relative">
               <select
-                value={unit}
-                onChange={(e) => setUnit(e.target.value)}
+                // value={unit}
+                // onChange={(e) => setUnit(e.target.value)}
                 className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] appearance-none bg-white"
               >
                 <option value="1001">1001</option>
                 <option value="1002">1002</option>
                 <option value="1003">1003</option>
               </select>
-              <IoIosArrowDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+              <IoIosArrowDown
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                size={16}
+              />
             </div>
           </div>
         </div>

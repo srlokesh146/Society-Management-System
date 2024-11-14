@@ -197,7 +197,6 @@ exports.login = async (req, res) => {
     } else {
       query = { $or: [{ Phone: EmailOrPhone }, { MailOrPhone: EmailOrPhone }] }; // It's a phone number
     }
-
     const user = await User.findOne(query);
     const guard = await Guard.findOne(query);
 
@@ -223,7 +222,7 @@ exports.login = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "User logged in successfully",
-      user: { ...user._doc, password: "" },
+      user: { ...account._doc, password: "" },
     });
   } catch (error) {
     console.error("Error during login:", error);

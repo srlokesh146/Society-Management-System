@@ -7,9 +7,8 @@ import { toast } from "react-hot-toast";
 import { useState } from "react";
 
 export default function ViewResidentModal({ isOpen, onClose, resident }) {
-
   if (!isOpen) return null;
-  
+
   const [residentData, setResidentData] = useState(null);
 
   const handleViewFile = (file) => {
@@ -18,7 +17,7 @@ export default function ViewResidentModal({ isOpen, onClose, resident }) {
 
   const residentById = async () => {
     try {
-      const response = await GetResident(resident.id);
+      const response = await GetResident(resident._id);
       setResidentData(response.data.Resident);
     } catch (error) {
       toast.error(error.response.data.message);

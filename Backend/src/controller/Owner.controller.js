@@ -343,14 +343,7 @@ exports.GetAllResidents = async (req, res) => {
 
     // Map each to the desired format
     const tenantData = tenants.map((tenant) => ({
-      id: tenant._id,
-      profileImage: tenant.profileImage,
-      Full_name: tenant.Full_name,
-      Unit: tenant.Unit,
-      Wing: tenant.Wing,
-      UnitStatus: tenant.UnitStatus,
-      Resident_status: tenant.Resident_status,
-      Phone_number: tenant.Phone_number,
+      ...tenant._doc,
       Member_Counting_Total: tenant.Member_Counting
         ? tenant.Member_Counting.length
         : 0,
@@ -360,14 +353,7 @@ exports.GetAllResidents = async (req, res) => {
     }));
 
     const ownerData = owners.map((owner) => ({
-      id: owner._id,
-      profileImage: owner.profileImage,
-      Full_name: owner.Full_name,
-      Unit: owner.Unit,
-      Wing: owner.Wing,
-      UnitStatus: owner.UnitStatus,
-      Resident_status: owner.Resident_status,
-      Phone_number: owner.Phone_number,
+      ...owner._doc,
       Member_Counting_Total: owner.Member_Counting
         ? owner.Member_Counting.length
         : 0,
@@ -444,27 +430,6 @@ exports.updateOwnerData = async (req, res) => {
       req.files?.Rent_Agreement
     );
 
-    if (
-      !Full_name ||
-      !Phone_number ||
-      !Email_address ||
-      !Age ||
-      !Gender ||
-      !Wing ||
-      !Unit ||
-      !Relation ||
-      !profileImage ||
-      !Adhar_front ||
-      !Adhar_back ||
-      !Address_proof ||
-      !Rent_Agreement
-    ) {
-      return res.status(400).json({
-        success: false,
-        message: "All fields are required",
-      });
-    }
-
     const existingOwner = await Owner.findOne({ Wing, Unit });
     if (existingOwner && existingOwner._id.toString() !== id) {
       return res.status(400).json({
@@ -501,14 +466,12 @@ exports.updateOwnerData = async (req, res) => {
     //   if (hashpassword) owner.password = hashpassword; // Update password only if provided
 
     if (Member_Counting) {
-      const members = JSON.parse(Member_Counting);
-      owner.Member_Counting = members;
+      owner.Member_Counting = Member_Counting;
     }
 
     // Handle Vehicle Counting
     if (Vehicle_Counting) {
-      const vehicles = JSON.parse(Vehicle_Counting);
-      owner.Vehicle_Counting = vehicles;
+      owner.Vehicle_Counting = Vehicle_Counting;
     }
 
     // Save the updated owner document

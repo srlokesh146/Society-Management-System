@@ -4,21 +4,25 @@ import { IoIosArrowDown } from "react-icons/io";
 import TenantForm from "./TenantForm";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { CreateOwner } from "../services/ownerTenantService";
+import { CreateOwner, UpdateOwner } from "../services/ownerTenantService";
+import { useLocation } from "react-router-dom";
 
 export default function OwnerForm() {
+  const location = useLocation();
+  const { resident } = location.state || {};
+
   const [formData, setFormData] = useState({
-    Member_Counting: [],
-    Vehicle_Counting: [],
+    Member_Counting: resident?.Member_Counting || [],
+    Vehicle_Counting: resident?.Vehicle_Counting || [],
     profileImage: null,
-    Full_name: "",
-    Phone_number: "",
-    Email_address: "",
-    Age: "",
-    Gender: "",
-    Wing: "",
-    Unit: "",
-    Relation: "",
+    Full_name: resident?.Full_name || "",
+    Phone_number: resident?.Phone_number || "",
+    Email_address: resident?.Email_address || "",
+    Age: resident?.Age || "",
+    Gender: resident?.Gender || "",
+    Wing: resident?.Wing || "",
+    Unit: resident?.Unit || "",
+    Relation: resident?.Relation || "",
     Adhar_front: null,
     Adhar_back: null,
     Address_proof: null,
@@ -34,41 +38,46 @@ export default function OwnerForm() {
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [edit, setEdit] = useState(false);
+
+  useEffect(() => {
+    if (resident) {
+      setProfilePhotoPreview(resident?.profileImage || null);
+      setEdit(true);
+      setIsFormValid(true);
+    } else {
+      validateForm();
+    }
+  }, [formData]);
 
   const handleTenantClick = () => {
     setActiveTab("tenant");
     navigate("/tenantform");
   };
 
-  // Validate form data
-  useEffect(() => {
-    const validateForm = () => {
-      const requiredFields = {
-        profileImage: formData.profileImage,
-        fullName: formData.Full_name, // Corrected key
-        phone: formData.Phone_number, // Corrected key
-        age: formData.Age, // Corrected key
-        gender: formData.Gender, // Corrected key
-        wing: formData.Wing, // Corrected key
-        unit: formData.Unit, // Corrected key
-        relation: formData.Relation, // Corrected key
-        aadharFront: formData.Adhar_front,
-        aadharBack: formData.Adhar_back,
-        addressProof: formData.Address_proof,
-        Rent_Agreement: formData.Rent_Agreement,
-      };
-
-      const isValid = Object.values(requiredFields).every(
-        (value) => value !== null && value !== undefined && value !== ""
-      );
-
-      setIsFormValid(isValid);
+  const validateForm = () => {
+    const requiredFields = {
+      profileImage: formData.profileImage,
+      fullName: formData.Full_name, // Corrected key
+      phone: formData.Phone_number, // Corrected key
+      age: formData.Age, // Corrected key
+      gender: formData.Gender, // Corrected key
+      wing: formData.Wing, // Corrected key
+      unit: formData.Unit, // Corrected key
+      relation: formData.Relation, // Corrected key
+      aadharFront: formData.Adhar_front,
+      aadharBack: formData.Adhar_back,
+      addressProof: formData.Address_proof,
+      Rent_Agreement: formData.Rent_Agreement,
     };
 
-    validateForm();
-  }, [formData]);
+    const isValid = Object.values(requiredFields).every(
+      (value) => value !== null && value !== undefined && value !== ""
+    );
 
-  // Handle input changes
+    setIsFormValid(isValid);
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -105,7 +114,6 @@ export default function OwnerForm() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      console.log(formData);
       try {
         const response = await CreateOwner(formData);
         toast.success(response.data.message);
@@ -176,6 +184,56 @@ export default function OwnerForm() {
     }
     updatedVehicles[index][field] = value;
     setFormData({ ...formData, Vehicle_Counting: updatedVehicles });
+  };
+
+  const handleMemberChangeEdit = (index, name, value) => {
+    setFormData((prevState) => {
+      const updatedMembers = [...prevState.Member_Counting];
+
+      updatedMembers[index] = {
+        ...updatedMembers[index],
+        [name]: value,
+      };
+
+      return {
+        ...prevState,
+        Member_Counting: updatedMembers,
+      };
+    });
+  };
+
+  const handleUpdateOwner = async () => {
+    console.log(resident._id);
+    try {
+      const response = await UpdateOwner(resident._id, formData);
+      toast.success(response.data.message);
+      navigate("/residentmanagement");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    } finally {
+      // setFormData({
+      //   Member_Counting: [],
+      //   Vehicle_Counting: [],
+      //   profileImage: null,
+      //   Full_name: "",
+      //   Phone_number: "",
+      //   Email_address: "",
+      //   Age: "",
+      //   Gender: "",
+      //   Wing: "",
+      //   Unit: "",
+      //   Relation: "",
+      //   Adhar_front: null,
+      //   Adhar_back: null,
+      //   Address_proof: null,
+      //   Rent_Agreement: null,
+      // });
+      // setMemberCount(0);
+      // setVehicleCount(0);
+      // setProfilePhotoPreview(null);
+      // setEdit(false);
+    }
   };
 
   return (
@@ -619,190 +677,469 @@ export default function OwnerForm() {
               </div>
             </div>
 
-            {/* Member Form Fields */}
-            {[...Array(memberCount)].map((_, index) => (
-              <div
-                key={index}
-                className="grid grid-cols-1 md:grid-cols-6 gap-4 mt-4 items-start"
-              >
-                <div>
-                  <label className="block text-xs text-black-500 font-lighter mb-1">
-                    Full Name*
-                  </label>
-                  <input
-                    name="Full_name"
-                    type="text"
-                    placeholder="Enter Full Name"
-                    onChange={(e) =>
-                      handleMemberChange(index, e.target.name, e.target.value)
-                    }
-                    className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-black-500 font-lighter mb-1">
-                    Phone No*
-                  </label>
-                  <input
-                    name="Phone_number"
-                    type="tel"
-                    placeholder="+91"
-                    onChange={(e) =>
-                      handleMemberChange(index, e.target.name, e.target.value)
-                    }
-                    className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-black-500 font-lighter mb-1">
-                    Email
-                  </label>
-                  <input
-                    name="Email_address"
-                    type="email"
-                    placeholder="Enter Email Address"
-                    onChange={(e) =>
-                      handleMemberChange(index, e.target.name, e.target.value)
-                    }
-                    className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-black-500 font-lighter mb-1">
-                    Age*
-                  </label>
-                  <input
-                    name="Age"
-                    type="number"
-                    placeholder="Enter Age"
-                    onChange={(e) =>
-                      handleMemberChange(index, e.target.name, e.target.value)
-                    }
-                    className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
-                  />
-                </div>
-                <div className="relative">
-                  <label className="block text-xs text-black-500 font-lighter mb-1">
-                    Gender*
-                  </label>
-                  <select
-                    name="Gender"
-                    className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
-                    onChange={(e) =>
-                      handleMemberChange(index, e.target.name, e.target.value)
-                    }
+            {resident?.Member_Counting ? (
+              <>
+                {formData.Member_Counting.map((member, index) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-1 md:grid-cols-6 gap-4 mt-4 items-start"
                   >
-                    <option value="">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                  </select>
-                  <IoIosArrowDown
-                    className="absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none"
-                    size={16}
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-black-500 font-lighter mb-1">
-                    Relation*
-                  </label>
-                  <input
-                    name="Relation"
-                    type="text"
-                    placeholder="Enter Relation"
-                    onChange={(e) =>
-                      handleMemberChange(index, e.target.name, e.target.value)
-                    }
-                    className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
-                  />
-                </div>
-              </div>
-            ))}
+                    <div>
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Full Name*
+                      </label>
+                      <input
+                        name="Full_name"
+                        type="text"
+                        value={member.Full_name}
+                        placeholder="Enter Full Name"
+                        onChange={(e) =>
+                          handleMemberChangeEdit(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Phone No*
+                      </label>
+                      <input
+                        name="Phone_number"
+                        type="tel"
+                        value={member.Phone_number}
+                        placeholder="+91"
+                        onChange={(e) =>
+                          handleMemberChangeEdit(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Email
+                      </label>
+                      <input
+                        name="Email_address"
+                        type="email"
+                        value={member.Email_address}
+                        placeholder="Enter Email Address"
+                        onChange={(e) =>
+                          handleMemberChangeEdit(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Age*
+                      </label>
+                      <input
+                        name="Age"
+                        type="number"
+                        value={member.Age}
+                        placeholder="Enter Age"
+                        onChange={(e) =>
+                          handleMemberChangeEdit(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                      />
+                    </div>
+                    <div className="relative">
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Gender*
+                      </label>
+                      <select
+                        name="Gender"
+                        defaultValue={member.Gender}
+                        className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
+                        onChange={(e) =>
+                          handleMemberChangeEdit(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                      >
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                      </select>
+                      <IoIosArrowDown
+                        className="absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none"
+                        size={16}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Relation*
+                      </label>
+                      <input
+                        name="Relation"
+                        type="text"
+                        value={member.Relation}
+                        placeholder="Enter Relation"
+                        onChange={(e) =>
+                          handleMemberChangeEdit(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <>
+                {" "}
+                {/* Member Form Fields */}
+                {[...Array(memberCount)].map((_, index) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-1 md:grid-cols-6 gap-4 mt-4 items-start"
+                  >
+                    <div>
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Full Name*
+                      </label>
+                      <input
+                        name="Full_name"
+                        type="text"
+                        placeholder="Enter Full Name"
+                        onChange={(e) =>
+                          handleMemberChange(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Phone No*
+                      </label>
+                      <input
+                        name="Phone_number"
+                        type="tel"
+                        placeholder="+91"
+                        onChange={(e) =>
+                          handleMemberChange(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Email
+                      </label>
+                      <input
+                        name="Email_address"
+                        type="email"
+                        placeholder="Enter Email Address"
+                        onChange={(e) =>
+                          handleMemberChange(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Age*
+                      </label>
+                      <input
+                        name="Age"
+                        type="number"
+                        placeholder="Enter Age"
+                        onChange={(e) =>
+                          handleMemberChange(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                      />
+                    </div>
+                    <div className="relative">
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Gender*
+                      </label>
+                      <select
+                        name="Gender"
+                        className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
+                        onChange={(e) =>
+                          handleMemberChange(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                      >
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                      </select>
+                      <IoIosArrowDown
+                        className="absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none"
+                        size={16}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Relation*
+                      </label>
+                      <input
+                        name="Relation"
+                        type="text"
+                        placeholder="Enter Relation"
+                        onChange={(e) =>
+                          handleMemberChange(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
           </div>
 
-          {/* Vehicle Section */}
-          <div className="bg-white rounded-lg p-4">
-            <div className="flex justify-between items-center mb-4">
-              <label className="text-sm text-black font-medium">
-                Vehicle Counting :
-              </label>
-              <div className="relative">
-                <select
-                  className="w-32 h-10 px-3 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-black-600 focus:outline-none appearance-none bg-white cursor-pointer"
-                  onChange={(e) => setVehicleCount(Number(e.target.value))}
-                >
-                  <option value="0">Select Vehicle</option>
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-                    <option key={num} value={num}>
-                      {num}
-                    </option>
-                  ))}
-                </select>
-                <IoIosArrowDown
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
-                  size={16}
-                />
-              </div>
-            </div>
+          {resident?.Vehicle_Counting ? (
+            <>
+              {" "}
+              {/* Vehicle Section */}
+              <div className="bg-white rounded-lg p-4">
+                <div className="flex justify-between items-center mb-4">
+                  <label className="text-sm text-black font-medium">
+                    Vehicle Counting :
+                  </label>
+                  <div className="relative">
+                    <select
+                      className="w-32 h-10 px-3 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-black-600 focus:outline-none appearance-none bg-white cursor-pointer"
+                      onChange={(e) => setVehicleCount(Number(e.target.value))}
+                    >
+                      <option value="0">Select Vehicle</option>
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                        <option key={num} value={num}>
+                          {num}
+                        </option>
+                      ))}
+                    </select>
+                    <IoIosArrowDown
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                      size={16}
+                    />
+                  </div>
+                </div>
 
-            {/* Vehicle Form Fields */}
-            {[...Array(vehicleCount)].map((_, index) => (
-              <div
-                key={index}
-                className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4"
-              >
-                <div className="relative">
-                  <label className="block text-xs text-black-500 font-lighter mb-1">
-                    Vehicle Type*
-                  </label>
-                  <select
-                    name="vehicle_type"
-                    className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
-                    onChange={(e) =>
-                      handleVehicleChange(index, e.target.name, e.target.value)
-                    }
+                {/* Vehicle Form Fields */}
+                {formData?.Vehicle_Counting.map((vehicle, index) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4"
                   >
-                    <option selected disabled>
-                      Select Vehicle Type
-                    </option>
-                    <option value="Two Wheelers">Two Wheelers</option>
-                    <option value="Four Wheelers">Four Wheelers</option>
-                  </select>
-                  <IoIosArrowDown
-                    className="absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none"
-                    size={16}
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-black-500 font-lighter mb-1">
-                    Vehicle Name
-                  </label>
-                  <input
-                    name="vehicle_name"
-                    type="text"
-                    placeholder="Enter Name"
-                    onChange={(e) =>
-                      handleVehicleChange(index, e.target.name, e.target.value)
-                    }
-                    className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-black-500 font-lighter mb-1">
-                    Vehicle Number
-                  </label>
-                  <input
-                    name="vehicle_number"
-                    type="text"
-                    placeholder="Enter Number"
-                    onChange={(e) =>
-                      handleVehicleChange(index, e.target.name, e.target.value)
-                    }
-                    className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
-                  />
-                </div>
+                    <div className="relative">
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Vehicle Type*
+                      </label>
+                      <select
+                        name="vehicle_type"
+                        defaultValue={vehicle.vehicle_type}
+                        className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
+                        onChange={(e) =>
+                          handleVehicleChange(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                      >
+                        <option selected disabled>
+                          Select Vehicle Type
+                        </option>
+                        <option value="Two Wheelers">Two Wheelers</option>
+                        <option value="Four Wheelers">Four Wheelers</option>
+                      </select>
+                      <IoIosArrowDown
+                        className="absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none"
+                        size={16}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Vehicle Name
+                      </label>
+                      <input
+                        name="vehicle_name"
+                        type="text"
+                        value={vehicle.vehicle_name}
+                        placeholder="Enter Name"
+                        onChange={(e) =>
+                          handleVehicleChange(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Vehicle Number
+                      </label>
+                      <input
+                        name="vehicle_number"
+                        type="text"
+                        value={vehicle.vehicle_number}
+                        placeholder="Enter Number"
+                        onChange={(e) =>
+                          handleVehicleChange(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </>
+          ) : (
+            <>
+              {" "}
+              {/* Vehicle Section */}
+              <div className="bg-white rounded-lg p-4">
+                <div className="flex justify-between items-center mb-4">
+                  <label className="text-sm text-black font-medium">
+                    Vehicle Counting :
+                  </label>
+                  <div className="relative">
+                    <select
+                      className="w-32 h-10 px-3 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-black-600 focus:outline-none appearance-none bg-white cursor-pointer"
+                      onChange={(e) => setVehicleCount(Number(e.target.value))}
+                    >
+                      <option value="0">Select Vehicle</option>
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                        <option key={num} value={num}>
+                          {num}
+                        </option>
+                      ))}
+                    </select>
+                    <IoIosArrowDown
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                      size={16}
+                    />
+                  </div>
+                </div>
+
+                {/* Vehicle Form Fields */}
+                {[...Array(vehicleCount)].map((_, index) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4"
+                  >
+                    <div className="relative">
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Vehicle Type*
+                      </label>
+                      <select
+                        name="vehicle_type"
+                        className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
+                        onChange={(e) =>
+                          handleVehicleChange(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                      >
+                        <option selected disabled>
+                          Select Vehicle Type
+                        </option>
+                        <option value="Two Wheelers">Two Wheelers</option>
+                        <option value="Four Wheelers">Four Wheelers</option>
+                      </select>
+                      <IoIosArrowDown
+                        className="absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none"
+                        size={16}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Vehicle Name
+                      </label>
+                      <input
+                        name="vehicle_name"
+                        type="text"
+                        placeholder="Enter Name"
+                        onChange={(e) =>
+                          handleVehicleChange(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Vehicle Number
+                      </label>
+                      <input
+                        name="vehicle_number"
+                        type="text"
+                        placeholder="Enter Number"
+                        onChange={(e) =>
+                          handleVehicleChange(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
         </div>
 
         {/* Action Buttons */}
@@ -817,9 +1154,9 @@ export default function OwnerForm() {
                 : "bg-[#F6F8FB] text-gray-400 cursor-not-allowed"
             }`}
             disabled={!isFormValid}
-            onClick={handleCreate} // Call the handleCreate function on click
+            onClick={edit ? handleUpdateOwner : handleCreate} // Call the handleCreate function on click
           >
-            Create
+            {edit ? "Save" : "Create"}
           </button>
         </div>
       </div>
