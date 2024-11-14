@@ -56,6 +56,9 @@ body {
   background: linear-gradient(90deg, #FE512E 0%, #F09619 100%);
 }
 
+.border-add {
+  position: relative;
+}
 
 /* Sidebar.css */
 
@@ -319,10 +322,11 @@ ul::-webkit-scrollbar-thumb {
     max-width: 750px;
   }
 
-  .security-protocel-table,.visiter-table {
+  .security-protocel-table,
+  .visiter-table {
     max-width: 792px;
   }
-  
+
   .security-protocel-table {
     max-width: 757px;
   }
@@ -367,6 +371,22 @@ ul::-webkit-scrollbar-thumb {
     max-width: 974px;
   }
 }
+
+
+@media (min-width: 1181px) and (max-width: 1280px) {
+  .security-table {
+    max-width: 800px;
+  }
+}
+
+@media (min-width: 1281px) and (max-width: 1380px) {
+  .security-table {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 
 
 /* notication-responsive */

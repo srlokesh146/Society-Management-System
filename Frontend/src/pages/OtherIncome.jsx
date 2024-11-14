@@ -189,8 +189,8 @@ const OtherIncome = () => {
       </div>
 
       <div className="flex flex-col rounded-lg p-8 bg-white min-h-screen">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-gray-800">Other Income</h2>
+        <div className="flex justify-between items-center mb-4 max-sm:flex-col">
+          <h2 className="text-[20px] font-semibold text-gray-800 max-sm:mb-3">Other Income</h2>
           <button
             className="px-4 py-2 bg-custom-gradient text-white rounded-lg hover:bg-orange-600"
             onClick={() => setIsModalOpen(true)}

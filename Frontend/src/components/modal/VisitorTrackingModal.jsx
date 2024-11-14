@@ -35,7 +35,7 @@ export default function VisitorTrackingModal({ isOpen, onClose, onSave }) {
     const newError = {};
 
     if (!formData.name || !/^[A-Za-z\s]+$/.test(formData.name)) {
-      newError.name = 'Please enter Valid Name';
+      newError.name = 'Please enter a valid name';
       formIsValid = false;
     }
     if (!formData.wing) {
@@ -51,7 +51,7 @@ export default function VisitorTrackingModal({ isOpen, onClose, onSave }) {
       formIsValid = false;
     }
     if (!formData.time || !/^\d{2}:\d{2}$/.test(formData.time)) {
-      newError.time = 'Please valid time';
+      newError.time = 'Please enter a valid time';
       formIsValid = false;
     }
 
@@ -66,6 +66,11 @@ export default function VisitorTrackingModal({ isOpen, onClose, onSave }) {
 
     if (onSave) onSave(formData);
 
+    resetForm();
+    onClose();
+  };
+
+  const resetForm = () => {
     setFormData({
       name: '',
       wing: '',
@@ -73,9 +78,19 @@ export default function VisitorTrackingModal({ isOpen, onClose, onSave }) {
       date: '',
       time: ''
     });
-    onClose();
+    setError({
+      name: '',
+      wing: '',
+      unit: '',
+      date: '',
+      time: ''
+    });
   };
 
+  const handleClose = () => {
+    resetForm();
+    onClose();
+  };
 
   const isFormValid = () => {
     return formData.name && formData.wing && formData.unit && formData.date && formData.time;
@@ -156,7 +171,7 @@ export default function VisitorTrackingModal({ isOpen, onClose, onSave }) {
           <div className="flex justify-center gap-3 mt-6">
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               className="w-[175px] py-[13.5px] px-[58.5px] border rounded-[10px] leading-[27px] font-medium text-[18px]"
             >
               Cancel

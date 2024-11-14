@@ -79,7 +79,7 @@ const Navbar = () => {
           </span>
         </div>
       ) : (
-        <div className="flex items-center">
+        <div className="flex items-center max-sm:hidden max-md:hidden">
           <span
             className="cursor-pointer text-[18px] leading-[27px] font-normal text-[#A7A7A7] mr-[12px]"
             onClick={() => navigate("/dashboard")}

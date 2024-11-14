@@ -3,39 +3,7 @@ import { FaEdit, FaEllipsisV } from "react-icons/fa";
 import { CreateNote, GetNotes, UpdateNote } from "../services/notesService";
 import { toast } from "react-hot-toast";
 
-const initialNotes = [
-  {
-    id: 1,
-    title: "Rent or Mortgage",
-    date: "2024-01-07",
-    description:
-      "A visual representation of your spending categories visual representation.",
-  },
-  {
-    id: 2,
-    title: "Housing Costs",
-    description:
-      "A visual representation of your spending categories visual representation.",
-  },
-  {
-    id: 3,
-    title: "Property Taxes",
-    description:
-      "A visual representation of your spending categories visual representation.",
-  },
-  {
-    id: 4,
-    title: "Maintenance Fees",
-    description:
-      "A visual representation of your spending categories visual representation.",
-  },
-  {
-    id: 5,
-    title: "Rent or Transportation",
-    description:
-      "A visual representation of your spending categories visual representation.",
-  },
-];
+
 
 function Note() {
   const [notes, setNotes] = useState([]);
@@ -182,10 +150,10 @@ function Note() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
           <div className="bg-white rounded-lg w-full max-w-md">
             <div className="p-6">
-              <h2 className="text-xl font-semibold mb-6">
+              <h2 className="text-xl font-semibold mb-3">
                 {modalType === "create" ? "Create Note" : "Edit Note"}
               </h2>
-              <div className="border-b border-[#F4F4F4] mb-[30px]"></div>
+              <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">

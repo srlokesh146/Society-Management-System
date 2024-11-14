@@ -17,13 +17,11 @@ export default function Sidebar() {
   const [activeItem, setActiveItem] = useState(1);
   const [openSubItems, setOpenSubItems] = useState({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const handleItemClick = (item) => {
     if (item.subItems) {
       setOpenSubItems((prev) => {
-        const newState = {
-          ...prev,
-          [item.id]: !prev[item.id],
-        };
+        const newState = { [item.id]: !prev[item.id] };
         localStorage.setItem("openSubItems", JSON.stringify(newState));
         return newState;
       });
@@ -32,6 +30,7 @@ export default function Sidebar() {
       localStorage.removeItem("openSubItems");
     }
     setActiveItem(item.id);
+    localStorage.setItem("activeItem", item.id);
   };
 
   const toggleSidebar = () => {
@@ -53,6 +52,7 @@ export default function Sidebar() {
     setActiveItem(activeNavItem ? activeNavItem.id : null);
   }, [location.pathname]);
 
+
   useEffect(() => {
     if (isSidebarOpen) {
       document.body.style.overflow = "hidden";
@@ -65,6 +65,19 @@ export default function Sidebar() {
     };
   }, [isSidebarOpen]);
 
+  useEffect(() => {
+    const storedActiveItem = localStorage.getItem("activeItem");
+    const storedActiveSubItem = localStorage.getItem("activeSubItem");
+
+    if (storedActiveItem) {
+      setActiveItem(storedActiveItem);
+    }
+    if (storedActiveSubItem) {
+      setActiveSubItem(storedActiveSubItem);
+    }
+  }, []);
+
+  // Get the open subitems from localStorage on page load
   useEffect(() => {
     const savedSubItems = localStorage.getItem("openSubItems");
     if (savedSubItems) {
@@ -84,9 +97,9 @@ export default function Sidebar() {
     }
   };
 
+
   return (
     <>
-      {/*  Smaller Screens */}
       <button
         className="lg:hidden fixed top-[26px] left-4 z-[9999] max-sm:block"
         onClick={toggleSidebar}
@@ -94,7 +107,6 @@ export default function Sidebar() {
         <FiMenu size={24} />
       </button>
 
-      {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 h-full w-[280px] bg-white p-4 shadow-lg border border-gray-200 transition-transform duration-300 lg:transition-none lg:relative lg:transform-none ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -168,6 +180,7 @@ export default function Sidebar() {
                                 ? "text-black"
                                 : "text-[#4F4F4F] hover:text-black"
                             }`}
+
                           >
                             {subItem.label}
                           </span>
@@ -179,6 +192,7 @@ export default function Sidebar() {
               </li>
             ))}
           </ul>
+
           {/* Logout */}
           <div className="w-full absolute bottom-0 left-0 p-4">
             <div className="border border-[#F4F4F4]"></div>
