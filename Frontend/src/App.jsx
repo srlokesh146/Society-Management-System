@@ -30,7 +30,6 @@ import OwnerForm from "./pages/OwnerForm.jsx";
 import VisitorTracking from "./pages/securitypage/VisitorTracking.jsx";
 import EmergencyManagement from "./pages/securitypage/EmergencyManagement.jsx";
 
-
 function App() {
   const [isSidebaropen, setSidebaropen] = useState(false);
   const location = useLocation();
@@ -46,7 +45,7 @@ function App() {
   const shouldRenderSidebarAndNavbar = !layoutRoutes.includes(
     location.pathname
   );
-  
+
   const toggleSidebar = () => {
     setSidebaropen((prevState) => !prevState);
   };
@@ -62,8 +61,9 @@ function App() {
       )}
 
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 ${isSidebaropen && shouldRenderSidebarAndNavbar ? "ml-[280px]" : "ml-0"
-          }`}
+        className={`flex-1 flex flex-col transition-all duration-300 ${
+          isSidebaropen && shouldRenderSidebarAndNavbar ? "ml-[280px]" : "ml-0"
+        }`}
       >
         {shouldRenderSidebarAndNavbar && (
           <Navbar toggleSidebar={toggleSidebar} />
@@ -83,23 +83,43 @@ function App() {
               <>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/editprofile" element={<EditProfileForm />} />
-                <Route path="/residentmanagement" element={<Residentmanagement />} />
+                <Route
+                  path="/residentmanagement"
+                  element={<Residentmanagement />}
+                />
                 <Route path="/complainttable" element={<ComplaintTable />} />
                 <Route path="/reqtracking" element={<ReqTracking />} />
                 <Route path="/visitorlog" element={<VisitorLog />} />
-                <Route path="/SecurityProtocols" element={<SecurityProtocols />} />
-                <Route path="/securityguard" element={<SecurityGuardDetails />} />
+                <Route
+                  path="/SecurityProtocols"
+                  element={<SecurityProtocols />}
+                />
+                <Route
+                  path="/securityguard"
+                  element={<SecurityGuardDetails />}
+                />
                 <Route path="/announcement" element={<Announcement />} />
-                <Route path="/facilitymanagement" element={<Facilitymanagement />} />
+                <Route
+                  path="/facilitymanagement"
+                  element={<Facilitymanagement />}
+                />
                 <Route path="/note" element={<Note />} />
                 <Route path="/expense" element={<Expense />} />
                 <Route path="/income" element={<Income />} />
                 <Route path="/other-income" element={<OtherIncome />} />
                 <Route path="/ownerform" element={<OwnerForm />} />
+                <Route path="/ownerform/edit" element={<OwnerForm />} />
                 <Route path="/tenantform" element={<TenantForm />} />
-                <Route path="/residentmanagement" element={<ResidentManagement />} />
+                <Route path="/tenantform/edit" element={<TenantForm />} />
+                <Route
+                  path="/residentmanagement"
+                  element={<ResidentManagement />}
+                />
                 <Route path="/visitortracking" element={<VisitorTracking />} />
-                <Route path="/emergencymanagement" element={<EmergencyManagement />} />
+                <Route
+                  path="/emergencymanagement"
+                  element={<EmergencyManagement />}
+                />
               </>
             )}
           </Routes>

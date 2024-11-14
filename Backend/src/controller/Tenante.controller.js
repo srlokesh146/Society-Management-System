@@ -248,31 +248,15 @@ exports.updateTenantData = async (req, res) => {
       ? await uploadAndDeleteLocal(req.files?.Rent_Agreement)
       : null;
 
-    if (
-      !Owner_Full_name ||
-      !Owner_Phone ||
-      !Owner_Address ||
-      !Full_name ||
-      !Phone_number ||
-      !Email_address ||
-      !Age ||
-      !Gender ||
-      !Wing ||
-      !Unit ||
-      !Relation ||
-      !profileImage ||
-      !Adhar_front ||
-      !Adhar_back ||
-      !Address_proof ||
-      !Rent_Agreement
-    ) {
+
+    const existingTenant = await Tenante.findOne({ Wing, Unit });
+    if (existingTenant && existingTenant._id.toString() !== id) {
       return res.status(400).json({
         success: false,
-        message: "All fields are required",
+        message: "An tenant already exists with this Wing and Unit.",
       });
     }
 
-    
 
     const tenant = await Tenante.findById(id);
     if (!tenant) {
@@ -303,13 +287,11 @@ exports.updateTenantData = async (req, res) => {
     if (Rent_Agreement) tenant.Rent_Agreement = Rent_Agreement;
 
     if (Member_Counting) {
-      const members = JSON.parse(Member_Counting);
-      tenant.Member_Counting = members;
+      tenant.Member_Counting = Member_Counting;
     }
 
     if (Vehicle_Counting) {
-      const vehicles = JSON.parse(Vehicle_Counting);
-      tenant.Vehicle_Counting = vehicles;
+      tenant.Vehicle_Counting = Vehicle_Counting;
     }
 
     await tenant.save();

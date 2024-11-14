@@ -145,7 +145,6 @@ exports.login = async (req, res) => {
     } else {
       query = { $or: [{ Phone: EmailOrPhone }, { MailOrPhone: EmailOrPhone }] }; // It's a phone number
     }
-
     const user = await User.findOne(query);
     const guard = await Guard.findOne(query);
 
