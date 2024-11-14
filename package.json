@@ -1,6 +1,20 @@
 {
   "dependencies": {
     "cloudinary": "^2.5.1",
+    "concurrently": "^9.1.0",
     "tailwind-scrollbar": "^3.1.0"
-  }
+  },
+  "name": "society-management-system",
+  "version": "1.0.0",
+  "description": "A full stack project on Society management system.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "Client": " cd Frontend && npm run dev",
+    "server": "cd Backend && npm start",
+    "dev": "concurrently \"npm run  Client \" \"npm run server\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

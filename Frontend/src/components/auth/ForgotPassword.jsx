@@ -72,7 +72,7 @@ const ForgotPassword = () => {
             <div className="mt-4 text-center">
               <button
                 className="hover:underline text-[#E74C3C] leading-7"
-                onClick={() => navigate("/login")}
+                onClick={() => navigate("/")}
               >
                 Back to Login
               </button>

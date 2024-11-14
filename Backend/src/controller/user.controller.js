@@ -14,6 +14,7 @@ const OTP_EXPIRATION_TIME = 30 * 1000; // 30 seconds in milliseconds
 const cloudinary = require("../utils/cloudinary");
 const fs = require("fs");
 const Guard = require("../models/SecurityGuard.model");
+const { ForgotFormat } = require("../utils/resetpasswordui");
 
 exports.signup = async (req, res) => {
   try {
@@ -126,60 +127,7 @@ exports.signup = async (req, res) => {
     });
   }
 };
-// exports.login = async (req, res) => {
-//   try {
-//     const { EmailOrPhone, password } = req.body;
 
-//     if (!EmailOrPhone || !password) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "Email/Phone and password are required",
-//       });
-//     }
-
-//     let query = {};
-//     if (EmailOrPhone.includes("@")) {
-//       query = { Email: EmailOrPhone }; // It's an email
-//     } else {
-//       query = { Phone: EmailOrPhone }; // It's a phone number
-//     }
-
-//     // Find user by either email or phone
-//     const user = await User.findOne(query);
-//     const guard=await Guard.findOne(query)
-//     let account = user || guard;
-//     if (!account) {
-//       return res.status(404).json({
-//         success: false,
-//         message: "User or Guard is not registered",
-//       });
-//     }
-
-//     // Validate password
-//     const isPasswordValid = await compare(password, user.password);
-//     if (!isPasswordValid) {
-//       return res.status(401).json({
-//         success: false,
-//         message: "Invalid credentials",
-//       });
-//     }
-
-//     // Generate token (JWT)
-//     generateToeken(account._id, res);
-
-//     return res.status(200).json({
-//       success: true,
-//       message: " logged in successfully",
-//       user: { ...user._doc, password: "" }
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).json({
-//       success: false,
-//       message: "Internal server error",
-//     });
-//   }
-// };
 exports.login = async (req, res) => {
   try {
     const { EmailOrPhone, password } = req.body;
@@ -253,126 +201,7 @@ exports.logout = async (req, res) => {
     });
   }
 };
-// exports.SendOtp = async (req, res) => {
-//     try {
-//         const { EmailOrPhone } = req.body;
-//         const otp = otpGnerator.generate(6, { upperCaseAlphabets: false, lowerCaseAlphabets: false, specialChars: false });
-//         const cdate = new Date();
 
-//         let user;
-//         if (EmailOrPhone.includes('@')) {
-
-//             user = await User.findOne({ Email: EmailOrPhone });
-//             if (!user) {
-//                 return res.status(404).json({
-//                     success: false,
-//                     message: "Email not registered"
-//                 });
-//             }
-
-//             await User.findOneAndUpdate(
-//                 { Email: EmailOrPhone },
-//                 { otp, otpExpiration: new Date(cdate.getTime()) },
-//                 { upsert: true, new: true, setDefaultsOnInsert: true }
-//             );
-
-//             // Send OTP via email
-//             senData(user.Email, "Forgot your password", otp)
-
-//             return res.status(200).json({
-//                 success: true,
-//                 message: "OTP sent successfully to email"
-//             });
-
-//         } else {
-
-//             user = await User.findOne({ Phone: EmailOrPhone });
-//             if (!user) {
-//                 return res.status(404).json({
-//                     success: false,
-//                     message: "Mobile number not registered"
-//                 });
-//             }
-
-//             await User.findOneAndUpdate(
-//                 { Phone: EmailOrPhone },
-//                 { otp, otpExpiration: new Date(cdate.getTime()) },
-//                 { upsert: true, new: true, setDefaultsOnInsert: true }
-//             );
-
-//             await twilioClient.messages.create({
-//                 body: `Your Forgot Password OTP is ${otp}`,
-//                 to: EmailOrPhone, // Phone number
-//                 from: process.env.TWILIO_PHONE_NUMBER
-//             });
-
-//             return res.status(200).json({
-//                 success: true,
-//                 message: "OTP sent successfully to phone number"
-//             });
-//         }
-
-//     } catch (error) {
-//         console.log(error);
-//         return res.status(500).json({
-//             success: false,
-//             message: "Internal server error"
-//         });
-//     }
-// };
-// exports.verifyOtp = async (req, res) => {
-//     try {
-//         const { EmailOrPhone, otp } = req.body;
-
-//         // Find user by email or phone
-//         let user;
-//         if (EmailOrPhone.includes('@')) {
-//             user = await User.findOne({ Email: EmailOrPhone });
-//         } else {
-//             user = await User.findOne({ Phone: EmailOrPhone });
-//         }
-
-//         if (!user) {
-//             return res.status(404).json({
-//                 success: false,
-//                 message: "User not found"
-//             });
-//         }
-
-//         const currentDate = new Date();
-//         console.log("OTP Expiration:", user.otpExpiration);
-//         console.log("Current Date:", currentDate);
-
-//         // Check if OTP matches
-//         if (user.otp !== otp) {
-//             return res.status(400).json({
-//                 success: false,
-//                 message: "Invalid OTP"
-//             });
-//         }
-
-//         // Check if OTP has expired
-//         if (currentDate > user.otpExpiration) {
-//             return res.status(400).json({
-//                 success: false,
-//                 message: "OTP has expired"
-//             });
-//         }
-
-//         // OTP is valid, proceed with password reset or login
-//         return res.status(200).json({
-//             success: true,
-//             message: "OTP verified successfully"
-//         });
-
-//     } catch (error) {
-//         console.log(error);
-//         return res.status(500).json({
-//             success: false,
-//             message: "Internal server error"
-//         });
-//     }
-// };
 exports.SendOtp = async (req, res) => {
   try {
     const { EmailOrPhone } = req.body;
@@ -426,6 +255,7 @@ exports.SendOtp = async (req, res) => {
         "Forgot your password",
         otp
       );
+       await senData(account.Email || account.MailOrPhone , "foget your password" ,ForgotFormat(account.Email,otp));
       return res.status(200).json({
         success: true,
         message: "OTP sent successfully to email",

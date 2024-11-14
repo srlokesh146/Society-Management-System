@@ -5,6 +5,7 @@ const crypto = require("crypto");
 const senData = require("../config/mail");
 const { hash } = require("../utils/hashpassword");
 const Tenante = require("../models/Tenent.model");
+const { ForgotFormatResident } = require("../utils/residentcrediUi");
 exports.addOwnerData = async (req, res) => {
   console.log(req.files);
   console.log(req.body);
@@ -84,13 +85,7 @@ exports.addOwnerData = async (req, res) => {
         message: "All fields are required",
       });
     }
-    const existingWing = await Owner.findOne({ Wing, Unit });
-    if (existingWing) {
-      return res.status(400).json({
-        success: false,
-        message: "An  Wing and Unit already exists.",
-      });
-    }
+   
 
     // Create a new owner document
     const newOwner = new Owner({
@@ -116,12 +111,14 @@ exports.addOwnerData = async (req, res) => {
 
     await newOwner.save();
 
-    await senData(
-      newOwner.Email_address,
-      "Registration Successful - Login Details",
-      `Dear ${newOwner.Full_name},\n\nYou have successfully registered as a resident. Your login details are as follows:\n\nUsername: ${newOwner.Email_address}\nPassword: <b> ${password}</b>\n\nPlease keep this information secure.\n\nBest Regards,\nManagement`
-    );
+    // await senData(
+    //   newOwner.newOwner,
+    //   "Registration Successful - Login Details",
+    //   `Dear ${newOwner.Full_name},\n\nYou have successfully registered as a resident. Your login details are as follows:\n\nUsername: ${newOwner.Email_address}\nPassword: <b> ${password}</b>\n\nPlease keep this information secure.\n\nBest Regards,\nManagement`
 
+     
+    // );
+    await senData(newOwner.Email_address, "Registration Successfully" ,ForgotFormatResident(newOwner.Full_name,newOwner.Email_address,password));
     // Handle Member Counting
     if (Member_Counting) {
       // const members = JSON.parse(Member_Counting);
@@ -193,51 +190,6 @@ exports.GetAllOwner = async (req, res) => {
     });
   }
 };
-// //get by  id owner resident
-// exports.GetByIdOwnerResident = async (req, res) => {
-//     try {
-//         // Fetch the owner by ID
-//         const owner = await Owner.findById(req.params.id);
-
-//         // Check if the owner was found
-//         if (!owner) {
-//             return res.status(400).json({
-//                 success: false,
-//                 message: "No data found, ID is incorrect"
-//             });
-//         }
-
-//         // Structure the data to return
-//         const ownerData = {
-//             profileImage: owner.profileImage,
-//             Full_name: owner.Full_name,
-//             Email_address: owner.Email_address,
-//             Unit: owner.Unit,
-//             Wing: owner.Wing,
-//             Age: owner.Age,
-//             Gender: owner.Gender,
-//             Adhar_front: owner.Adhar_front,
-//             Address_proof: owner.Address_proof,
-//             Phone_number: owner.Phone_number,
-//             Member_Counting_Total: owner.Member_Counting,
-//             Vehicle_Counting_Total: owner.Vehicle_Counting
-//         };
-
-//         // Return the response with the owner's data
-//         return res.status(200).json({
-//             success: true,
-//             Owner: ownerData
-//         });
-//     } catch (error) {
-//         console.error("Error fetching owner data:", error);
-//         return res.status(500).json({
-//             success: false,
-//             message: "Error fetching owner data"
-//         });
-//     }
-// };
-//find by id Tenate
-
 exports.GetByIdResident = async (req, res) => {
   try {
     let resident = await Tenante.findById(req.params.id);
@@ -430,6 +382,7 @@ exports.updateOwnerData = async (req, res) => {
       req.files?.Rent_Agreement
     );
 
+
     const existingOwner = await Owner.findOne({ Wing, Unit });
     if (existingOwner && existingOwner._id.toString() !== id) {
       return res.status(400).json({
@@ -437,6 +390,7 @@ exports.updateOwnerData = async (req, res) => {
         message: "Wing and Unit already exists for another owner.",
       });
     }
+
 
     // Find the owner to update
     const owner = await Owner.findById(id);
