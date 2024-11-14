@@ -1,32 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { FaCamera, FaImage, FaUpload, FaCheckCircle } from 'react-icons/fa';
+import React, { useState, useEffect } from "react";
+import { FaCamera, FaImage, FaUpload, FaCheckCircle } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
-import OwnerForm from './OwnerForm';
-import { useNavigate } from 'react-router-dom';
+import OwnerForm from "./OwnerForm";
+import { useNavigate } from "react-router-dom";
+import { CreateTenant } from "../services/ownerTenantService";
+import toast from "react-hot-toast";
 
 export default function TeantForm() {
   const [formData, setFormData] = useState({
-    members: [],
-    vehicles: [],
-    profileImage:null,
-    Full_name: '',
-    Phone_number: '',
-    Email_address: '',
-    Age: '',
-    Gender: '',
-    Wing: '',
-    Unit: '',
-    Relation: '',
-    aadharFront: null,
-    aadharBack: null,
-    addressProof: null,
-    rentAgreement: null,
+    Owner_Full_name: "",
+    Owner_Phone: "",
+    Owner_Address: "",
+    Member_Counting: [],
+    Vehicle_Counting: [],
+    profileImage: null,
+    Full_name: "",
+    Phone_number: "",
+    Email_address: "",
+    Age: "",
+    Gender: "",
+    Wing: "",
+    Unit: "",
+    Relation: "",
+    Adhar_front: null,
+    Adhar_back: null,
+    Address_proof: null,
+    Rent_Agreement: null,
   });
 
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false); // Track submission attempts
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('tenant');
+  const [activeTab, setActiveTab] = useState("tenant");
   const [memberCount, setMemberCount] = useState(0);
   const [vehicleCount, setVehicleCount] = useState(0);
   const [isFormValid, setIsFormValid] = useState(false);
@@ -35,35 +40,75 @@ export default function TeantForm() {
   const navigate = useNavigate();
 
   const handleTenantClick = () => {
-    setActiveTab('owner');
-    navigate('/ownerform');
+    setActiveTab("owner");
+    navigate("/ownerform");
   };
-  const handleCreate = () => {
+  const handleCreate = async () => {
     setSubmitted(true); // Set submitted to true on button click
     let newErrors = {};
 
     // Validate form data
-    if (!formData.profileImage) newErrors.profileImage = "profileImage is required.";
+    if (!formData.Owner_Full_name)
+      newErrors.Owner_Full_name = "Owner Full name is required.";
+    if (!formData.Owner_Phone)
+      newErrors.Owner_Phone = "Owner Phone number is required.";
+    if (!formData.Owner_Address)
+      newErrors.Owner_Address = "Owner Address is required.";
+    if (!formData.profileImage)
+      newErrors.profileImage = "profileImage is required.";
     if (!formData.Full_name) newErrors.Full_name = "Full Name is required.";
-    if (!formData.Phone_number) newErrors.Phone_number = "Phone Number is required.";
-    if (!formData.Email_address) newErrors.Email_address = "Email Address is required.";
+    if (!formData.Phone_number)
+      newErrors.Phone_number = "Phone Number is required.";
+    if (!formData.Email_address)
+      newErrors.Email_address = "Email Address is required.";
     if (!formData.Age) newErrors.Age = "Age is required.";
     if (!formData.Gender) newErrors.Gender = "Gender is required.";
     if (!formData.Wing) newErrors.Wing = "Wing is required.";
     if (!formData.Unit) newErrors.Unit = "Unit is required.";
     if (!formData.Relation) newErrors.Relation = "Relation is required.";
-    if (!formData.aadharFront) newErrors.aadharFront = "Aadhar Front is required.";
-    if (!formData.aadharBack) newErrors.aadharBack = "Aadhar Back is required.";
-    if (!formData.addressProof) newErrors.addressProof = "Address Proof is required.";
-    if (!formData.rentAgreement) newErrors.rentAgreement = "Rent Agreement is required.";
+    if (!formData.Adhar_front)
+      newErrors.Adhar_front = "Aadhar Front is required.";
+    if (!formData.Adhar_back) newErrors.Adhar_back = "Aadhar Back is required.";
+    if (!formData.Address_proof)
+      newErrors.Address_proof = "Address Proof is required.";
+    if (!formData.Rent_Agreement)
+      newErrors.Rent_Agreement = "Rent Agreement is required.";
 
     setErrors(newErrors);
 
-    // If no errors, proceed with form submission logic
     if (Object.keys(newErrors).length === 0) {
-      // Handle successful form submission
-      console.log("Form submitted successfully:", formData);
-      // Reset form or navigate as needed
+      console.log(formData);
+      try {
+        const response = await CreateTenant(formData);
+        toast.success(response.data.message);
+        navigate("/residentmanagement");
+      } catch (error) {
+        toast.error(error.response.data.message);
+      } finally {
+        setFormData({
+          Owner_Full_name: "",
+          Owner_Phone: "",
+          Owner_Address: "",
+          Member_Counting: [],
+          Vehicle_Counting: [],
+          profileImage: null,
+          Full_name: "",
+          Phone_number: "",
+          Email_address: "",
+          Age: "",
+          Gender: "",
+          Wing: "",
+          Unit: "",
+          Relation: "",
+          Adhar_front: null,
+          Adhar_back: null,
+          Address_proof: null,
+          Rent_Agreement: null,
+        });
+        setMemberCount(0);
+        setVehicleCount(0);
+        setProfilePhotoPreview(null);
+      }
     }
   };
   const toggleDropdown = () => {
@@ -73,7 +118,7 @@ export default function TeantForm() {
   useEffect(() => {
     const validateForm = () => {
       const requiredFields = {
-        profileImage:formData.profileImage,
+        profileImage: formData.profileImage,
         fullName: formData.Full_name, // Corrected key
         phone: formData.Phone_number, // Corrected key
         age: formData.Age, // Corrected key
@@ -81,13 +126,13 @@ export default function TeantForm() {
         wing: formData.Wing, // Corrected key
         unit: formData.Unit, // Corrected key
         relation: formData.Relation, // Corrected key
-        aadharFront: formData.aadharFront,
-        aadharBack: formData.aadharBack,
-        addressProof: formData.addressProof,
+        aadharFront: formData.Adhar_front,
+        aadharBack: formData.Adhar_back,
+        addressProof: formData.Address_proof,
       };
 
-      const isValid = Object.values(requiredFields).every(value =>
-        value !== null && value !== undefined && value !== ''
+      const isValid = Object.values(requiredFields).every(
+        (value) => value !== null && value !== undefined && value !== ""
       );
 
       setIsFormValid(isValid);
@@ -99,9 +144,9 @@ export default function TeantForm() {
   // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -109,9 +154,9 @@ export default function TeantForm() {
   const handleFileUpload = (e, fieldName) => {
     const file = e.target.files[0];
     if (file) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        [fieldName]: file
+        [fieldName]: file,
       }));
     }
   };
@@ -129,36 +174,45 @@ export default function TeantForm() {
     }
   };
   const handleMemberChange = (index, field, value) => {
-    const updatedMembers = [...formData.members];
+    const updatedMembers = [...formData.Member_Counting];
     if (!updatedMembers[index]) {
       updatedMembers[index] = {};
     }
     updatedMembers[index][field] = value;
-    setFormData({ ...formData, members: updatedMembers });
+    setFormData({ ...formData, Member_Counting: updatedMembers });
   };
 
   const handleVehicleChange = (index, field, value) => {
-    const updatedVehicles = [...formData.vehicles];
+    const updatedVehicles = [...formData.Vehicle_Counting];
     if (!updatedVehicles[index]) {
       updatedVehicles[index] = {};
     }
     updatedVehicles[index][field] = value;
-    setFormData({ ...formData, vehicles: updatedVehicles });
+    setFormData({ ...formData, Vehicle_Counting: updatedVehicles });
   };
+
   return (
     <div className="min-h-screen p-4 bg-gray-100">
       {/* Tab Buttons */}
       <div className="flex ">
         <button
-          className={`px-6 py-2 rounded-t-lg ${activeTab === 'owner' ? 'bg-[#FF6B07] text-white' : 'bg-white text-gray-600'}`}
-          onClick={() => handleTenantClick('owner')}
+          className={`px-6 py-2 rounded-t-lg ${
+            activeTab === "owner"
+              ? "bg-[#FF6B07] text-white"
+              : "bg-white text-gray-600"
+          }`}
+          onClick={() => handleTenantClick("owner")}
         >
           Owner
         </button>
         <button
-          className={`px-6 py-2 rounded-t-lg ${activeTab === 'tenant' ? 'bg-[#FF6B07] text-white' : 'bg-white text-gray-600'}`}
+          className={`px-6 py-2 rounded-t-lg ${
+            activeTab === "tenant"
+              ? "bg-[#FF6B07] text-white"
+              : "bg-white text-gray-600"
+          }`}
           onClick={() => {
-            setActiveTab('tenant');
+            setActiveTab("tenant");
           }}
         >
           Tenant
@@ -167,33 +221,39 @@ export default function TeantForm() {
 
       <div className="grid grid-cols-1 bg-white rounded-lg p-6 shadow-md md:grid-cols-3 gap-4 mb-6">
         <div>
-          <label className="block text-sm font-lighter text-black-500">Owner Full Name*</label>
+          <label className="block text-sm font-lighter text-black-500">
+            Owner Full Name*
+          </label>
           <input
             type="text"
             name="Owner_Full_name"
-            value={formData.ownerFullName}
+            value={formData.Owner_Full_name}
             onChange={handleInputChange}
             placeholder="Enter Full Name"
             className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
           />
         </div>
         <div>
-          <label className="block text-sm font-lighter text-black-500">Owner Phone*</label>
+          <label className="block text-sm font-lighter text-black-500">
+            Owner Phone*
+          </label>
           <input
             type="tel"
             name="Owner_Phone"
-            value={formData.ownerPhone}
+            value={formData.Owner_Phone}
             onChange={handleInputChange}
             placeholder="+91"
             className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
           />
         </div>
         <div>
-          <label className="block text-sm font-lighter text-black-500">Owner Address*</label>
+          <label className="block text-sm font-lighter text-black-500">
+            Owner Address*
+          </label>
           <input
             type="text"
             name="Owner_Address"
-            value={formData.ownerAddress}
+            value={formData.Owner_Address}
             onChange={handleInputChange}
             placeholder="Enter Address"
             className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
@@ -208,7 +268,7 @@ export default function TeantForm() {
             <div className="relative w-24 h-24">
               <input
                 type="file"
-                name='profileImage'
+                name="profileImage"
                 accept="image/*"
                 onChange={handleProfilePhotoChange}
                 className="hidden"
@@ -244,7 +304,9 @@ export default function TeantForm() {
             {/* First Row - 3 inputs */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-lighter text-black-500">Full Name*</label>
+                <label className="block text-sm font-lighter text-black-500">
+                  Full Name*
+                </label>
                 <input
                   type="text"
                   name="Full_name"
@@ -253,10 +315,14 @@ export default function TeantForm() {
                   placeholder="Enter Full Name"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
-                {submitted && errors.Full_name && <p className="text-red-500">{errors.Full_name}</p>}
+                {submitted && errors.Full_name && (
+                  <p className="text-red-500">{errors.Full_name}</p>
+                )}
               </div>
               <div>
-                <label className="block text-sm font-lighter text-black-500">Phone Number*</label>
+                <label className="block text-sm font-lighter text-black-500">
+                  Phone Number*
+                </label>
                 <input
                   type="tel"
                   name="Phone_number"
@@ -265,10 +331,14 @@ export default function TeantForm() {
                   placeholder="+91"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
-                {submitted && errors.Phone_number && <p className="text-red-500">{errors.Phone_number}</p>}
+                {submitted && errors.Phone_number && (
+                  <p className="text-red-500">{errors.Phone_number}</p>
+                )}
               </div>
               <div>
-                <label className="block text-sm font-lighter text-black-500">Email Address</label>
+                <label className="block text-sm font-lighter text-black-500">
+                  Email Address
+                </label>
                 <input
                   type="email"
                   name="Email_address"
@@ -277,14 +347,18 @@ export default function TeantForm() {
                   placeholder="Enter Email Address"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
-                {submitted && errors.Email_address && <p className="text-red-500">{errors.Email_address}</p>}
+                {submitted && errors.Email_address && (
+                  <p className="text-red-500">{errors.Email_address}</p>
+                )}
               </div>
             </div>
 
             {/* Second Row - 5 inputs */}
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mt-4">
               <div>
-                <label className="block text-sm font-lighter text-black-500">Age*</label>
+                <label className="block text-sm font-lighter text-black-500">
+                  Age*
+                </label>
                 <input
                   type="number"
                   name="Age"
@@ -293,14 +367,21 @@ export default function TeantForm() {
                   placeholder="Enter Age"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
-                {submitted && errors.Age && <p className="text-red-500">{errors.Age}</p>}
+                {submitted && errors.Age && (
+                  <p className="text-red-500">{errors.Age}</p>
+                )}
               </div>
               <div className="relative">
-                <label className="block text-sm font-lighter text-black-500">Gender*</label>
+                <label className="block text-sm font-lighter text-black-500">
+                  Gender*
+                </label>
                 <div onClick={toggleDropdown} className="cursor-pointer">
                   <div className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200 bg-white flex justify-between items-center">
                     <span>{formData.Gender || "Select Gender"}</span>
-                    <IoIosArrowDown className="text-bold mt-1 text-black pointer-events-none" size={16} />
+                    <IoIosArrowDown
+                      className="text-bold mt-1 text-black pointer-events-none"
+                      size={16}
+                    />
                   </div>
                 </div>
 
@@ -311,7 +392,7 @@ export default function TeantForm() {
                         type="radio"
                         name="Gender"
                         value="male"
-                        checked={formData.Gender === 'male'}
+                        checked={formData.Gender === "male"}
                         onChange={handleInputChange}
                         className="mr-2 appearance-none checked:bg-orange-400 checked:border-transparent rounded-full border border-gray-400 w-4 h-4 "
                       />
@@ -322,7 +403,7 @@ export default function TeantForm() {
                         type="radio"
                         name="Gender"
                         value="female"
-                        checked={formData.Gender === 'female'}
+                        checked={formData.Gender === "female"}
                         onChange={handleInputChange}
                         className="mr-2 appearance-none checked:bg-orange-400 checked:border-transparent rounded-full border border-gray-400 w-4 h-4"
                       />
@@ -333,7 +414,7 @@ export default function TeantForm() {
                         type="radio"
                         name="Gender"
                         value="other"
-                        checked={formData.Gender === 'other'}
+                        checked={formData.Gender === "other"}
                         onChange={handleInputChange}
                         className="mr-2 appearance-none checked:bg-orange-400 checked:border-transparent rounded-full border border-gray-400 w-4 h-4"
                       />
@@ -341,10 +422,14 @@ export default function TeantForm() {
                     </label>
                   </div>
                 )}
-                {submitted && errors.Gender && <p className="text-red-500">{errors.Gender}</p>}
+                {submitted && errors.Gender && (
+                  <p className="text-red-500">{errors.Gender}</p>
+                )}
               </div>
               <div>
-                <label className="block text-sm font-lighter text-black-500">Wing*</label>
+                <label className="block text-sm font-lighter text-black-500">
+                  Wing*
+                </label>
                 <input
                   type="text"
                   name="Wing"
@@ -353,10 +438,14 @@ export default function TeantForm() {
                   placeholder="Enter Wing"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
-                {submitted && errors.Wing && <p className="text-red-500">{errors.Wing}</p>}
+                {submitted && errors.Wing && (
+                  <p className="text-red-500">{errors.Wing}</p>
+                )}
               </div>
               <div>
-                <label className="block text-sm font-lighter text-black-500">Unit*</label>
+                <label className="block text-sm font-lighter text-black-500">
+                  Unit*
+                </label>
                 <input
                   type="text"
                   name="Unit"
@@ -365,10 +454,14 @@ export default function TeantForm() {
                   placeholder="Enter Unit"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
-                {submitted && errors.Unit && <p className="text-red-500">{errors.Unit}</p>}
+                {submitted && errors.Unit && (
+                  <p className="text-red-500">{errors.Unit}</p>
+                )}
               </div>
               <div>
-                <label className="block text-sm font-lighter text-black-500">Relation*</label>
+                <label className="block text-sm font-lighter text-black-500">
+                  Relation*
+                </label>
                 <input
                   type="text"
                   name="Relation"
@@ -377,7 +470,9 @@ export default function TeantForm() {
                   placeholder="Enter Relation"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
-                {submitted && errors.Relation && <p className="text-red-500">{errors.Relation}</p>}
+                {submitted && errors.Relation && (
+                  <p className="text-red-500">{errors.Relation}</p>
+                )}
               </div>
             </div>
 
@@ -391,9 +486,9 @@ export default function TeantForm() {
                 <div className="relative">
                   <input
                     type="file"
-                    name='Adhar_front:'
+                    name="Adhar_front"
                     accept=".pdf,.jpg,.jpeg,.png"
-                    onChange={(e) => handleFileUpload(e, 'aadharFront')}
+                    onChange={(e) => handleFileUpload(e, "Adhar_front")}
                     className="hidden"
                     id="aadharFrontInput"
                   />
@@ -401,16 +496,23 @@ export default function TeantForm() {
                     htmlFor="aadharFrontInput"
                     className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
                   >
-                    {formData.aadharFront ? (
+                    {formData.Adhar_front ? (
                       <div className="text-sm text-green-600">
                         <FaCheckCircle className="mx-auto mb-2" size={20} />
-                        {formData.aadharFront.name}
+                        {formData.Adhar_front.name}
                       </div>
                     ) : (
                       <>
-                        <FaImage className="mx-auto text-gray-400 mb-2" size={20} />
-                        <p className="text-sm text-blue-500">Upload a file or drag and drop</p>
-                        <p className="text-xs text-gray-400">PDF, JPG, PNG up to 10MB</p>
+                        <FaImage
+                          className="mx-auto text-gray-400 mb-2"
+                          size={20}
+                        />
+                        <p className="text-sm text-blue-500">
+                          Upload a file or drag and drop
+                        </p>
+                        <p className="text-xs text-gray-400">
+                          PDF, JPG, PNG up to 10MB
+                        </p>
                       </>
                     )}
                   </label>
@@ -425,9 +527,9 @@ export default function TeantForm() {
                 <div className="relative">
                   <input
                     type="file"
-                    name='Adhar_back'
+                    name="Adhar_back"
                     accept=".pdf,.jpg,.jpeg,.png"
-                    onChange={(e) => handleFileUpload(e, 'aadharBack')}
+                    onChange={(e) => handleFileUpload(e, "Adhar_back")}
                     className="hidden"
                     id="aadharBackInput"
                   />
@@ -435,16 +537,23 @@ export default function TeantForm() {
                     htmlFor="aadharBackInput"
                     className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
                   >
-                    {formData.aadharBack ? (
+                    {formData.Adhar_back ? (
                       <div className="text-sm text-green-600">
                         <FaCheckCircle className="mx-auto mb-2" size={20} />
-                        {formData.aadharBack.name}
+                        {formData.Adhar_back.name}
                       </div>
                     ) : (
                       <>
-                        <FaImage className="mx-auto text-gray-400 mb-2" size={20} />
-                        <p className="text-sm text-blue-500">Upload a file or drag and drop</p>
-                        <p className="text-xs text-gray-400">PDF, JPG, PNG up to 10MB</p>
+                        <FaImage
+                          className="mx-auto text-gray-400 mb-2"
+                          size={20}
+                        />
+                        <p className="text-sm text-blue-500">
+                          Upload a file or drag and drop
+                        </p>
+                        <p className="text-xs text-gray-400">
+                          PDF, JPG, PNG up to 10MB
+                        </p>
                       </>
                     )}
                   </label>
@@ -459,9 +568,9 @@ export default function TeantForm() {
                 <div className="relative">
                   <input
                     type="file"
-                    name='Address_proof'
+                    name="Address_proof"
                     accept=".pdf,.jpg,.jpeg,.png"
-                    onChange={(e) => handleFileUpload(e, 'addressProof')}
+                    onChange={(e) => handleFileUpload(e, "Address_proof")}
                     className="hidden"
                     id="addressProofInput"
                   />
@@ -469,16 +578,23 @@ export default function TeantForm() {
                     htmlFor="addressProofInput"
                     className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
                   >
-                    {formData.addressProof ? (
+                    {formData.Address_proof ? (
                       <div className="text-sm text-green-600">
                         <FaCheckCircle className="mx-auto mb-2" size={20} />
-                        {formData.addressProof.name}
+                        {formData.Address_proof.name}
                       </div>
                     ) : (
                       <>
-                        <FaImage className="mx-auto text-gray-400 mb-2" size={20} />
-                        <p className="text-sm text-blue-500">Upload a file or drag and drop</p>
-                        <p className="text-xs text-gray-400">PDF, JPG, PNG up to 10MB</p>
+                        <FaImage
+                          className="mx-auto text-gray-400 mb-2"
+                          size={20}
+                        />
+                        <p className="text-sm text-blue-500">
+                          Upload a file or drag and drop
+                        </p>
+                        <p className="text-xs text-gray-400">
+                          PDF, JPG, PNG up to 10MB
+                        </p>
                       </>
                     )}
                   </label>
@@ -493,9 +609,9 @@ export default function TeantForm() {
                 <div className="relative">
                   <input
                     type="file"
-                    name='Rent_Agreement'
+                    name="Rent_Agreement"
                     accept=".pdf,.jpg,.jpeg,.png"
-                    onChange={(e) => handleFileUpload(e, 'rentAgreement')}
+                    onChange={(e) => handleFileUpload(e, "Rent_Agreement")}
                     className="hidden"
                     id="rentAgreementInput"
                   />
@@ -503,187 +619,263 @@ export default function TeantForm() {
                     htmlFor="rentAgreementInput"
                     className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
                   >
-                    {formData.rentAgreement ? (
+                    {formData.Rent_Agreement ? (
                       <div className="text-sm text-green-600">
                         <FaCheckCircle className="mx-auto mb-2" size={20} />
-                        {formData.rentAgreement.name}
+                        {formData.Rent_Agreement.name}
                       </div>
                     ) : (
                       <>
-                        <FaImage className="mx-auto text-gray-400 mb-2" size={20} />
-                        <p className="text-sm text-blue-500">Upload a file or drag and drop</p>
-                        <p className="text-xs text-gray-400">PDF, JPG, PNG up to 10MB</p>
+                        <FaImage
+                          className="mx-auto text-gray-400 mb-2"
+                          size={20}
+                        />
+                        <p className="text-sm text-blue-500">
+                          Upload a file or drag and drop
+                        </p>
+                        <p className="text-xs text-gray-400">
+                          PDF, JPG, PNG up to 10MB
+                        </p>
                       </>
                     )}
                   </label>
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
       </div>
       <div>
-                {/* Member and Vehicle Section */}
-           <div className="flex flex-col gap-6 mt-8">
-              {/* Member Section */}
-              <div className="bg-white rounded-lg p-4">
-                <div className="flex justify-between items-center mb-4">
-                  <label className="text-sm text-black-700 font-medium">
-                    Member Counting <span className='text-gray-500'> : (Other Members)</span>
-                  </label>
-                  <div className="relative">
-                    <select
-                      className="w-32 h-10 px-3 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-black-600 focus:outline-none appearance-none bg-white cursor-pointer"
-                      onChange={(e) => setMemberCount(Number(e.target.value))}
-                    >
-                      <option value="0">Select Member</option>
-                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
-                        <option key={num} value={num}>{num}</option>
-                      ))}
-                    </select>
-                    <IoIosArrowDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
-                  </div>
-                </div>
-
-                {/* Member Form Fields */}
-                {[...Array(memberCount)].map((_, index) => (
-                  <div key={index} className="grid grid-cols-1 md:grid-cols-6 gap-4 mt-4 items-start">
-                    <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">Full Name*</label>
-                      <input
-                        name="Full_Name"
-                        type="text"
-                        placeholder="Enter Full Name"
-                        onChange={(e) => handleMemberChange(index, 'fullName', e.target.value)}
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">Phone No*</label>
-                      <input
-                        name="Phone_number"
-                        type="tel"
-                        placeholder="+91"
-                        onChange={(e) => handleMemberChange(index, 'phone', e.target.value)}
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">Email</label>
-                      <input
-                        name="Email_address"
-                        type="email"
-                        placeholder="Enter Email Address"
-                        onChange={(e) => handleMemberChange(index, 'email', e.target.value)}
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">Age*</label>
-                      <input
-                        name="Age"
-                        type="number"
-                        placeholder="Enter Age"
-                        onChange={(e) => handleMemberChange(index, 'age', e.target.value)}
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
-                      />
-                    </div>
-                    <div className="relative">
-                      <label className="block text-xs text-black-500 font-lighter mb-1">Gender*</label>
-                      <select className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
-                       onChange={(e) => handleMemberChange(index, 'gender', e.target.value)}
-                      >
-                        <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                      </select>
-                      <IoIosArrowDown className="absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
-                    </div>
-                    <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">Relation*</label>
-                      <input
-                        name="Relation"
-                        type="text"
-                        placeholder="Enter Relation"
-                        onChange={(e) => handleMemberChange(index, 'relation', e.target.value)}
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Vehicle Section */}
-              <div className="bg-white rounded-lg p-4">
-                <div className="flex justify-between items-center mb-4">
-                  <label className="text-sm text-black font-medium">Vehicle Counting :</label>
-                  <div className="relative">
-                    <select
-                      className="w-32 h-10 px-3 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-black-600 focus:outline-none appearance-none bg-white cursor-pointer"
-                      onChange={(e) => setVehicleCount(Number(e.target.value))}
-                    >
-                      <option value="0">Select Vehicle</option>
-                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
-                        <option key={num} value={num}>{num}</option>
-                      ))}
-                    </select>
-                    <IoIosArrowDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
-                  </div>
-                </div>
-
-                {/* Vehicle Form Fields */}
-                {[...Array(vehicleCount)].map((_, index) => (
-                  <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                    <div className="relative">
-                      <label className="block text-xs text-black-500 font-lighter mb-1">Vehicle Type*</label>
-                      <select className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
-                        onChange={(e) => handleVehicleChange(index, 'vehicle type', e.target.value)}
-                      >
-                        <option value="">Two Wheelers</option>
-                        <option value="four">Four Wheelers</option>
-                      </select>
-                      <IoIosArrowDown className="absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
-                    </div>
-                    <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">Vehicle Name</label>
-                      <input
-                        name="vehicle_name"
-                        type="text"
-                        placeholder="Enter Name"
-                        onChange={(e) => handleVehicleChange(index, 'vehicle name', e.target.value)}
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">Vehicle Number</label>
-                      <input
-                        name="vehicle_number"
-                        type="text"
-                        placeholder="Enter Number"
-                        onChange={(e) => handleVehicleChange(index, 'vehicle number', e.target.value)}
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
-                      />
-                    </div>
-                  </div>
-                ))}
+        {/* Member and Vehicle Section */}
+        <div className="flex flex-col gap-6 mt-8">
+          {/* Member Section */}
+          <div className="bg-white rounded-lg p-4">
+            <div className="flex justify-between items-center mb-4">
+              <label className="text-sm text-black-700 font-medium">
+                Member Counting{" "}
+                <span className="text-gray-500"> : (Other Members)</span>
+              </label>
+              <div className="relative">
+                <select
+                  className="w-32 h-10 px-3 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-black-600 focus:outline-none appearance-none bg-white cursor-pointer"
+                  onChange={(e) => setMemberCount(Number(e.target.value))}
+                >
+                  <option value="0">Select Member</option>
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                    <option key={num} value={num}>
+                      {num}
+                    </option>
+                  ))}
+                </select>
+                <IoIosArrowDown
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                  size={16}
+                />
               </div>
             </div>
 
-
-            {/* Action Buttons */}
-            <div className="flex justify-end gap-4 mt-8">
-              <button className="px-6 py-2 border border-gray-200 rounded-lg text-gray-700 bg-white">
-                Cancel
-              </button>
-              <button
-                className={`px-6 py-2 rounded-lg transition-colors duration-200 ${isFormValid ? 'bg-[#FF6B07] text-white hover:bg-[#FF5500]' : 'bg-[#F6F8FB] text-gray-400 cursor-not-allowed'}`}
-                onClick={handleCreate} // Call the handleCreate function on click
+            {/* Member Form Fields */}
+            {[...Array(memberCount)].map((_, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-1 md:grid-cols-6 gap-4 mt-4 items-start"
               >
-                Create
-              </button>
+                <div>
+                  <label className="block text-xs text-black-500 font-lighter mb-1">
+                    Full Name*
+                  </label>
+                  <input
+                    name="Full_name"
+                    type="text"
+                    placeholder="Enter Full Name"
+                    onChange={(e) =>
+                      handleMemberChange(index, e.target.name, e.target.value)
+                    }
+                    className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-black-500 font-lighter mb-1">
+                    Phone No*
+                  </label>
+                  <input
+                    name="Phone_number"
+                    type="tel"
+                    placeholder="+91"
+                    onChange={(e) =>
+                      handleMemberChange(index, e.target.name, e.target.value)
+                    }
+                    className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-black-500 font-lighter mb-1">
+                    Email
+                  </label>
+                  <input
+                    name="Email_address"
+                    type="email"
+                    placeholder="Enter Email Address"
+                    onChange={(e) =>
+                      handleMemberChange(index, e.target.name, e.target.value)
+                    }
+                    className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-black-500 font-lighter mb-1">
+                    Age*
+                  </label>
+                  <input
+                    name="Age"
+                    type="number"
+                    placeholder="Enter Age"
+                    onChange={(e) =>
+                      handleMemberChange(index, e.target.name, e.target.value)
+                    }
+                    className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                  />
+                </div>
+                <div className="relative">
+                  <label className="block text-xs text-black-500 font-lighter mb-1">
+                    Gender*
+                  </label>
+                  <select
+                    name="Gender"
+                    className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
+                    onChange={(e) =>
+                      handleMemberChange(index, e.target.name, e.target.value)
+                    }
+                  >
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+                  <IoIosArrowDown
+                    className="absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none"
+                    size={16}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-black-500 font-lighter mb-1">
+                    Relation*
+                  </label>
+                  <input
+                    name="Relation"
+                    type="text"
+                    placeholder="Enter Relation"
+                    onChange={(e) =>
+                      handleMemberChange(index, e.target.name, e.target.value)
+                    }
+                    className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Vehicle Section */}
+          <div className="bg-white rounded-lg p-4">
+            <div className="flex justify-between items-center mb-4">
+              <label className="text-sm text-black font-medium">
+                Vehicle Counting :
+              </label>
+              <div className="relative">
+                <select
+                  className="w-32 h-10 px-3 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-black-600 focus:outline-none appearance-none bg-white cursor-pointer"
+                  onChange={(e) => setVehicleCount(Number(e.target.value))}
+                >
+                  <option value="0">Select Vehicle</option>
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                    <option key={num} value={num}>
+                      {num}
+                    </option>
+                  ))}
+                </select>
+                <IoIosArrowDown
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                  size={16}
+                />
+              </div>
             </div>
+
+            {/* Vehicle Form Fields */}
+            {[...Array(vehicleCount)].map((_, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4"
+              >
+                <div className="relative">
+                  <label className="block text-xs text-black-500 font-lighter mb-1">
+                    Vehicle Type*
+                  </label>
+                  <select
+                    name="vehicle_type"
+                    className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
+                    onChange={(e) =>
+                      handleVehicleChange(index, e.target.name, e.target.value)
+                    }
+                  >
+                    <option disabled selected>
+                      select Vehicle Type
+                    </option>
+                    <option value="Two Wheelers">Two Wheelers</option>
+                    <option value="Four Wheelers">Four Wheelers</option>
+                  </select>
+                  <IoIosArrowDown
+                    className="absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none"
+                    size={16}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-black-500 font-lighter mb-1">
+                    Vehicle Name
+                  </label>
+                  <input
+                    name="vehicle_name"
+                    type="text"
+                    placeholder="Enter Name"
+                    onChange={(e) =>
+                      handleVehicleChange(index, e.target.name, e.target.value)
+                    }
+                    className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-black-500 font-lighter mb-1">
+                    Vehicle Number
+                  </label>
+                  <input
+                    name="vehicle_number"
+                    type="text"
+                    placeholder="Enter Number"
+                    onChange={(e) =>
+                      handleVehicleChange(index, e.target.name, e.target.value)
+                    }
+                    className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex justify-end gap-4 mt-8">
+          <button className="px-6 py-2 border border-gray-200 rounded-lg text-gray-700 bg-white">
+            Cancel
+          </button>
+          <button
+            className={`px-6 py-2 rounded-lg transition-colors duration-200 ${
+              isFormValid
+                ? "bg-[#FF6B07] text-white hover:bg-[#FF5500]"
+                : "bg-[#F6F8FB] text-gray-400 cursor-not-allowed"
+            }`}
+            onClick={handleCreate} // Call the handleCreate function on click
+          >
+            Create
+          </button>
+        </div>
       </div>
     </div>
   );

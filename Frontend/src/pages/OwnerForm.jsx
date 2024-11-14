@@ -3,25 +3,26 @@ import { FaCamera, FaImage, FaUpload, FaCheckCircle } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import TenantForm from "./TenantForm";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { CreateOwner } from "../services/ownerTenantService";
 
 export default function OwnerForm() {
   const [formData, setFormData] = useState({
-    members: [],
-    vehicles: [],
-
-    profileImage:null,
-    Full_name: '',
-    Phone_number: '',
-    Email_address: '',
-    Age: '',
-    Gender: '',
-    Wing: '',
-    Unit: '',
-    Relation: '',
-    aadharFront: null,
-    aadharBack: null,
-    addressProof: null,
-    rentAgreement: null,
+    Member_Counting: [],
+    Vehicle_Counting: [],
+    profileImage: null,
+    Full_name: "",
+    Phone_number: "",
+    Email_address: "",
+    Age: "",
+    Gender: "",
+    Wing: "",
+    Unit: "",
+    Relation: "",
+    Adhar_front: null,
+    Adhar_back: null,
+    Address_proof: null,
+    Rent_Agreement: null,
   });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("owner");
@@ -43,7 +44,7 @@ export default function OwnerForm() {
   useEffect(() => {
     const validateForm = () => {
       const requiredFields = {
-        profileImage:formData.profileImage,
+        profileImage: formData.profileImage,
         fullName: formData.Full_name, // Corrected key
         phone: formData.Phone_number, // Corrected key
         age: formData.Age, // Corrected key
@@ -51,9 +52,10 @@ export default function OwnerForm() {
         wing: formData.Wing, // Corrected key
         unit: formData.Unit, // Corrected key
         relation: formData.Relation, // Corrected key
-        aadharFront: formData.aadharFront,
-        aadharBack: formData.aadharBack,
-        addressProof: formData.addressProof,
+        aadharFront: formData.Adhar_front,
+        aadharBack: formData.Adhar_back,
+        addressProof: formData.Address_proof,
+        Rent_Agreement: formData.Rent_Agreement,
       };
 
       const isValid = Object.values(requiredFields).every(
@@ -77,27 +79,61 @@ export default function OwnerForm() {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-  const handleCreate = () => {
+  const handleCreate = async () => {
     setSubmitted(true);
     let newErrors = {};
-    if (!formData.profileImage) newErrors.profileImage = "profileImage is required.";
+    if (!formData.profileImage)
+      newErrors.profileImage = "profileImage is required.";
     if (!formData.Full_name) newErrors.Full_name = "Full Name is required.";
-    if (!formData.Phone_number) newErrors.Phone_number = "Phone Number is required.";
-    if (!formData.Email_address) newErrors.Email_address = "Email Address is required.";
+    if (!formData.Phone_number)
+      newErrors.Phone_number = "Phone Number is required.";
+    if (!formData.Email_address)
+      newErrors.Email_address = "Email Address is required.";
     if (!formData.Age) newErrors.Age = "Age is required.";
     if (!formData.Gender) newErrors.Gender = "Gender is required.";
     if (!formData.Wing) newErrors.Wing = "Wing is required.";
     if (!formData.Unit) newErrors.Unit = "Unit is required.";
     if (!formData.Relation) newErrors.Relation = "Relation is required.";
-    if (!formData.aadharFront) newErrors.aadharFront = "Aadhar Front is required.";
-    if (!formData.aadharBack) newErrors.aadharBack = "Aadhar Back is required.";
-    if (!formData.addressProof) newErrors.addressProof = "Address Proof is required.";
-    if (!formData.rentAgreement) newErrors.rentAgreement = "Rent Agreement is required.";
+    if (!formData.Adhar_front)
+      newErrors.Adhar_front = "Aadhar Front is required.";
+    if (!formData.Adhar_back) newErrors.Adhar_back = "Aadhar Back is required.";
+    if (!formData.Address_proof)
+      newErrors.Address_proof = "Address Proof is required.";
+    if (!formData.Rent_Agreement)
+      newErrors.Rent_Agreement = "Rent Agreement is required.";
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      console.log("Form submitted successfully:", formData);
+      console.log(formData);
+      try {
+        const response = await CreateOwner(formData);
+        toast.success(response.data.message);
+        navigate("/residentmanagement");
+      } catch (error) {
+        toast.error(error.response.data.message);
+      } finally {
+        setFormData({
+          Member_Counting: [],
+          Vehicle_Counting: [],
+          profileImage: null,
+          Full_name: "",
+          Phone_number: "",
+          Email_address: "",
+          Age: "",
+          Gender: "",
+          Wing: "",
+          Unit: "",
+          Relation: "",
+          Adhar_front: null,
+          Adhar_back: null,
+          Address_proof: null,
+          Rent_Agreement: null,
+        });
+        setMemberCount(0);
+        setVehicleCount(0);
+        setProfilePhotoPreview(null);
+      }
     }
   };
   // Handle file uploads
@@ -125,22 +161,23 @@ export default function OwnerForm() {
   };
 
   const handleMemberChange = (index, field, value) => {
-    const updatedMembers = [...formData.members];
+    const updatedMembers = [...formData.Member_Counting];
     if (!updatedMembers[index]) {
       updatedMembers[index] = {};
     }
     updatedMembers[index][field] = value;
-    setFormData({ ...formData, members: updatedMembers });
+    setFormData({ ...formData, Member_Counting: updatedMembers });
   };
 
   const handleVehicleChange = (index, field, value) => {
-    const updatedVehicles = [...formData.vehicles];
+    const updatedVehicles = [...formData.Vehicle_Counting];
     if (!updatedVehicles[index]) {
       updatedVehicles[index] = {};
     }
     updatedVehicles[index][field] = value;
-    setFormData({ ...formData, vehicles: updatedVehicles });
+    setFormData({ ...formData, Vehicle_Counting: updatedVehicles });
   };
+
   return (
     <div className="min-h-screen p-4 bg-gray-100">
       {/* Tab Buttons */}
@@ -181,7 +218,9 @@ export default function OwnerForm() {
                 className="hidden"
                 id="profilePhotoInput"
               />
-               {submitted && errors.profileImage && <p className="text-red-500">{errors.profileImage}</p>}
+              {submitted && errors.profileImage && (
+                <p className="text-red-500">{errors.profileImage}</p>
+              )}
               <label
                 htmlFor="profilePhotoInput"
                 className="cursor-pointer w-full h-full rounded-full flex items-center justify-center overflow-hidden border-2 border-gray-300"
@@ -223,7 +262,9 @@ export default function OwnerForm() {
                   placeholder="Enter Full Name"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
-                {submitted && errors.Full_name && <p className="text-red-500">{errors.Full_name}</p>}
+                {submitted && errors.Full_name && (
+                  <p className="text-red-500">{errors.Full_name}</p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-lighter text-black-500">
@@ -237,7 +278,9 @@ export default function OwnerForm() {
                   placeholder="+91"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
-                {submitted && errors.Phone_number && <p className="text-red-500">{errors.Phone_number}</p>}
+                {submitted && errors.Phone_number && (
+                  <p className="text-red-500">{errors.Phone_number}</p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-lighter text-black-500">
@@ -251,7 +294,9 @@ export default function OwnerForm() {
                   placeholder="Enter Email Address"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
-                {submitted && errors.Email_address && <p className="text-red-500">{errors.Email_address}</p>}
+                {submitted && errors.Email_address && (
+                  <p className="text-red-500">{errors.Email_address}</p>
+                )}
               </div>
             </div>
 
@@ -269,7 +314,9 @@ export default function OwnerForm() {
                   placeholder="Enter Age"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
-                {submitted && errors.Age && <p className="text-red-500">{errors.Age}</p>}
+                {submitted && errors.Age && (
+                  <p className="text-red-500">{errors.Age}</p>
+                )}
               </div>
               <div className="relative">
                 <label className="block text-sm font-lighter text-black-500">
@@ -279,8 +326,10 @@ export default function OwnerForm() {
                   <div className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200 bg-white flex justify-between items-center">
                     <span>{formData.Gender || "Select Gender"}</span>
 
-                    <IoIosArrowDown className="text-bold mt-1 text-black pointer-events-none" size={16} />
-
+                    <IoIosArrowDown
+                      className="text-bold mt-1 text-black pointer-events-none"
+                      size={16}
+                    />
                   </div>
                 </div>
 
@@ -291,9 +340,7 @@ export default function OwnerForm() {
                         type="radio"
                         name="Gender"
                         value="male"
-
-                        checked={formData.Gender === 'male'}
-
+                        checked={formData.Gender === "male"}
                         onChange={handleInputChange}
                         className="mr-2 appearance-none checked:bg-orange-400 checked:border-transparent rounded-full border border-gray-400 w-4 h-4 "
                       />
@@ -304,9 +351,7 @@ export default function OwnerForm() {
                         type="radio"
                         name="Gender"
                         value="female"
-
-                        checked={formData.Gender === 'female'}
-
+                        checked={formData.Gender === "female"}
                         onChange={handleInputChange}
                         className="mr-2 appearance-none checked:bg-orange-400 checked:border-transparent rounded-full border border-gray-400 w-4 h-4"
                       />
@@ -317,9 +362,8 @@ export default function OwnerForm() {
                         type="radio"
                         name="Gender"
                         value="other"
-
-                        checked={formData.Gender === 'other'}
-         onChange={handleInputChange}
+                        checked={formData.Gender === "other"}
+                        onChange={handleInputChange}
                         className="mr-2 appearance-none checked:bg-orange-400 checked:border-transparent rounded-full border border-gray-400 w-4 h-4"
                       />
                       other
@@ -339,7 +383,9 @@ export default function OwnerForm() {
                   placeholder="Enter Wing"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
-                {submitted && errors.Wing && <p className="text-red-500">{errors.Wing}</p>}
+                {submitted && errors.Wing && (
+                  <p className="text-red-500">{errors.Wing}</p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-lighter text-black-500">
@@ -353,7 +399,9 @@ export default function OwnerForm() {
                   placeholder="Enter Unit"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
-                {submitted && errors.Unit && <p className="text-red-500">{errors.Unit}</p>}
+                {submitted && errors.Unit && (
+                  <p className="text-red-500">{errors.Unit}</p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-lighter text-black-500">
@@ -367,7 +415,9 @@ export default function OwnerForm() {
                   placeholder="Enter Relation"
                   className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
                 />
-                {submitted && errors.Relation && <p className="text-red-500">{errors.Relation}</p>}
+                {submitted && errors.Relation && (
+                  <p className="text-red-500">{errors.Relation}</p>
+                )}
               </div>
             </div>
 
@@ -383,7 +433,7 @@ export default function OwnerForm() {
                     type="file"
                     name="Adhar_front"
                     accept=".pdf,.jpg,.jpeg,.png"
-                    onChange={(e) => handleFileUpload(e, "aadharFront")}
+                    onChange={(e) => handleFileUpload(e, "Adhar_front")}
                     className="hidden"
                     id="aadharFrontInput"
                   />
@@ -391,10 +441,10 @@ export default function OwnerForm() {
                     htmlFor="aadharFrontInput"
                     className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
                   >
-                    {formData.aadharFront ? (
+                    {formData.Adhar_front ? (
                       <div className="text-sm text-green-600">
                         <FaCheckCircle className="mx-auto mb-2" size={20} />
-                        {formData.aadharFront.name}
+                        {formData.Adhar_front.name}
                       </div>
                     ) : (
                       <>
@@ -424,7 +474,7 @@ export default function OwnerForm() {
                     type="file"
                     name="Adhar_back"
                     accept=".pdf,.jpg,.jpeg,.png"
-                    onChange={(e) => handleFileUpload(e, "aadharBack")}
+                    onChange={(e) => handleFileUpload(e, "Adhar_back")}
                     className="hidden"
                     id="aadharBackInput"
                   />
@@ -432,10 +482,10 @@ export default function OwnerForm() {
                     htmlFor="aadharBackInput"
                     className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
                   >
-                    {formData.aadharBack ? (
+                    {formData.Adhar_back ? (
                       <div className="text-sm text-green-600">
                         <FaCheckCircle className="mx-auto mb-2" size={20} />
-                        {formData.aadharBack.name}
+                        {formData.Adhar_back.name}
                       </div>
                     ) : (
                       <>
@@ -465,7 +515,7 @@ export default function OwnerForm() {
                     type="file"
                     name="Address_proof"
                     accept=".pdf,.jpg,.jpeg,.png"
-                    onChange={(e) => handleFileUpload(e, "addressProof")}
+                    onChange={(e) => handleFileUpload(e, "Address_proof")}
                     className="hidden"
                     id="addressProofInput"
                   />
@@ -473,10 +523,10 @@ export default function OwnerForm() {
                     htmlFor="addressProofInput"
                     className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
                   >
-                    {formData.addressProof ? (
+                    {formData.Address_proof ? (
                       <div className="text-sm text-green-600">
                         <FaCheckCircle className="mx-auto mb-2" size={20} />
-                        {formData.addressProof.name}
+                        {formData.Address_proof.name}
                       </div>
                     ) : (
                       <>
@@ -506,7 +556,7 @@ export default function OwnerForm() {
                     type="file"
                     name="Rent_Agreement"
                     accept=".pdf,.jpg,.jpeg,.png"
-                    onChange={(e) => handleFileUpload(e, "rentAgreement")}
+                    onChange={(e) => handleFileUpload(e, "Rent_Agreement")}
                     className="hidden"
                     id="rentAgreementInput"
                   />
@@ -514,10 +564,10 @@ export default function OwnerForm() {
                     htmlFor="rentAgreementInput"
                     className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
                   >
-                    {formData.rentAgreement ? (
+                    {formData.Rent_Agreement ? (
                       <div className="text-sm text-green-600">
                         <FaCheckCircle className="mx-auto mb-2" size={20} />
-                        {formData.rentAgreement.name}
+                        {formData.Rent_Agreement.name}
                       </div>
                     ) : (
                       <>
@@ -580,11 +630,11 @@ export default function OwnerForm() {
                     Full Name*
                   </label>
                   <input
-                    name="Full_Name"
+                    name="Full_name"
                     type="text"
                     placeholder="Enter Full Name"
                     onChange={(e) =>
-                      handleMemberChange(index, "fullName", e.target.value)
+                      handleMemberChange(index, e.target.name, e.target.value)
                     }
                     className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
                   />
@@ -598,7 +648,7 @@ export default function OwnerForm() {
                     type="tel"
                     placeholder="+91"
                     onChange={(e) =>
-                      handleMemberChange(index, "phone", e.target.value)
+                      handleMemberChange(index, e.target.name, e.target.value)
                     }
                     className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
                   />
@@ -612,7 +662,7 @@ export default function OwnerForm() {
                     type="email"
                     placeholder="Enter Email Address"
                     onChange={(e) =>
-                      handleMemberChange(index, "email", e.target.value)
+                      handleMemberChange(index, e.target.name, e.target.value)
                     }
                     className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
                   />
@@ -626,7 +676,7 @@ export default function OwnerForm() {
                     type="number"
                     placeholder="Enter Age"
                     onChange={(e) =>
-                      handleMemberChange(index, "age", e.target.value)
+                      handleMemberChange(index, e.target.name, e.target.value)
                     }
                     className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
                   />
@@ -636,9 +686,10 @@ export default function OwnerForm() {
                     Gender*
                   </label>
                   <select
+                    name="Gender"
                     className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
                     onChange={(e) =>
-                      handleMemberChange(index, "gender", e.target.value)
+                      handleMemberChange(index, e.target.name, e.target.value)
                     }
                   >
                     <option value="">Select Gender</option>
@@ -659,7 +710,7 @@ export default function OwnerForm() {
                     type="text"
                     placeholder="Enter Relation"
                     onChange={(e) =>
-                      handleMemberChange(index, "relation", e.target.value)
+                      handleMemberChange(index, e.target.name, e.target.value)
                     }
                     className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
                   />
@@ -704,13 +755,17 @@ export default function OwnerForm() {
                     Vehicle Type*
                   </label>
                   <select
+                    name="vehicle_type"
                     className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
                     onChange={(e) =>
-                      handleVehicleChange(index, "vehicle type", e.target.value)
+                      handleVehicleChange(index, e.target.name, e.target.value)
                     }
                   >
-                    <option value="">Two Wheelers</option>
-                    <option value="four">Four Wheelers</option>
+                    <option selected disabled>
+                      Select Vehicle Type
+                    </option>
+                    <option value="Two Wheelers">Two Wheelers</option>
+                    <option value="Four Wheelers">Four Wheelers</option>
                   </select>
                   <IoIosArrowDown
                     className="absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none"
@@ -726,7 +781,7 @@ export default function OwnerForm() {
                     type="text"
                     placeholder="Enter Name"
                     onChange={(e) =>
-                      handleVehicleChange(index, "vehicle name", e.target.value)
+                      handleVehicleChange(index, e.target.name, e.target.value)
                     }
                     className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
                   />
@@ -740,11 +795,7 @@ export default function OwnerForm() {
                     type="text"
                     placeholder="Enter Number"
                     onChange={(e) =>
-                      handleVehicleChange(
-                        index,
-                        "vehicle number",
-                        e.target.value
-                      )
+                      handleVehicleChange(index, e.target.name, e.target.value)
                     }
                     className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
                   />

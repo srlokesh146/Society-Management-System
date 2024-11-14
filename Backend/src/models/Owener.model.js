@@ -24,7 +24,7 @@ const Ownerschema= new Schema({
     Gender:{
         type:String,
         required:true,
-        enum: ['Male', 'Female', 'Other']
+        enum: ['male', 'female', 'other']
     },
     Wing:{
         type:String,

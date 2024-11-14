@@ -48,7 +48,7 @@ router.put("/tenante/:id",upload.fields([
 
 //======================
 //get by id resident
-router.get("/owner/:id",ResidentController.GetByIdResident)
+router.get("/resident/:id",ResidentController.GetByIdResident)
 // get all resident
 router.get("/allresident",ResidentController.GetAllResidents)
 //delete resident

@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 import { sidebarItems } from "../../constantdata";
 import Logo from "../Logo";
 import logout from "../../assets/images/logout.png";
 import { IoChevronDownOutline } from "react-icons/io5";
-
+import { toast } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../services/authService";
+import { LogoutUser } from "../../redux/features/AuthSlice";
 
 export default function Sidebar() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [activeItem, setActiveItem] = useState(1);
   const [openSubItems, setOpenSubItems] = useState({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
   const handleItemClick = (item) => {
     if (item.subItems) {
       setOpenSubItems((prev) => {
@@ -30,7 +34,7 @@ export default function Sidebar() {
     setActiveItem(item.id);
   };
 
-    const toggleSidebar = () => {
+  const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
@@ -43,7 +47,9 @@ export default function Sidebar() {
 
   useEffect(() => {
     const currentPath = location.pathname;
-    const activeNavItem = sidebarItems.find((item) => item.path === currentPath);
+    const activeNavItem = sidebarItems.find(
+      (item) => item.path === currentPath
+    );
     setActiveItem(activeNavItem ? activeNavItem.id : null);
   }, [location.pathname]);
 
@@ -66,6 +72,17 @@ export default function Sidebar() {
     }
   }, []);
 
+  // logout user
+  const handleLogout = async () => {
+    try {
+      const response = await logoutUser();
+      navigate("/");
+      dispatch(LogoutUser());
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
 
   return (
     <>
@@ -79,8 +96,9 @@ export default function Sidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full w-[280px] bg-white p-4 shadow-lg border border-gray-200 transition-transform duration-300 lg:transition-none lg:relative lg:transform-none ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } lg:w-[280px] lg:block z-[9999]`}
+        className={`fixed top-0 left-0 h-full w-[280px] bg-white p-4 shadow-lg border border-gray-200 transition-transform duration-300 lg:transition-none lg:relative lg:transform-none ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:w-[280px] lg:block z-[9999]`}
       >
         <div className="flex justify-between items-center mb-[30px] border-b pb-[28px] pt-[15px]">
           <Logo sidebarlogo />
@@ -96,59 +114,67 @@ export default function Sidebar() {
           <ul>
             {sidebarItems.map((item) => (
               <li key={item.id}>
-                {item.name === "dashboard" && location.pathname === "/dashboard" ? null : (
+                {item.name === "dashboard" &&
+                location.pathname === "/dashboard" ? null : (
                   <div className="relative">
                     <NavLink
                       to={item.path || "#"}
-                      className={`flex items-center mb-[10px] text-sm font-medium rounded-lg p-[14px] ${activeItem === "dashboard" || activeItem === item.id
+                      className={`flex items-center mb-[10px] text-sm font-medium rounded-lg p-[14px] ${
+                        activeItem === "dashboard" || activeItem === item.id
                           ? "bg-custom-gradient text-white border"
                           : "hover:bg-custom-gradient hover:text-white"
-                        }`}
+                      }`}
                       onClick={() => handleItemClick(item)}
                     >
                       <span className="mr-[10px]">{item.icon}</span>
                       <span className="lg:inline">{item.label}</span>
                       {item.subItems && (
                         <IoChevronDownOutline
-                          className={`ml-auto transition-transform duration-300 ${openSubItems[item.id] ? "rotate-180" : ""}`}
+                          className={`ml-auto transition-transform duration-300 ${
+                            openSubItems[item.id] ? "rotate-180" : ""
+                          }`}
                         />
                       )}
                     </NavLink>
-                    { activeItem === "dashboard" || activeItem === item.id && (
-                      <div className="sidebar-border sidebar-border-active"></div>
-                    )}
+                    {activeItem === "dashboard" ||
+                      (activeItem === item.id && (
+                        <div className="sidebar-border sidebar-border-active"></div>
+                      ))}
                   </div>
                 )}
                 {item.subItems && openSubItems[item.id] && (
                   <ul className="ml-4 mt-2 mb-2">
-                  {item.subItems.map((subItem) => (
-                    <li
-                      key={subItem.id}
-                      className={`border-l-2 pl-2 ${location.pathname === subItem.path && subItem.id
-                        ? "border-black"
-                        : "border-gray-300 hover:border-black"
+                    {item.subItems.map((subItem) => (
+                      <li
+                        key={subItem.id}
+                        className={`border-l-2 pl-2 ${
+                          location.pathname === subItem.path && subItem.id
+                            ? "border-black"
+                            : "border-gray-300 hover:border-black"
                         }`}
-                    >
-                      <NavLink
-                        to={subItem.path}
-                        className={`flex items-center text-sm rounded-lg pt-[6px] pb-[5px] ${location.pathname === subItem.path && subItem.id
-                          ? "text-black font-medium"
-                          : "hover:text-[#202224] font-medium"
-                          }`}
-                        onClick={() => setActiveItem(subItem.id)}
                       >
-                        <span
-                          className={`ml-2 ${location.pathname === subItem.path
-                            ? "text-black"
-                            : "text-[#4F4F4F] hover:text-black"
-                            }`}
+                        <NavLink
+                          to={subItem.path}
+                          className={`flex items-center text-sm rounded-lg pt-[6px] pb-[5px] ${
+                            location.pathname === subItem.path && subItem.id
+                              ? "text-black font-medium"
+                              : "hover:text-[#202224] font-medium"
+                          }`}
+                          onClick={() => setActiveItem(subItem.id)}
                         >
-                          {subItem.label}
-                        </span>
-                      </NavLink>
-                    </li>
-                  ))}
-                </ul>
+                          <span
+                            className={`ml-2 ${
+                              location.pathname === subItem.path
+                                ? "text-black"
+                                : "text-[#4F4F4F] hover:text-black"
+                            }`}
+                          >
+                            {subItem.label}
+                          </span>
+                        </NavLink>
+                      </li>
+                    ))}
+                  </ul>
                 )}
               </li>
             ))}
@@ -156,13 +182,13 @@ export default function Sidebar() {
           {/* Logout */}
           <div className="w-full absolute bottom-0 left-0 p-4">
             <div className="border border-[#F4F4F4]"></div>
-            <NavLink
-              to="/login"
+            <button
+              onClick={handleLogout}
               className="flex items-center mb-[10px] text-[16px] font-medium rounded-lg p-[14px] text-[#E74C3C]"
             >
               <img src={logout} alt="Logout Icon" className="mr-[12px]" />
               Logout
-            </NavLink>
+            </button>
           </div>
         </nav>
       </aside>
@@ -177,4 +203,3 @@ export default function Sidebar() {
     </>
   );
 }
-
