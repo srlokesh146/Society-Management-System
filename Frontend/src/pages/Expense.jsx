@@ -123,9 +123,14 @@ function Expense() {
     window.open(fileURL); // Open the file in a new tab
   };
   return (
-    <div className='flex bg-white rounded-md flex-col p-8'>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-[20px] font-semibold text-gray-800">Add Expenses Details</h1>
+
+    <div className="flex bg-white rounded-md flex-col p-8 max-sm:container max-sm:mx-auto max-md:container max-md:mx-auto max-lg:container max-lg:mx-auto    
+    security-table max-md:flex-1 max-2xl:container overflow-y-auto custom-scrollbar">
+      <div className="flex justify-between items-center mb-6 max-sm:flex-col">
+        <h1 className="text-[20px] font-semibold text-gray-800 max-sm:mb-3">
+          Add Expenses Details
+        </h1>
+
         <button
           onClick={() => setIsModalOpen(true)}
           className="bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white px-4 py-2 rounded-md hover:opacity-90 flex items-center gap-2"
@@ -243,7 +248,7 @@ function Expense() {
           </div>
         </div>
       )}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto visiter-table custom-scrollbar max-sm:overflow-7-auto">
         <table className="w-full rounded-lg">
           <thead>
             <tr className="bg-indigo-50 rounded-lg ">

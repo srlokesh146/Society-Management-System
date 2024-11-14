@@ -5,14 +5,6 @@ import VisitorTrackingModal from '../../components/modal/VisitorTrackingModal';
 export default function VisitorTracking() {
     const [isModalOpen, setModalOpen] = useState(false);
 
-    const [error, setError] = useState({
-        name: false,
-        wing: false,
-        unit: false,
-        date: false,
-        time: false
-    });
-
     const openModal = () => {
         setModalOpen(true);
     }
