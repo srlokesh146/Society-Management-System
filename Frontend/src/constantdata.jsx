@@ -15,8 +15,12 @@ import evelynHarperimage from "./assets/images/EvelynHarperimage.png";
 import moneys from "./assets/images/moneys.png";
 
 export const sidebarItems = [
-
-  { id: 1, path: "/dashboard", label: "Dashboard", icon: <TbLayoutDashboardFilled /> },
+  {
+    id: 1,
+    path: "/dashboard",
+    label: "Dashboard",
+    icon: <TbLayoutDashboardFilled />,
+  },
   {
     id: 2,
     path: "/residentmanagement",
@@ -79,7 +83,18 @@ export const sidebarItems = [
       { id: 18, path: "/emergencymanagement", label: "Emergency Management" },
     ],
   },
+];
 
+export const securityBar = [
+  {
+    id: 1,
+    label: "Security",
+    icon: <FaUserShield />,
+    subItems: [
+      { id: 17, path: "/visitortracking", label: "Visitor Tracking" },
+      { id: 18, path: "/emergencymanagement", label: "Emergency Management" },
+    ],
+  },
 ];
 
 export const Navigationbar = [
@@ -105,33 +120,37 @@ export const cardData = [
   {
     title: "Total Balance",
     amount: "2,22,520",
-    bgColor: 'rgba(255, 106, 0, 0.5)',
-    gradient: 'linear-gradient(255.6deg, #FF6A00 7.71%, rgba(255, 255, 255, 0) 18.54%)',
-    iconBg: '#FF6A00',
+    bgColor: "rgba(255, 106, 0, 0.5)",
+    gradient:
+      "linear-gradient(255.6deg, #FF6A00 7.71%, rgba(255, 255, 255, 0) 18.54%)",
+    iconBg: "#FF6A00",
     icon: icon1,
   },
   {
     title: "Total Income",
     amount: "55,000",
-    bgColor: 'rgba(57, 151, 61, 0.5)',
-    gradient: 'linear-gradient(255.6deg, #39973D 7.71%, rgba(255, 255, 255, 0) 18.54%)',
-    iconBg: '#39973D',
+    bgColor: "rgba(57, 151, 61, 0.5)",
+    gradient:
+      "linear-gradient(255.6deg, #39973D 7.71%, rgba(255, 255, 255, 0) 18.54%)",
+    iconBg: "#39973D",
     icon: moneyrecive,
   },
   {
     title: "Total Expense",
     amount: "20,550",
-    bgColor: 'rgba(134, 159, 243, 0.5)',
-    gradient: 'linear-gradient(255.6deg, #869FF3 7.71%, rgba(255, 255, 255, 0) 18.54%)',
-    iconBg: '#869FF3',
+    bgColor: "rgba(134, 159, 243, 0.5)",
+    gradient:
+      "linear-gradient(255.6deg, #869FF3 7.71%, rgba(255, 255, 255, 0) 18.54%)",
+    iconBg: "#869FF3",
     icon: moneysend,
   },
   {
     title: "Total Unit",
     amount: "20,550",
-    bgColor: 'rgba(235, 55, 195, 0.5)',
-    gradient: 'linear-gradient(255.6deg, #EB37C3 7.71%, rgba(255, 255, 255, 0) 18.54%)',
-    iconBg: '#EB37C3',
+    bgColor: "rgba(235, 55, 195, 0.5)",
+    gradient:
+      "linear-gradient(255.6deg, #EB37C3 7.71%, rgba(255, 255, 255, 0) 18.54%)",
+    iconBg: "#EB37C3",
     icon: vacate,
   },
 ];
@@ -383,24 +402,87 @@ export const Residentmanagementdata = [
   },
 ];
 
-
 // securitypage
 
-
 export const visitors = [
-  { name: "Evelyn Harper", phone: "97852 12368", date: "10/01/2024", unit: "A 1001", time: "3:45 PM" },
-  { name: "Wade Warren", phone: "97852 25893", date: "11/01/2024", unit: "B 1002", time: "2:45 AM" },
-  { name: "Guy Hawkins", phone: "97589 55563", date: "12/01/2024", unit: "C 1003", time: "3:00 PM" },
-  { name: "Robert Fox", phone: "97444 56323", date: "13/01/2024", unit: "D 1004", time: "5:30AM" },
-  { name: "Jacob Jones", phone: "97121 12583", date: "14/01/2024", unit: "E 2001", time: "12:45 PM" },
-  { name: "Ronald Richards", phone: "97259 12363", date: "15/01/2024", unit: "F 2002", time: "3:45 PM" },
-  { name: "Annette Black", phone: "97569 77783", date: "16/01/2024", unit: "G 2003", time: "6:00 AM" },
-  { name: "Jerome Bell", phone: "97123 25863", date: "17/01/2024", unit: "H 2004", time: "3:45 PM" },
-  { name: "Theresa Webb", phone: "97258 36973", date: "18/01/2024", unit: "I 3001", time: "7:00 PM" },
-  { name: "Kathryn Murphy", phone: "97577 66663", date: "19/01/2024", unit: "A 3002", time: "6:00 AM" },
-  { name: "Eleanor Pena", phone: "97259 69963", date: "20/01/2024", unit: "B 3003", time: "7:00 PM" },
+  {
+    name: "Evelyn Harper",
+    phone: "97852 12368",
+    date: "10/01/2024",
+    unit: "A 1001",
+    time: "3:45 PM",
+  },
+  {
+    name: "Wade Warren",
+    phone: "97852 25893",
+    date: "11/01/2024",
+    unit: "B 1002",
+    time: "2:45 AM",
+  },
+  {
+    name: "Guy Hawkins",
+    phone: "97589 55563",
+    date: "12/01/2024",
+    unit: "C 1003",
+    time: "3:00 PM",
+  },
+  {
+    name: "Robert Fox",
+    phone: "97444 56323",
+    date: "13/01/2024",
+    unit: "D 1004",
+    time: "5:30AM",
+  },
+  {
+    name: "Jacob Jones",
+    phone: "97121 12583",
+    date: "14/01/2024",
+    unit: "E 2001",
+    time: "12:45 PM",
+  },
+  {
+    name: "Ronald Richards",
+    phone: "97259 12363",
+    date: "15/01/2024",
+    unit: "F 2002",
+    time: "3:45 PM",
+  },
+  {
+    name: "Annette Black",
+    phone: "97569 77783",
+    date: "16/01/2024",
+    unit: "G 2003",
+    time: "6:00 AM",
+  },
+  {
+    name: "Jerome Bell",
+    phone: "97123 25863",
+    date: "17/01/2024",
+    unit: "H 2004",
+    time: "3:45 PM",
+  },
+  {
+    name: "Theresa Webb",
+    phone: "97258 36973",
+    date: "18/01/2024",
+    unit: "I 3001",
+    time: "7:00 PM",
+  },
+  {
+    name: "Kathryn Murphy",
+    phone: "97577 66663",
+    date: "19/01/2024",
+    unit: "A 3002",
+    time: "6:00 AM",
+  },
+  {
+    name: "Eleanor Pena",
+    phone: "97259 69963",
+    date: "20/01/2024",
+    unit: "B 3003",
+    time: "7:00 PM",
+  },
 ];
-
 
 // const initialNotes = [
 //   {
@@ -439,17 +521,19 @@ export const data = [
   {
     title: "Maintenance Amount",
     amount: "0",
-    bgColor: 'rgba(57, 151, 61, 0.5)',
-    gradient: 'linear-gradient(255.6deg, #39973D 7.71%, rgba(255, 255, 255, 0) 18.54%)',
+    bgColor: "rgba(57, 151, 61, 0.5)",
+    gradient:
+      "linear-gradient(255.6deg, #39973D 7.71%, rgba(255, 255, 255, 0) 18.54%)",
     iconBg: "#E6F7E6",
-    textColor: "text-green-500" 
+    textColor: "text-green-500",
   },
   {
     title: "Penalty Amount",
     amount: "0",
-    bgColor: 'rgba(255, 106, 0, 0.5)',
-    gradient: 'linear-gradient(255.6deg, #FF6A00 7.71%, rgba(255, 255, 255, 0) 40.54%)',
+    bgColor: "rgba(255, 106, 0, 0.5)",
+    gradient:
+      "linear-gradient(255.6deg, #FF6A00 7.71%, rgba(255, 255, 255, 0) 40.54%)",
     iconBg: "#FFE6E6",
-    textColor: "text-red-500" 
-  }
+    textColor: "text-red-500",
+  },
 ];

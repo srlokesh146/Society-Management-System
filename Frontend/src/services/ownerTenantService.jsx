@@ -27,6 +27,16 @@ export const UpdateOwner = async (id, data) => {
   return response;
 };
 
+//update Tenant by id
+export const UpdateTenant = async (id, data) => {
+  const response = await api.put(`/v2/resident/tenante/${id}`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response;
+};
+
 // for tenant
 
 // create new Tenant
