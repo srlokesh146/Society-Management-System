@@ -69,7 +69,7 @@ function App() {
           <Navbar toggleSidebar={toggleSidebar} />
         )}
 
-        <div className="flex-1 p-6 bg-gray-100 overflow-y-auto">
+        <div className="flex-1  bg-gray-100 overflow-y-auto">
           <Routes>
             {/* Public Routes without Sidebar and Navbar */}
             <Route path="/" element={<Login />} />
