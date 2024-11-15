@@ -97,7 +97,7 @@ function Note() {
 
   return (
     <div className="container mx-auto p-4 sm:p-6  bg-white rounded-lg">
-      <div className="flex justify-between items-center  mb-6">
+      <div className="flex justify-between   items-center  mb-6">
         <h1 className="text-[20px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px]">Note</h1>
         <button
           onClick={handleCreateNote}
@@ -111,16 +111,16 @@ function Note() {
         {notes.map((note) => (
           <div
             key={note._id}
-            className="bg-white rounded-lg shadow-xl hover:shadow-md transition-shadow"
+            className="bg-white rounded-lg border border-grey-800 hover:shadow-sm transition-shadow"
           >
             <div className="bg-[#5678E9] text-white p-4 rounded-t-lg flex justify-between items-center">
               <h3 className="font-medium">{note.title}</h3>
               <div className="relative">
                 <button
                   onClick={() => toggleDropdown(note._id)}
-                  className="hover:opacity-80"
+                  className="hover:opacity-80  text-blue-500 rounded-md p-1 bg-white h-5 w-5"
                 >
-                  <FaEllipsisV />
+                  <FaEllipsisV size={12} />
                 </button>
                 {dropdownOpen === note._id && (
                   <div className="absolute right-0 mt-2 w-28 bg-white rounded-md hover:bg-gray-50 shadow-lg z-10">
@@ -138,7 +138,7 @@ function Note() {
             <div className="p-4">
               <div className="space-y-2">
                 <p className="text-gray-500 text-sm">Description</p>
-                <p className="text-sm text-gray-600">{note.description}</p>
+                <p className="text-sm text-black-600">{note.description}</p>
               </div>
             </div>
           </div>
@@ -148,10 +148,10 @@ function Note() {
       {/* Create/Edit Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
-          <div className="bg-white rounded-lg w-full max-w-md">
+          <div className="bg-white rounded-lg w-[400px] max-w-md">
             <div className="p-6">
               <h2 className="text-xl font-semibold mb-3">
-                {modalType === "create" ? "Create Note" : "Edit Note"}
+                {modalType === "create" ? "Add Note" : "Edit Note"}
               </h2>
               <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -216,7 +216,7 @@ function Note() {
                       ${
                         isFormFilled
                           ? " bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
-                          : "bg-[#F6F8FB] text-gray-400 cursor-not-allowed"
+                          : "bg-[#F6F8FB] font-bold text-black-400 cursor-not-allowed"
                       }`}
                   >
                     {modalType === "save" ? "save" : "Save"}

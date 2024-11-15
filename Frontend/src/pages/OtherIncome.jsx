@@ -206,12 +206,12 @@ const OtherIncome = () => {
               className="bg-white h-80 w-[350px] shadow-xl rounded-lg border border-blue-300 relative"
             >
               <div className="bg-[#5678E9] text-white w-full p-2 flex justify-between items-center rounded-t-lg">
-                <h3 className="text-lg font-semibold">{entry.title}</h3>
+                <h3 className="text-lg  font-semibold">{entry.title}</h3>
                 <button
-                  className="text-blue-500 bg-white text-center rounded-sm h-6 w-4"
+                  className="text-blue-500 bg-white p-1 rounded-md h-5 w-5"
                   onClick={() => toggleDropdown(entry._id)}
                 >
-                  <FaEllipsisV size={15} />
+                  <FaEllipsisV size={12} />
                 </button>
               </div>
               {dropdownOpen === entry._id && (
@@ -278,10 +278,11 @@ const OtherIncome = () => {
       {/* Add Income Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
-          <div className="bg-white p-6 rounded-lg shadow-lg h-[500px]">
-            <h2 className="text-xl font-semibold mb-4 text-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg h-[500px] w-[400px]">
+            <h2 className="text-xl font-semibold mb-2 text-start">
               Create Other Income
             </h2>
+            <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
             <form onSubmit={handleApply} className="space-y-4">
               <div className="w-full">
                 <label className="font-semibold" htmlFor="title">
@@ -307,7 +308,7 @@ const OtherIncome = () => {
                       type="date"
                       name="date"
                       value={formData.date}
-                      className="w-full p-2 border border-gray-300 rounded-lg pr-10"
+                      className="w-[170px] p-2 border border-gray-300 rounded-lg pr-10"
                       onChange={handleInputChange}
                       required
                     />
@@ -329,7 +330,7 @@ const OtherIncome = () => {
                       type="date"
                       name="dueDate"
                       value={formData.dueDate}
-                      className="w-full border border-gray-300 rounded-lg p-2 pr-10"
+                      className="w-[170px]  border border-gray-300 rounded-lg p-2 pr-10"
                       onChange={handleInputChange}
                       required
                     />
@@ -374,13 +375,13 @@ const OtherIncome = () => {
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="bg-[#FFFFF] border text-black px-4 py-2 rounded-lg w-full"
+                  className="bg-[#FFFFF] border text-black px-4 py-3 rounded-lg w-full"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className={`border px-4 py-2 rounded-lg w-full ${
+                  className={`border px-4 py-3 rounded-lg w-full ${
                     isFormValid
                       ? "bg-custom-gradient text-white"
                       : "bg-[#F6F8FB] text-black"
@@ -398,10 +399,11 @@ const OtherIncome = () => {
       {/* Edit Modal */}
       {isEditModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-[460px]">
-            <h2 className="text-xl font-semibold mb-10 text-left">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[400px] h-[420px]">
+            <h2 className="text-xl font-semibold mb-2 text-left">
               Edit {formData.title}
             </h2>
+            <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
             <form onSubmit={saveEdit} className="space-y-4">
               {/* amount */}
               <div className="w-full">
@@ -432,7 +434,7 @@ const OtherIncome = () => {
                           ? new Date(formData.date).toISOString().split("T")[0]
                           : ""
                       }
-                      className="w-full p-2 border border-gray-300 rounded-lg pr-10"
+                      className="w-full p-2 border border-gray-300 rounded-lg "
                       onChange={handleInputChange}
                       required
                     />
@@ -460,7 +462,7 @@ const OtherIncome = () => {
                               .split("T")[0]
                           : ""
                       }
-                      className="w-full border border-gray-300 rounded-lg p-2 pr-10"
+                      className="w-full border border-gray-300 rounded-lg p-2 "
                       onChange={handleInputChange}
                       required
                     />
@@ -486,17 +488,17 @@ const OtherIncome = () => {
                 />
               </div>
 
-              <div className="flex justify-between gap-4">
+              <div className="flex justify-between gap-6">
                 <button
                   type="button"
                   onClick={handleEditCancel}
-                  className="bg-gray-300 text-black px-4 py-2 rounded-lg w-full"
+                  className="bg-gray-300 text-black px-4 py-3 rounded-lg w-full"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-custom-gradient text-white px-4 py-2 rounded-lg w-full"
+                  className="bg-custom-gradient text-white px-4 py-3 rounded-lg w-full"
                 >
                   Save Changes
                 </button>
@@ -509,20 +511,21 @@ const OtherIncome = () => {
       {isDeleteModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[9999]">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h2 className="text-xl font-semibold mb-4">Delete confirmation?</h2>
+            <h2 className="text-xl font-semibold mb-2">Delete confirmation?</h2>
+            <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
             <p className="text-gray-600">
               Are you sure you want to delete {selectedEntry?.title}?
             </p>
             <div className="flex justify-center space-x-4 mt-6">
               <button
                 onClick={() => setDeleteModalOpen(false)}
-                className="bg-white border w-[170px] text-black px-4 py-2 rounded-md hover:bg-gray-100"
+                className="bg-white border w-[170px] text-black px-2 py-3 rounded-md hover:bg-gray-100"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDelete}
-                className="bg-red-500 w-[170px] text-white px-4 py-2 rounded-md hover:bg-red-600"
+                className="bg-red-500 w-[170px] text-white px-2 py-3 rounded-md hover:bg-red-600"
               >
                 Confirm Delete
               </button>
@@ -540,7 +543,8 @@ const OtherIncome = () => {
             >
               <FaTimes size={20} /> {/* Cancel icon */}
             </button>
-            <h2 className="text-xl font-semibold mb-4">View Income Details</h2>
+            <h2 className="text-xl font-semibold mb-2">View Income Details</h2>
+            <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
             <div className="mb-4">
               <label className="block text-sm text-grey-800 mb-1">Title:</label>
               <p className="text-black font-medium">{selectedEntry.title}</p>

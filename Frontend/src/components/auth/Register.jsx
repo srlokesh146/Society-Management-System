@@ -411,7 +411,8 @@ const Register = () => {
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h2 className="text-xl font-semibold mb-4">Add New Society</h2>
+            <h2 className="text-xl font-semibold mb-2">Add New Society</h2>
+            <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
             <form onSubmit={handleSocietySubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-black-700">
@@ -507,7 +508,7 @@ const Register = () => {
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="bg-gray-300 w-[180px] text-gray-700 px-4 py-2 rounded-lg"
+                  className="bg-gray-100 w-[180px] text-gray-700 px-4 py-2 rounded-lg"
                 >
                   Cancel
                 </button>
@@ -516,7 +517,7 @@ const Register = () => {
                   className={`w-[180px] px-4 py-2 rounded-lg ${
                     isFormValid()
                       ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white"
-                      : "bg-[#F6F8FB] text-gray-400"
+                      : "bg-white border text-black"
                   }`}
                   disabled={!isFormValid()} // Disable button if form is not valid
                 >

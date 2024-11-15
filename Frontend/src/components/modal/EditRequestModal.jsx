@@ -37,7 +37,7 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
             <FaTimes size={20} />
           </button>
         </div>
-
+        <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Complainant Name */}
           <div>

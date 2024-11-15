@@ -140,7 +140,7 @@ function Announcement() {
           className="modal bg-custom-gradient py-[12px] px-[10px] rounded-[10px] text-white font-semibold text-[18px] leading-[27px] w-[294px]"
           onClick={handleCreateAnnouncement}
         >
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center ">
             <FaPlus size={16} className="mx-2" />
             <span className="text-sm sm:text-base md:text-lg lg:text-[18px]">Create Announcement</span>
           </div>
@@ -151,15 +151,15 @@ function Announcement() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {announcements.map((announcement) => (
-          <div key={announcement._id} className="bg-white shadow-xl rounded-lg ">
+          <div key={announcement._id} className="bg-white shadow-sm border border-grey-800 rounded-lg ">
             <div className="bg-[#5678E9] text-white p-4 flex justify-between items-center rounded-t-lg">
               <h2 className="text-sm sm:text-base font-medium">{announcement.title}</h2>
               <div className="relative">
                 <button
                   onClick={() => toggleDropdown(announcement._id)}
-                  className="hover:opacity-80"
+                  className="hover:opacity-80  text-blue-500 rounded-md p-1 bg-white h-5 w-5"
                 >
-                  <FaEllipsisV size={16} />
+                  <FaEllipsisV size={12} />
                 </button>
 
                 {dropdownOpen === announcement._id && (
@@ -223,7 +223,7 @@ function Announcement() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-md md:max-w-[410px] lg:max-w-[410px]">
             <div className="p-6">
-              <h2 className="text-[20px] max-sm:text-[15px] max-md:text-3xl font-semibold mb-6">
+              <h2 className="text-[20px] max-sm:text-[15px] max-md:text-3xl font-semibold mb-2">
                 {modalType === "create" ? "Add Announcement" : "Edit Announcement"}
               </h2>
               <div className="border-b border-[#F4F4F4] mb-[30px]"></div>
@@ -328,6 +328,7 @@ function Announcement() {
                 <h2 className="text-lg sm:text-xl md:text-2xl font-semibold">
                   View Security Protocol
                 </h2>
+                <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
                 <button
                   onClick={handleCloseModal}
                   className="text-gray-400 hover:text-gray-600"
@@ -335,6 +336,7 @@ function Announcement() {
                   <FaTimes size={18} />
                 </button>
               </div>
+              <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
 
               {/* Content */}
               <div className="space-y-4">
@@ -389,10 +391,11 @@ function Announcement() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-sm md:max-w-[410px] lg:max-w-[410px]">
             <div className="p-5">
-              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-4">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-2">
                 Delete Announcement
               </h2>
-              <p className="text-sm sm:text-base md:text-lg text-gray-600 mb-6">
+              <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
+              <p className="text-sm sm:text-base md:text-md text-gray-600 mb-6">
                 Are you sure you want to delete this announcement?
               </p>
 

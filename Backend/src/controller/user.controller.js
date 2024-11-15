@@ -250,16 +250,8 @@ exports.SendOtp = async (req, res) => {
 
     if (EmailOrPhone.includes("@")) {
       // Send OTP via email
-      await senData(
-        account.Email || account.MailOrPhone,
-        "Forgot your password",
-        otp
-      );
-      await senData(
-        account.Email || account.MailOrPhone,
-        "foget your password",
-        ForgotFormat(account.Email, otp)
-      );
+       await senData(account.Email || account.MailOrPhone , "foget your password" ,ForgotFormat(account.Email,otp));
+
       return res.status(200).json({
         success: true,
         message: "OTP sent successfully to email",

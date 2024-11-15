@@ -193,17 +193,17 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
           </div>
 
           {/* Buttons */}
-          <div className="flex justify-center gap-3 mt-6">
+          <div className="flex justify-center gap-6  mt-6">
             <button
               type="button"
               onClick={onClose}
-              className="w-full px-4 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+              className="w-[180px] px-4 py-3 text-[18px] font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="w-full px-4 py-3 text-sm font-medium text-white bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-md hover:opacity-90"
+              className="w-[180px] px-4 py-3 text-[18px] font-medium text-white bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-lg hover:opacity-90"
             >
               Save
             </button>

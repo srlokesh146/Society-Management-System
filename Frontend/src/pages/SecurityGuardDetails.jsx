@@ -600,7 +600,7 @@ function SecurityGuardDetails() {
                   <FaTimes size={20} />
                 </button>
               </div>
-
+              <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
               <div className="space-y-4">
                 {/* Profile Image & Name */}
                 <div className="flex items-center space-x-3 mb-6">
@@ -677,13 +677,14 @@ function SecurityGuardDetails() {
       )}
 
       {isDeleteModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold">
                   Delete Security Guard ?
                 </h2>
+               
                 <button
                   onClick={() => setIsDeleteModalOpen(false)}
                   className="text-gray-400 hover:text-gray-600"
@@ -691,8 +692,9 @@ function SecurityGuardDetails() {
                   <FaTimes size={20} />
                 </button>
               </div>
+              <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
 
-              <div className="text-center py-4">
+              <div className="text-center ">
                 <p className="text-gray-500 text-sm mb-6">
                   Do you really want to delete this security guard?
                 </p>
@@ -701,13 +703,13 @@ function SecurityGuardDetails() {
               <div className="flex gap-3">
                 <button
                   onClick={() => setIsDeleteModalOpen(false)}
-                  className="flex-1 px-4 py-2 border border-gray-200 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50"
+                  className="flex-1 px-4 py-3 border border-gray-200 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleConfirmDelete}
-                  className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600"
+                  className="flex-1 px-4 py-3 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600"
                 >
                   Delete
                 </button>
