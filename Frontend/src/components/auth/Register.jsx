@@ -149,7 +149,9 @@ const Register = () => {
   return (
     <div>
       <div
+
         className="min-h-screen flex flex-row md:flex-col max-md:flex-col lg:flex-col"
+        className="min-h-screen  flex flex-col  md:flex-row"
         style={{
           backgroundImage: `url(${BackgroundImage})`,
           backgroundSize: "cover",
@@ -157,14 +159,14 @@ const Register = () => {
         }}
       >
         {/* Left Section - Branding and Illustration */}
-        <div className="min-h-screen flex flex-col items-center justify-center md:w-2/5">
-          <div className="bg-[#F6F8FB] rounded-lg shadow-lg p-8 max-w-[900px] w-full flex flex-col items-start h-auto md:h-[950px] relative overflow-hidden">
-            <h1 className="text-5xl mt-20 font-bold text-gray-700 z-10 mb-4">
+        <div className="flex flex-col bg-[#F6F8FB] w-full lg:w-1/2 z-10">
+          <div className="bg-[#F6F8FB] rounded-lg shadow-lg p-8 max-w-[900px] w-full flex flex-col items-start h-auto md:h-[950px] relative">
+            <h1 className="text-[50px] mt-20 font-bold text-gray-700 z-10 mb-4">
               <span className="text-[#FE512E]">Dash</span>
-              <span className="text-black">Stack</span>
+              <span className="text-grey-800">Stack</span>
             </h1>
             <div className="flex-grow flex items-center justify-center w-full">
-              <div className="text-center mb-8">
+              <div className="text-center mr-10">
                 <img
                   src={RegisterImage}
                   alt="Society"

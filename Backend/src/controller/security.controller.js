@@ -6,6 +6,7 @@ const crypto = require("crypto");
 const { hash } = require("../utils/hashpassword");
 const senData = require("../config/mail");
 const Guard = require("../models/SecurityGuard.model");
+const { ForgotFormatSecurity } = require("../utils/securityUi");
 const accountsid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilioClient = new twilio(accountsid, authToken);
@@ -227,11 +228,12 @@ exports.CreateSecurityGuard = async (req, res) => {
      let user;
      if (MailOrPhone.includes("@")) {
        
-         await senData(
-             newOwner.MailOrPhone,
-             "Registration Successful - Login Details",
-             `Dear ${newOwner.Full_name},\n\nYou have successfully registered as a security. Your login details are as follows:\n\nUsername: ${newOwner.MailOrPhone}\nPassword: <b> ${password}</b>\n\nPlease keep this information secure.\n\nBest Regards,\nManagement`
-         );
+        //  await senData(
+        //      newOwner.MailOrPhone,
+        //      "Registration Successful - Login Details",
+        //      `Dear ${newOwner.Full_name},\n\nYou have successfully registered as a security. Your login details are as follows:\n\nUsername: ${newOwner.MailOrPhone}\nPassword: <b> ${password}</b>\n\nPlease keep this information secure.\n\nBest Regards,\nManagement`
+        //  );
+         await senData(newOwner.MailOrPhone, "Registration Successfully" ,ForgotFormatSecurity(newOwner.full_name,newOwner.MailOrPhone,password));
        
      } else {
       

@@ -219,7 +219,11 @@ const Navbar = () => {
           onClick={handleProfileClick}
         >
           <img
-            src={user?.profileImage || Avatar}
+            src={
+              user.role === "security"
+                ? user?.profileimage || Avatar
+                : user?.profileImage || Avatar
+            }
             alt="Profile"
             className="rounded-full w-[48px] h-[48px] max-sm:w-[50px] max-sm:h-[50px] sm:w-[50px] md-[50px] cursor-pointer object-contain"
           />
@@ -229,6 +233,10 @@ const Navbar = () => {
         <div className="flex flex-col md:flex">
           <h6 className="font-bold text-[16px] max-sm:hidden">
             {user?.FirstName + " " + user?.LastName}
+          <h6 className="font-bold text-[16px]">
+            {user.role === "security"
+              ? user?.full_name || Avatar
+              : user?.FirstName + " " + user?.LastName}
           </h6>
           <span className="text-[12px] leading-[18px] text-[#A7A7A7] max-sm:hidden">
             {user?.role}

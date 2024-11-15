@@ -116,7 +116,7 @@ export default function ResidentManagement() {
               </tr>
             </thead>
             <tbody>
-              {residentList.map((resident,index) => (
+              {residentList.map((resident, index) => (
                 <tr key={index} className="border-b border-[#F4F4F4]">
                   <td>
                     <div className="flex items-center justify-start ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]">
@@ -316,3 +316,4 @@ export default function ResidentManagement() {
     </div>
   );
 }
+  
