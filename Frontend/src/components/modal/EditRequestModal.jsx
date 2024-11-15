@@ -27,7 +27,7 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999]">
-      <div className="bg-white rounded-lg w-full max-w-md p-6">
+      <div className="bg-white rounded-lg w-full max-w-[410px] p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-gray-800">Edit Request</h2>
           <button
@@ -138,7 +138,7 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Priority*
             </label>
-            <div className="flex gap-4">
+            <div className="flex justify-between gap-4">
               {["High", "Medium", "Low"].map((priority) => (
                 <label key={priority} className="flex items-center">
                   <input
@@ -150,22 +150,24 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
                     className="hidden"
                   />
                   <span
-                    className={`flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded-full text-sm cursor-pointer
-                    ${
-                      selectedPriority === priority
-                        ? "border-orange-500 bg-orange-50"
-                        : ""
-                    }
+                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[113px] text-sm cursor-pointer
+                    ${selectedPriority === priority
+                       ? "border-[#FF6B07] bg-white font-medium"
+                        : "border-gray-200"
+                      }
                     hover:border-orange-500 transition-all duration-200`}
                   >
                     <div
-                      className={`w-3 h-3 rounded-full border-2 
-                      ${
-                        selectedPriority === priority
-                          ? "border-orange-500 bg-orange-500"
+                      className={`w-4 h-4 rounded-full border-2 flex items-center justify-center
+                      ${selectedPriority === priority
+                          ? "border-[#FF6B07]"
                           : "border-gray-300"
-                      }`}
-                    ></div>
+                        }`}
+                    >
+                       {selectedPriority === priority && (
+                        <div className="w-2 h-2 bg-[#FF6B07] rounded-[10px]"></div>
+                      )}
+                    </div>
                     {priority}
                   </span>
                 </label>
@@ -178,7 +180,7 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Status*
             </label>
-            <div className="flex gap-4">
+            <div className="flex justify-between gap-4">
               {["Open", "Pending", "Solve"].map((status) => (
                 <label key={status} className="flex items-center">
                   <input
@@ -190,22 +192,24 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
                     className="hidden"
                   />
                   <span
-                    className={`flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded-full text-sm cursor-pointer
-                    ${
-                      selectedStatus === status
-                        ? "border-orange-500 bg-orange-50"
+                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[113px] text-sm cursor-pointer
+                    ${selectedStatus === status
+                        ? "border-[#FF6B07] bg-white font-medium"
                         : ""
-                    }
+                      }
                     hover:border-orange-500 transition-all duration-200`}
                   >
                     <div
-                      className={`w-3 h-3 rounded-full border-2 
-                      ${
-                        selectedStatus === status
-                          ? "border-orange-500 bg-orange-500"
+                      className={`w-4 h-4 rounded-[10px] border-2 flex items-center justify-center 
+                      ${selectedStatus === status
+                          ? "border-[#FF6B07]"
                           : "border-gray-300"
-                      }`}
-                    ></div>
+                        }`}
+                    >
+                      {selectedStatus === status && (
+                        <div className="w-2 h-2 bg-[#FF6B07] rounded-[10px]"></div>
+                      )}
+                    </div>
                     {status}
                   </span>
                 </label>

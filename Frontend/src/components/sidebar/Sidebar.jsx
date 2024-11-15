@@ -113,7 +113,7 @@ export default function Sidebar() {
                       className={`flex items-center mb-[10px] text-sm font-medium rounded-lg p-[14px] ${
                         activeItem === "dashboard" || activeItem === item.id
                           ? "bg-custom-gradient text-white border"
-                          : "hover:bg-custom-gradient hover:text-white"
+                          : "hover:bg-custom-gradient hover:text-white bg-red"
                       }`}
                       onClick={() => handleItemClick(item)}
                     >

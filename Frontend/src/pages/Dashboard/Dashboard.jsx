@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 import {
   pendingMaintenances,
-  // totalBalanceData,
-  // complaintsData,
-  // importantNumbers,
   cardData,
 } from "../../constantdata";
-// import BalanceChart from "../../components/BalanceChart";
 import Modal from "../../components/modal/Modal";
 import DashboardTable from "../../components/DashboardTable";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import edit from "../../assets/images/edit.svg";
+import trash from "../../assets/images/trash.svg";
 import rogerimage from "../../assets/images/rogerimage.png";
-
+import { FaSquarePlus } from "react-icons/fa6";
 import {
   DeleteImpNumber,
   GetImpNumbers,
@@ -19,6 +16,7 @@ import {
 import toast from "react-hot-toast";
 import { GetAnnouncements } from "../../services/announcementService";
 import BalanceChart from "../../components/BalanceChart";
+import DeleteConfirmationModal from "../../components/modal/DeleteConfirmationModal";
 
 const Dashboard = () => {
   const [importantNumbers, setImportantNumbers] = useState([]);
@@ -148,7 +146,7 @@ const Dashboard = () => {
 
           <div className="grid grid-cols-12 w-full gap-3 h-full max-xl:grid-cols-6 max-2xl:grid-cols-6">
             <div className="col-span-12 max-md:col-span-8 max-lg:col-span-6 md:col-span-6 rounded-lg shadow-[0px_0px_25px_0px_rgba(0,0,0,0.08)]">
-              <BalanceChart/>
+              <BalanceChart />
             </div>
 
             <div className="col-span-12 max-md:col-span-12 lg:col-span-3 max-xl:col-span-3 max-md">
@@ -161,7 +159,14 @@ const Dashboard = () => {
                     className="modal bg-custom-gradient py-[8px] px-[10px] rounded-[10px] text-white font-semibold"
                     onClick={handleOpenModal}
                   >
-                    + Add
+                    <div className="flex justify-center items-center">
+                      <div>
+                        <FaSquarePlus className="rounded-[6px] mr-1" />
+                      </div>
+                      <div>
+                        Add
+                      </div>
+                    </div>
                   </button>
                 </div>
                 <form
@@ -194,13 +199,13 @@ const Dashboard = () => {
                           </div>
 
                           <div className="flex space-x-2">
-                            <FaTrashAlt
-                              className="cursor-pointer text-red-500 mr-[3px]"
+                            <img src={trash}
+                              className="cursor-pointer text-red-500 mr-[3px] bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                               title="Delete"
                               onClick={() => handleDeleteContact(contact._id)}
                             />
-                            <FaEdit
-                              className="cursor-pointer text-blue-500"
+                            <img src={edit}
+                              className="cursor-pointer text-blue-500 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                               onClick={() => handleView(contact)}
                               title="View"
                             />
@@ -325,7 +330,7 @@ const Dashboard = () => {
                     className="flex items-center justify-between bg-white py-[12px] px-[15px] rounded-lg shadow-sm"
                   >
                     <div className="flex items-center space-x-2">
-                      <div className="w-[40px] h-[40px] bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-bold">
+                      <div className="w-[40px] h-[40px] bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-bold acvtivity">
                         {activity.title[0].toUpperCase()}
                       </div>
                       <div>

@@ -70,7 +70,7 @@ function App() {
           <Navbar toggleSidebar={toggleSidebar} />
         )}
 
-          <div className={`flex-1 ${shouldRenderSidebarAndNavbar ? "p-6 overflow-auto" : ""} bg-gray-100`}>
+          <div className={`flex-1 ${shouldRenderSidebarAndNavbar ? "p-6 overflow-hidden md:overflow-auto" : ""} bg-gray-100`}>
 
         <div className="flex-1  bg-gray-100 overflow-y-auto">
 

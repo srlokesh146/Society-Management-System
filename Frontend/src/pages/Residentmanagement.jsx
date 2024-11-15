@@ -14,6 +14,8 @@ import VacateModal from "../components/modal/VacateModal";
 import ConfirmationModal from "../components/modal/ConfirmationModal";
 import { GetResidents } from "../services/ownerTenantService";
 import { toast } from "react-hot-toast";
+import eye from "../assets/images/eye.svg";
+import edit from "../assets/images/edit.svg";
 
 export default function ResidentManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -121,8 +123,8 @@ export default function ResidentManagement() {
                   <td>
                     <div className="flex items-center justify-start ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]">
                       {resident.ResidentStatus !== "Owner" &&
-                      resident.UnitStatus !== "Occupied" &&
-                      resident.ResidentStatus !== "Tenant" ? (
+                        resident.UnitStatus !== "Occupied" &&
+                        resident.ResidentStatus !== "Tenant" ? (
                         <>
                           <img
                             src={avatar2}
@@ -156,11 +158,10 @@ export default function ResidentManagement() {
                   <td className="px-6 py-4 text-center">
                     <span
                       className={`inline-flex items-center justify-center px-3 py-1 rounded-full font-medium 
-                    ${
-                      resident.unitStatus === "Occupied"
-                        ? "bg-[#ECFFFF] text-[#14B8A6] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
-                        : "bg-[#FFF6FF] text-[#9333EA] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
-                    }`}
+                    ${resident.unitStatus === "Occupied"
+                          ? "bg-[#ECFFFF] text-[#14B8A6] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
+                          : "bg-[#FFF6FF] text-[#9333EA] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
+                        }`}
                     >
                       {resident.unitStatus === "Occupied" ? (
                         <img src={occupiedImage} className="mr-[4px]" />
@@ -176,11 +177,10 @@ export default function ResidentManagement() {
                     {resident.UnitStatus === "Occupied" ? (
                       <span
                         className={`inline-flex items-center justify-center px-3 py-1 rounded-full font-medium 
-                       ${
-                         resident.Resident_status === "Tenante"
-                           ? "bg-[#FFF1F8] text-[#EC4899] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
-                           : "bg-[#F1F0FF] text-[#4F46E5] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
-                       }`}
+                       ${resident.Resident_status === "Tenante"
+                            ? "bg-[#FFF1F8] text-[#EC4899] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
+                            : "bg-[#F1F0FF] text-[#4F46E5] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
+                          }`}
                       >
                         {resident.Resident_status === "Tenante" ? (
                           <img
@@ -207,8 +207,8 @@ export default function ResidentManagement() {
                   </td>
                   <td className="text-center px-6 py-4 flex justify-center items-center">
                     {resident.Resident_status !== "Owner" &&
-                    resident.UnitStatus !== "Occupied" &&
-                    resident.Resident_status !== "Tenante" ? (
+                      resident.UnitStatus !== "Occupied" &&
+                      resident.Resident_status !== "Tenante" ? (
                       <div className="text-[#4F4F4F] bg-[#F6F8FB] w-[106px] h-[31px] flex  items-center justify-center rounded-[70px]">
                         <span className="text-[#4F4F4F]">--</span>
                       </div>
@@ -220,8 +220,8 @@ export default function ResidentManagement() {
                   </td>
                   <td>
                     {resident.Resident_status !== "Owner" &&
-                    resident.UnitStatus !== "Occupied" &&
-                    resident.Resident_status !== "Tenante" ? (
+                      resident.UnitStatus !== "Occupied" &&
+                      resident.Resident_status !== "Tenante" ? (
                       <div className="flex items-center justify-center ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]">
                         <span className="text-[#4F4F4F]  bg-[#F6F8FB] w-[28px] h-[28px] rounded-full flex justify-center items-center">
                           -
@@ -237,8 +237,8 @@ export default function ResidentManagement() {
                   </td>
                   <td>
                     {resident.Resident_status !== "Owner" &&
-                    resident.UnitStatus !== "Occupied" &&
-                    resident.Resident_status !== "Tenante" ? (
+                      resident.UnitStatus !== "Occupied" &&
+                      resident.Resident_status !== "Tenante" ? (
                       <div className="flex items-center justify-center ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]">
                         <span className="text-[#4F4F4F]  bg-[#F6F8FB] w-[28px] h-[28px] rounded-full flex justify-center items-center">
                           -
@@ -254,8 +254,8 @@ export default function ResidentManagement() {
                   </td>
                   <td className="text-center">
                     {resident.Resident_status !== "Owner" &&
-                    resident.UnitStatus !== "Occupied" &&
-                    resident.Resident_status !== "Tenante" ? (
+                      resident.UnitStatus !== "Occupied" &&
+                      resident.Resident_status !== "Tenante" ? (
                       <div className="flex items-center justify-center max-sm:min-w-[180px] max-md:min-w-[180px]">
                         <span className="text-[#4F4F4F] bg-[#F6F8FB] w-[106px] h-[31px] inline-flex items-center justify-center rounded-[70px]">
                           -
@@ -264,16 +264,16 @@ export default function ResidentManagement() {
                     ) : (
                       <div className="flex items-center justify-center gap-3">
                         <button
-                          className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] rounded-[10px] flex justify-center items-center"
+                          className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                           onClick={() => handleEdit(resident)}
                         >
-                          <FaPencilAlt size={16} />
+                          <img src={edit} />
                         </button>
                         <button
                           className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] rounded-[10px] flex justify-center items-center"
                           onClick={() => handleView(resident)}
                         >
-                          <FaEye size={16} />
+                          <img src={eye} />
                         </button>
                       </div>
                     )}
@@ -316,4 +316,3 @@ export default function ResidentManagement() {
     </div>
   );
 }
-  

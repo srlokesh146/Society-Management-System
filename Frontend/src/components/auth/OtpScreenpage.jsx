@@ -117,7 +117,12 @@ const OtpScreenpage = () => {
 
             <button
               onClick={handleOtp}
-              className="w-full py-[12px] rounded bg-[#F6F8FB] text-[#A7A7A7] leading-7 "
+              className={`w-full py-[12px] rounded leading-7 
+                ${otp.every((digit) => digit !== "")
+                  ? "bg-custom-gradient text-white"
+                  : "bg-[#F6F8FB] text-[#A7A7A7]"
+                }`}
+              disabled={!otp.every((digit) => digit !== "")}
             >
               Verify
             </button>

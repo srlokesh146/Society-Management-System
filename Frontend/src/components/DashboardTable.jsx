@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { FaEye, FaEdit, FaTrashAlt } from "react-icons/fa";
 import ViewComplaintModal from "./modal/ViewComplaintModal";
 import complainimages from "../assets/images/complainimage.png";
+import eye from "../assets/images/eye.svg";
+import edit from "../assets/images/edit.svg";
+import trash from "../assets/images/trash.svg";
 import DeleteConfirmationModal from "./modal/DeleteConfirmationModal";
 import {
   DeleteComplaint,
@@ -29,8 +32,13 @@ const DashboardTable = () => {
   const [isViewModalOpen, setViewModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [currentComplaint, setCurrentComplaint] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("");
   const [complaintList, setComplaintList] = useState([]);
   let avatar = "https://mighty.tools/mockmind-api/content/human/65.jpg";
+
+  const handleSelectChange = (e) => {
+    setSelectedOption(e.target.value);
+  };
 
   const onEdit = (complaint) => {
     setCurrentComplaint(complaint);
@@ -80,9 +88,7 @@ const DashboardTable = () => {
       toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response.data.message);
-    } finally {
-      isDeleteModalOpen(false);
-    }
+    }      
   };
 
   const onCloseDeleteModal = () => {
@@ -128,7 +134,7 @@ const DashboardTable = () => {
         <div>
           <select
             id="month-select"
-            className="text-[15px] border border-gray-300 rounded-lg px-2 py-1 text-gray-700 flex items-center outline-none w-[116px]"
+            className="text-[15px] border border-gray-300 rounded-lg px-2 py-1 text-gray-700 flex items-center outline-none w-[120px]"
           >
             <option value="" disabled defaultValue>
               Month
@@ -153,7 +159,7 @@ const DashboardTable = () => {
             </option>
           </select>
         </div>
-      </div>  
+      </div>
 
       <div className="overflow-y-auto max-md:overflow-x-auto pr-[8px] ps-[20px] custom-scrollbar">
         <table className="w-full table-auto border-collapse">
@@ -226,20 +232,20 @@ const DashboardTable = () => {
                   </button>
                 </td>
                 <td className="space-x-[10px] text-center flex justify-center items-start h-[40px] pt-[13px] max-sm:min-w-[180px] md:min-w-[120px] max-md:min-w-[180px]">
-                  <FaEdit
+                  <img src={edit} alt=""
                     className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                     onClick={() => onEdit(complaint)}
                     title="Edit"
                   />
-                  <FaEye
+                  <img src={eye} alt=""
                     className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                     onClick={() => onView(complaint)}
                     title="View"
                   />
-                  <FaTrashAlt
+                  <img src={trash} alt=""
                     className="cursor-pointer text-red-500 hover:text-red-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
-                    title="Delete"
                     onClick={() => handleDeleteContact(complaint)}
+                    title="View"
                   />
                 </td>
               </tr>

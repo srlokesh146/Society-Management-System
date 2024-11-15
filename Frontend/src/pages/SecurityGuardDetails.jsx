@@ -11,10 +11,6 @@ import {
   FaPencilAlt,
   FaTimes,
   FaCamera,
-  FaFile,
-  FaExclamationTriangle,
-  FaCalendarAlt,
-  FaClock,
   FaCloudUploadAlt,
   FaUser,
 } from "react-icons/fa";
@@ -25,6 +21,9 @@ import {
   GetSecurityGuards,
   UpdateSecurityGuard,
 } from "../services/securityGuardService";
+import eye from "../assets/images/eye.svg";
+import edit from "../assets/images/edit.svg";
+import trash from "../assets/images/trash.svg";
 
 function SecurityGuardDetails() {
   const [guards, setGuards] = useState([]);
@@ -296,7 +295,7 @@ function SecurityGuardDetails() {
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm font-semibold text-gray-500">
+                    <div className="text-sm font-medium text-gray-500">
                       {new Date(guard.date).toLocaleDateString("en-GB", {
                         day: "2-digit",
                         month: "2-digit",
@@ -305,7 +304,7 @@ function SecurityGuardDetails() {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="inline-flex px-3 py-1 font-semibold text-sm text-gray-500 bg-[#F6F8FB] rounded-md">
+                    <div className="inline-flex px-3 py-1 font-medium text-sm text-gray-500 bg-[#F6F8FB] rounded-md">
                       {guard.time}
                     </div>
                   </td>
@@ -328,21 +327,18 @@ function SecurityGuardDetails() {
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => handleEdit(guard)}
-                        className="p-1.5 rounded-full bg-green-50 text-green-600 hover:bg-green-100"
-                      >
-                        <FaPencilAlt size={14} />
+                        className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]">
+                       <img src={edit} alt="" />
                       </button>
                       <button
                         onClick={() => handleView(guard)}
-                        className="p-1.5 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100"
-                      >
-                        <FaEye size={14} />
+                        className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]">
+                         <img src={eye} alt="" />
                       </button>
                       <button
                         onClick={() => handleDeleteClick(guard)}
-                        className="p-1.5 rounded-full bg-red-50 text-red-600 hover:bg-red-100"
-                      >
-                        <FaTrash size={14} />
+                        className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]">
+                       <img src={trash} alt="" />
                       </button>
                     </div>
                   </td>
@@ -354,7 +350,7 @@ function SecurityGuardDetails() {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0  flex items-center justify-center z-[9999] p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm">
             <div className="">
 

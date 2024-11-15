@@ -149,12 +149,12 @@ const VisitorLogs = () => {
                     </div>
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-bold text-gray-500">
+                    <div className="text-sm font-medium text-gray-500">
                       {visitor.number}
                     </div>
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-bold text-gray-500">
+                    <div className="text-sm font-medium text-gray-500">
                       {new Date(visitor.date).toLocaleDateString("en-GB", {
                         day: "2-digit",
                         month: "2-digit",
@@ -167,13 +167,13 @@ const VisitorLogs = () => {
                       <span className="h-5 w-5 flex items-center justify-center rounded-full bg-[#5678E91A] text-[#5678E9] text-xs font-medium mr-2">
                         {visitor.wing}
                       </span>
-                      <span className="text-sm font-bold text-gray-500">
+                      <span className="text-sm font-medium text-gray-500">
                         {visitor.unit}
                       </span>
                     </div>
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                    <div className="inline-flex px-3 py-1 font-bold text-sm text-gray-500 bg-[#F6F8FB] rounded-md">
+                    <div className="inline-flex px-3 py-1 font-medium text-sm text-gray-500 bg-[#F6F8FB] rounded-md">
                       {visitor.time}
                     </div>
                   </td>
