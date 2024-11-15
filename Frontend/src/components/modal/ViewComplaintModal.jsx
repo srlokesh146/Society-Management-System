@@ -15,7 +15,6 @@ const ViewComplaintModal = ({ isOpen, onClose, complaint }) => {
         >
           <FaTimes className="text-xl" />
         </button>
-
         <h4 className="text-xl font-semibold mb-[10px] leading-[30px] text-[20px]">
           View Complaint
         </h4>

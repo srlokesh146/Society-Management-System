@@ -10,6 +10,7 @@ const ViewRequestModal = ({ isOpen, onClose, Request }) => {
       <div className="bg-white rounded-lg w-full max-w-md p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-gray-800">View Request</h2>
+          <div className="border-b border-[#F4F4F4] mb-[30px]"></div>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
@@ -17,7 +18,7 @@ const ViewRequestModal = ({ isOpen, onClose, Request }) => {
             <FaTimes size={20} />
           </button>
         </div>
-
+        <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
         <div className="space-y-6">
           {/* User Info Section */}
           <div className="flex items-center gap-3 mb-6">
@@ -101,14 +102,7 @@ const ViewRequestModal = ({ isOpen, onClose, Request }) => {
           </div>
         </div>
 
-        <div className="mt-6">
-          <button
-            onClick={onClose}
-            className="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-[#F6F8FB] rounded-md hover:bg-gray-200"
-          >
-            Close
-          </button>
-        </div>
+       
       </div>
     </div>
   );

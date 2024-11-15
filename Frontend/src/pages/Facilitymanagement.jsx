@@ -210,7 +210,7 @@ function FacilityManagement() {
         </h1>
         <button
           onClick={handleCreateFacility}
-          className="px-4 py-2 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white rounded-md hover:opacity-90 flex items-center gap-2"
+          className="px-4 py-3 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white rounded-lg hover:opacity-90 flex items-center gap-2"
         >
           Create Facility
         </button>
@@ -220,16 +220,16 @@ function FacilityManagement() {
         {facilities.map((facility) => (
           <div
             key={facility._id}
-            className="bg-white rounded-lg shadow-xl hover:shadow-md transition-shadow"
+            className="bg-white rounded-lg shadow-sm  bordre border border-grey-800 hover:shadow-sm transition-shadow"
           >
             <div className="bg-[#5678E9] text-white p-4 rounded-t-lg flex justify-between items-center">
               <h3 className="font-medium">{facility.name}</h3>
               <div className="relative">
                 <button
                   onClick={() => toggleDropdown(facility._id)}
-                  className="hover:opacity-80"
+                  className="hover:opacity-80  text-blue-500 rounded-md p-1 bg-white h-5 w-5"
                 >
-                  <FaEllipsisV />
+                  <FaEllipsisV  size={12}/>
                 </button>
                 {dropdownOpen === facility._id && renderDropdownMenu(facility)}
               </div>
@@ -265,7 +265,7 @@ function FacilityManagement() {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-2 sm:p-4">
           <div className="bg-white rounded-xl w-[95%] sm:w-[85%] md:w-[65%] lg:w-[50%] max-w-md max-h-[90vh] sm:max-h-[85vh] overflow-y-auto my-2 sm:my-8 mx-auto relative">
-            <div className="p-3 sm:p-6">
+            <div className="p-3 sm:p-6 ">
               {/* Header */}
               <div className="flex justify-between items-center mb-3 sm:mb-4 sticky top-0 bg-white pt-1">
                 <h2 className="text-base sm:text-xl font-semibold text-gray-800">
@@ -281,6 +281,7 @@ function FacilityManagement() {
 
               {/* Form with updated spacing */}
               <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+              <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Facility Name

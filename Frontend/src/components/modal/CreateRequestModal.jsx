@@ -60,6 +60,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
       <div className="bg-white rounded-lg w-full max-w-md p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-gray-800">Create Request</h2>
+              
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
@@ -67,7 +68,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
             <FaTimes size={20} />
           </button>
         </div>
-
+        <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Complainant Name */}
           <div>
