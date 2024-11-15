@@ -255,7 +255,11 @@ exports.SendOtp = async (req, res) => {
         "Forgot your password",
         otp
       );
-       await senData(account.Email || account.MailOrPhone , "foget your password" ,ForgotFormat(account.Email,otp));
+      await senData(
+        account.Email || account.MailOrPhone,
+        "foget your password",
+        ForgotFormat(account.Email, otp)
+      );
       return res.status(200).json({
         success: true,
         message: "OTP sent successfully to email",
@@ -284,6 +288,7 @@ exports.SendOtp = async (req, res) => {
 exports.verifyOtp = async (req, res) => {
   try {
     const { EmailOrPhone, otp } = req.body;
+    console.log(otp);
 
     if (!EmailOrPhone || !otp) {
       return res.status(400).json({
@@ -310,7 +315,7 @@ exports.verifyOtp = async (req, res) => {
       });
     }
 
-    if (account.otp !== otp) {
+    if (account.otp != otp) {
       return res.status(400).json({
         success: false,
         message: "Invalid OTP",

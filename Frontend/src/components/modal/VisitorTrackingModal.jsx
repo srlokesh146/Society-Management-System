@@ -1,32 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { createVisitor } from "../../services/securityGuardService";
+import { toast } from "react-hot-toast";
 
 export default function VisitorTrackingModal({ isOpen, onClose, onSave }) {
   const [formData, setFormData] = useState({
-    name: '',
-    wing: '',
-    unit: '',
-    date: '',
-    time: ''
+    name: "",
+    number: "",
+    wing: "",
+    unit: "",
+    date: "",
+    time: "",
   });
 
   const [error, setError] = useState({
-    name: '',
-    wing: '',
-    unit: '',
-    date: '',
-    time: ''
+    name: "",
+    number: "",
+    wing: "",
+    unit: "",
+    date: "",
+    time: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value
+      [name]: value,
     }));
 
     setError((prevError) => ({
       ...prevError,
-      [name]: false
+      [name]: false,
     }));
   };
 
@@ -35,23 +39,31 @@ export default function VisitorTrackingModal({ isOpen, onClose, onSave }) {
     const newError = {};
 
     if (!formData.name || !/^[A-Za-z\s]+$/.test(formData.name)) {
-      newError.name = 'Please enter a valid name';
+      newError.name = "Please enter a valid name";
+      formIsValid = false;
+    }
+    if (!formData.number) {
+      newError.number = "Please phone number";
       formIsValid = false;
     }
     if (!formData.wing) {
-      newError.wing = 'Please enter Wing';
+      newError.wing = "Please enter Wing";
+      formIsValid = false;
+    }
+    if (!formData.wing) {
+      newError.wing = "Please enter Wing";
       formIsValid = false;
     }
     if (!formData.unit) {
-      newError.unit = 'Please enter Unit';
+      newError.unit = "Please enter Unit";
       formIsValid = false;
     }
     if (!formData.date) {
-      newError.date = 'Please enter Date';
+      newError.date = "Please enter Date";
       formIsValid = false;
     }
     if (!formData.time || !/^\d{2}:\d{2}$/.test(formData.time)) {
-      newError.time = 'Please enter a valid time';
+      newError.time = "Please enter a valid time";
       formIsValid = false;
     }
 
@@ -59,31 +71,29 @@ export default function VisitorTrackingModal({ isOpen, onClose, onSave }) {
     return formIsValid;
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-
-    if (!validateForm()) return;
-
-    if (onSave) onSave(formData);
-
+    onSave(formData);
     resetForm();
     onClose();
   };
 
   const resetForm = () => {
     setFormData({
-      name: '',
-      wing: '',
-      unit: '',
-      date: '',
-      time: ''
+      name: "",
+      number: "",
+      wing: "",
+      unit: "",
+      date: "",
+      time: "",
     });
     setError({
-      name: '',
-      wing: '',
-      unit: '',
-      date: '',
-      time: ''
+      name: "",
+      number: "",
+      wing: "",
+      unit: "",
+      date: "",
+      time: "",
     });
   };
 
@@ -93,7 +103,14 @@ export default function VisitorTrackingModal({ isOpen, onClose, onSave }) {
   };
 
   const isFormValid = () => {
-    return formData.name && formData.wing && formData.unit && formData.date && formData.time;
+    return (
+      formData.name &&
+      formData.number &&
+      formData.wing &&
+      formData.unit &&
+      formData.date &&
+      formData.time
+    );
   };
 
   if (!isOpen) return null;
@@ -104,7 +121,7 @@ export default function VisitorTrackingModal({ isOpen, onClose, onSave }) {
         <h2 className="text-lg font-semibold mb-4">Add Visitor Details</h2>
 
         <form onSubmit={handleSave}>
-          <div className='mb-[20px]'>
+          <div className="mb-[20px]">
             <label className="block mb-2">Visitor Name*</label>
             <input
               type="text"
@@ -112,12 +129,32 @@ export default function VisitorTrackingModal({ isOpen, onClose, onSave }) {
               placeholder="Enter Name"
               value={formData.name}
               onChange={handleChange}
-              className={`w-full p-2 mb-1 border rounded-[10px] ${error.name ? 'border-red-500' : ''} focus:outline-none`}
+              className={`w-full p-2 mb-1 border rounded-[10px] ${
+                error.name ? "border-red-500" : ""
+              } focus:outline-none`}
             />
-            {error.name && <span className="text-red-500 text-sm">{error.name}</span>}
+            {error.name && (
+              <span className="text-red-500 text-sm">{error.name}</span>
+            )}
+          </div>
+          <div className="mb-[20px]">
+            <label className="block mb-2">Visitor Number*</label>
+            <input
+              type="text"
+              name="number"
+              placeholder="Enter phone number"
+              value={formData.number}
+              onChange={handleChange}
+              className={`w-full p-2 mb-1 border rounded-[10px] ${
+                error.number ? "border-red-500" : ""
+              } focus:outline-none`}
+            />
+            {error.number && (
+              <span className="text-red-500 text-sm">{error.number}</span>
+            )}
           </div>
 
-          <div className='flex justify-between mb-[20px]'>
+          <div className="flex justify-between mb-[20px]">
             <div>
               <label className="block mb-2">Wing*</label>
               <input
@@ -126,9 +163,13 @@ export default function VisitorTrackingModal({ isOpen, onClose, onSave }) {
                 placeholder="Enter Wing"
                 value={formData.wing}
                 onChange={handleChange}
-                className={`w-[175px] h-[47px] p-2 mb-1 border rounded-[10px] ${error.wing ? 'border-red-500' : ''} focus:outline-none bg-transparent`}
+                className={`w-[175px] h-[47px] p-2 mb-1 border rounded-[10px] ${
+                  error.wing ? "border-red-500" : ""
+                } focus:outline-none bg-transparent`}
               />
-              {error.wing && <span className="text-red-500 text-sm">{error.wing}</span>}
+              {error.wing && (
+                <span className="text-red-500 text-sm">{error.wing}</span>
+              )}
             </div>
 
             <div>
@@ -139,12 +180,16 @@ export default function VisitorTrackingModal({ isOpen, onClose, onSave }) {
                 placeholder="Enter Unit"
                 value={formData.unit}
                 onChange={handleChange}
-                className={`w-[175px] h-[47px] p-2 mb-1 border rounded-[10px] ${error.unit ? 'border-red-500' : ''} focus:outline-none`}
+                className={`w-[175px] h-[47px] p-2 mb-1 border rounded-[10px] ${
+                  error.unit ? "border-red-500" : ""
+                } focus:outline-none`}
               />
-              {error.unit && <span className="text-red-500 text-sm">{error.unit}</span>}
+              {error.unit && (
+                <span className="text-red-500 text-sm">{error.unit}</span>
+              )}
             </div>
           </div>
-          <div className='flex justify-between mb-[20px]'>
+          <div className="flex justify-between mb-[20px]">
             <div>
               <label className="block mb-2">Date*</label>
               <input
@@ -152,9 +197,13 @@ export default function VisitorTrackingModal({ isOpen, onClose, onSave }) {
                 name="date"
                 value={formData.date}
                 onChange={handleChange}
-                className={`w-[175px] h-[47px] p-2 mb-1 border rounded-[10px] ${error.date ? 'border-red-500' : ''} focus:outline-none`}
+                className={`w-[175px] h-[47px] p-2 mb-1 border rounded-[10px] ${
+                  error.date ? "border-red-500" : ""
+                } focus:outline-none`}
               />
-              {error.date && <span className="text-red-500 text-sm">{error.date}</span>}
+              {error.date && (
+                <span className="text-red-500 text-sm">{error.date}</span>
+              )}
             </div>
             <div>
               <label className="block mb-2">Time*</label>
@@ -163,9 +212,13 @@ export default function VisitorTrackingModal({ isOpen, onClose, onSave }) {
                 name="time"
                 value={formData.time}
                 onChange={handleChange}
-                className={`w-[175px] h-[47px] p-2 mb-1 border rounded-[10px] ${error.time ? 'border-red-500' : ''} focus:outline-none`}
+                className={`w-[175px] h-[47px] p-2 mb-1 border rounded-[10px] ${
+                  error.time ? "border-red-500" : ""
+                } focus:outline-none`}
               />
-              {error.time && <span className="text-red-500 text-sm">{error.time}</span>}
+              {error.time && (
+                <span className="text-red-500 text-sm">{error.time}</span>
+              )}
             </div>
           </div>
           <div className="flex justify-center gap-3 mt-6">
@@ -179,10 +232,11 @@ export default function VisitorTrackingModal({ isOpen, onClose, onSave }) {
             <button
               type="submit"
               className={`w-[175px] px-4 py-3 text-md font-medium text-black rounded-[10px] transition-all duration-300
-        ${isFormValid()
-                  ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] hover:opacity-90 text-white"
-                  : "bg-[#F6F8FB] text-black"
-                }`}
+        ${
+          isFormValid()
+            ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] hover:opacity-90 text-white"
+            : "bg-[#F6F8FB] text-black"
+        }`}
             >
               Save
             </button>
