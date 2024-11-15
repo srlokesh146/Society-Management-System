@@ -1,29 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
+import { CreateAlert } from "../../services/alertService";
+import { toast } from "react-hot-toast";
 
 export default function EmergencyManagement() {
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('');
+  const [alert_type, setAlert_type] = useState("");
   const [errors, setErrors] = useState({});
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newErrors = {};
 
-    if (!selectedOption) {
-      newErrors.alertType = 'Please select an alert type.';
+    if (!alert_type) {
+      newErrors.alert_type = "Please select an alert type.";
     }
     if (!description) {
-      newErrors.description = 'Please enter a description.';
+      newErrors.description = "Please enter a description.";
     }
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      console.log('Form submitted:', { selectedOption, description });
+      try {
+        const data = { alert_type, description };
+        const response = await CreateAlert(data);
+        toast.success(response.data.message);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      } finally {
+        setAlert_type("");
+        setDescription("");
+      }
     }
   };
 
@@ -32,15 +42,17 @@ export default function EmergencyManagement() {
   };
 
   const handleOptionSelect = (option) => {
-    setSelectedOption(option);
+    setAlert_type(option);
     setDropdownOpen(false);
-    setErrors((prevErrors) => ({ ...prevErrors, alertType: '' }));
+    setErrors((prevErrors) => ({ ...prevErrors, alert_type: "" }));
   };
 
   return (
     <div className="flex justify-center items-center min-h-full bg-gray-100">
       <div className="bg-white p-8 rounded-[15px] shadow-[0px_0px_40px_0px_rgba(0,0,0,0.08)] w-full max-w-[630px] px-[50px]">
-        <h2 className="text-[34px] leading-[51px] font-semibold mb-[20px] text-start">Alert</h2>
+        <h2 className="text-[34px] leading-[51px] font-semibold mb-[20px] text-start">
+          Alert
+        </h2>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -50,11 +62,11 @@ export default function EmergencyManagement() {
                 type="button"
                 onClick={handleDropdownToggle}
                 className={`w-full p-2 rounded-[10px] text-left flex justify-between items-center 
-        ${selectedOption ? 'border-black' : 'border-gray-300'} border`}
+        ${alert_type ? "border-black" : "border-gray-300"} border`}
               >
-                <span className={selectedOption ? 'text-black' : 'text-[#A7A7A7]'}>
+                <span className={alert_type ? "text-black" : "text-[#A7A7A7]"}>
                   <span className="text-[14px] leading-[21px] font-normal">
-                    {selectedOption || 'Select Alert'}
+                    {alert_type || "Select Alert"}
                   </span>
                 </span>
                 <IoChevronDownOutline className="text-gray-500" />
@@ -64,16 +76,48 @@ export default function EmergencyManagement() {
                   className="absolute w-full mt-1 bg-white rounded-md shadow-[0px_0px_40px_0px_rgba(0,0,0,0.08)] max-h-[200px] overflow-y-auto 
                              scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200"
                 >
-                  <li onClick={() => handleOptionSelect('Emergency')} className="p-2 cursor-pointer text-[14px] leading-[21px] text-[#A7A7A7] hover:text-black">Emergency</li>
-                  <li onClick={() => handleOptionSelect('Warning')} className="p-2 cursor-pointer text-[14px] leading-[21px] text-[#A7A7A7] hover:text-black">Warning</li>
-                  <li onClick={() => handleOptionSelect('Fire Alarm')} className="p-2 cursor-pointer text-[14px] leading-[21px] text-[#A7A7A7] hover:text-black">Fire Alarm</li>
-                  <li onClick={() => handleOptionSelect('Earthquake')} className="p-2 cursor-pointer text-[14px] leading-[21px] text-[#A7A7A7] hover:text-black">Earthquake</li>
-                  <li onClick={() => handleOptionSelect('High Winds')} className="p-2 cursor-pointer text-[14px] leading-[21px] text-[#A7A7A7] hover:text-black">High Winds</li>
-                  <li onClick={() => handleOptionSelect('Thunder')} className="p-2 cursor-pointer text-[14px] leading-[21px] text-[#A7A7A7] hover:text-black">Thunder</li>
+                  <li
+                    onClick={() => handleOptionSelect("Emergency")}
+                    className="p-2 cursor-pointer text-[14px] leading-[21px] text-[#A7A7A7] hover:text-black"
+                  >
+                    Emergency
+                  </li>
+                  <li
+                    onClick={() => handleOptionSelect("Warning")}
+                    className="p-2 cursor-pointer text-[14px] leading-[21px] text-[#A7A7A7] hover:text-black"
+                  >
+                    Warning
+                  </li>
+                  <li
+                    onClick={() => handleOptionSelect("Fire Alarm")}
+                    className="p-2 cursor-pointer text-[14px] leading-[21px] text-[#A7A7A7] hover:text-black"
+                  >
+                    Fire Alarm
+                  </li>
+                  <li
+                    onClick={() => handleOptionSelect("Earthquake")}
+                    className="p-2 cursor-pointer text-[14px] leading-[21px] text-[#A7A7A7] hover:text-black"
+                  >
+                    Earthquake
+                  </li>
+                  <li
+                    onClick={() => handleOptionSelect("High Winds")}
+                    className="p-2 cursor-pointer text-[14px] leading-[21px] text-[#A7A7A7] hover:text-black"
+                  >
+                    High Winds
+                  </li>
+                  <li
+                    onClick={() => handleOptionSelect("Thunder")}
+                    className="p-2 cursor-pointer text-[14px] leading-[21px] text-[#A7A7A7] hover:text-black"
+                  >
+                    Thunder
+                  </li>
                 </ul>
               )}
             </div>
-            {errors.alertType && <p className="text-red-500 text-sm mt-1">{errors.alertType}</p>}
+            {errors.alert_type && (
+              <p className="text-red-500 text-sm mt-1">{errors.alert_type}</p>
+            )}
           </div>
 
           <div className="mb-4">
@@ -85,8 +129,9 @@ export default function EmergencyManagement() {
               className="w-full p-2 border rounded-md focus:outline-none"
               rows="4"
             />
-            {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
-
+            {errors.description && (
+              <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+            )}
           </div>
 
           <div className="flex justify-center gap-4">
@@ -98,7 +143,6 @@ export default function EmergencyManagement() {
             </button>
           </div>
         </form>
-
       </div>
     </div>
   );
