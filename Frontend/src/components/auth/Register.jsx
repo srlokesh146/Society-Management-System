@@ -185,7 +185,7 @@ const Register = () => {
               {/* Name Fields */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-[14px] font-medium text-gray-700 mb-1">
                     First Name*
                   </label>
                   <input
@@ -195,11 +195,11 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                     placeholder="Enter First Name"
-                  
+
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-[14px] font-medium text-gray-700 mb-1">
                     Last Name*
                   </label>
                   <input
@@ -209,7 +209,7 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                     placeholder="Enter Last Name"
-                  
+
                   />
                 </div>
               </div>
@@ -217,7 +217,7 @@ const Register = () => {
               {/* Email and Phone */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-[14px] font-medium text-gray-700 mb-1">
                     Email Address*
                   </label>
                   <input
@@ -227,11 +227,11 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                     placeholder="Enter Email Address"
-                  
+
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-[14px] font-medium text-gray-700 mb-1">
                     Phone Number*
                   </label>
                   <input
@@ -241,7 +241,7 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                     placeholder="91+"
-                  
+
                   />
                 </div>
               </div>
@@ -249,7 +249,7 @@ const Register = () => {
               {/* Country, State, City */}
               <div className="grid grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-[14px] font-medium text-gray-700 mb-1">
                     Country*
                   </label>
                   <input
@@ -259,11 +259,11 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                     placeholder="Enter Name"
-                  
+
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-[14px] font-medium text-gray-700 mb-1">
                     State*
                   </label>
                   <input
@@ -273,11 +273,11 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                     placeholder="Enter Name"
-                  
+
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-[14px] font-medium text-gray-700 mb-1">
                     City*
                   </label>
                   <input
@@ -287,14 +287,14 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                     placeholder="Enter Name"
-                  
+
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-6 gap-4 w-full  ">
                 <div className="col-span-6 ">
-                  <label className="block   text-md font-medium text-black mb-1">
+                  <label className="block text-[14px] font-medium text-black mb-1">
                     Select Society
                   </label>
                   <div className="relative" onClick={toggleDropdown}>
@@ -304,26 +304,22 @@ const Register = () => {
                       value={selectedOption}
                       placeholder="Select Society"
                       className="border h-12 rounded-md p-2 w-full "
-                      // className={`border ${
-                      //   errors.society ? "border-red-500" : "border-[#D3D3D3]"
-                      // } rounded-lg bg-transparent focus-visible:outline-none focus:border focus:border-[#5678E9] p-2 w-full cursor-pointer`}
                     />
                     <MdKeyboardArrowDown className="absolute right-3 text-2xl  font-bold top-3" />
                   </div>
-                  {/* {errors.society && (
-                      <span className="text-red-500">{errors.society}</span>
-                    )} */}
                   {dropdownOpen && (
-                    <div className="absolute max-h-[350px] overflow-y-auto custom-scrollbar w-[535px] mt-0 p-3 bg-white border border-gray-300 rounded-md shadow-lg z-10">
-                      {societyList.map((option, index) => (
-                        <div
-                          key={index}
-                          onClick={() => handleOptionClick(option)}
-                          className="p-2 hover:bg-gray-100 cursor-pointer"
-                        >
-                          {option.Society_name}
-                        </div>
-                      ))}
+                    <div className="absolute w-[535px] mt-0 p-3 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                      <div className="max-h-[250px] overflow-y-auto custom-scrollbar mb-2">
+                        {societyList.map((option, index) => (
+                          <div
+                            key={index}
+                            onClick={() => handleOptionClick(option)}
+                            className="pb-[10px] hover:bg-gray-100 cursor-pointer text-[14px]"
+                          >
+                            {option.Society_name}
+                          </div>
+                        ))}
+                      </div>
                       <button
                         className="button-gradient  w-full bg-custom-gradient h-12 text-white text-center rounded-lg cursor-pointer"
                         onClick={() => setShowModal(true)}
@@ -337,7 +333,7 @@ const Register = () => {
 
               {/* Password Fields */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-[14px] font-medium text-gray-700 mb-1">
                   Password*
                 </label>
                 <div className="relative">
@@ -348,7 +344,7 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                     placeholder="Enter Password"
-                  
+
                   />
                   <button
                     type="button"
@@ -361,7 +357,7 @@ const Register = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-[14px] font-medium text-gray-700 mb-1">
                   Confirm Password*
                 </label>
                 <input
@@ -371,7 +367,7 @@ const Register = () => {
                   onChange={handleChange}
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE512E]"
                   placeholder="Enter Confirm Password"
-                
+
                 />
               </div>
 
@@ -380,10 +376,10 @@ const Register = () => {
                 <div className="flex items-center">
                   <input
                     type="checkbox"
-                  
+
                     className="w-4 h-4 text-[#FE512E] border-gray-300 rounded focus:ring-[#FE512E]"
                   />
-                  <span className="ml-2 text-sm text-gray-600">
+                  <span className="ml-2 text-[14px] text-gray-600">
                     I agree to all the{" "}
                     <Link className="text-[#FE512E]">Terms</Link> and{" "}
                     <Link className="text-[#FE512E]">Privacy Policies</Link>.
@@ -392,7 +388,7 @@ const Register = () => {
 
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white py-2.5 rounded-lg font-medium hover:bg-[#F09619] transition-colors duration-200"
+                  className="w-full bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white py-[12px] rounded-lg font-medium hover:bg-[#F09619] transition-colors duration-200"
                 >
                   Register
                 </button>
@@ -415,7 +411,7 @@ const Register = () => {
             <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
             <form onSubmit={handleSocietySubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-black-700">
+                <label className="block text-[14px] font-medium text-black-700">
                   Society Name*
                 </label>
                 <input
@@ -424,12 +420,12 @@ const Register = () => {
                   value={society.Society_name}
                   onChange={handleSocietyChange}
                   className="w-full px-4 py-2.5 border rounded-lg"
-                
+
                   placeholder="Enter society Name"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-black-700">
+                <label className="block text-[14px] font-medium text-black-700">
                   Society Address*
                 </label>
                 <input
@@ -438,13 +434,13 @@ const Register = () => {
                   value={society.Society_address}
                   onChange={handleSocietyChange}
                   className="w-full px-4 py-2.5 border rounded-lg"
-                
+
                   placeholder="Enter Address"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-black-700">
+                  <label className="block text-[14px] font-medium text-black-700">
                     Country*
                   </label>
                   <input
@@ -453,12 +449,12 @@ const Register = () => {
                     value={society.Country}
                     onChange={handleSocietyChange}
                     className="w-full px-4 py-2.5 border rounded-lg"
-                  
+
                     placeholder="Enter Name"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-black-700">
+                  <label className="block text-[14px] font-medium text-black-700">
                     State*
                   </label>
                   <input
@@ -467,7 +463,7 @@ const Register = () => {
                     value={society.State}
                     onChange={handleSocietyChange}
                     className="w-full px-4 py-2.5 border rounded-lg"
-                  
+
                     placeholder="Enter Name"
                   />
                 </div>
@@ -475,7 +471,7 @@ const Register = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-black-700">
+                  <label className="block text-[14px] font-medium text-black-700">
                     City*
                   </label>
                   <input
@@ -484,12 +480,12 @@ const Register = () => {
                     value={society.City}
                     onChange={handleSocietyChange}
                     className="w-full px-4 py-2.5 border rounded-lg"
-                  
+
                     placeholder="Enter Name"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-black-700">
+                  <label className="block text-[14px] font-medium text-black-700">
                     Zip code*
                   </label>
                   <input
@@ -498,7 +494,7 @@ const Register = () => {
                     value={society.ZipCode} // Corrected from Zipcode to ZipCode
                     onChange={handleSocietyChange}
                     className="w-full px-4 py-2.5 border rounded-lg"
-                  
+
                     placeholder="Enter Zip Code"
                   />
                 </div>
@@ -514,11 +510,10 @@ const Register = () => {
                 </button>
                 <button
                   type="submit"
-                  className={`w-[180px] px-4 py-2 rounded-lg ${
-                    isFormValid()
+                  className={`w-[180px] px-4 py-2 rounded-lg ${isFormValid()
                       ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white"
-                      : "bg-white border text-black"
-                  }`}
+                      : "bg-[#F6F8FB] text-gray-400"
+                    }`}
                   disabled={!isFormValid()} // Disable button if form is not valid
                 >
                   Save

@@ -59,7 +59,7 @@ const ResetPassword = () => {
             </h2>
 
             <div>
-              <label className="mb-[6px] text-[14px] text-[#202224] font-semibold">
+              <label className="mb-[6px] text-[14px] text-[#202224] font-medium">
                 New Password
               </label>
               <div className="relative mb-[30px]">
@@ -86,7 +86,7 @@ const ResetPassword = () => {
             </div>
 
             <div className="mb-12">
-              <label className="mb-[6px] text-[14px] text-[#202224] font-semibold">
+              <label className="mb-[6px] text-[14px] text-[#202224] font-medium">
                 Confirm Password
               </label>
               <div className="relative">
@@ -114,10 +114,16 @@ const ResetPassword = () => {
 
             <button
               onClick={handleResetPassword}
-              className="w-full py-[12px] rounded bg-[#F6F8FB] text-[#A7A7A7] font-semibold leading-7"
+              className={`w-full py-[12px] rounded font-semibold leading-7 
+                 ${new_pass && confirm_pass
+                  ? "bg-custom-gradient text-white"
+                  : "bg-[#F6F8FB] text-[#A7A7A7]"
+                }`}
+              disabled={!new_pass || !confirm_pass} 
             >
               Reset Password
             </button>
+
           </div>
         </div>
       </div>

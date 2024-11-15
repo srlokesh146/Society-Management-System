@@ -48,7 +48,7 @@ export default function EmergencyManagement() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-full bg-gray-100">
+    <div className="flex justify-center items-end min-h-[66vh] bg-gray-100">
       <div className="bg-white p-8 rounded-[15px] shadow-[0px_0px_40px_0px_rgba(0,0,0,0.08)] w-full max-w-[630px] px-[50px]">
         <h2 className="text-[34px] leading-[51px] font-semibold mb-[20px] text-start">
           Alert

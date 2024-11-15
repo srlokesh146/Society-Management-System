@@ -11,6 +11,9 @@ import {
   UpdateComplaint,
 } from "../services/complaintService";
 import { toast } from "react-hot-toast";
+import eye from "../assets/images/eye.svg";
+import edit from "../assets/images/edit.svg";
+import trash from "../assets/images/trash.svg";
 
 const ComplaintPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -123,19 +126,19 @@ const ComplaintPage = () => {
                           alt=""
                           className="w-8 h-8 rounded-full"
                         />
-                        <span className="text-md font-semibold  text-[#4F4F4F]">
+                        <span className="text-md font-medium  text-[#4F4F4F]">
                           {complaint.complainer}
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-md font-semibold text-[#4F4F4F]">
+                    <td className="px-6 py-4 text-md font-medium text-[#4F4F4F]">
                       {complaint.name}
                     </td>
-                    <td className="px-6 py-4 text-md font-semibold text-[#4F4F4F]">
+                    <td className="px-6 py-4 text-md font-medium text-[#4F4F4F]">
                       {complaint.description}
                     </td>
 
-                    {/* <td className="px-6 py-4 text-md font-semibold text-[#4F4F4F]">{complaint.requestDate}</td> */}
+                    {/* <td className="px-6 py-4 text-md font-medium text-[#4F4F4F]">{complaint.requestDate}</td> */}
                     <td className="px-6 py-4  text-[#4F4F4F]">
                       <div className="flex items-center gap-2">
                         <span
@@ -143,7 +146,7 @@ const ComplaintPage = () => {
                         >
                           {complaint.wing}
                         </span>
-                        <span className="text-sm font-semibold text-gray-600">
+                        <span className="text-sm font-medium text-gray-600">
                           {complaint.unit}
                         </span>
                       </div>
@@ -161,27 +164,27 @@ const ComplaintPage = () => {
                             setSelectedComplaint(complaint);
                             setIsViewModalOpen(true);
                           }}
-                          className="p-2 rounded-md bg-blue-50 text-[#5678E9] hover:bg-blue-100"
+                          className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                         >
-                          <FaEye size={16} />
+                          <img src={edit} alt=""/>
                         </button>
                         <button
                           onClick={() => {
                             setSelectedComplaint(complaint);
                             setIsEditModalOpen(true);
                           }}
-                          className="p-2 rounded-md bg-blue-50 text-[#39973D] hover:bg-green-100"
+                          className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                         >
-                          <FaPen size={16} />
+                          <img src={eye} alt="" />
                         </button>
                         <button
                           onClick={() => {
                             setSelectedComplaint(complaint);
                             setIsDeleteModalOpen(true);
                           }}
-                          className="p-2 rounded-md bg-blue-50 text-[#E74C3C] hover:bg-red-100"
+                          className="cursor-pointer text-red-500 hover:text-red-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                         >
-                          <FaTrash size={16} />
+                          <img src={trash} alt=""/>
                         </button>
                       </div>
                     </td>
@@ -243,9 +246,9 @@ const ComplaintPage = () => {
 
 const PriorityBadge = ({ priority }) => {
   const styles = {
-    High: "bg-[#E74C3C] text-white font-semibold  text-xs ",
-    Medium: "bg-[#5678E9] text-white font-semibold text-xs",
-    Low: "bg-[#39973D] text-white font-semibold text-xs",
+    High: "bg-[#E74C3C] text-white font-medium  text-xs ",
+    Medium: "bg-[#5678E9] text-white font-medium text-xs",
+    Low: "bg-[#39973D] text-white font-medium text-xs",
   };
   return (
     <p className={`flex items-center justify-center w-[100px] h-[31px] rounded-full text-xs ${styles[priority]}`}>
@@ -256,9 +259,9 @@ const PriorityBadge = ({ priority }) => {
 
 const StatusBadge = ({ status }) => {
   const styles = {
-    Pending: "bg-[#FFC3131A] text-[#FFC313] font-semibold text-xs",
-    Solve: "bg-[#39973D1A] text-[#39973D] font-semibold text-xs",
-    Open: "bg-[#5678E91A] text-[#5678E9] font-semibold text-xs",
+    Pending: "bg-[#FFC3131A] text-[#FFC313] font-medium text-xs",
+    Solve: "bg-[#39973D1A] text-[#39973D] font-medium text-xs",
+    Open: "bg-[#5678E91A] text-[#5678E9] font-medium text-xs",
   };
 
   const lowercaseStatus = status.toLowerCase();

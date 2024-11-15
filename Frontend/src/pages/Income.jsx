@@ -7,6 +7,11 @@ import { BsCheckCircleFill } from "react-icons/bs";
 import { BsBank } from "react-icons/bs";
 import { BiMoney } from "react-icons/bi";
 import { toast } from "react-hot-toast";
+import ownerImage from "../assets/images/owner.png";
+import verify from "../assets/images/verify.png";
+import eye from "../assets/images/eye.svg";
+import moneys from "../assets/images/moneys.svg";
+import wallet from "../assets/images/wallet.png";
 import {
   ConfirmPassword,
   CreateMaintenance,
@@ -300,7 +305,7 @@ const Income = () => {
               Maintenace Details
             </h1>
           </div>
-          <table className="min-w-full  ">
+          <table className="min-w-full">
             <thead>
               <tr className="text-left  font-bold text-sm bg-indigo-50 rounded-lg  text-black-500">
                 <th className="py-3 px-4 font-medium ">Name</th>
@@ -334,7 +339,7 @@ const Income = () => {
                   <td className="py-3 px-4">{item.date}</td>
                   <td className="py-3 px-4">
                     <span
-                      className={`px-3 py-1 rounded-full text-xs inline-flex items-center gap-1.5 w-fit ${item.status === "Tenant"
+                      className={`px-3 py-1 rounded-full inline-flex items-center gap-1.5 w-[113px] h-[31px] justify-center text-[14px] ${item.status === "Tenant"
                         ? "bg-pink-50 text-pink-500"
                         : "bg-purple-50 text-purple-500"
                         }`}
@@ -342,7 +347,11 @@ const Income = () => {
                       {item.status === "Tenant" ? (
                         <FaUser size={12} />
                       ) : (
-                        <MdSecurity size={12} />
+                        <img
+                        src={ownerImage}
+                        className="mr-[4px]"
+                        alt="Owner Icon"
+                      />
                       )}
                       {item.status}
                     </span>
@@ -353,7 +362,7 @@ const Income = () => {
                   </td>
                   <td className="py-3  px-4">
                     {item.penalty === "--" ? (
-                      <span className="text-black-600 px-4 py-1 rounded-xl bg-blue-50">
+                      <span className="text-black-600 px-4 py-1 rounded-full bg-blue-50">
                         --
                       </span>
                     ) : (
@@ -364,15 +373,19 @@ const Income = () => {
                   </td>
                   <td className="py-3   px-4">
                     <span
-                      className={`py-1 px-2.5 rounded-full text-xs inline-flex items-center w-fit gap-1.5 ${item.paymentStatus === "Pending"
-                        ? "bg-yellow-50 text-yellow-500"
+                      className={`py-1 px-2.5 rounded-full inline-flex items-center justify-center text-[14px] gap-1.5 font-medium w-[113px] h-[31px] ${item.paymentStatus === "Pending"
+                        ? "bg-yellow-50 text-yellow-500 "
                         : "bg-green-50 text-green-500"
                         }`}
                     >
                       {item.paymentStatus === "Pending" ? (
                         <BsClockFill size={12} />
                       ) : (
-                        <BsCheckCircleFill size={12} />
+                        <img
+                        src={verify}
+                        className="mr-[4px]"
+                        alt="verify"
+                      />
                       )}
                       {item.paymentStatus}
                     </span>
@@ -380,15 +393,15 @@ const Income = () => {
                   <td className="py-3 px-4">
                     <div className="flex items-center">
                       <span
-                        className={`inline-flex items-center ${item.payment === "Online"
+                        className={`inline-flex items-center justify-center  w-[113px] h-[31px] text-[14px] ${item.payment === "Online"
                           ? "text-blue-600 bg-blue-50"
                           : "text-gray-600 bg-gray-50"
-                          } px-2 py-1 rounded-full text-xs`}
+                          } px-2 py-1 rounded-full`}
                       >
                         {item.payment === "Online" ? (
-                          <BsBank className="mr-1.5 text-blue-600" size={14} />
+                          <img src={wallet} className="pr-[2.5px]"/>
                         ) : (
-                          <BiMoney className="mr-1.5 text-gray-600" size={14} />
+                          <img src={moneys} className="pr-[2.5px]"/>
                         )}
                         {item.payment}
                       </span>
@@ -397,9 +410,9 @@ const Income = () => {
                   <td className="py-3 px-4">
                     <button
                       onClick={() => handleViewClick(item)}
-                      className="text-blue-600 hover:text-blue-700 bg-blue-50 p-1.5 rounded-full transition-colors"
+                      className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                     >
-                      <FaEye size={16} />
+                      <img src={eye} />
                     </button>
 
                     {/* Render Modal */}

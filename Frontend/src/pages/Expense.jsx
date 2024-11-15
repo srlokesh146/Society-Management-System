@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { FaEye, FaFileUpload, FaImage, FaPencilAlt, FaPlus, FaTimes, FaTrash } from 'react-icons/fa';
+import { FaImage, FaPlus, FaTimes } from 'react-icons/fa';
+import eye from "../assets/images/eye.svg";
+import edit from "../assets/images/edit.svg";
+import trash from "../assets/images/trash.svg";
 
 const initialExpenses = [
   {
@@ -274,21 +277,21 @@ function Expense() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleEditClick(expense)} // Open edit modal
-                      className="p-1.5 rounded-md bg-green-50 text-green-600 hover:bg-green-100"
+                      className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                     >
-                      <FaPencilAlt size={14} />
+                      <img src={edit} />
                     </button>
                     <button
                       onClick={() => handleViewClick(expense)} // Open view modal
-                      className="p-1.5 rounded-md bg-blue-50 text-blue-600 hover:bg-blue-100"
+                      className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                     >
-                      <FaEye size={14} />
+                      <img src={eye} />
                     </button>
                     <button
                       onClick={() => handleDeleteClick(expense)} // Open delete modal
-                      className="p-1.5 rounded-md bg-red-50 text-red-600 hover:bg-red-100"
+                      className="cursor-pointer text-red-500 hover:text-red-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                     >
-                      <FaTrash size={14} />
+                      <img src={trash} />
                     </button>
                   </div>
                 </td>

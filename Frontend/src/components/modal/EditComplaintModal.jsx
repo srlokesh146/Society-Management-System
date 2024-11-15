@@ -27,7 +27,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999]">
-      <div className="bg-white rounded-lg w-full max-w-md p-6">
+      <div className="bg-white rounded-lg w-full max-w-[410px] p-6">
         <div className="flex justify-between items-center mb-[10px]">
           <h2 className="text-xl font-semibold text-gray-800">
             Edit Complaint
@@ -129,22 +129,25 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
                     className="hidden"
                   />
                   <span
-                    className={`flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded-full text-sm cursor-pointer
-                    ${
-                      selectedPriority === priority
-                        ? "border-orange-500 bg-orange-50"
-                        : ""
-                    }
+                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[114px] text-[14px] cursor-pointer
+                    ${selectedPriority === priority
+                        ? "border-[#FF6B07] bg-white font-medium"
+                        : "border-gray-200"
+                      }
                     hover:border-orange-500 transition-all duration-200`}
                   >
                     <div
-                      className={`w-3 h-3 rounded-full border-2 
-                      ${
-                        selectedPriority === priority
-                          ? "border-orange-500 bg-orange-500"
+                      className={`w-4 h-4 rounded-full border-2 flex items-center justify-center
+                      ${selectedPriority === priority
+                          ? "border-[#FF6B07]"
                           : "border-gray-300"
-                      }`}
-                    ></div>
+                        }`}
+                    >
+                      {selectedPriority === priority && (
+                        <div className="w-2 h-2 bg-[#FF6B07] rounded-full"></div>
+                      )}
+
+                    </div>
                     {priority}
                   </span>
                 </label>
@@ -169,22 +172,26 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
                     className="hidden"
                   />
                   <span
-                    className={`flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded-full text-sm cursor-pointer
+                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[113px] text-sm cursor-pointer
                     ${
                       selectedStatus === status
-                        ? "border-orange-500 bg-orange-50"
-                        : ""
+                        ? "border-[#FF6B07] bg-white font-medium"
+                        : "border-gray-200"
                     }
                     hover:border-orange-500 transition-all duration-200`}
                   >
                     <div
-                      className={`w-3 h-3 rounded-full border-2 
+                      className={`w-4 h-4 rounded-full border-2 flex items-center justify-center
                       ${
                         selectedStatus === status
-                          ? "border-orange-500 bg-orange-500"
+                          ? "border-[#FF6B07]"
                           : "border-gray-300"
                       }`}
-                    ></div>
+                    >
+                       {selectedStatus === status && (
+                        <div className="w-2 h-2 bg-[#FF6B07] rounded-full"></div>
+                      )}
+                    </div>
                     {status}
                   </span>
                 </label>

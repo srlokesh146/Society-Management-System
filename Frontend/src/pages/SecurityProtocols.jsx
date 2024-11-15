@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  FaCheck,
-  FaEye,
-  FaTrash,
-  FaPlus,
-  FaPencilAlt,
   FaTimes,
   FaCalendarAlt,
   FaClock,
@@ -16,6 +11,9 @@ import {
   UpdateProtocol,
 } from "../services/securityProtocol";
 import { toast } from "react-hot-toast";
+import eye from "../assets/images/eye.svg";
+import edit from "../assets/images/edit.svg";
+import trash from "../assets/images/trash.svg";
 
 function SecurityProtocols() {
   const [protocols, setProtocols] = useState([]);
@@ -220,21 +218,21 @@ function SecurityProtocols() {
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => handleEdit(protocol)}
-                        className="p-1.5 rounded-full bg-green-50 text-green-600 hover:bg-green-100"
+                        className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                       >
-                        <FaPencilAlt size={14} />
+                        <img src={edit} alt="" />
                       </button>
                       <button
                         onClick={() => handleView(protocol)}
-                        className="p-1.5 rounded-full  bg-blue-50 text-blue-600 hover:bg-blue-100"
+                        className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                       >
-                        <FaEye size={14} />
+                        <img src={eye} alt="" />
                       </button>
                       <button
                         onClick={() => handleDelete(protocol)}
-                        className="p-1.5 rounded-full bg-red-50 text-red-600 hover:bg-red-100"
+                        className="cursor-pointer text-red-500 hover:text-red-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                       >
-                        <FaTrash size={14} />
+                        <img src={trash} alt="" />
                       </button>
                     </div>
                   </td>
