@@ -68,7 +68,7 @@ const Navbar = () => {
   return (
     <div className="flex justify-between items-center p-4 bg-white shadow-md sticky top-0 left-0 w-full z-[99] max-md:flex-col max-md:justify-start max-md:flex max-md:items-start max-sm:flex-col max-sm:justify-start max-sm:items-start max-lg:pl-[50px]">
       {showSearch ? (
-        <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-[35px]">
+        <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-[35px] max-sm:hidden">
           <input
             type="text"
             placeholder="Search..."
@@ -110,7 +110,7 @@ const Navbar = () => {
         </div>
       )}
 
-      <div className="flex items-center space-x-4 justify-end w-full max-md:justify-start max-sm:justify-start max-sm:ms-[35px] max-md:ml-[35px]">
+      <div className="flex items-center space-x-4 justify-end w-full max-md:justify-end max-sm:justify-end">
         {/* Notification Icon */}
         <div className="relative">
           <IoNotifications
@@ -227,10 +227,10 @@ const Navbar = () => {
 
         {/* User Info */}
         <div className="flex flex-col md:flex">
-          <h6 className="font-bold text-[16px]">
+          <h6 className="font-bold text-[16px] max-sm:hidden">
             {user?.FirstName + " " + user?.LastName}
           </h6>
-          <span className="text-[12px] leading-[18px] text-[#A7A7A7]">
+          <span className="text-[12px] leading-[18px] text-[#A7A7A7] max-sm:hidden">
             {user?.role}
           </span>
         </div>

@@ -69,7 +69,7 @@ export default function ResidentManagement() {
   }, []);
 
   return (
-    <div className="container">
+    <div>
       <div className="bg-white pt-[20px] rounded-[15px] shadow-md">
         <div className="flex justify-between items-center mb-[27px] ps-[20px] pr-[20px]">
           <h2 className="text-[20px] font-semibold leading-4 max-sm:text-[16px] max-mb:text-[18px]">
@@ -85,7 +85,7 @@ export default function ResidentManagement() {
           </div>
         </div>
 
-        <div className="overflow-x-auto pr-[8px] ps-[20px] custom-scrollbar max-h-[44rem]">
+        <div className="overflow-x-auto pr-[8px] ps-[20px] custom-scrollbar max-h-[44rem] min-w-[400px]">
           <table className="w-full table-auto border-collapse">
             <thead>
               <tr className="text-start text-black bg-opacity-custom rounded-tl-[15px] rounded-tr-[15px] h-[61px]">

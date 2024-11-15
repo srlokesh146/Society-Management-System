@@ -14,9 +14,10 @@ import { LogoutUser } from "../../redux/features/AuthSlice";
 export default function Sidebar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [activeItem, setActiveItem] = useState(1);
+  const [activeItem, setActiveItem] = useState(null);
   const [openSubItems, setOpenSubItems] = useState({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
 
   const handleItemClick = (item) => {
     if (item.subItems) {
@@ -33,25 +34,10 @@ export default function Sidebar() {
     localStorage.setItem("activeItem", item.id);
   };
 
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
-  useEffect(() => {
-    const currentPath = location.pathname;
-    if (currentPath === "/dashboard" || currentPath === "/editprofile") {
-      setActiveItem("dashboard");
-    }
-  }, [location.pathname]);
-
-  useEffect(() => {
-    const currentPath = location.pathname;
-    const activeNavItem = sidebarItems.find(
-      (item) => item.path === currentPath
-    );
-    setActiveItem(activeNavItem ? activeNavItem.id : null);
-  }, [location.pathname]);
-
 
   useEffect(() => {
     if (isSidebarOpen) {
@@ -64,26 +50,19 @@ export default function Sidebar() {
       document.body.style.overflow = "auto";
     };
   }, [isSidebarOpen]);
+  
 
-  useEffect(() => {
-    const storedActiveItem = localStorage.getItem("activeItem");
-    const storedActiveSubItem = localStorage.getItem("activeSubItem");
-
-    if (storedActiveItem) {
-      setActiveItem(storedActiveItem);
-    }
-    if (storedActiveSubItem) {
-      setActiveSubItem(storedActiveSubItem);
-    }
-  }, []);
-
-  // Get the open subitems from localStorage on page load
   useEffect(() => {
     const savedSubItems = localStorage.getItem("openSubItems");
     if (savedSubItems) {
       setOpenSubItems(JSON.parse(savedSubItems));
     }
-  }, []);
+
+    const currentPath = location.pathname;
+    const activeNavItem = sidebarItems.find((item) => item.path === currentPath);
+    setActiveItem(activeNavItem ? activeNavItem.id : null);
+  }, [location.pathname]);
+
 
   // logout user
   const handleLogout = async () => {

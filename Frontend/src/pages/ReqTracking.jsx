@@ -76,12 +76,8 @@ const ReqTracking = () => {
 
   // Design
   return (
-    <div className="min-h-screen bg-gray-100 max-w-[870px] max-sm:container max-sm:mx-auto max-md:container max-md:mx-auto max-lg:container max-lg:mx-auto 
-    xl:max-w-[980px]     
-    2xl:max-w-[1200px]   
-    3xl:max-w-[2240px]    
-    security-table">
-      <div className="container mx-auto bg-white rounded-xl shadow-sm p-4 md:p-6 lg:p-8">
+    <div className="bg-gray-100">
+      <div className="bg-white rounded-xl shadow-sm p-4 md:p-6 lg:p-8">
         <div className="flex flex-col gap-4">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
             <h1 className="text-[20px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px]">Create Request</h1>
