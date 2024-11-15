@@ -166,13 +166,13 @@ function EditProfileForm() {
                   className="w-[150px] h-[150px] rounded-full mb-2"
                 />
 
-                <button
+                {<button
                   onClick={() => document.getElementById("imageInput").click()}
                   className="absolute bottom-[50%] right-[50%] bg-white p-1 rounded-full shadow-md translate-x-[50px] translate-y-[56px]"
                   title="Edit Profile"
                 >
                   <FaEdit className="text-gray-600" />
-                </button>
+                </button>}
                 <input
                   type="file"
                   id="imageInput"
@@ -250,11 +250,11 @@ function EditProfileForm() {
                         disabled={!isEditing}
                       />
                     </div>
-              
 
-                    <div className="grid grid-cols-6 gap-4 w-full  ">
+
+                    <div className="grid grid-cols-6 gap-4 w-full">
                       <div className="col-span-6 ">
-                        <label className="block   text-md font-medium text-black mb-1">
+                        <label className="block text-md font-medium text-black mb-1">
                           Select Society
                         </label>
                         <div className="relative" onClick={toggleDropdown}>
@@ -264,9 +264,9 @@ function EditProfileForm() {
                             value={selectedOption}
                             placeholder="Select Society"
                             className="border h-12 rounded-md p-2 w-full "
-                            // className={`border ${
-                            //   errors.society ? "border-red-500" : "border-[#D3D3D3]"
-                            // } rounded-lg bg-transparent focus-visible:outline-none focus:border focus:border-[#5678E9] p-2 w-full cursor-pointer`}
+                          // className={`border ${
+                          //   errors.society ? "border-red-500" : "border-[#D3D3D3]"
+                          // } rounded-lg bg-transparent focus-visible:outline-none focus:border focus:border-[#5678E9] p-2 w-full cursor-pointer`}
                           />
                           <MdKeyboardArrowDown className="absolute right-3 text-2xl  font-bold top-3" />
                         </div>
@@ -274,18 +274,22 @@ function EditProfileForm() {
                       <span className="text-red-500">{errors.society}</span>
                     )} */}
                         {dropdownOpen && (
-                          <div className="absolute overflow-y-auto custom-scrollbar w-[320px] mt-0 p-3 bg-white border border-gray-300 rounded-md shadow-lg z-10">
-                            {societyList.map((option, index) => (
-                              <div
-                                key={index}
-                                onClick={() => handleOptionClick(option)}
-                                className="p-2 hover:bg-gray-100 cursor-pointer"
-                              >
-                                {option.Society_name}
-                              </div>
-                            ))}
+                          <div className="absolute w-[320px] mt-0 p-3 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                            <div className="max-h-[200px] overflow-y-auto 
+                             scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 custom-scrollbar mb-2">
+                              {societyList.map((option, index) => (
+                                <div
+                                  key={index}
+                                  onClick={() => handleOptionClick(option)}
+                                  className="p-2 hover:bg-custom-gradient hover:text-white cursor-pointer rounded-[10px]"
+                                >
+                                  {option.Society_name}
+                                </div>
+                              ))}
+                            </div>
+
                             <button
-                              className="button-gradient  w-full bg-custom-gradient h-12 text-white text-center rounded-lg cursor-pointer"
+                              className="button-gradient w-full bg-custom-gradient h-12 text-white text-center rounded-lg cursor-pointer"
                               onClick={() => setShowModal(true)}
                             >
                               Create Society
@@ -351,9 +355,10 @@ function EditProfileForm() {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[9999]">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h2 className="text-xl font-semibold mb-4">Add New Society</h2>
+            <h2 className="text-xl font-semibold mb-2">Add New Society</h2>
+            <div className="border-b border-[#F4F4F4] mb-[30px]"></div>
             <form onSubmit={handleSocietySubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-black-700">
@@ -455,11 +460,10 @@ function EditProfileForm() {
                 </button>
                 <button
                   type="submit"
-                  className={`w-[180px] px-4 py-2 rounded-lg ${
-                    isFormValid()
-                      ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white"
-                      : "bg-[#F6F8FB] text-gray-400"
-                  }`}
+                  className={`w-[180px] px-4 py-2 rounded-lg ${isFormValid()
+                    ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white"
+                    : "bg-[#F6F8FB] text-gray-400"
+                    }`}
                   disabled={!isFormValid()} // Disable button if form is not valid
                 >
                   Save

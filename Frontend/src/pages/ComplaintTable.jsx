@@ -70,12 +70,8 @@ const ComplaintPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 max-w-[870px] max-sm:container max-sm:mx-auto max-md:container max-md:mx-auto max-lg:container max-lg:mx-auto 
-    xl:max-w-[980px]     
-    2xl:max-w-[1200px]   
-    3xl:max-w-[2240px]    
-    security-table">
-      <div className="max-sm:container mx-auto bg-white rounded-xl shadow-sm">
+    <div className="bg-gray-100">
+      <div className="bg-white rounded-xl shadow-sm">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6 max-sm:flex-col">
             <h1 className="text-[20px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px]">

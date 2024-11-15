@@ -149,6 +149,8 @@ const Register = () => {
   return (
     <div>
       <div
+
+        className="min-h-screen flex flex-row md:flex-col max-md:flex-col lg:flex-col"
         className="min-h-screen  flex flex-col  md:flex-row"
         style={{
           backgroundImage: `url(${BackgroundImage})`,

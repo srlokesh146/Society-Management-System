@@ -294,8 +294,7 @@ const Income = () => {
           </button>
         </div>
         {/* Table Section */}
-        <div className="overflow-x-auto bg-white rounded-lg shadow-md p-6 mb-4 max-sm:container max-sm:mx-auto max-md:container max-md:mx-auto max-lg:container max-lg:mx-auto    
-    security-table max-md:flex-1 max-2xl:container max-2xl:mx-auto">
+        <div className="overflow-x-auto bg-white rounded-lg shadow-md p-6 mb-4">
           <div className="mb-4">
             <h1 className="text-2xl font-semibold text-black-500">
               Maintenace Details

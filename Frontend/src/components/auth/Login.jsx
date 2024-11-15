@@ -69,11 +69,18 @@ const Login = () => {
  
   return (
     <div
+      className="flex flex-col md:flex-row items-center justify-center bg-cover bg-center overflow-auto"
+      style={{ backgroundImage: `url(${BackgroundImage})` }} // Background image
+    >
+      {/* Left Section (Image and Title) */}
+      <div className="bg-gray-100 rounded-lg shadow-lg p-8 max-w-[800px] w-full flex flex-col items-left h-auto md:h-[950px] relative">
+
       className="min-h-screen flex flex-col  md:flex-row"
       style={{ backgroundImage: `url(${BackgroundImage})` }} // Background image
     >
       {/* Left Section (Image and Title) */}
       <div className="bg-gray-100 rounded-lg shadow-lg p-8 lg:w-1/2 z-10 w-full flex flex-col items-left h-auto md:h-[950px] relative overflow-hidden">
+      
         {/* Decorative Background Section */}
         <div className="absolute inset-0 opacity-10 rounded-lg"></div>
 

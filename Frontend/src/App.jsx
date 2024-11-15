@@ -61,6 +61,9 @@ function App() {
       )}
 
       <div
+        className={`flex-1 flex flex-col transition-all duration-300 main ${isSidebaropen && shouldRenderSidebarAndNavbar ? "ml-[280px]" : "ml-0"
+          }`}
+
         className={`flex-1 flex flex-col transition-all duration-300 ${
           isSidebaropen && shouldRenderSidebarAndNavbar ? "ml-[280px]" : "ml-0"
         }`}
@@ -69,7 +72,10 @@ function App() {
           <Navbar toggleSidebar={toggleSidebar} />
         )}
 
+          <div className={`flex-1 ${shouldRenderSidebarAndNavbar ? "p-6 overflow-auto" : ""} bg-gray-100`}>
+
         <div className="flex-1  bg-gray-100 overflow-y-auto">
+
           <Routes>
             {/* Public Routes without Sidebar and Navbar */}
             <Route path="/" element={<Login />} />

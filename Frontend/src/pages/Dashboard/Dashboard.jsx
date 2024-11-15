@@ -18,6 +18,7 @@ import {
 } from "../../services/impNumberService";
 import toast from "react-hot-toast";
 import { GetAnnouncements } from "../../services/announcementService";
+import BalanceChart from "../../components/BalanceChart";
 
 const Dashboard = () => {
   const [importantNumbers, setImportantNumbers] = useState([]);
@@ -146,8 +147,8 @@ const Dashboard = () => {
           {/* chart section */}
 
           <div className="grid grid-cols-12 w-full gap-3 h-full max-xl:grid-cols-6 max-2xl:grid-cols-6">
-            <div className="col-span-12 max-md:col-span-1 max-lg:col-span-2 md:col-span-6 rounded-lg shadow-[0px_0px_25px_0px_rgba(0,0,0,0.08)]">
-              {/* <BalanceChart/> */}
+            <div className="col-span-12 max-md:col-span-8 max-lg:col-span-6 md:col-span-6 rounded-lg shadow-[0px_0px_25px_0px_rgba(0,0,0,0.08)]">
+              <BalanceChart/>
             </div>
 
             <div className="col-span-12 max-md:col-span-12 lg:col-span-3 max-xl:col-span-3 max-md">
@@ -229,7 +230,7 @@ const Dashboard = () => {
               )}
             </div>
 
-            <div className="max-md:col-span-12 lg:col-span-3 max-xl:col-span-3 max-md">
+            <div className="max-md:col-span-12 lg:col-span-3 max-xl:col-span-3">
               <div className="bg-white p-[20px] rounded-[15px] shadow-lg h-full">
                 <div className="flex justify-between items-center mb-5">
                   <h3 className="text-lg font-semibold max-sm:text-[16px] max-mb:text-[18px]">

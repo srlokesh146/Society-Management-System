@@ -222,13 +222,7 @@ function SecurityGuardDetails() {
   }, []);
 
   return (
-    <div className="container mx-auto p-4 sm:p-6 bg-white rounded-lg             
-    lg:max-w-[870px]     
-    xl:max-w-[980px]     
-    2xl:max-w-[1200px]   
-    3xl:max-w-[2240px]    
-    security-table
-     ">
+    <div className="container mx-auto p-4 sm:p-6 bg-white rounded-lg">
       <div className="flex justify-between items-center mb-6 max-sm:flex-col">
         <h1 className="text-[20px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px]">
           Security Guard Details
