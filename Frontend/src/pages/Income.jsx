@@ -592,16 +592,16 @@ const Income = () => {
             </div>
 
             {/* Action Buttons - Updated styling and positioning */}
-            <div className="flex justify-end space-x-4 mt-8">
+            <div className="flex justify-end space-x-4  mt-8">
               <button
                 onClick={() => setIsMaintenanceModalOpen(false)}
-                className="w-60 h-10 text-black-600 hover:bg-gray-100 rounded-md transition-colors"
+                className="w-[170px] py-3 border text-black-600 hover:bg-gray-100 rounded-lg transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleApply}
-                className={`w-60 h-10 rounded-md transition-colors ${
+                className={`w-[170px]  py-3 rounded-md transition-colors ${
                   !maintenanceAmount ||
                   !penaltyAmount ||
                   !dueDate ||

@@ -29,6 +29,7 @@ import TenantForm from "./pages/TenantForm.jsx";
 import OwnerForm from "./pages/OwnerForm.jsx";
 import VisitorTracking from "./pages/securitypage/VisitorTracking.jsx";
 import EmergencyManagement from "./pages/securitypage/EmergencyManagement.jsx";
+import PrivateRoutes from "./routes/PrivateRoutes.jsx";
 
 function App() {
   const [isSidebaropen, setSidebaropen] = useState(false);
@@ -57,80 +58,210 @@ function App() {
   return (
     <div className="h-screen flex overflow-hidden bg-gray-100">
       {shouldRenderSidebarAndNavbar && (
-        <Sidebar isopen={isSidebaropen} onclose={closeSidebar} />
+        <PrivateRoutes>
+          <Sidebar isopen={isSidebaropen} onclose={closeSidebar} />
+        </PrivateRoutes>
       )}
 
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 main ${isSidebaropen && shouldRenderSidebarAndNavbar ? "ml-[280px]" : "ml-0"
-          }`}
-
-       
+        className={`flex-1 flex flex-col transition-all duration-300 main ${
+          isSidebaropen && shouldRenderSidebarAndNavbar ? "ml-[280px]" : "ml-0"
+        }`}
       >
         {shouldRenderSidebarAndNavbar && (
-          <Navbar toggleSidebar={toggleSidebar} />
+          <PrivateRoutes>
+            <Navbar toggleSidebar={toggleSidebar} />
+          </PrivateRoutes>
         )}
+
 
           <div className={`flex-1 ${shouldRenderSidebarAndNavbar ? "p-6 overflow-hidden md:overflow-auto" : ""} bg-gray-100`}>
 
-        <div className="flex-1  bg-gray-100 overflow-y-auto">
+      
+          <div className="flex-1  bg-gray-100 overflow-y-auto">
+            <Routes>
+              {/* Public Routes without Sidebar and Navbar */}
+              <Route path="/" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/forgotpassword" element={<ForgotPassword />} />
+              <Route path="/otpscreenpage" element={<OtpScreenpage />} />
+              <Route path="/resetpassword" element={<ResetPassword />} />
 
-          <Routes>
-            {/* Public Routes without Sidebar and Navbar */}
-            <Route path="/" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/forgotpassword" element={<ForgotPassword />} />
-            <Route path="/otpscreenpage" element={<OtpScreenpage />} />
-            <Route path="/resetpassword" element={<ResetPassword />} />
 
-            {/* Protected Routes with Sidebar and Navbar */}
-            {shouldRenderSidebarAndNavbar && (
-              <>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/editprofile" element={<EditProfileForm />} />
-                <Route
-                  path="/residentmanagement"
-                  element={<Residentmanagement />}
-                />
-                <Route path="/complainttable" element={<ComplaintTable />} />
-                <Route path="/reqtracking" element={<ReqTracking />} />
-                <Route path="/visitorlog" element={<VisitorLog />} />
-                <Route
-                  path="/SecurityProtocols"
-                  element={<SecurityProtocols />}
-                />
-                <Route
-                  path="/securityguard"
-                  element={<SecurityGuardDetails />}
-                />
-                <Route path="/announcement" element={<Announcement />} />
-                <Route
-                  path="/facilitymanagement"
-                  element={<Facilitymanagement />}
-                />
-                <Route path="/note" element={<Note />} />
-                <Route path="/expense" element={<Expense />} />
-                <Route path="/income" element={<Income />} />
-                <Route path="/other-income" element={<OtherIncome />} />
-                <Route path="/ownerform" element={<OwnerForm />} />
-                <Route path="/ownerform/edit" element={<OwnerForm />} />
-                <Route path="/tenantform" element={<TenantForm />} />
-                <Route path="/tenantform/edit" element={<TenantForm />} />
-                <Route
-                  path="/residentmanagement"
-                  element={<ResidentManagement />}
-                />
-                <Route path="/visitortracking" element={<VisitorTracking />} />
-                <Route
-                  path="/emergencymanagement"
-                  element={<EmergencyManagement />}
-                />
-              </>
-            )}
-          </Routes>
+              {/* Protected Routes with Sidebar and Navbar */}
+              {shouldRenderSidebarAndNavbar && (
+                <>
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <PrivateRoutes>
+                        <Dashboard />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/editprofile"
+                    element={
+                      <PrivateRoutes>
+                        <EditProfileForm />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/residentmanagement"
+                    element={<Residentmanagement />}
+                  />
+                  <Route
+                    path="/complainttable"
+                    element={
+                      <PrivateRoutes>
+                        <ComplaintTable />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/reqtracking"
+                    element={
+                      <PrivateRoutes>
+                        <ReqTracking />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/visitorlog"
+                    element={
+                      <PrivateRoutes>
+                        <VisitorLog />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/SecurityProtocols"
+                    element={
+                      <PrivateRoutes>
+                        <SecurityProtocols />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/securityguard"
+                    element={
+                      <PrivateRoutes>
+                        <SecurityGuardDetails />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/announcement"
+                    element={
+                      <PrivateRoutes>
+                        <Announcement />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/facilitymanagement"
+                    element={
+                      <PrivateRoutes>
+                        <Facilitymanagement />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/note"
+                    element={
+                      <PrivateRoutes>
+                        <Note />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/expense"
+                    element={
+                      <PrivateRoutes>
+                        <Expense />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/income"
+                    element={
+                      <PrivateRoutes>
+                        <Income />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/other-income"
+                    element={
+                      <PrivateRoutes>
+                        <OtherIncome />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/ownerform"
+                    element={
+                      <PrivateRoutes>
+                        <OwnerForm />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/ownerform/edit"
+                    element={
+                      <PrivateRoutes>
+                        <OwnerForm />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/tenantform"
+                    element={
+                      <PrivateRoutes>
+                        <TenantForm />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/tenantform/edit"
+                    element={
+                      <PrivateRoutes>
+                        <TenantForm />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/residentmanagement"
+                    element={
+                      <PrivateRoutes>
+                        <ResidentManagement />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/visitortracking"
+                    element={
+                      <PrivateRoutes>
+                        <VisitorTracking />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/emergencymanagement"
+                    element={
+                      <PrivateRoutes>
+                        <EmergencyManagement />
+                      </PrivateRoutes>
+                    }
+                  />
+                </>
+              )}
+            </Routes>
+          </div>
         </div>
+        <Toaster position="top-right" reverseOrder={false} />
       </div>
-      <Toaster position="top-right" reverseOrder={false} />
-    </div>
     </div>
   );
 }

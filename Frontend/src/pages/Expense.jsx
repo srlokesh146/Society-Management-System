@@ -143,9 +143,10 @@ function Expense() {
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
-          <div className="bg-white rounded-lg w-full max-w-md mx-4">
+          <div className="bg-white rounded-lg w-[400px]  max-w-md mx-4">
             <div className="p-6">
-              <h2 className="text-xl font-semibold mb-6">Add Expense Details</h2>
+              <h2 className="text-xl font-semibold mb-2">Add Expense Details</h2>
+              <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Title Field */}
                 <div>
@@ -236,10 +237,10 @@ function Expense() {
 
                 {/* Action Buttons */}
                 <div className='flex gap-5 mt-4'>
-                  <button type="button" onClick={() => setIsModalOpen(false)} className="bg-gray-300 text-black w-[190px] px-4 py-2 border rounded-md">Cancel</button>
+                  <button type="button" onClick={() => setIsModalOpen(false)} className="bg-white text-black w-[170px] px-4 py-3 border rounded-lg">Cancel</button>
                   <button
                     type="submit"
-                    className={`w-[190px] px-4 py-2 border rounded-md ${isFormValid ? 'bg-gradient-to-r from-[#FE512E] to-[#F09619] font-semibold text-white' : 'bg-[#F6F8FB] text-gray-400 cursor-not-allowed'}`}
+                    className={`w-[170px] px-4 py-3 bg-grey-200 border rounded-lg ${isFormValid ? 'bg-gradient-to-r from-[#FE512E] to-[#F09619] font-semibold text-white' : 'bg-[#F6F8FB] font-bold text-black-400 cursor-not-allowed'}`}
                     disabled={!isFormValid} // Disable button if form is not valid
                   >
                     Save
@@ -301,8 +302,9 @@ function Expense() {
       </div>
       {isEditModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[9999]">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-[400px]">
             <h2 className="text-xl font-semibold mb-4">Edit Expenses</h2>
+            <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -393,11 +395,11 @@ function Expense() {
                   />
                 </div>
 
-              <div className='flex gap-5 mt-4'>
-                <button type="button" onClick={() => setEditModalOpen(false)} className="bg-gray-300 text-black w-[190px] px-4 py-2 border rounded-md">Cancel</button>
+              <div className='flex gap-4  ml-2'>
+                <button type="button" onClick={() => setEditModalOpen(false)} className="bg-white text-black w-[160px] px-4 py-3 border rounded-md">Cancel</button>
                 <button
                   type="submit"
-                  className="w-[190px] bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white px-4 py-2 rounded-md"
+                  className="w-[160px] bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white px-4 py-3 rounded-md"
                 >
                   Save
                 </button>
@@ -414,6 +416,7 @@ function Expense() {
               <FaTimes size={20} /> {/* Cancel icon */}
             </button>
             <h2 className="text-xl font-semibold mb-4">View Expense Details</h2>
+            <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
             <div className="mb-4">
               <label className="block text-sm text-grey-800 mb-1">Title:</label>
               <p className="text-black font-medium">{selectedExpense?.title}</p>
@@ -448,9 +451,10 @@ function Expense() {
       )}
       {/* Delete Modal */}
       {isDeleteModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[9999]">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
             <h2 className="text-xl font-semibold mb-4">Delete Expense?</h2>
+            <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
             <p className="text-gray-600">Are you sure you want to delete {selectedExpense?.title}?</p>
             <div className="flex justify-center space-x-4 mt-6">
               <button onClick={() => setDeleteModalOpen(false)} className="bg-white border w-[170px] text-black px-4 py-2 rounded-md hover:bg-gray-100">Cancel</button>

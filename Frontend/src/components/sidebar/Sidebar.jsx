@@ -3,13 +3,16 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 import { sidebarItems } from "../../constantdata";
+import { securityBar } from "../../constantdata";
+
 import Logo from "../Logo";
 import logout from "../../assets/images/logout.png";
 import { IoChevronDownOutline } from "react-icons/io5";
 import { toast } from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../services/authService";
 import { LogoutUser } from "../../redux/features/AuthSlice";
+const tabs = securityBar;
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -17,7 +20,8 @@ export default function Sidebar() {
   const [activeItem, setActiveItem] = useState(null);
   const [openSubItems, setOpenSubItems] = useState({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  const [tabs, setTabs] = useState([]);
+  const { role } = useSelector((store) => store.auth.user);
 
   const handleItemClick = (item) => {
     if (item.subItems) {
@@ -34,7 +38,6 @@ export default function Sidebar() {
     localStorage.setItem("activeItem", item.id);
   };
 
-
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -50,7 +53,6 @@ export default function Sidebar() {
       document.body.style.overflow = "auto";
     };
   }, [isSidebarOpen]);
-  
 
   useEffect(() => {
     const savedSubItems = localStorage.getItem("openSubItems");
@@ -59,10 +61,11 @@ export default function Sidebar() {
     }
 
     const currentPath = location.pathname;
-    const activeNavItem = sidebarItems.find((item) => item.path === currentPath);
+    const activeNavItem = sidebarItems.find(
+      (item) => item.path === currentPath
+    );
     setActiveItem(activeNavItem ? activeNavItem.id : null);
   }, [location.pathname]);
-
 
   // logout user
   const handleLogout = async () => {
@@ -76,6 +79,13 @@ export default function Sidebar() {
     }
   };
 
+  useEffect(() => {
+    if (role === "admin") {
+      setTabs(sidebarItems);
+    } else if (role === "security") {
+      setTabs(securityBar);
+    }
+  }, []);
 
   return (
     <>
@@ -103,7 +113,7 @@ export default function Sidebar() {
 
         <nav>
           <ul>
-            {sidebarItems.map((item) => (
+            {tabs.map((item) => (
               <li key={item.id}>
                 {item.name === "dashboard" &&
                 location.pathname === "/dashboard" ? null : (
@@ -159,7 +169,6 @@ export default function Sidebar() {
                                 ? "text-black"
                                 : "text-[#4F4F4F] hover:text-black"
                             }`}
-
                           >
                             {subItem.label}
                           </span>

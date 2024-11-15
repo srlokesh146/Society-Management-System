@@ -51,7 +51,11 @@ const Login = () => {
       const response = await loginUser(user);
       toast.success(response.data.message);
       dispatch(StoreUser(response.data.user));
-      navigate("/dashboard");
+      if (response.data.user.role === "admin") {
+        navigate("/dashboard");
+      } else if (response.data.user.role === "security") {
+        navigate("/visitortracking");
+      }
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
@@ -66,16 +70,14 @@ const Login = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
- 
+
   return (
     <div
       className="flex flex-col md:flex-row items-center justify-center bg-cover bg-center overflow-auto"
       style={{ backgroundImage: `url(${BackgroundImage})` }} // Background image
     >
-     
       {/* Left Section (Image and Title) */}
       <div className="bg-gray-100 rounded-lg shadow-lg p-8 lg:w-1/2 z-10 w-full flex flex-col items-left h-auto md:h-[950px] relative overflow-hidden">
-      
         {/* Decorative Background Section */}
         <div className="absolute inset-0 opacity-10 rounded-lg"></div>
 
@@ -116,11 +118,12 @@ const Login = () => {
                 placeholder="Enter Your Phone Number or Email"
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
-              {submitted && errors.EmailOrPhone && ( // Show error if submitted
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.EmailOrPhone}
-                </p>
-              )}
+              {submitted &&
+                errors.EmailOrPhone && ( // Show error if submitted
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.EmailOrPhone}
+                  </p>
+                )}
             </div>
 
             {/* Password Input */}
@@ -141,7 +144,6 @@ const Login = () => {
                   onChange={handleChange}
                   placeholder="Enter Password"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-                
                 />
                 <button
                   type="button"
@@ -152,9 +154,10 @@ const Login = () => {
                 </button>
               </div>
 
-              {submitted && errors.password && ( // Show error if submitted
-                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-              )}
+              {submitted &&
+                errors.password && ( // Show error if submitted
+                  <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+                )}
             </div>
 
             {/* Remember Me and Forgot Password */}

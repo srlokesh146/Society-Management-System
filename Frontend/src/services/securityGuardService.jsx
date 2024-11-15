@@ -37,3 +37,10 @@ export const UpdateSecurityGuard = async (id, data) => {
 
 // get all Visitors
 export const GetVisitors = async () => await api.get("/v2/visitor/viewvisitor");
+
+// add visitor detail by security Guard
+export const createVisitor = async (data) =>
+  await api.post("/v2/visitor/addvisitor", data);
+
+// filter visitor data
+export const filterVisitor = async () => await api.get("/v2/visitor/filter");

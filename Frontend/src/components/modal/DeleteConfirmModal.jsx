@@ -11,7 +11,7 @@ const DeleteConfirmModal = ({ isOpen, onClose, complaint, onDelete }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999]">
-      <div className="bg-white rounded-lg w-full max-w-md sm:max-w-[90%] md:max-w-[80%] lg:max-w-[500px] h-auto max-h-[80vh] sm:max-h-[70vh] p-4 sm:p-6">
+      <div className="bg-white rounded-lg w-[450px] max-w-md sm:max-w-[90%] md:max-w-[80%] lg:max-w-[500px] h-auto max-h-[80vh] sm:max-h-[70vh] p-4 sm:p-6">
         <div className="flex justify-between items-center mb-[10px]">
           <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
             Delete Complaint?
@@ -29,16 +29,16 @@ const DeleteConfirmModal = ({ isOpen, onClose, complaint, onDelete }) => {
           Are you sure you want to delete this complaint?
         </p>
 
-        <div className="flex justify-center gap-3 mt-6">
+        <div className="flex justify-center gap-6 mt-6">
           <button
             onClick={onClose}
-            className="w-full px-4 py-3 text-sm sm:text-md font-medium text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50"
+            className="w-[180px] px-4 py-3 text-[18px] sm:text-md font-medium text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50"
           >
             Cancel
           </button>
           <button
             onClick={() => handleDelete(complaint._id)}
-            className="w-full px-4 py-3 text-md font-medium sm:text-md text-white bg-red-500 rounded-md hover:opacity-90"
+            className="w-[180px]  px-4 py-3 text-[18px] font-medium sm:text-md text-white bg-red-500 rounded-md hover:opacity-90"
           >
             Delete
           </button>

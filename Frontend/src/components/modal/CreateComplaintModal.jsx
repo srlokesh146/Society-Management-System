@@ -42,13 +42,13 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
 
   const isFormValid = () => {
     return (
-      formData.requesterName &&
-      formData.requestName &&
+      formData.complainer &&
+      formData.name &&
       formData.description &&
       formData.wing &&
       formData.unit &&
-      selectedPriority &&
-      selectedStatus
+      formData.priority &&
+      formData.status
     );
   };
 
@@ -62,6 +62,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
           <h2 className="text-xl font-semibold text-gray-800">
             Create Complaint
           </h2>
+          <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
@@ -69,7 +70,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
             <FaTimes size={20} />
           </button>
         </div>
-
+        <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Complainant Name */}
           <div>
@@ -266,11 +267,11 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
             </button>
             <button
               type="submit"
-              className={`w-[175px] px-4 py-3 text-md font-medium text-black rounded-md transition-all duration-300
+              className={`w-[175px] py-[13.5px] px-[58.5px] text-[18px] font-medium text-black rounded-[10px] transition-all duration-300
                 ${
                   isFormValid()
-                    ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] hover:opacity-90"
-                    : "bg-[#F6F8FB] text-black"
+                    ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] hover:opacity-90 text-white"
+                    : "bg-slate-100 border  text-black"
                 }`}
             >
               Create

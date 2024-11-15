@@ -185,12 +185,9 @@ const DashboardTable = () => {
               </th>
             </tr>
           </thead>
-          <tbody >
+          <tbody>
             {complaintList.map((complaint) => (
-              <tr
-                key={complaint._id}
-                className="border-b border-[#F4F4F4] "
-              >
+              <tr key={complaint._id} className="border-b border-[#F4F4F4] ">
                 <td>
                   <div className="flex items-center justify-start ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]">
                     <img
@@ -270,6 +267,7 @@ const DashboardTable = () => {
         isOpen={isDeleteModalOpen}
         onClose={onCloseDeleteModal}
         onDelete={onDelete}
+        modalName={"Complaint"}
       />
     </div>
   );

@@ -43,14 +43,23 @@ const Dashboard = () => {
     e.preventDefault();
   };
 
-  const handleDeleteContact = async (id) => {
-    const updatedContacts = importantNumbers.filter((v) => v._id !== id);
+  const openConfirmationModel = (contact) => {
+    setSelectedContact(contact);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteContact = async () => {
+    const updatedContacts = importantNumbers.filter(
+      (v) => v._id !== selectedContact._id
+    );
     setImportantNumbers(updatedContacts);
     try {
-      const response = await DeleteImpNumber(id);
+      const response = await DeleteImpNumber(selectedContact._id);
       toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response.data.message);
+    } finally {
+      selectedContact(null);
     }
   };
 
@@ -71,7 +80,6 @@ const Dashboard = () => {
       toast.error(error.response.data.message);
     }
   };
-
 
   useEffect(() => {
     fetchImportantNumbers();
@@ -202,7 +210,7 @@ const Dashboard = () => {
                             <img src={trash}
                               className="cursor-pointer text-red-500 mr-[3px] bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                               title="Delete"
-                              onClick={() => handleDeleteContact(contact._id)}
+                              onClick={() => openConfirmationModel(contact)}
                             />
                             <img src={edit}
                               className="cursor-pointer text-blue-500 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
@@ -230,7 +238,8 @@ const Dashboard = () => {
                 <DeleteConfirmationModal
                   isOpen={isDeleteModalOpen}
                   onClose={() => setIsDeleteModalOpen(false)}
-                  onDelete={confirmDeleteContact}
+                  onDelete={handleDeleteContact}
+                  modalName="number"
                 />
               )}
             </div>
@@ -282,8 +291,6 @@ const Dashboard = () => {
 
           {/* chart section end */}
 
-
-
           <div className="grid grid-cols-3 max-2xl:grid-cols-2 gap-3 mt-[20px] max-xl:grid-cols-1">
             <DashboardTable />
             <div className="bg-[#fff] rounded-lg shadow-md w-full p-[20px] overflow-y-auto">
@@ -334,18 +341,22 @@ const Dashboard = () => {
                         {activity.title[0].toUpperCase()}
                       </div>
                       <div>
-                        <p className="text-sm font-medium  mb-1">{activity.title}</p>
+                        <p className="text-sm font-medium  mb-1">
+                          {activity.title}
+                        </p>
                         <p className="text-[14px] text-[#A7A7A7]  leading-[19.5px]">
                           8:00 PM To 10:00 PM
                         </p>
                       </div>
                     </div>
                     <p className="text-[14px] text-[#4F4F4F] leading-4">
-                      {new Date(activity.date).toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      }).replace(/\//g, '-')}
+                      {new Date(activity.date)
+                        .toLocaleDateString("en-GB", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })
+                        .replace(/\//g, "-")}
                     </p>
                   </li>
                 ))}

@@ -73,16 +73,6 @@ export const sidebarItems = [
     label: "Announcement",
     icon: <FaBullhorn />,
   },
-
-  {
-    id: 16,
-    label: "Security",
-    icon: <FaUserShield />,
-    subItems: [
-      { id: 17, path: "/visitortracking", label: "Visitor Tracking" },
-      { id: 18, path: "/emergencymanagement", label: "Emergency Management" },
-    ],
-  },
 ];
 
 export const securityBar = [
@@ -114,6 +104,7 @@ export const Navigationbar = [
   { path: "/securityguard", label: "SecurityGuard" },
   { path: "/other-income", label: "OtherIncome" },
   { path: "/visitortracking", label: "visitortracking" },
+  { path: "/emergencymanagement", label: "EmergencyManagement" },
 ];
 
 export const cardData = [
