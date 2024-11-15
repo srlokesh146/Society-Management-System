@@ -64,9 +64,7 @@ function App() {
         className={`flex-1 flex flex-col transition-all duration-300 main ${isSidebaropen && shouldRenderSidebarAndNavbar ? "ml-[280px]" : "ml-0"
           }`}
 
-        className={`flex-1 flex flex-col transition-all duration-300 ${
-          isSidebaropen && shouldRenderSidebarAndNavbar ? "ml-[280px]" : "ml-0"
-        }`}
+       
       >
         {shouldRenderSidebarAndNavbar && (
           <Navbar toggleSidebar={toggleSidebar} />
@@ -132,6 +130,7 @@ function App() {
         </div>
       </div>
       <Toaster position="top-right" reverseOrder={false} />
+    </div>
     </div>
   );
 }

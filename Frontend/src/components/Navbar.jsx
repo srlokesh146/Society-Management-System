@@ -231,8 +231,6 @@ const Navbar = () => {
 
         {/* User Info */}
         <div className="flex flex-col md:flex">
-          <h6 className="font-bold text-[16px] max-sm:hidden">
-            {user?.FirstName + " " + user?.LastName}
           <h6 className="font-bold text-[16px]">
             {user.role === "security"
               ? user?.full_name || Avatar
