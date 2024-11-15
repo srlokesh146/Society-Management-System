@@ -248,10 +248,10 @@ function SecurityProtocols() {
       {/* Create/Edit Modal */}
       {(isCreateOpen || isEditOpen) && (
         <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center p-4 z-[9999]">
-          <div className="bg-white p-6 sm:p-8 rounded-lg shadow-2xl w-full max-w-md">
+          <div className="bg-white p-6 sm:p-8 rounded-lg shadow-2xl w-[400px] max-w-md">
             <div className="flex justify-between items-center mb-[10px]">
               <h2 className="text-[20px] sm:text-2xl font-bold text-gray-800">
-                {isCreateOpen ? "Create Protocol" : "Edit Protocol"}
+                {isCreateOpen ? "Security Protocol" : "Edit Protocol"}
               </h2>
               <button
                 onClick={() => {
@@ -260,7 +260,7 @@ function SecurityProtocols() {
                 }}
                 className="text-gray-600 hover:text-gray-800"
               >
-                <FaTimes size={24} />
+       
               </button>
             </div>
             <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
@@ -276,7 +276,7 @@ function SecurityProtocols() {
                     setNewProtocol({ ...newProtocol, title: e.target.value })
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Enter protocol title"
+                  placeholder="Enter title"
                 />
               </div>
               <div>
@@ -292,8 +292,8 @@ function SecurityProtocols() {
                     })
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  rows="4"
-                  placeholder="Enter protocol description"
+                  rows="2"
+                  placeholder="Enter description"
                 />
               </div>
 
@@ -354,14 +354,14 @@ function SecurityProtocols() {
                     setIsCreateOpen(false);
                     setIsEditOpen(false);
                   }}
-                  className="w-full px-4 py-3 text-md font-medium text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50"
+                  className="w-full px-4 py-3 text-md font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
                   onClick={isEditOpen ? handleUpdate : handleSave}
-                  className="w-full px-4 py-3 text-md font-medium text-white bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-md hover:opacity-90"
+                  className="w-full px-4 py-3 text-md font-medium text-white bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-lg hover:opacity-90"
                 >
                   {isCreateOpen ? "Create" : "Save"}
                 </button>
@@ -387,7 +387,7 @@ function SecurityProtocols() {
               </button>
             </div>
             <div className="border-b border-[#F4F4F4] mb-[30px]"></div>
-            <div className="space-y-4 bg-gray-50 p-4 rounded-md">
+            <div className="space-y-4  p-2 rounded-md">
               <div>
                 <h3 className="font-normal text-[#A7A7A7] text-[16px]">Title</h3>
                 <p className="mt-1 text-lg font-semibold text-gray-900">
@@ -423,14 +423,7 @@ function SecurityProtocols() {
                 </div>
               </div>
             </div>
-            <div className="mt-6 flex justify-end">
-              <button
-                onClick={() => setIsViewOpen(false)}
-                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
-              >
-                Close
-              </button>
-            </div>
+         
           </div>
         </div>
       )}
