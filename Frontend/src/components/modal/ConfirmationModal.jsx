@@ -1,7 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
-const ConfirmationModal = ({ showConfirmModal, onClose }) => {
+const ConfirmationModal = ({ showConfirmModal, onClose, handleDelete }) => {
   if (!showConfirmModal) return null;
+
+  const { _id } = useSelector((store) => store.resident.resident);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[9999]">
@@ -10,7 +13,7 @@ const ConfirmationModal = ({ showConfirmModal, onClose }) => {
           <h2 className="text-[20px] font-semibold mb-[10px]">
             Do you want to vacate the final flat?
           </h2>
-        <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
+          <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
           <p className="text-gray-500 text-sm">
             Are you sure you want to delete all details?
           </p>
@@ -24,9 +27,7 @@ const ConfirmationModal = ({ showConfirmModal, onClose }) => {
             Cancel
           </button>
           <button
-            onClick={() => {
-              onClose();
-            }}
+            onClick={() => handleDelete(_id)}
             className="w-[200px] h-[45px] bg-[#E74C3C] text-white rounded-lg hover:bg-[#E74C3C]"
           >
             Confirm

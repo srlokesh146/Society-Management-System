@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import VacateModal from "./VacateModal"; // Keep this import
 import ConfirmationModal from "./ConfirmationModal";
+import { StoreResident } from "../../redux/features/ResidentSlice";
+import { useDispatch } from "react-redux";
 
 export default function AddResidentModal({
   isOpen,
@@ -11,6 +13,7 @@ export default function AddResidentModal({
 }) {
   const [selectedStatus, setSelectedStatus] = useState("Occupied");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSave = () => {
     if (selectedStatus === "Occupied") {
@@ -27,6 +30,12 @@ export default function AddResidentModal({
 
       onClose();
     } else if (selectedStatus === "Vacate") {
+      const data = {
+        _id: resident._id,
+        Wing: resident.Wing,
+        Unit: resident.Unit,
+      };
+      dispatch(StoreResident(data));
       onClose();
       setShowVacateModal(true);
     }
