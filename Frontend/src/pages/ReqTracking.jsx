@@ -130,11 +130,11 @@ const ReqTracking = () => {
                         year: "numeric",
                       })}
                     </td>
-                    <td className="px-4 md:px-6 py-4 text-sm md:text-md text-[#4F4F4F]">
+                    <td className="px-4 flex  md:px-6 py-4 text-sm md:text-md text-[#4F4F4F]">
                       <span className="bg-blue-50 text-blue-600 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">
                         {Request.wing}
                       </span>
-                      <span className="ml-2 text-sm font-medium text-gray-600">{Request.unit}</span>
+                      <span className="ml-4 mt-0 text-sm font-medium text-gray-600">{Request.unit}</span>
                     </td>
                     <td className="px-4 md:px-6 py-4">
                       <PriorityBadge priority={Request.priority} />
