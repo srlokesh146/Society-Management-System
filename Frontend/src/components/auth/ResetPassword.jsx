@@ -27,7 +27,7 @@ const ResetPassword = () => {
       const response = await resetPassword({ new_pass, confirm_pass, email });
       toast.success(response.data.message);
       localStorage.clear("EmailOrPhone");
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
