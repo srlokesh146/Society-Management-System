@@ -12,10 +12,12 @@ import { useNavigate } from "react-router-dom";
 import ViewResidentModal from "../components/modal/ViewResidentModal";
 import VacateModal from "../components/modal/VacateModal";
 import ConfirmationModal from "../components/modal/ConfirmationModal";
-import { GetResidents } from "../services/ownerTenantService";
+import { DeleteResident, GetResidents } from "../services/ownerTenantService";
 import { toast } from "react-hot-toast";
 import eye from "../assets/images/eye.svg";
 import edit from "../assets/images/edit.svg";
+import { useDispatch } from "react-redux";
+import { ClearResident } from "../redux/features/ResidentSlice";
 
 export default function ResidentManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,9 +27,8 @@ export default function ResidentManagement() {
   const [viewResident, setViewResident] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [residentList, setResidentList] = useState([]);
-  const [wing, setWing] = useState("A");
-  const [unit, setUnit] = useState("1001");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -51,19 +52,30 @@ export default function ResidentManagement() {
     setIsViewModalOpen(true);
   };
 
+  const handleDelete = async (id) => {
+    try {
+      const response = await DeleteResident(id);
+      fetchResidents();
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      setShowVacateModal(false);
+      setShowConfirmModal(false);
+      setIsViewModalOpen(false);
+    }
+  };
+
   const handleAddResident = () => {
     navigate("/ownerform");
   };
 
   // get all resident data
-
   const fetchResidents = async () => {
     try {
       const response = await GetResidents();
       setResidentList(response.data.Residents);
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -123,8 +135,8 @@ export default function ResidentManagement() {
                   <td>
                     <div className="flex items-center justify-start ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]">
                       {resident.ResidentStatus !== "Owner" &&
-                        resident.UnitStatus !== "Occupied" &&
-                        resident.ResidentStatus !== "Tenant" ? (
+                      resident.UnitStatus !== "Occupied" &&
+                      resident.ResidentStatus !== "Tenant" ? (
                         <>
                           <img
                             src={avatar2}
@@ -158,10 +170,11 @@ export default function ResidentManagement() {
                   <td className="px-6 py-4 text-center">
                     <span
                       className={`inline-flex items-center justify-center px-3 py-1 rounded-full font-medium 
-                    ${resident.unitStatus === "Occupied"
-                          ? "bg-[#ECFFFF] text-[#14B8A6] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
-                          : "bg-[#FFF6FF] text-[#9333EA] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
-                        }`}
+                    ${
+                      resident.unitStatus === "Occupied"
+                        ? "bg-[#ECFFFF] text-[#14B8A6] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
+                        : "bg-[#FFF6FF] text-[#9333EA] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
+                    }`}
                     >
                       {resident.unitStatus === "Occupied" ? (
                         <img src={occupiedImage} className="mr-[4px]" />
@@ -177,10 +190,11 @@ export default function ResidentManagement() {
                     {resident.UnitStatus === "Occupied" ? (
                       <span
                         className={`inline-flex items-center justify-center px-3 py-1 rounded-full font-medium 
-                       ${resident.Resident_status === "Tenante"
-                            ? "bg-[#FFF1F8] text-[#EC4899] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
-                            : "bg-[#F1F0FF] text-[#4F46E5] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
-                          }`}
+                       ${
+                         resident.Resident_status === "Tenante"
+                           ? "bg-[#FFF1F8] text-[#EC4899] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
+                           : "bg-[#F1F0FF] text-[#4F46E5] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
+                       }`}
                       >
                         {resident.Resident_status === "Tenante" ? (
                           <img
@@ -207,8 +221,8 @@ export default function ResidentManagement() {
                   </td>
                   <td className="text-center px-6 py-4 flex justify-center items-center">
                     {resident.Resident_status !== "Owner" &&
-                      resident.UnitStatus !== "Occupied" &&
-                      resident.Resident_status !== "Tenante" ? (
+                    resident.UnitStatus !== "Occupied" &&
+                    resident.Resident_status !== "Tenante" ? (
                       <div className="text-[#4F4F4F] bg-[#F6F8FB] w-[106px] h-[31px] flex  items-center justify-center rounded-[70px]">
                         <span className="text-[#4F4F4F]">--</span>
                       </div>
@@ -220,8 +234,8 @@ export default function ResidentManagement() {
                   </td>
                   <td>
                     {resident.Resident_status !== "Owner" &&
-                      resident.UnitStatus !== "Occupied" &&
-                      resident.Resident_status !== "Tenante" ? (
+                    resident.UnitStatus !== "Occupied" &&
+                    resident.Resident_status !== "Tenante" ? (
                       <div className="flex items-center justify-center ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]">
                         <span className="text-[#4F4F4F]  bg-[#F6F8FB] w-[28px] h-[28px] rounded-full flex justify-center items-center">
                           -
@@ -237,8 +251,8 @@ export default function ResidentManagement() {
                   </td>
                   <td>
                     {resident.Resident_status !== "Owner" &&
-                      resident.UnitStatus !== "Occupied" &&
-                      resident.Resident_status !== "Tenante" ? (
+                    resident.UnitStatus !== "Occupied" &&
+                    resident.Resident_status !== "Tenante" ? (
                       <div className="flex items-center justify-center ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]">
                         <span className="text-[#4F4F4F]  bg-[#F6F8FB] w-[28px] h-[28px] rounded-full flex justify-center items-center">
                           -
@@ -254,8 +268,8 @@ export default function ResidentManagement() {
                   </td>
                   <td className="text-center">
                     {resident.Resident_status !== "Owner" &&
-                      resident.UnitStatus !== "Occupied" &&
-                      resident.Resident_status !== "Tenante" ? (
+                    resident.UnitStatus !== "Occupied" &&
+                    resident.Resident_status !== "Tenante" ? (
                       <div className="flex items-center justify-center max-sm:min-w-[180px] max-md:min-w-[180px]">
                         <span className="text-[#4F4F4F] bg-[#F6F8FB] w-[106px] h-[31px] inline-flex items-center justify-center rounded-[70px]">
                           -
@@ -306,6 +320,7 @@ export default function ResidentManagement() {
           setShowConfirmModal(false);
           setShowVacateModal(false);
         }}
+        handleDelete={handleDelete}
       />
 
       <ViewResidentModal

@@ -116,7 +116,6 @@ export default function TeantForm() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      console.log(formData);
       try {
         const response = await CreateTenant(formData);
         toast.success(response.data.message);
@@ -1000,66 +999,154 @@ export default function TeantForm() {
             </div>
 
             {/* Vehicle Form Fields */}
-            {formData?.Vehicle_Counting.map((vehicle, index) => (
-              <div
-                key={index}
-                className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4"
-              >
-                <div className="relative">
-                  <label className="block text-xs text-black-500 font-lighter mb-1">
-                    Vehicle Type*
-                  </label>
-                  <select
-                    name="vehicle_type"
-                    defaultValue={vehicle.vehicle_type}
-                    className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
-                    onChange={(e) =>
-                      handleVehicleChange(index, e.target.name, e.target.value)
-                    }
+            {resident?.Vehicle_Counting ? (
+              <>
+                {formData?.Vehicle_Counting.map((vehicle, index) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4"
                   >
-                    <option selected disabled>
-                      Select Vehicle Type
-                    </option>
-                    <option value="Two Wheelers">Two Wheelers</option>
-                    <option value="Four Wheelers">Four Wheelers</option>
-                  </select>
-                  <IoIosArrowDown
-                    className="absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none"
-                    size={16}
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-black-500 font-lighter mb-1">
-                    Vehicle Name
-                  </label>
-                  <input
-                    name="vehicle_name"
-                    type="text"
-                    value={vehicle.vehicle_name}
-                    placeholder="Enter Name"
-                    onChange={(e) =>
-                      handleVehicleChange(index, e.target.name, e.target.value)
-                    }
-                    className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-black-500 font-lighter mb-1">
-                    Vehicle Number
-                  </label>
-                  <input
-                    name="vehicle_number"
-                    type="text"
-                    value={vehicle.vehicle_number}
-                    placeholder="Enter Number"
-                    onChange={(e) =>
-                      handleVehicleChange(index, e.target.name, e.target.value)
-                    }
-                    className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
-                  />
-                </div>
-              </div>
-            ))}
+                    <div className="relative">
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Vehicle Type*
+                      </label>
+                      <select
+                        name="vehicle_type"
+                        defaultValue={vehicle.vehicle_type}
+                        className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
+                        onChange={(e) =>
+                          handleVehicleChange(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                      >
+                        <option selected disabled>
+                          Select Vehicle Type
+                        </option>
+                        <option value="Two Wheelers">Two Wheelers</option>
+                        <option value="Four Wheelers">Four Wheelers</option>
+                      </select>
+                      <IoIosArrowDown
+                        className="absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none"
+                        size={16}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Vehicle Name
+                      </label>
+                      <input
+                        name="vehicle_name"
+                        type="text"
+                        value={vehicle.vehicle_name}
+                        placeholder="Enter Name"
+                        onChange={(e) =>
+                          handleVehicleChange(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Vehicle Number
+                      </label>
+                      <input
+                        name="vehicle_number"
+                        type="text"
+                        value={vehicle.vehicle_number}
+                        placeholder="Enter Number"
+                        onChange={(e) =>
+                          handleVehicleChange(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <>
+                {[...Array(vehicleCount)].map((_, index) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4"
+                  >
+                    <div className="relative">
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Vehicle Type*
+                      </label>
+                      <select
+                        name="vehicle_type"
+                        className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
+                        onChange={(e) =>
+                          handleVehicleChange(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                      >
+                        <option selected disabled>
+                          Select Vehicle Type
+                        </option>
+                        <option value="Two Wheelers">Two Wheelers</option>
+                        <option value="Four Wheelers">Four Wheelers</option>
+                      </select>
+                      <IoIosArrowDown
+                        className="absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none"
+                        size={16}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Vehicle Name
+                      </label>
+                      <input
+                        name="vehicle_name"
+                        type="text"
+                        placeholder="Enter Name"
+                        onChange={(e) =>
+                          handleVehicleChange(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                        Vehicle Number
+                      </label>
+                      <input
+                        name="vehicle_number"
+                        type="text"
+                        placeholder="Enter Number"
+                        onChange={(e) =>
+                          handleVehicleChange(
+                            index,
+                            e.target.name,
+                            e.target.value
+                          )
+                        }
+                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
           </div>
         </div>
 
