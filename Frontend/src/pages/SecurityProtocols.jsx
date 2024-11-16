@@ -157,7 +157,7 @@ function SecurityProtocols() {
     : "";
 
   return (
-    <div className="container mx-auto p-4 sm:p-6  bg-white rounded-lg security-protocel-table">
+    <div className="p-4 sm:p-6  bg-white rounded-lg security-protocel-table">
       <div className="flex justify-between items-center mb-6 max-sm:flex-col">
         <h1 className="text-[20px] font-semibold text-black-800 max-xl:mb-0 max-sm:mb-[15px]">
           Security Protocols
@@ -172,74 +172,77 @@ function SecurityProtocols() {
 
       <div className="bg-white rounded-lg shadow-sm">
         <div className="overflow-x-auto custom-scrollbar min-w-0 overflow-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="  bg-indigo-50 ">
-              <tr>
-                {["Title", "Description", "Date", "Time", "Action"].map(
-                  (header) => (
-                    <th
-                      key={header}
-                      className="px-6 py-4 text-left text-md font-bold text-black-500 max-sm:min-w-[270px] md:min-w-[166px] max-md:min-w-[180px]"
-                    >
-                      {header}
-                    </th>
-                  )
-                )}
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-100">
-              {protocols.map((protocol) => (
-                <tr key={protocol._id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 max-sm:min-w-[270px] md:min-w-[166px] max-md:min-w-[180px]">
-                    <div className="text-sm font-medium text-[#4F4F4F]">
-                      {protocol.title}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 max-sm:min-w-[270px] md:min-w-[166px] max-md:min-w-[180px]">
-                    <div className="text-sm  font-medium text-[#4F4F4F]">
-                      {protocol.description}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 max-sm:min-w-[270px] md:min-w-[166px] max-md:min-w-[180px]">
-                    <div className="flex items-center justify-center w-[100px] h-[34px] text-sm text-[#4F4F4F]">
-                      {new Date(protocol.date).toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 max-sm:min-w-[270px] md:min-w-[166px] max-md:min-w-[180px]">
-                    <div className="inline-flex px-3 py-1 text-sm text-[#4F4F4F] bg-[#F6F8FB] rounded-lg">
-                      {protocol.time}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 max-sm:min-w-[270px] md:min-w-[166px] max-md:min-w-[180px]">
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => handleEdit(protocol)}
-                        className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
-                      >
-                        <img src={edit} alt="" />
-                      </button>
-                      <button
-                        onClick={() => handleView(protocol)}
-                        className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
-                      >
-                        <img src={eye} alt="" />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(protocol)}
-                        className="cursor-pointer text-red-500 hover:text-red-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
-                      >
-                        <img src={trash} alt="" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <table className="min-w-full table-auto border-collapse border border-gray-200">
+  <thead className="bg-indigo-50 border-b border-gray-200">
+    <tr>
+      <th className="px-6 py-4 text-left text-[14px] font-semibold text-gray-700">
+        Title
+      </th>
+      <th className="px-6 py-4 text-left text-[14px] font-semibold text-gray-700">
+        Description
+      </th>
+      <th className="px-6 py-4 text-left text-[14px] font-semibold text-gray-700">
+        Date
+      </th>
+      <th className="px-6 py-4 text-left text-[14px] font-semibold text-gray-700">
+        Time
+      </th>
+      <th className="px-6 py-4 text-left text-[14px] font-semibold text-gray-700">
+        Action
+      </th>
+    </tr>
+  </thead>
+  <tbody className="bg-white divide-y divide-gray-100">
+    {protocols.map((protocol) => (
+      <tr
+        key={protocol._id}
+        className="hover:bg-gray-50 transition-colors duration-200"
+      >
+        <td className="px-6 py-4 text-sm font-medium text-gray-800">
+          {protocol.title}
+        </td>
+        <td className="px-6 py-4 text-sm text-gray-800">
+          {protocol.description}
+        </td>
+        <td className="px-6 py-4 text-sm text-gray-800">
+          {new Date(protocol.date).toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          })}
+        </td>
+        <td className="px-6 py-4 text-sm text-gray-800">
+          <span className="inline-block px-3 py-1 bg-gray-100 rounded-lg">
+            {protocol.time}
+          </span>
+        </td>
+        <td className="px-6 py-4">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => handleEdit(protocol)}
+              className="flex items-center justify-center w-10 h-10 text-blue-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md"
+            >
+              <img src={edit} alt="Edit" />
+            </button>
+            <button
+              onClick={() => handleView(protocol)}
+              className="flex items-center justify-center w-10 h-10 text-green-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md"
+            >
+              <img src={eye} alt="View" />
+            </button>
+            <button
+              onClick={() => handleDelete(protocol)}
+              className="flex items-center justify-center w-10 h-10 text-red-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md"
+            >
+              <img src={trash} alt="Delete" />
+            </button>
+          </div>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
         </div>
       </div>
 
@@ -258,7 +261,7 @@ function SecurityProtocols() {
                 }}
                 className="text-gray-600 hover:text-gray-800"
               >
-       
+
               </button>
             </div>
             <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
@@ -421,7 +424,7 @@ function SecurityProtocols() {
                 </div>
               </div>
             </div>
-         
+
           </div>
         </div>
       )}

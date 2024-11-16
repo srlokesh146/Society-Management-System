@@ -73,7 +73,7 @@ const Login = () => {
 
   return (
     <div
-      className="flex flex-col md:flex-row items-center justify-center bg-cover bg-center overflow-auto"
+      className="flex items-center justify-center bg-cover bg-center overflow-auto max-md:flex-col max-xl:flex-col"
       style={{ backgroundImage: `url(${BackgroundImage})` }} // Background image
     >
       {/* Left Section (Image and Title) */}
@@ -82,7 +82,7 @@ const Login = () => {
         <div className="absolute inset-0 opacity-10 rounded-lg"></div>
 
         {/* Title Section */}
-        <h1 className="text-5xl mt-20 font-bold mr-96 text-gray-700 z-10 mb-4">
+        <h1 className="text-5xl font-bold text-gray-700 z-10 mb-4 pt-[60px] max-sm:text-[30px] max-md:text-[40px] max-sm:pt-[40px]">
           <span className="text-[#FE512E]">Dash</span>Stack
         </h1>
 
@@ -99,7 +99,7 @@ const Login = () => {
       {/* Right Section (Login Form) */}
       <div className="md:w-1/2 w-full flex items-center justify-center p-6">
         <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-[530px]">
-          <h2 className="text-2xl font-bold mb-6 text-gray-800">Login</h2>
+          <h2 className="text-2xl font-semibold mb-6 text-gray-800 max-sm:text-[2] max-sm:text-[24px] max-md:text-[28px]">Login</h2>
           <form onSubmit={handleLogin} className="space-y-4">
             {/* Email or Phone Input */}
             <div>

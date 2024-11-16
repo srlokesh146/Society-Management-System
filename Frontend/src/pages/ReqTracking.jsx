@@ -82,8 +82,8 @@ const ReqTracking = () => {
     <div className="bg-gray-100">
       <div className="bg-white rounded-xl shadow-sm p-4 md:p-6 lg:p-8">
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-            <h1 className="text-[20px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px]">Create Request</h1>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 max-sm:items-center">
+            <h1 className="text-[20px] font-semibold text-gray-800 max-xl:mb-0">Create Request</h1>
             <button
               onClick={() => setIsModalOpen(true)}
               className="mt-4 md:mt-0 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white px-4 py-2 rounded-md hover:opacity-90 transition-all duration-300"

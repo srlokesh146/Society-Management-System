@@ -87,7 +87,7 @@ function SecurityGuardDetails() {
     setCurrentGuard(guard);
     setIsModalOpen(true);
   };
- 
+
 
 
   const handleDeleteClick = (guard) => {
@@ -328,17 +328,17 @@ function SecurityGuardDetails() {
                       <button
                         onClick={() => handleEdit(guard)}
                         className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]">
-                       <img src={edit} alt="" />
+                        <img src={edit} alt="" />
                       </button>
                       <button
                         onClick={() => handleView(guard)}
                         className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]">
-                         <img src={eye} alt="" />
+                        <img src={eye} alt="" />
                       </button>
                       <button
                         onClick={() => handleDeleteClick(guard)}
                         className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]">
-                       <img src={trash} alt="" />
+                        <img src={trash} alt="" />
                       </button>
                     </div>
                   </td>
@@ -358,7 +358,7 @@ function SecurityGuardDetails() {
               {modalMode !== "view" && (
                 <form className="space-y-4 p-6">
                   {/* Photo Upload */}
-                  <div className="flex flex-col items-center mb-6">
+                  <div className="flex items-center mb-6">
                     <div className="relative">
                       <label htmlFor="photo-upload" className="cursor-pointer">
                         {photoPreview ? (
@@ -373,15 +373,12 @@ function SecurityGuardDetails() {
                             </div>
                           </div>
                         ) : (
-                          <div className="flex flex-col  items-center">
+                          <div className="flex flex-col items-center">
                             <div className="w-20 h-20 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100">
                               <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
                                 <FaCamera className="w-4 h-4  text-gray-400" />
                               </div>
                             </div>
-                            <span className="text-blue-500 text-xs mt-2">
-                              Add Photo
-                            </span>
                           </div>
                         )}
                       </label>
@@ -392,6 +389,11 @@ function SecurityGuardDetails() {
                         onChange={(e) => handleFileUpload(e, "profileimage")}
                         accept="image/*"
                       />
+                    </div>
+                    <div className="ml-[15px]">
+                      <span className="text-blue-500 text-sm font-medium">
+                        Add Photo
+                      </span>
                     </div>
                   </div>
 
@@ -588,7 +590,7 @@ function SecurityGuardDetails() {
                 </h2>
                 <button
                   onClick={() => {
-               
+
                     setIsModalOpen(false); // Ensure this function is correctly defined
                   }}
                   className="text-gray-400 hover:text-gray-600"
@@ -680,7 +682,7 @@ function SecurityGuardDetails() {
                 <h2 className="text-xl font-semibold">
                   Delete Security Guard ?
                 </h2>
-               
+
                 <button
                   onClick={() => setIsDeleteModalOpen(false)}
                   className="text-gray-400 hover:text-gray-600"

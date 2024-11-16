@@ -60,12 +60,12 @@ const OtpScreenpage = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen overflow-hidden bg-cover bg-center bg-image relative">
+    <div className="flex lg:flex-row h-screen overflow-hidden bg-cover bg-center bg-image relative max-md:flex-col">
       <div className="flex flex-col bg-[#F6F8FB] w-full lg:w-1/2 z-10">
-        <div className="pt-[60px] flex justify-start">
+        <div className="pt-[60px] flex justify-start max-sm:pt-[30px]">
           <Logo logocss />
         </div>
-        <div className="flex-grow flex items-center justify-center mt-[93px] mb-[249px] lg:mx-auto z-10">
+        <div className="flex-grow flex items-center justify-center mt-[93px] mb-[249px] max-sm:mt-[40px] max-sm:mb-[30px] max-md:mt-[30px] max-md:mb-[30px] max-lg:mt-[30px] max-lg:mb-[50px] z-10">
           <img
             src={passwordimage}
             alt="OTP"
@@ -76,11 +76,11 @@ const OtpScreenpage = () => {
 
       <div className="flex items-center justify-center w-full lg:w-1/2 z-20 relative">
         <div className="pt-[20px] pb-[20px] px-[5%] lg:px-[20px] w-full max-w-[630px] rounded-lg z-30 relative">
-          <h3 className="text-gray-700 text-[18px] font-semibold mb-[56px] ms-[40px] text-start">
+          <h3 className="text-gray-700 text-[18px] font-semibold mb-[56px] ms-[40px] text-start max-sm:mb-[15px] max-md:mb-[15px]">
             3. OTP Screen (Unfill)
           </h3>
-          <div className="custom-shadow px-[50px] pt-[50px] pb-[85px] w-full text-start bg-white rounded-[15px] z-40 relative">
-            <h2 className="text-[34px] font-semibold mb-[10px] text-gray-700">
+          <div className="custom-shadow px-[50px] pt-[50px] pb-[85px] w-full text-start bg-white rounded-[15px] z-40 relative max-sm:px-[30px] max-sm:pb-[50px] max-sm:pt-[30px]">
+            <h2 className="text-[34px] font-semibold mb-[10px] text-gray-700 max-sm:text-[2] max-sm:text-[24px] max-md:text-[28px]">
               Enter OTP
             </h2>
             <p className="text-gray-600 text-[14px] mb-3">

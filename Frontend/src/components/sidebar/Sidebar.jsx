@@ -11,6 +11,7 @@ import { IoChevronDownOutline } from "react-icons/io5";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../services/authService";
+import sidebaricon from "../../assets/images/sidebarmenuicon.png";
 import { LogoutUser } from "../../redux/features/AuthSlice";
 const tabs = securityBar;
 
@@ -93,7 +94,7 @@ export default function Sidebar() {
         className="lg:hidden fixed top-[26px] left-4 z-[9999] max-sm:block"
         onClick={toggleSidebar}
       >
-        <FiMenu size={24} />
+       <img src={sidebaricon} alt="" />
       </button>
 
       <aside

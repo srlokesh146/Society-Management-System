@@ -90,7 +90,7 @@ const Dashboard = () => {
     <div className="flex h-screen bg-gray-100">
       <main className="flex-1">
         <div>
-          <div className="grid grid-cols-4 col-span-2 gap-4 mb-6 max-xl:grid-cols-2 max-sm:grid-cols-1 max-2xl:grid-cols-2 relative z-[9]">
+          <div className="grid grid-cols-4 col-span-2 gap-4 mb-6 max-xl:grid-cols-2 max-sm:grid-cols-2 max-2xl:grid-cols-2 relative z-[9]">
             {cardData.map((card, index) => (
               <div
                 key={index}
@@ -119,9 +119,9 @@ const Dashboard = () => {
                       borderImageSlice: 1,
                     }}
                   >
-                    <div className="flex justify-between items-center w-full">
-                      <div className="flex flex-col items-start">
-                        <h6 className="text-gray-700 font-semibold text-[16px] leading-2 max-sm:text-[14px] max-md:text-[18px]">
+                    <div className="flex justify-between items-center w-full max-sm:flex-col-reverse max-sm:items-start">
+                      <div className="flex flex-col items-start max-sm:mt-[15px]">
+                        <h6 className="text-gray-700 font-semibold text-[16px] leading-2 max-sm:text-[14px] max-md:text-[18px] max-sm:text-nowrap">
                           {card.title}
                         </h6>
                         <h3 className="text-gray-900 font-bold text-[26px] max-sm:text-[20px] max-sm:font-medium max-md:text-[20px] max-lg:text-[20px] max-xl:text-[20px] max-2xl:text-[20px]">
@@ -153,7 +153,7 @@ const Dashboard = () => {
           {/* chart section */}
 
           <div className="grid grid-cols-12 w-full gap-3 h-full max-xl:grid-cols-6 max-2xl:grid-cols-6">
-            <div className="col-span-12 max-md:col-span-8 max-lg:col-span-6 md:col-span-6 rounded-lg shadow-[0px_0px_25px_0px_rgba(0,0,0,0.08)]">
+            <div className="col-span-12 max-md:col-span-12 max-lg:col-span-6 md:col-span-6 rounded-lg shadow-[0px_0px_25px_0px_rgba(0,0,0,0.08)]">
               <BalanceChart />
             </div>
 
@@ -291,12 +291,14 @@ const Dashboard = () => {
 
           {/* chart section end */}
 
-          <div className="grid grid-cols-3 max-2xl:grid-cols-2 gap-3 mt-[20px] max-xl:grid-cols-1">
-            <DashboardTable />
+          <div className="grid grid-cols-3 max-2xl:grid-cols-2 gap-3 mt-[20px] max-xl:grid-cols-1 max-sm:grid-col-1">
+            <div className="col-span-2 max-2xl:col-span-2 max-xl:col-span-1">
+              <DashboardTable />
+            </div>
             <div className="bg-[#fff] rounded-lg shadow-md w-full p-[20px] overflow-y-auto">
-              <div className="flex justify-between items-center mb-[27px] ps-[20px] pr-[20px]">
+              <div className="flex justify-between items-center mb-[27px] ps-[20px] pr-[20px] max-sm:ps-[10px] max-sm:pr-0">
                 <div>
-                  <h2 className="text-[20px] font-semibold leading-4 max-sm:text-[16px] max-md:text-[18px] max-2xl:text-[18px]">
+                  <h2 className="text-[20px] font-semibold leading-[27px] max-sm:text-[16px] max-md:text-[18px] max-2xl:text-[18px]">
                     Upcoming Activity
                   </h2>
                 </div>
@@ -334,7 +336,7 @@ const Dashboard = () => {
                 {activities.map((activity, index) => (
                   <li
                     key={activity._id}
-                    className="flex items-center justify-between bg-white py-[12px] px-[15px] rounded-lg shadow-sm"
+                    className="flex items-center justify-between bg-white py-[12px] px-[15px] rounded-lg shadow-sm max-sm:px-[5px]"
                   >
                     <div className="flex items-center space-x-2">
                       <div className="w-[40px] h-[40px] bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-bold acvtivity">

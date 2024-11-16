@@ -159,7 +159,7 @@ const Register = () => {
         {/* Left Section - Branding and Illustration */}
         <div className="flex flex-col bg-[#F6F8FB] w-full lg:w-1/2 z-10">
           <div className="bg-[#F6F8FB] rounded-lg shadow-lg p-8 max-w-[900px] w-full flex flex-col items-start h-auto md:h-[950px] relative">
-            <h1 className="text-[50px] mt-20 font-bold text-gray-700 z-10 mb-4">
+            <h1 className="text-[50px] font-bold text-gray-700 z-10 mb-4 pt-[60px] max-sm:text-[30px] max-md:text-[40px] max-sm:pt-[40px]">
               <span className="text-[#FE512E]">Dash</span>
               <span className="text-grey-800">Stack</span>
             </h1>
@@ -178,12 +178,12 @@ const Register = () => {
         {/* Right Section - Form */}
         <div className="md:w-3/5 w-full flex items-center justify-center p-6">
           <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-[600px]">
-            <h2 className="text-3xl font-semibold mb-6 text-gray-800">
+            <h2 className="text-[34px] font-semibold mb-6 text-gray-800  max-sm:text-[2] max-sm:text-[24px] max-md:text-[28px]">
               Registration
             </h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name Fields */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
                 <div>
                   <label className="block text-[14px] font-medium text-gray-700 mb-1">
                     First Name*
@@ -215,7 +215,7 @@ const Register = () => {
               </div>
 
               {/* Email and Phone */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
                 <div>
                   <label className="block text-[14px] font-medium text-gray-700 mb-1">
                     Email Address*
@@ -247,7 +247,7 @@ const Register = () => {
               </div>
 
               {/* Country, State, City */}
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-3 gap-4 max-sm:grid-cols-1">
                 <div>
                   <label className="block text-[14px] font-medium text-gray-700 mb-1">
                     Country*
