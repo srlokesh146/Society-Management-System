@@ -15,6 +15,8 @@ const cloudinary = require("../utils/cloudinary");
 const fs = require("fs");
 const Guard = require("../models/SecurityGuard.model");
 const { ForgotFormat } = require("../utils/resetpasswordui");
+const Tenante = require("../models/Tenent.model");
+const Owner = require("../models/Owener.model");
 
 exports.signup = async (req, res) => {
   try {
@@ -127,11 +129,9 @@ exports.signup = async (req, res) => {
     });
   }
 };
-
 exports.login = async (req, res) => {
   try {
     const { EmailOrPhone, password } = req.body;
-
     if (!EmailOrPhone || !password) {
       return res.status(400).json({
         success: false,
@@ -139,38 +139,59 @@ exports.login = async (req, res) => {
       });
     }
 
+   
     let query = {};
     if (EmailOrPhone.includes("@")) {
-      query = { $or: [{ Email: EmailOrPhone }, { MailOrPhone: EmailOrPhone }] }; // It's an email
+      query = {
+        $or: [
+          { Email: EmailOrPhone },
+          { MailOrPhone: EmailOrPhone },
+          { Email_address: EmailOrPhone },
+        ],
+      };
     } else {
-      query = { $or: [{ Phone: EmailOrPhone }, { MailOrPhone: EmailOrPhone }] }; // It's a phone number
+      query = {
+        $or: [
+          { Phone: EmailOrPhone },
+          { MailOrPhone: EmailOrPhone },
+          { Phone_number: EmailOrPhone }, 
+        ],
+      };
     }
-    const user = await User.findOne(query);
-    const guard = await Guard.findOne(query);
 
-    const account = user || guard;
+    // Search for the account across all models
+    const account =
+      (await Owner.findOne(query)) ||
+      (await Tenante.findOne(query)) ||
+      (await User.findOne(query)) ||
+      (await Guard.findOne(query));
+
     if (!account) {
       return res.status(404).json({
-        success: false,
-        message: "User or Guard is not registered",
-      });
-    }
-
-    const isPasswordValid = await compare(password, account.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({
         success: false,
         message: "Invalid credentials",
       });
     }
 
-    //jwt
+    
+    const isPasswordValid = await bcrypt.compare(password, account.password);
+   
+    
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid  credentials",
+      });
+    }
+
+    // Generate JWT token
     generateToeken(account._id, res);
 
+    // Send success response
     return res.status(200).json({
       success: true,
-      message: "User logged in successfully",
-      user: { ...account._doc, password: "" },
+      message: "logged in successfully",
+      user: { ...account._doc, password: "" }, 
     });
   } catch (error) {
     console.error("Error during login:", error);
@@ -180,7 +201,6 @@ exports.login = async (req, res) => {
     });
   }
 };
-
 exports.logout = async (req, res) => {
   try {
     res.clearCookie("society-auth", {
@@ -201,7 +221,6 @@ exports.logout = async (req, res) => {
     });
   }
 };
-
 exports.SendOtp = async (req, res) => {
   try {
     const { EmailOrPhone } = req.body;
@@ -220,13 +239,15 @@ exports.SendOtp = async (req, res) => {
     });
     const currentTime = new Date();
 
-    let account = await User.findOne({
-      $or: [{ Email: EmailOrPhone }, { Phone: EmailOrPhone }],
-    });
+    let account = await User.findOne({ $or: [{ Email: EmailOrPhone }, { Phone: EmailOrPhone }] });
     if (!account) {
-      account = await Guard.findOne({
-        $or: [{ MailOrPhone: EmailOrPhone }, { MailOrPhone: EmailOrPhone }],
-      });
+      account = await Guard.findOne({ $or: [{ MailOrPhone: EmailOrPhone }, { MailOrPhone: EmailOrPhone }] });
+    }
+    if (!account) {
+      account = await Owner.findOne({ $or: [{ Email_address: EmailOrPhone }, { Phone: EmailOrPhone }] });
+    }
+    if (!account) {
+      account = await Tenante.findOne({ $or: [{ Email_address: EmailOrPhone }, { Phone: EmailOrPhone }] });
     }
 
     if (!account) {
@@ -250,7 +271,7 @@ exports.SendOtp = async (req, res) => {
 
     if (EmailOrPhone.includes("@")) {
       // Send OTP via email
-       await senData(account.Email || account.MailOrPhone , "foget your password" ,ForgotFormat(account.Email,otp));
+       await senData(account.Email || account.MailOrPhone || account.Email_address , "foget your password" ,ForgotFormat(account.Email,otp));
 
       return res.status(200).json({
         success: true,
@@ -276,7 +297,6 @@ exports.SendOtp = async (req, res) => {
     });
   }
 };
-
 exports.verifyOtp = async (req, res) => {
   try {
     const { EmailOrPhone, otp } = req.body;
@@ -293,17 +313,21 @@ exports.verifyOtp = async (req, res) => {
     if (EmailOrPhone.includes("@")) {
       account =
         (await User.findOne({ Email: EmailOrPhone })) ||
-        (await Guard.findOne({ MailOrPhone: EmailOrPhone }));
+        (await Guard.findOne({ MailOrPhone: EmailOrPhone }))  || 
+        (await Owner.findOne({ Email_address: EmailOrPhone })) || 
+        (await Tenante.findOne({ Email_address: EmailOrPhone }))
     } else {
       account =
         (await User.findOne({ Phone: EmailOrPhone })) ||
-        (await Guard.findOne({ MailOrPhone: EmailOrPhone }));
+        (await Guard.findOne({ MailOrPhone: EmailOrPhone })) ||
+        (await Owner.findOne({ Phone_number: EmailOrPhone })) ||
+        (await Tenante.findOne({ Phone_number: EmailOrPhone }))
     }
 
     if (!account) {
       return res.status(404).json({
         success: false,
-        message: "User or Guard not found",
+        message: "User not found",
       });
     }
 
@@ -335,7 +359,6 @@ exports.verifyOtp = async (req, res) => {
     });
   }
 };
-
 exports.ResetPassword = async (req, res) => {
   try {
     const { email, new_pass, confirm_pass } = req.body;
@@ -363,12 +386,15 @@ exports.ResetPassword = async (req, res) => {
 
     const account =
       (await User.findOne({ Email: email })) ||
-      (await Guard.findOne({ MailOrPhone: email }));
+      (await Guard.findOne({ MailOrPhone: email })) ||
+      (await Owner.findOne({ Email_address: email })) || 
+      (await Tenante.findOne({ Email_address: email }))
+
 
     if (!account) {
       return res.status(404).json({
         success: false,
-        message: "User or Guard not found",
+        message: "User  not found",
       });
     }
 
@@ -389,7 +415,6 @@ exports.ResetPassword = async (req, res) => {
     });
   }
 };
-
 exports.UpdateProfile = async (req, res) => {
   try {
     const {
