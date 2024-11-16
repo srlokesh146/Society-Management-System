@@ -107,24 +107,24 @@ const VisitorLogs = () => {
       <h1 className="text-[20px] font-semibold mb-6 text-gray-800 max-xl:mb-0 max-sm:mb-[15px]">
         Visitor Logs
       </h1>
-      <div className="bg-white rounded-lg shadow-sm overflow-x-auto custom-scrollbar">
+      <div className="bg-white rounded-lg shadow-sm overflow-y-auto overflow-x-auto custom-scrollbar">
         <div className="max-h-[50rem] ps-0 pr-[8px]">
           <table className="min-w-full table-auto border-collapse">
             <thead className="bg-indigo-50">
               <tr>
-                <th className="px-4 sm:px-6 py-4 text-left text-md font-semibold text-black-500 tracking-wider">
+                <th className="px-4 sm:px-6 py-4 text-left text-[14px] font-semibold text-black-500 tracking-wider">
                   Visitor Name
                 </th>
-                <th className="px-4 sm:px-6 py-4 text-left text-md font-semibold text-black-500 tracking-wider">
+                <th className="px-4 sm:px-6 py-4 text-left text-[14px] font-semibold text-black-500 tracking-wider">
                   Phone Number
                 </th>
-                <th className="px-4 sm:px-6 py-4 text-left text-md font-semibold text-black-500 tracking-wider">
+                <th className="px-4 sm:px-6 py-4 text-left text-[14px] font-semibold text-black-500 tracking-wider">
                   Date
                 </th>
-                <th className="px-4 sm:px-6 py-4 text-left text-md font-semibold text-black-500 tracking-wider">
+                <th className="px-4 sm:px-6 py-4 text-center text-[14px] font-semibold text-black-500 tracking-wider">
                   Unit Number
                 </th>
-                <th className="px-4 sm:px-10 py-4 text-left text-md font-semibold text-black-500 tracking-wider">
+                <th className="px-4 sm:px-10 py-4 text-right text-[14px] font-semibold text-black-500 tracking-wider">
                   Time
                 </th>
               </tr>
@@ -163,8 +163,8 @@ const VisitorLogs = () => {
                     </div>
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <span className="h-5 w-5 flex items-center justify-center rounded-full bg-[#5678E91A] text-[#5678E9] text-xs font-medium mr-2">
+                    <div className="flex items-center justify-center">
+                      <span className="h-[28px] w-[28px] flex items-center justify-center rounded-full bg-[#5678E91A] text-[#5678E9] text-xs font-medium mr-2">
                         {visitor.wing}
                       </span>
                       <span className="text-sm font-medium text-gray-500">
@@ -172,8 +172,8 @@ const VisitorLogs = () => {
                       </span>
                     </div>
                   </td>
-                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                    <div className="inline-flex px-3 py-1 font-medium text-sm text-gray-500 bg-[#F6F8FB] rounded-md">
+                  <td className="py-4 whitespace-nowrap text-right">
+                    <div className="inline-flex justify-center items-center px-3 py-1 font-medium text-sm text-gray-500 bg-[#F6F8FB] rounded-full w-[92px] h-[34px]">
                       {visitor.time}
                     </div>
                   </td>
