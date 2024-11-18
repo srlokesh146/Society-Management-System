@@ -277,7 +277,6 @@ exports.DeleteByIdResident = async (req, res) => {
     });
   }
 };
-
 exports.GetAllResidents = async (req, res) => {
   try {
     const tenants = await Tenante.find().sort({ Wing: 1, Unit: 1 });
@@ -443,5 +442,85 @@ exports.updateOwnerData = async (req, res) => {
     });
   }
 };
+exports.updateDataById = async (req, res) => {
+  try {
+    const { Wing, Unit, UnitStatus } = req.body; // Only expect Wing, Unit, and UnitStatus
+    const { id } = req.params;
 
-//find by id owner
+    const account =
+      (await Owner.findById(id)) ||
+      (await Tenante.findById(id)) 
+     
+
+
+    // Function to upload files to Cloudinary and delete from local
+    const uploadAndDeleteLocal = async (fileArray) => {
+      if (fileArray && fileArray[0]) {
+        const filePath = fileArray[0].path;
+        try {
+          const result = await cloudinary.uploader.upload(filePath);
+          fs.unlink(filePath, (err) => {
+            if (err) console.error("Error deleting file from server:", err);
+            else console.log("File deleted from server:", filePath);
+          });
+          return result.secure_url;
+        } catch (error) {
+          console.error("Error uploading to Cloudinary:", error);
+          throw error;
+        }
+      }
+      return "";
+    };
+
+    // Upload new profile and document images if provided (files will be handled separately)
+    const profileImage = await uploadAndDeleteLocal(req.files?.profileImage);
+    const Adhar_front = await uploadAndDeleteLocal(req.files?.Adhar_front);
+    const Adhar_back = await uploadAndDeleteLocal(req.files?.Adhar_back);
+    const Address_proof = await uploadAndDeleteLocal(req.files?.Address_proof);
+    const Rent_Agreement = await uploadAndDeleteLocal(req.files?.Rent_Agreement);
+
+   
+    
+
+   
+    if (Wing) entity.Wing = Wing;
+    if (Unit) entity.Unit = Unit;
+
+    // Set other fields to null or empty if not provided
+    account.Full_name = null;
+    account.Phone_number = null;
+    account.Email_address = null;
+    account.Age = null;
+    account.Gender = null;
+    account.Relation = null;
+    account.profileImage = profileImage || null;
+    account.Adhar_front = Adhar_front || null;
+    account.Adhar_back = Adhar_back || null;
+    account.Address_proof = Address_proof || null;
+    account.Rent_Agreement = Rent_Agreement || null;
+    account.Resident_status = null;
+    account.Member_Counting = [];
+    account.Vehicle_Counting = [];
+    account.Member_Counting_Total = null;
+    account.Vehicle_Counting_Total = null;
+    account.UnitStatus = UnitStatus || "Vacant";  
+    account.Owner_Full_name = null;
+      account.Owner_Phone = null;
+      account.Owner_Address = null;
+
+   
+    // Save the updated entity
+    await account.save();
+
+    return res.status(200).json({
+      success: true,
+      message: `Resident Vacant successfully`,
+    });
+  } catch (error) {
+    console.error("Error updating data:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update data",
+    });
+  }
+}

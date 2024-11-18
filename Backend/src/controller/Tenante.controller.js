@@ -124,6 +124,7 @@ exports.addTenante = async (req, res) => {
 
     // Handle Member Counting
     if (Member_Counting) {
+      // const membar = JSON.parse(Member_Counting);
       await Tenante.updateOne(
         { _id: newOwner._id },
         { $push: { Member_Counting: { $each: Member_Counting } } }
@@ -132,6 +133,7 @@ exports.addTenante = async (req, res) => {
 
     // Handle Vehicle Counting
     if (Vehicle_Counting) {
+      // const vehicles = JSON.parse(Vehicle_Counting);
       await Tenante.updateOne(
         { _id: newOwner._id },
         { $push: { Vehicle_Counting: { $each: Vehicle_Counting } } }
@@ -308,3 +310,87 @@ exports.updateTenantData = async (req, res) => {
     });
   }
 };
+
+//   try {
+//     const { Wing, Unit, UnitStatus } = req.body; // Only expect these fields
+//     const { id } = req.params;
+
+//     // Function to upload files to Cloudinary and delete from local
+//     const uploadAndDeleteLocal = async (fileArray) => {
+//       if (fileArray && fileArray[0]) {
+//         const filePath = fileArray[0].path;
+//         try {
+//           const result = await cloudinary.uploader.upload(filePath);
+//           fs.unlink(filePath, (err) => {
+//             if (err) console.error("Error deleting file from server:", err);
+//             else console.log("File deleted from server:", filePath);
+//           });
+//           return result.secure_url;
+//         } catch (error) {
+//           console.error("Error uploading to Cloudinary:", error);
+//           throw error;
+//         }
+//       }
+//       return "";
+//     };
+
+//     // Upload new profile and document images if provided (files will be handled separately)
+//     const profileImage = await uploadAndDeleteLocal(req.files?.profileImage);
+//     const Adhar_front = await uploadAndDeleteLocal(req.files?.Adhar_front);
+//     const Adhar_back = await uploadAndDeleteLocal(req.files?.Adhar_back);
+//     const Address_proof = await uploadAndDeleteLocal(req.files?.Address_proof);
+//     const Rent_Agreement = await uploadAndDeleteLocal(req.files?.Rent_Agreement);
+
+    
+
+//     // Find the owner to update
+//     const owner = await Tenante.findById(id);
+//     if (!owner) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Owner not found",
+//       });
+//     }
+
+    
+//     if (Wing) owner.Wing = Wing;
+//     if (Unit) owner.Unit = Unit;
+ 
+
+//     owner.Owner_Full_name=null,
+//     owner.Owner_Phone=null,
+//     owner.Owner_Address=null,
+//     owner.Full_name =null; 
+//     owner.Phone_number = null; 
+//     owner.Email_address = null; 
+//     owner.Age = null; 
+//     owner.Gender = null; 
+//     owner.Relation = null; 
+//     owner.profileImage = profileImage || null; 
+//     owner.Adhar_front = Adhar_front || null; 
+//     owner.Adhar_back = Adhar_back || null; 
+//     owner.Address_proof = Address_proof || null; 
+//     owner.Rent_Agreement = Rent_Agreement || null; 
+//     owner.Resident_status = null; 
+//     owner.Member_Counting = []; 
+//     owner.Vehicle_Counting = []; 
+//     owner.Member_Counting_Total = null; 
+//     owner.Vehicle_Counting_Total = null; 
+//     owner.UnitStatus = "Vacant"
+   
+
+//     // Save the updated owner document
+//     await owner.save();
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "Owner data updated successfully",
+//     });
+//   } catch (error) {
+//     console.error("Error updating owner data:", error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Failed to update owner data",
+//     });
+//   }
+// };

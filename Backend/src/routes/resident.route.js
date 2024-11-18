@@ -69,4 +69,8 @@ router.get("/resident/:id", ResidentController.GetByIdResident);
 router.get("/allresident", ResidentController.GetAllResidents);
 //delete resident
 router.delete("/resident/:id", ResidentController.DeleteByIdResident);
+
+//blank field
+router.put("/update/:id",ResidentController.updateDataById)
+
 module.exports = router;

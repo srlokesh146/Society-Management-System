@@ -31,6 +31,7 @@ const AnnouncementRoute=require("./src/routes/announcement.route.js")
 const FinancialRoutes=require("./src/routes/Financial.route.js")
 const VisitorRoutes=require("./src/routes/visitor.route.js")
 const AlertRoutes= require("./src/routes/alert.route.js")
+const chatRoute=require("./src/routes/chat.route.js")
 
 //user registration and login schema
 app.use("/api/v1/auth", UserRoutes);
@@ -54,6 +55,10 @@ app.use("/api/v2/financial",FinancialRoutes)
 app.use("/api/v2/visitor",VisitorRoutes)
 //alert api
 app.use("/api/v2/alert",AlertRoutes)
+//chat api
+app.use("/api/v2/chat",chatRoute)
+
+require("./src/utils/chatIo.js")
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
