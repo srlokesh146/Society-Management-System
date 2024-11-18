@@ -158,7 +158,7 @@ function SecurityProtocols() {
 
   return (
     <div className="p-4 sm:p-6  bg-white rounded-lg security-protocel-table">
-      <div className="flex justify-between items-center mb-6 max-sm:flex-col">
+      <div className="flex justify-between  items-center mb-6 max-sm:flex-col">
         <h1 className="text-[20px] font-semibold text-black-800 max-xl:mb-0 max-sm:mb-[15px]">
           Security Protocols
         </h1>
@@ -171,14 +171,14 @@ function SecurityProtocols() {
       </div>
 
       <div className="bg-white rounded-lg shadow-sm">
-        <div className="overflow-x-auto custom-scrollbar min-w-0 overflow-auto">
+        <div className="overflow-x-auto custom-scrollbar  min-w-0 overflow-auto">
         <table className="min-w-full table-auto border-collapse border border-gray-200">
   <thead className="bg-indigo-50 border-b border-gray-200">
     <tr>
       <th className="px-6 py-4 text-left text-[14px] font-semibold text-gray-700">
         Title
       </th>
-      <th className="px-6 py-4 text-left text-[14px] font-semibold text-gray-700">
+      <th className="px-6 py-4  text-wrap text-left text-[14px] font-semibold text-gray-700">
         Description
       </th>
       <th className="px-6 py-4 text-left text-[14px] font-semibold text-gray-700">
@@ -187,7 +187,7 @@ function SecurityProtocols() {
       <th className="px-6 py-4 text-left text-[14px] font-semibold text-gray-700">
         Time
       </th>
-      <th className="px-6 py-4 text-left text-[14px] font-semibold text-gray-700">
+      <th className="px-6 py-4 text-left text-[14px]  font-semibold text-gray-700">
         Action
       </th>
     </tr>
@@ -201,7 +201,7 @@ function SecurityProtocols() {
         <td className="px-6 py-4 text-sm font-medium text-gray-800">
           {protocol.title}
         </td>
-        <td className="px-6 py-4 text-sm text-gray-800">
+        <td className="px-6 py-4 text-wrap text-sm text-gray-800">
           {protocol.description}
         </td>
         <td className="px-6 py-4 text-sm text-gray-800">
@@ -216,8 +216,8 @@ function SecurityProtocols() {
             {protocol.time}
           </span>
         </td>
-        <td className="px-6 py-4">
-          <div className="flex items-center gap-3">
+        <td className=" py-4 ">
+          <div className="flex items-center  gap-3">
             <button
               onClick={() => handleEdit(protocol)}
               className="flex items-center justify-center w-10 h-10 text-blue-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md"
@@ -235,8 +235,8 @@ function SecurityProtocols() {
               className="flex items-center justify-center w-10 h-10 text-red-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md"
             >
               <img src={trash} alt="Delete" />
-            </button>
-          </div>
+            </button> 
+          </div>  
         </td>
       </tr>
     ))}
