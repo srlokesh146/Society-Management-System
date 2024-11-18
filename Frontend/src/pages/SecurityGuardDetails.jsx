@@ -77,7 +77,8 @@ function SecurityGuardDetails() {
 
   const handleEdit = (guard) => {
     setModalMode("edit");
-    setCurrentGuard(guard);
+    // setCurrentGuard(guard);
+    setPhotoPreview(guard.profileimage);
     setNewGuard({ ...guard });
     setIsModalOpen(true);
   };
@@ -88,7 +89,11 @@ function SecurityGuardDetails() {
     setIsModalOpen(true);
   };
 
-
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    setPhotoPreview(null);
+    setAadharPreview(null);
+  };
 
   const handleDeleteClick = (guard) => {
     setGuardToDelete(guard);
@@ -105,46 +110,6 @@ function SecurityGuardDetails() {
     } finally {
       setIsDeleteModalOpen(false);
     }
-  };
-
-  const handleSave = async (id) => {
-    if (modalMode === "add") {
-      try {
-        setIsModalOpen(false);
-        const response = await CreateSecurityGuard(newGuard);
-        fetchSecurityGuards();
-        toast.success(response.data.message);
-      } catch (error) {
-        toast.error(error.response.data.message);
-      } finally {
-        setPhotoPreview(null);
-        setAadharPreview(null);
-      }
-    } else if (modalMode === "edit") {
-      console.log(newGuard);
-      try {
-        setIsModalOpen(false);
-        const response = await UpdateSecurityGuard(newGuard._id, newGuard);
-        fetchSecurityGuards();
-        toast.success(response.data.message);
-      } catch (error) {
-        toast.error(error.response.data.message);
-      } finally {
-        setPhotoPreview(null);
-        setAadharPreview(null);
-      }
-    }
-
-    setNewGuard({
-      full_name: "",
-      MailOrPhone: "",
-      shift: "",
-      date: "",
-      time: "",
-      gender: "",
-      profileimage: null,
-      adhar_card: null,
-    });
   };
 
   const handleFileUpload = (event, type) => {
@@ -205,6 +170,35 @@ function SecurityGuardDetails() {
     };
     setNewGuard(updatedGuard);
     setIsFormFilled(checkFormFilled(updatedGuard));
+  };
+
+  const handleSave = async () => {
+    setIsModalOpen(false);
+    try {
+      let response;
+      if (modalMode === "add") {
+        response = await CreateSecurityGuard(newGuard);
+      } else if (modalMode === "edit") {
+        response = await UpdateSecurityGuard(newGuard._id, newGuard);
+      }
+      fetchSecurityGuards();
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      setPhotoPreview(null);
+      setAadharPreview(null);
+      setNewGuard({
+        full_name: "",
+        MailOrPhone: "",
+        shift: "",
+        date: "",
+        time: "",
+        gender: "",
+        profileimage: null,
+        adhar_card: null,
+      });
+    }
   };
 
   const fetchSecurityGuards = async () => {
@@ -281,17 +275,18 @@ function SecurityGuardDetails() {
                   </td>
                   <td className="px-6 py-4">
                     <span
-                      className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${guard.shift === "Day"
-                        ? "bg-orange-50 text-orange-500"
-                        : "bg-gray-600 text-white"
-                        }`}
+                      className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                        guard.shift === "Day"
+                          ? "bg-orange-50 text-orange-500"
+                          : "bg-gray-600 text-white"
+                      }`}
                     >
                       {guard.shift === "Day" ? (
                         <FaSun className="mr-2" />
                       ) : (
                         <FaMoon className="mr-2" />
                       )}
-                      {guard.shift === "Day" ? "Day" : "Night"}
+                      {guard.shift}
                     </span>
                   </td>
                   <td className="px-6 py-4">
@@ -310,10 +305,11 @@ function SecurityGuardDetails() {
                   </td>
                   <td className="px-6 py-4">
                     <span
-                      className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${guard.gender === "Male"
-                        ? "bg-blue-50 text-blue-600"
-                        : "bg-pink-50 text-pink-600"
-                        }`}
+                      className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                        guard.gender === "Male"
+                          ? "bg-blue-50 text-blue-600"
+                          : "bg-pink-50 text-pink-600"
+                      }`}
                     >
                       {guard.gender === "male" ? (
                         <FaMale className="mr-2" />
@@ -327,17 +323,20 @@ function SecurityGuardDetails() {
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => handleEdit(guard)}
-                        className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]">
+                        className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
+                      >
                         <img src={edit} alt="" />
                       </button>
                       <button
                         onClick={() => handleView(guard)}
-                        className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]">
+                        className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
+                      >
                         <img src={eye} alt="" />
                       </button>
                       <button
                         onClick={() => handleDeleteClick(guard)}
-                        className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]">
+                        className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
+                      >
                         <img src={trash} alt="" />
                       </button>
                     </div>
@@ -353,8 +352,6 @@ function SecurityGuardDetails() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm">
             <div className="">
-
-
               {modalMode !== "view" && (
                 <form className="space-y-4 p-6">
                   {/* Photo Upload */}
@@ -476,8 +473,8 @@ function SecurityGuardDetails() {
                           defaultValue={
                             currentGuard?.date
                               ? new Date(currentGuard.date)
-                                .toISOString()
-                                .split("T")[0]
+                                  .toISOString()
+                                  .split("T")[0]
                               : ""
                           }
                           onChange={(e) =>
@@ -511,10 +508,11 @@ function SecurityGuardDetails() {
                       Upload Aadhar Card*
                     </label>
                     <div
-                      className={`border-2 border-dashed ${isDragging
-                        ? "border-blue-500 bg-blue-50"
-                        : "border-gray-200"
-                        } rounded-lg p-4`}
+                      className={`border-2 border-dashed ${
+                        isDragging
+                          ? "border-blue-500 bg-blue-50"
+                          : "border-gray-200"
+                      } rounded-lg p-4`}
                       onDragOver={handleDragOver}
                       onDragLeave={handleDragLeave}
                       onDrop={(e) => handleDrop(e, "adhar_card")}
@@ -555,7 +553,7 @@ function SecurityGuardDetails() {
                   <div className="grid grid-cols-2 gap-4 mt-6">
                     <button
                       type="button"
-                      onClick={() => setIsModalOpen(false)}
+                      onClick={handleCancel}
                       className="w-full p-3 text-gray-700 bg-white border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50"
                     >
                       Cancel
@@ -565,9 +563,10 @@ function SecurityGuardDetails() {
                       onClick={handleSave}
                       disabled={!isFormFilled}
                       className={`w-full p-3 text-sm font-medium rounded-lg transition-all duration-300
-                        ${isFormFilled
-                          ? "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
-                          : "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
+                        ${
+                          isFormFilled
+                            ? "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
+                            : "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
                         }`}
                     >
                       Create
@@ -590,7 +589,6 @@ function SecurityGuardDetails() {
                 </h2>
                 <button
                   onClick={() => {
-
                     setIsModalOpen(false); // Ensure this function is correctly defined
                   }}
                   className="text-gray-400 hover:text-gray-600"
@@ -615,7 +613,7 @@ function SecurityGuardDetails() {
                   )}
                   <div>
                     <h3 className="font-semibold text-lg">
-                      {currentGuard.name}
+                      {currentGuard.full_name}
                     </h3>
                     <p className="text-gray-500 text-sm">
                       {new Date(currentGuard.date).toLocaleDateString()}
@@ -629,12 +627,13 @@ function SecurityGuardDetails() {
                     <p className="text-sm text-gray-500">Select Shift</p>
                     <div
                       className={`mt-1 px-3 py-1 rounded-full text-xs inline-flex items-center gap-1
-                      ${currentGuard.shift === "day"
+                      ${
+                        currentGuard.shift === "Day"
                           ? "bg-yellow-50 text-yellow-600"
                           : "bg-blue-50 text-blue-600"
-                        }`}
+                      }`}
                     >
-                      {currentGuard.shift === "day" ? (
+                      {currentGuard.shift === "Day" ? (
                         <FaSun size={12} />
                       ) : (
                         <FaMoon size={12} />
@@ -654,10 +653,11 @@ function SecurityGuardDetails() {
                     <p className="text-sm text-gray-500">Gender</p>
                     <div
                       className={`mt-1 px-3 py-1 rounded-full text-xs inline-flex items-center gap-1
-                      ${currentGuard.gender === "Male"
+                      ${
+                        currentGuard.gender === "Male"
                           ? "bg-blue-50 text-blue-600"
                           : "bg-pink-50 text-pink-600"
-                        }`}
+                      }`}
                     >
                       {currentGuard.gender === "Male" ? (
                         <FaMale size={12} />
