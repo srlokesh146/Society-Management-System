@@ -265,8 +265,6 @@ export const notifications = [
       </>
     ),
     time: "Saturday 11:41 AM",
-    options: ["Accept"],
-    options2: ["Decline"],
     icon: (
       <div className="icon-wrapper-text mr-[10px]">
         <p className="relative top-[-1px] left-[2px] mr-[20px] font-bold">G</p>

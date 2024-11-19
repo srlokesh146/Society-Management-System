@@ -8,14 +8,31 @@ import NotificationImage from "../assets/images/notificationimage.png";
 import useCurrentPath from "./useCurrentPath";
 import { FaChevronRight } from "react-icons/fa6";
 import { useSelector } from "react-redux";
+import NotificationModal from "./modal/NotificationModal";
+import PayNowModal from "./modal/PayNowModal";
 
 const Navbar = () => {
   const { user } = useSelector((store) => store.auth);
   const [showSearch, setShowSearch] = useState(true);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [clearedNotifications, setClearedNotifications] = useState(false);
+  const [isPayNowOpen, setIsPayNowOpen] = useState(false);
+  const [selectedMembers, setSelectedMembers] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAccepted, setIsAccepted] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const baseAmount = 1500;
+  const perPersonAmount = baseAmount + selectedMembers * 200;
+  const totalAmount = perPersonAmount * selectedMembers;
+
+  const handleChange = (e) => {
+    const membersCount = Number(e.target.value);
+    setSelectedMembers(membersCount);
+  };
+
+
 
   const {
     isDashboard,
@@ -35,6 +52,16 @@ const Navbar = () => {
     if (isDashboard) {
       navigate("/editprofile");
     }
+  };
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+    setIsAccepted(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setIsAccepted(false);
   };
 
   const handleNotificationClick = () => {
@@ -121,8 +148,8 @@ const Navbar = () => {
 
           {/* Notification Dropdown */}
           {isNotificationOpen && (
-            <div className="absolute right-0 mt-2 min-w-[540px] bg-white rounded-lg shadow-lg p-4 z-[9999] max-sm:max-h-[700px] max-sm:overflow-y-auto max-sm:min-w-[310px] max-md:min-w-[500px] max-md:left-0 max-md:translate-x-[-10%] max-sm:translate-x-[-22%] sm:min-w-[30rem] notication-class">
-              <div className="flex justify-between items-center mb-2 max-sm:flex-col max-sm:justify-start">
+            <div className="absolute right-0 mt-2 max-w-[540px] bg-white rounded-lg shadow-lg p-4 z-[9999] max-sm:max-h-[750px] max-sm:p-[30px] max-sm:overflow-y-auto max-sm:min-w-[355px] max-md:min-w-[500px] max-md:left-0 max-md:translate-x-[-100%] max-sm:translate-x-[-55%] sm:min-w-[30rem]">
+              <div className="flex justify-between items-center mb-2 max-sm:ps-[15px] max-sm:pr-[15px]">
                 <span className="text-[20px] font-normal leading-[30px] max-md:justify-start max-sm:mb-[10px]">
                   Notifications
                 </span>
@@ -186,16 +213,34 @@ const Navbar = () => {
                         </div>
                       </div>
                     )}
-                    <div className="flex space-x-2 mt-2 ml-[50px] max-md:justify-start max-sm:flex-col max-sm:justify-start max-sm:space-x-0">
+                    <div className="flex space-x-3 mt-2 ml-[50px] max-md:justify-start max-sm:space-x-0">
                       {notification.options &&
                         notification.options.map((option, i) => (
                           <button
                             key={i}
-                            className="px-[28px] py-[8px] text-xs rounded-[10px] border border-gray-300 max-sm:mb-[10px]"
+                            className="px-[28px] py-[8px] text-xs rounded-[10px] border border-gray-300 max-sm:mr-[15px]"
                           >
                             {option}
                           </button>
                         ))}
+
+                      {notification.title === "Ganesh Chaturthi (A- 101)" && (
+                        <div className="space-x-3">
+                          <button
+                            onClick={handleOpenModal}
+                            className={`px-[28px] py-[8px] text-xs rounded-[10px] ${isAccepted ? 'border border-gray-300' : 'bg-[#5678E9] text-white border border-gray-300'}`}
+                          >
+                            Accept
+                          </button>
+                          <button
+                            onClick={handleCloseModal}
+                            className={`px-[28px] py-[8px] text-xs rounded-[10px] ${isAccepted ? 'bg-[#5678E9] text-white border border-gray-300' : 'border border-gray-300'}`}
+                          >
+                            Decline
+                          </button>
+                        </div>
+                      )}
+
                       {notification.options2 &&
                         notification.options2.map((option, i) => (
                           <button
@@ -205,12 +250,30 @@ const Navbar = () => {
                             {option}
                           </button>
                         ))}
+
                     </div>
+
                   </div>
                 ))
               )}
             </div>
           )}
+          <NotificationModal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            totalAmount={totalAmount} 
+            perPersonAmount={perPersonAmount} 
+            setIsPayNowOpen = {setIsPayNowOpen}
+            handleChange = {handleChange}
+            selectedMembers = {selectedMembers}
+          />
+          <PayNowModal
+            isOpen={isPayNowOpen}
+            onClose={() => setIsPayNowOpen(false)}
+            totalAmount={totalAmount} 
+            perPersonAmount={perPersonAmount} 
+            selectedMembers = {selectedMembers}
+          />
         </div>
 
         {/* Profile Icon */}

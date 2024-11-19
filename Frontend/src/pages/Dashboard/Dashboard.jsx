@@ -157,7 +157,7 @@ const Dashboard = () => {
               <BalanceChart />
             </div>
 
-            <div className="col-span-12 max-md:col-span-12 lg:col-span-3 max-xl:col-span-3 max-md">
+            <div className="col-span-12 max-md:col-span-12 lg:col-span-3 max-xl:col-span-3">
               <div className="bg-white p-[20px] rounded-[15px] shadow-lg w-full">
                 <div className="flex justify-between items-center mb-5">
                   <h3 className="text-lg font-semibold max-sm:text-[16px] max-mb:text-[18px]">
@@ -254,7 +254,7 @@ const Dashboard = () => {
                     View all
                   </button>
                 </div>
-                <ul className="max-h-64 overflow-y-auto pr-[8px] custom-scrollbar">
+                <ul className="max-h-64 overflow-y-auto pr-[8px]">
                   {pendingMaintenances.map((maintenance, index) => (
                     <li
                       key={index}

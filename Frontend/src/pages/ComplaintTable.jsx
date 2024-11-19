@@ -166,7 +166,7 @@ const ComplaintPage = () => {
                           }}
                           className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                         >
-                          <img src={edit} alt=""/>
+                          <img src={eye} alt="" />
                         </button>
                         <button
                           onClick={() => {
@@ -175,7 +175,7 @@ const ComplaintPage = () => {
                           }}
                           className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                         >
-                          <img src={eye} alt="" />
+                          <img src={edit} alt=""/>
                         </button>
                         <button
                           onClick={() => {
