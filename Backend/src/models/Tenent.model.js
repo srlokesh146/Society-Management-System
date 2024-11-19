@@ -4,69 +4,68 @@ const tenantschema = new Schema(
   {
     Owner_Full_name: {
       type: String,
-      required: true,
+      
     },
     Owner_Phone: {
       type: String,
-      required: true,
+      
     },
     Owner_Address: {
       type: String,
-      required: true,
+      
     },
     profileImage: {
       type: String,
-      required: true,
+     
     },
     Full_name: {
       type: String,
-      required: true,
+      
     },
     Phone_number: {
       type: String,
-      required: true,
+     
     },
     Email_address: {
       type: String,
-      required: true,
-      unique: true,
+
     },
     Age: {
       type: Number,
-      required: true,
+      
     },
     Gender: {
       type: String,
-      required: true,
+      default:null,
       enum: ["male", "female", "other"],
     },
     Wing: {
       type: String,
-      required: true,
+     
     },
     Unit: {
       type: Number,
-      required: true,
+      
     },
     Relation: {
       type: String,
-      required: true,
+      
     },
     Adhar_front: {
       type: String,
-      required: true,
+      
     },
     Adhar_back: {
       type: String,
-      required: true,
+      
     },
     Address_proof: {
       type: String,
-      required: true,
+     
     },
     Rent_Agreement: {
       type: String,
-      required: true,
+     
     },
     Member_Counting: [
       {

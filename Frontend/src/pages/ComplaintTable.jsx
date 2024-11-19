@@ -199,7 +199,19 @@ const ComplaintPage = () => {
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
             onSubmit={handleSubmit}
-          />
+            />
+            {/* Edit Modal */}
+            {selectedComplaint && (
+              <EditComplaintModal
+                isOpen={isEditModalOpen}
+                onClose={() => {
+                  setIsEditModalOpen(false);
+                  setSelectedComplaint(null);
+                }}
+                complaint={selectedComplaint}
+                onSubmit={handleUpdate}
+              />
+            )}
 
           {/* View Modal */}
           {selectedComplaint && (
@@ -213,18 +225,6 @@ const ComplaintPage = () => {
             />
           )}
 
-          {/* Edit Modal */}
-          {selectedComplaint && (
-            <EditComplaintModal
-              isOpen={isEditModalOpen}
-              onClose={() => {
-                setIsEditModalOpen(false);
-                setSelectedComplaint(null);
-              }}
-              complaint={selectedComplaint}
-              onSubmit={handleUpdate}
-            />
-          )}
 
           {/* Delete Modal */}
           {selectedComplaint && (
