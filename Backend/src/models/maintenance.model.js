@@ -22,18 +22,23 @@ const maintenanceschema = new Schema(
       {
         resident: {
           type: mongoose.SchemaTypes.ObjectId,
-          ref: "residentType",
+          refPath: 'residentList.residentType', 
           required: true,
         },
         residentType: {
           type: String,
-          required:true,
-          enum: ["Owner", "Tenante"],
+          
+          enum: ["Owner", "Tenante"], 
         },
         paymentStatus: {
           type: String,
-          enum: ["pending", "online", "cash", "done"],
+          enum: ["pending", "done"],
           default: "pending",
+        },
+        paymentMode: {
+          type: String,
+          enum: ["online", "cash"],
+          default: "cash",
         },
         penalty: {
           type: Number,
