@@ -30,7 +30,6 @@ import OwnerForm from "./pages/OwnerForm.jsx";
 import VisitorTracking from "./pages/securitypage/VisitorTracking.jsx";
 import EmergencyManagement from "./pages/securitypage/EmergencyManagement.jsx";
 import PrivateRoutes from "./routes/PrivateRoutes.jsx";
-import ResidentOwner from "./pages/ResiderntOwner.jsx";
 
 function App() {
   const [isSidebaropen, setSidebaropen] = useState(false);
@@ -76,9 +75,7 @@ function App() {
         )}
 
 
-          <div className={`flex-1 ${shouldRenderSidebarAndNavbar ? "p-6 max-sm:p-4 overflow-auto max-md:overflow-auto" : "lg:overflow-hidden max-md:overflow-auto max-lg:overflow-auto 
-                                    max-xl:overflow-y-auto"} bg-gray-100 max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-auto`}>
-
+          <div className={`flex-1 ${shouldRenderSidebarAndNavbar ? "p-6 max-sm:p-4 overflow-auto max-md:overflow-auto" : "lg:overflow-hidden max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-y-auto"} bg-gray-100 max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-auto`}>
 
             <Routes>
               {/* Public Routes without Sidebar and Navbar */}
@@ -253,14 +250,6 @@ function App() {
                     element={
                       <PrivateRoutes>
                         <EmergencyManagement />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/ResidentOwner"
-                    element={
-                      <PrivateRoutes>
-                        <ResidentOwner />
                       </PrivateRoutes>
                     }
                   />
