@@ -5,7 +5,7 @@ import { FaMoneyBill } from "react-icons/fa6";
 import { RiMoneyDollarBoxFill } from "react-icons/ri";
 import { HiMiniBuildingOffice2 } from "react-icons/hi2";
 import { AiFillSecurityScan } from "react-icons/ai";
-import { FaUserShield, FaBullhorn } from "react-icons/fa";
+import { FaUserShield, FaBullhorn, FaAddressCard } from "react-icons/fa";
 import { RiMessageFill } from "react-icons/ri";
 import icon1 from "./assets/images/icon-1.png";
 import moneyrecive from "./assets/images/money-recive.png";
@@ -73,6 +73,24 @@ export const sidebarItems = [
     label: "Announcement",
     icon: <FaBullhorn />,
   },
+  {
+    id: 16,
+    path: "/residentowner",
+    label: "Personal Details",
+    icon: <FaAddressCard />,
+  },
+  {
+    id: 17,
+    path: "/serviceandcomplaint",
+    label: "Service And Complaint",
+    icon: <FaAddressCard />,
+  },
+  {
+    id: 18,
+    path: "/residentsecurityprotocol",
+    label: "Security Protocols",
+    icon: <FaAddressCard />,
+  },
 ];
 
 export const securityBar = [
@@ -105,6 +123,9 @@ export const Navigationbar = [
   { path: "/other-income", label: "OtherIncome" },
   { path: "/visitortracking", label: "visitortracking" },
   { path: "/emergencymanagement", label: "EmergencyManagement" },
+  { path: "/residentowner", label: "PersonalDetails" },
+  { path: "/serviceandcomplaint", label:"ServiceAndComplaint" },
+  { path: "/residentsecurityprotocol", label:"SecurityProtocols"},
 ];
 
 export const cardData = [

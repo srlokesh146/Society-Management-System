@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { FaImage } from "react-icons/fa";
-import Member from "../components/Member";
-import Vehicle from "../components/Vehicle";
-import MaintenceDetails from "../components/MaintenceDetails";
-import PendingMaintence from "../components/PendingMaintence";
-import DueMaintence from "../components/DueMaintence";
-import AnnouncementDetails from "../components/AnnouncementDetails";
-import Form from "../components/Form";
+import Member from "../../components/Member";
+import Vehicle from "../../components/Vehicle";
+import MaintenceDetails from "../../components/MaintenceDetails";
+import PendingMaintence from "../../components/PendingMaintence";
+import DueMaintence from "../../components/DueMaintence";
+import AnnouncementDetails from "../../components/AnnouncementDetails";
+import Form from "../../components/Form";
 
 
 const ResidentOwner = () => {
@@ -23,7 +23,7 @@ const ResidentOwner = () => {
                 <button
                     className={`px-6 py-2 rounded-t-lg ${activeTab === "owner"
                         ? "bg-[#FF6B07] text-white"
-                        : "bg-white text-gray-600"
+                        : "bg-white border-b-4 border-orange-500 text-gray-600"
                         }`}
                     onClick={() => setActiveTab("owner")}
                 >
@@ -32,7 +32,7 @@ const ResidentOwner = () => {
                 <button
                     className={`px-6 py-2 rounded-t-lg ${activeTab === "tenant"
                         ? "bg-[#FF6B07] text-white"
-                        : "bg-white text-gray-600"
+                        : "bg-white border-b-4 border-orange-500 text-gray-600"
                         }`}
                     onClick={handleTenantClick}
                 >

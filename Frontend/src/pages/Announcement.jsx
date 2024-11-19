@@ -19,7 +19,7 @@ function Announcement() {
   const [announcements, setAnnouncements] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
-  const [currentAnnouncement, setCurrentAnnouncement] = useState(null);
+  const [currentAnnouncement,   setCurrentAnnouncement] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(null); // Track which dropdown is open
   const [isFormFilled, setIsFormFilled] = useState(false);
 
