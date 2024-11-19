@@ -13,10 +13,12 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
     date: "",
     wing: "",
     unit: "",
+    
   });
 
   // Check if form is valid
   const isFormValid = () => {
+  
     return (
       formData.requesterName &&
       formData.requestName &&
@@ -265,10 +267,11 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
               type="submit"
               className={`w-full px-4 py-3 text-md font-medium rounded-md transition-all duration-300
                 ${
-                  isFormValid()
+                    isFormValid()
                     ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white hover:opacity-90"
                     : "bg-[#F6F8FB] text-black"
                 }`}
+                
             >
               Create
             </button>
