@@ -51,7 +51,10 @@ const Login = () => {
       const response = await loginUser(user);
       toast.success(response.data.message);
       dispatch(StoreUser(response.data.user));
-      if (response.data.user.role === "admin") {
+      if (
+        response.data.user.role === "admin" ||
+        response.data.user.role === "resident"
+      ) {
         navigate("/dashboard");
       } else if (response.data.user.role === "security") {
         navigate("/visitortracking");
@@ -99,7 +102,9 @@ const Login = () => {
       {/* Right Section (Login Form) */}
       <div className="md:w-1/2 w-full flex items-center justify-center p-6">
         <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-[530px]">
-          <h2 className="text-2xl font-semibold mb-6 text-gray-800 max-sm:text-[2] max-sm:text-[24px] max-md:text-[28px]">Login</h2>
+          <h2 className="text-2xl font-semibold mb-6 text-gray-800 max-sm:text-[2] max-sm:text-[24px] max-md:text-[28px]">
+            Login
+          </h2>
           <form onSubmit={handleLogin} className="space-y-4">
             {/* Email or Phone Input */}
             <div>

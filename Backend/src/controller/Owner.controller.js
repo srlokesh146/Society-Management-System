@@ -85,7 +85,6 @@ exports.addOwnerData = async (req, res) => {
         message: "All fields are required",
       });
     }
-   
 
     // Create a new owner document
     const newOwner = new Owner({
@@ -116,9 +115,12 @@ exports.addOwnerData = async (req, res) => {
     //   "Registration Successful - Login Details",
     //   `Dear ${newOwner.Full_name},\n\nYou have successfully registered as a resident. Your login details are as follows:\n\nUsername: ${newOwner.Email_address}\nPassword: <b> ${password}</b>\n\nPlease keep this information secure.\n\nBest Regards,\nManagement`
 
-     
     // );
-    await senData(newOwner.Email_address, "Registration Successfully" ,ForgotFormatResident(newOwner.Full_name,newOwner.Email_address,password));
+    await senData(
+      newOwner.Email_address,
+      "Registration Successfully",
+      ForgotFormatResident(newOwner.Full_name, newOwner.Email_address, password)
+    );
     // Handle Member Counting
     if (Member_Counting) {
       // const members = JSON.parse(Member_Counting);
@@ -381,7 +383,6 @@ exports.updateOwnerData = async (req, res) => {
       req.files?.Rent_Agreement
     );
 
-
     const existingOwner = await Owner.findOne({ Wing, Unit });
     if (existingOwner && existingOwner._id.toString() !== id) {
       return res.status(400).json({
@@ -389,7 +390,6 @@ exports.updateOwnerData = async (req, res) => {
         message: "Wing and Unit already exists for another owner.",
       });
     }
-
 
     // Find the owner to update
     const owner = await Owner.findById(id);
@@ -444,14 +444,9 @@ exports.updateOwnerData = async (req, res) => {
 };
 exports.updateDataById = async (req, res) => {
   try {
-    const { Wing, Unit, UnitStatus } = req.body; // Only expect Wing, Unit, and UnitStatus
     const { id } = req.params;
 
-    const account =
-      (await Owner.findById(id)) ||
-      (await Tenante.findById(id)) 
-     
-
+    const account = (await Owner.findById(id)) || (await Tenante.findById(id));
 
     // Function to upload files to Cloudinary and delete from local
     const uploadAndDeleteLocal = async (fileArray) => {
@@ -477,16 +472,11 @@ exports.updateDataById = async (req, res) => {
     const Adhar_front = await uploadAndDeleteLocal(req.files?.Adhar_front);
     const Adhar_back = await uploadAndDeleteLocal(req.files?.Adhar_back);
     const Address_proof = await uploadAndDeleteLocal(req.files?.Address_proof);
-    const Rent_Agreement = await uploadAndDeleteLocal(req.files?.Rent_Agreement);
+    const Rent_Agreement = await uploadAndDeleteLocal(
+      req.files?.Rent_Agreement
+    );
 
-   
-    
 
-   
-    if (Wing) entity.Wing = Wing;
-    if (Unit) entity.Unit = Unit;
-
-    // Set other fields to null or empty if not provided
     account.Full_name = null;
     account.Phone_number = null;
     account.Email_address = null;
@@ -503,12 +493,11 @@ exports.updateDataById = async (req, res) => {
     account.Vehicle_Counting = [];
     account.Member_Counting_Total = null;
     account.Vehicle_Counting_Total = null;
-    account.UnitStatus = UnitStatus || "Vacant";  
+    account.UnitStatus = "Vacant";
     account.Owner_Full_name = null;
-      account.Owner_Phone = null;
-      account.Owner_Address = null;
+    account.Owner_Phone = null;
+    account.Owner_Address = null;
 
-   
     // Save the updated entity
     await account.save();
 
@@ -523,4 +512,4 @@ exports.updateDataById = async (req, res) => {
       message: "Failed to update data",
     });
   }
-}
+};

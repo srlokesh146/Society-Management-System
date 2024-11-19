@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import ViewResidentModal from "../components/modal/ViewResidentModal";
 import VacateModal from "../components/modal/VacateModal";
 import ConfirmationModal from "../components/modal/ConfirmationModal";
-import { DeleteResident, GetResidents } from "../services/ownerTenantService";
+import { GetResidents, VacantResident } from "../services/ownerTenantService";
 import { toast } from "react-hot-toast";
 import eye from "../assets/images/eye.svg";
 import edit from "../assets/images/edit.svg";
@@ -54,7 +54,7 @@ export default function ResidentManagement() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await DeleteResident(id);
+      const response = await VacantResident(id);
       fetchResidents();
       toast.success(response.data.message);
     } catch (error) {
@@ -148,12 +148,12 @@ export default function ResidentManagement() {
                       ) : (
                         <>
                           <img
-                            src={resident.profileImage}
+                            src={resident?.profileImage}
                             alt="Profile"
                             className="rounded-full mr-2 w-8 h-8"
                           />
                           <span className="text-[#4F4F4F] text-[16px]">
-                            {resident.Full_name}
+                            {resident?.Full_name}
                           </span>
                         </>
                       )}
@@ -171,19 +171,18 @@ export default function ResidentManagement() {
                     <span
                       className={`inline-flex items-center justify-center px-3 py-1 rounded-full font-medium 
                     ${
-                      resident.unitStatus === "Occupied"
+                      resident.UnitStatus === "Occupied"
                         ? "bg-[#ECFFFF] text-[#14B8A6] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
                         : "bg-[#FFF6FF] text-[#9333EA] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
                     }`}
                     >
-                      {resident.unitStatus === "Occupied" ? (
+                      {resident.UnitStatus === "Occupied" ? (
                         <img src={occupiedImage} className="mr-[4px]" />
                       ) : (
                         <img src={vacateImage} className="mr-[4px]" />
                       )}
-                      {resident.UnitStatus === "Occupied"
-                        ? "Occupied"
-                        : "Vacate"}
+
+                      {resident.UnitStatus}
                     </span>
                   </td>
                   <td className="px-6 py-4 text-center">

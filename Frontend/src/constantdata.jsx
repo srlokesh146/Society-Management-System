@@ -87,6 +87,21 @@ export const securityBar = [
   },
 ];
 
+export const residentItems = [
+  {
+    id: 1,
+    path: "/dashboard",
+    label: "Dashboard",
+    icon: <TbLayoutDashboardFilled />,
+  },
+  {
+    id: 2,
+    path: "/residentowner",
+    label: "Personal Detail",
+    icon: <TbLayoutDashboardFilled />,
+  },
+];
+
 export const Navigationbar = [
   { path: "/editprofile", label: "EditProfile" },
   { path: "/residentmanagement", label: "ResidentManagement" },
