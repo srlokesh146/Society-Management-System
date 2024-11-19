@@ -239,7 +239,7 @@ export default function TeantForm() {
           className={`px-6 py-2 rounded-t-lg ${
             activeTab === "owner"
               ? "bg-[#FF6B07] text-white"
-              : "bg-white text-gray-600"
+              : "bg-white text-gray-600  border-b-4 border-orange-500"
           }`}
           onClick={() => handleTenantClick("owner")}
         >
@@ -249,7 +249,7 @@ export default function TeantForm() {
           className={`px-6 py-2 rounded-t-lg ${
             activeTab === "tenant"
               ? "bg-[#FF6B07] text-white"
-              : "bg-white text-gray-600"
+              : "bg-white text-gray-600  border-b-4 border-orange-500"
           }`}
           onClick={() => {
             setActiveTab("tenant");
