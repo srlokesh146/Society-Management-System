@@ -12,7 +12,12 @@ import moneyrecive from "./assets/images/money-recive.png";
 import moneysend from "./assets/images/money-send.png";
 import vacate from "./assets/images/vacate.png";
 import evelynHarperimage from "./assets/images/EvelynHarperimage.png";
+import mastercard from "./assets/images/mastercard.png";
+import visacard from "./assets/images/visacard.png";
+import cashpayment from "./assets/images/cashpayment.png";
 import moneys from "./assets/images/moneys.png";
+import { MdEvent } from "react-icons/md";
+
 
 export const sidebarItems = [
   {
@@ -73,6 +78,12 @@ export const sidebarItems = [
     label: "Announcement",
     icon: <FaBullhorn />,
   },
+  {
+    id: 18,
+    path: "/eventsparticipate",
+    label: "Events Participation",
+    icon: <MdEvent />,
+  },
 ];
 
 export const securityBar = [
@@ -81,8 +92,8 @@ export const securityBar = [
     label: "Security",
     icon: <FaUserShield />,
     subItems: [
-      { id: 17, path: "/visitortracking", label: "Visitor Tracking" },
-      { id: 18, path: "/emergencymanagement", label: "Emergency Management" },
+      { id: 16, path: "/visitortracking", label: "Visitor Tracking" },
+      { id: 17, path: "/emergencymanagement", label: "Emergency Management" },
     ],
   },
 ];
@@ -103,9 +114,12 @@ export const Navigationbar = [
   { path: "/expense", label: "Expense" },
   { path: "/securityguard", label: "SecurityGuard" },
   { path: "/other-income", label: "OtherIncome" },
-  { path: "/visitortracking", label: "visitortracking" },
+  { path: "/visitortracking", label: "VisitorTracking" },
   { path: "/emergencymanagement", label: "EmergencyManagement" },
+  { path: "/activityparticipate", label: "ActivityParticipate" },
+  { path: "/eventsparticipate", label: "EventsParticipate" },
 ];
+
 
 export const cardData = [
   {
@@ -524,5 +538,158 @@ export const data = [
       "linear-gradient(255.6deg, #FF6A00 7.71%, rgba(255, 255, 255, 0) 40.54%)",
     iconBg: "#FFE6E6",
     textColor: "text-red-500",
+  },
+];
+
+
+export const paymentMethods = [
+  { id: 1, name: "Master Card", image: mastercard },
+  { id: 2, name: "Visa Card", image: visacard },
+  { id: 3, name: "Cash Payment", image: cashpayment },
+];
+
+export const eventsData = [
+  {
+      name: "Cody Fisher",
+      description: "Event and recreational activities.",
+      time: "2:45 PM",
+      date: "11/02/2024",
+      eventName: "Holi Festival",
+  },
+  {
+      name: "Esther Howard",
+      description: "Securing critical government systems.",
+      time: "1:45 AM",
+      date: "12/02/2024",
+      eventName: "Ganesh Chaturthi",
+  },
+  {
+      name: "Brooklyn Simmons",
+      description: "Implementing surveillance in public spaces.",
+      time: "2:00 PM",
+      date: "13/02/2024",
+      eventName: "Navratri Festival",
+  },
+  {
+      name: "Jenny Wilson",
+      description: "Event and recreational activities.",
+      time: "4:00 AM",
+      date: "14/02/2024",
+      eventName: "Holi Festival",
+  },
+  {
+      name: "Guy Hawkins",
+      description: "Expenses will make sense for you.",
+      time: "5:30 PM",
+      date: "15/02/2024",
+      eventName: "Ganesh Chaturthi",
+  },
+  {
+      name: "Robert Fox",
+      description: "Event and recreational activities.",
+      time: "2:45 AM",
+      date: "16/02/2024",
+      eventName: "Navratri Festival",
+  },
+  {
+      name: "Albert Flores",
+      description: "Implementing surveillance in public spaces.",
+      time: "2:45 PM",
+      date: "17/02/2024",
+      eventName: "Holi Festival",
+  },
+  {
+      name: "Annette Black",
+      description: "Event and recreational activities.",
+      time: "6:00 AM",
+      date: "18/02/2024",
+      eventName: "Ganesh Chaturthi",
+  },
+  {
+      name: "Annette Black",
+      description: "Securing critical government systems.",
+      time: "6:45 PM",
+      date: "20/02/2024",
+      eventName: "Navratri Festival",
+  },
+  {
+      name: "Floyd Miles",
+      description: "Event and recreational activities.",
+      time: "5:00 AM",
+      date: "21/02/2024",
+      eventName: "Holi Festival",
+  },
+];
+
+export const activityData = [
+  {
+      name: "Cody Fisher",
+      description: "Event and recreational activities.",
+      time: "2:45 PM",
+      date: "11/02/2024",
+      eventName: "Holi Festival",
+  },
+  {
+      name: "Esther Howard",
+      description: "Securing critical government systems.",
+      time: "1:45 AM",
+      date: "12/02/2024",
+      eventName: "Ganesh Chaturthi",
+  },
+  {
+      name: "Brooklyn Simmons",
+      description: "Implementing surveillance in public spaces.",
+      time: "2:00 PM",
+      date: "13/02/2024",
+      eventName: "Navratri Festival",
+  },
+  {
+      name: "Jenny Wilson",
+      description: "Event and recreational activities.",
+      time: "4:00 AM",
+      date: "14/02/2024",
+      eventName: "Holi Festival",
+  },
+  {
+      name: "Guy Hawkins",
+      description: "Expenses will make sense for you.",
+      time: "5:30 PM",
+      date: "15/02/2024",
+      eventName: "Ganesh Chaturthi",
+  },
+  {
+      name: "Robert Fox",
+      description: "Event and recreational activities.",
+      time: "2:45 AM",
+      date: "16/02/2024",
+      eventName: "Navratri Festival",
+  },
+  {
+      name: "Albert Flores",
+      description: "Implementing surveillance in public spaces.",
+      time: "2:45 PM",
+      date: "17/02/2024",
+      eventName: "Holi Festival",
+  },
+  {
+      name: "Annette Black",
+      description: "Event and recreational activities.",
+      time: "6:00 AM",
+      date: "18/02/2024",
+      eventName: "Ganesh Chaturthi",
+  },
+  {
+      name: "Annette Black",
+      description: "Securing critical government systems.",
+      time: "6:45 PM",
+      date: "20/02/2024",
+      eventName: "Navratri Festival",
+  },
+  {
+      name: "Floyd Miles",
+      description: "Event and recreational activities.",
+      time: "5:00 AM",
+      date: "21/02/2024",
+      eventName: "Holi Festival",
   },
 ];

@@ -30,6 +30,9 @@ import OwnerForm from "./pages/OwnerForm.jsx";
 import VisitorTracking from "./pages/securitypage/VisitorTracking.jsx";
 import EmergencyManagement from "./pages/securitypage/EmergencyManagement.jsx";
 import PrivateRoutes from "./routes/PrivateRoutes.jsx";
+import EventsParticipate from "./pages/residentpanel/EventsParticipation/Activityparticipate.jsx";
+import ActivityParticipate from "./pages/residentpanel/EventsParticipation/Activityparticipate.jsx";
+import Eventtab from "./pages/residentpanel/EventsParticipation/EventTab/Eventtab.jsx";
 
 function App() {
   const [isSidebaropen, setSidebaropen] = useState(false);
@@ -250,6 +253,14 @@ function App() {
                     element={
                       <PrivateRoutes>
                         <EmergencyManagement />
+                      </PrivateRoutes>
+                    }
+                  />
+                  <Route
+                    path="/eventsParticipate"
+                    element={
+                      <PrivateRoutes>
+                        <Eventtab />
                       </PrivateRoutes>
                     }
                   />

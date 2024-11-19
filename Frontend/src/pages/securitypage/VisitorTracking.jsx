@@ -101,74 +101,78 @@ export default function VisitorTracking() {
           </div>
         </div>
 
-        <table className="min-w-full table-auto border-collapse">
-          <thead className="bg-indigo-50">
-            <tr className="rounded-tl-[15px] rounded-tr-[15px] h-[61px]">
-              <th className="px-4 sm:px-6 py-4 text-left text-md font-semibold text-black-500 tracking-wider rounded-tl-[15px]">
-                Visitor Name
-              </th>
-              <th className="px-4 sm:px-6 py-4 text-start text-md font-semibold text-black-500 tracking-wider">
-                Phone Number
-              </th>
-              <th className="px-4 sm:px-6 py-4 text-left text-md font-semibold text-black-500 tracking-wider">
-                Date
-              </th>
-              <th className="px-4 sm:px-6 py-4 text-center text-md font-semibold text-black-500 tracking-wider">
-                Unit Number
-              </th>
-              <th className="px-4 sm:px-10 py-4 text-right text-md font-semibold text-black-500 tracking-wider rounded-tr-[15px]">
-                Time
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {visitorList.map((visitor, index) => {
-              return (
-                <tr key={index} className="h-[68px]">
-                  <div className="px-4 sm:px-6 py-4 flex items-center">
-                    <div className="flex-shrink-0 h-10 w-10">
-                      <img
-                        className="h-10 w-10 rounded-full object-cover"
-                        src={`https://i.pravatar.cc/150?img=${index}`}
-                        alt=""
-                      />
-                    </div>
-                    <div className="ml-4">
-                      <div className="text-[16px] font-medium text-[#4F4F4F]">
-                        {visitor.name}
+        <div className="overflow-x-auto pr-[8px] ps-[20px] custom-scrollbar max-h-[44rem]">
+          <table className="min-w-full table-auto border-collapse">
+            <thead className="bg-indigo-50">
+              <tr className="rounded-tl-[15px] rounded-tr-[15px] h-[61px]">
+                <th className="px-4 sm:px-6 py-4 text-left text-md font-semibold text-black-500 tracking-wider rounded-tl-[15px]">
+                  Visitor Name
+                </th>
+                <th className="px-4 sm:px-6 py-4 text-start text-md font-semibold text-black-500 tracking-wider">
+                  Phone Number
+                </th>
+                <th className="px-4 sm:px-6 py-4 text-left text-md font-semibold text-black-500 tracking-wider">
+                  Date
+                </th>
+                <th className="px-4 sm:px-6 py-4 text-center text-md font-semibold text-black-500 tracking-wider">
+                  Unit Number
+                </th>
+                <th className="px-4 sm:px-10 py-4 text-right text-md font-semibold text-black-500 tracking-wider rounded-tr-[15px]">
+                  Time
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {visitorList.map((visitor, index) => {
+                console.log();
+                
+                return (
+                  <tr key={index} className="h-[68px]">
+                    <div className="px-4 sm:px-6 py-4 flex items-center">
+                      <div className="flex-shrink-0 h-10 w-10">
+                        <img
+                          className="h-10 w-10 rounded-full object-cover"
+                          src={`https://i.pravatar.cc/150?img=${index}`}
+                          alt=""
+                        />
+                      </div>
+                      <div className="ml-4">
+                        <div className="text-[16px] font-medium text-[#4F4F4F]">
+                          {visitor.name}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <td className="px-4 py-2 text-[#4F4F4F]">{visitor.number}</td>
-                  <td className="px-4 py-2 text-[#4F4F4F]">
-                    {new Date(visitor.date).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}
-                  </td>
-                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center justify-center">
-                      <span className="h-[28px] w-[28px] flex items-center justify-center rounded-full bg-[#5678E91A] text-[#5678E9] text-xs font-medium mr-2">
-                        {visitor.wing}
-                      </span>
-                      <span className="text-[16px] font-medium text-[#4F4F4F]">
-                        {visitor.unit}
-                      </span>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="flex align-top justify-end max-sm:min-w-[180px] max-md:min-w-[180px]">
-                      <span className="text-[#4F4F4F] bg-[#F6F8FB] w-[92px] h-[34px] inline-flex items-center justify-center rounded-[70px]">
-                        {convertToAmPm(visitor.time)}
-                      </span>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                    <td className="px-4 py-2 text-[#4F4F4F]">{visitor.number}</td>
+                    <td className="px-4 py-2 text-[#4F4F4F]">
+                      {new Date(visitor.date).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                    </td>
+                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center justify-center">
+                        <span className="h-[28px] w-[28px] flex items-center justify-center rounded-full bg-[#5678E91A] text-[#5678E9] text-xs font-medium mr-2">
+                          {visitor.wing}
+                        </span>
+                        <span className="text-[16px] font-medium text-[#4F4F4F]">
+                          {visitor.unit}
+                        </span>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex align-top justify-end max-sm:min-w-[180px] max-md:min-w-[180px]">
+                        <span className="text-[#4F4F4F] bg-[#F6F8FB] w-[92px] h-[34px] inline-flex items-center justify-center rounded-[70px]">
+                          {convertToAmPm(visitor.time)}
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
       <VisitorTrackingModal
         isOpen={isModalOpen}
