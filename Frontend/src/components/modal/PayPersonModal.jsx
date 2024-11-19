@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PayNowModal from "./PayNowModal";
 
-const NotificationModal = ({ isOpen, selectedMembers, onClose, setIsPayNowOpen, perPersonAmount, totalAmount, handleChange, setIsAccepted }) => {
+const PayPersonModal = ({ isOpen, selectedMembers, onClose, setIsPayNowOpen, perPersonAmount, totalAmount, handleChange, setIsAccepted }) => {
 
     const handleGetPass = () => {
         setIsPayNowOpen(true);
@@ -69,4 +69,4 @@ const NotificationModal = ({ isOpen, selectedMembers, onClose, setIsPayNowOpen, 
     );
 };
 
-export default NotificationModal;
+export default PayPersonModal;

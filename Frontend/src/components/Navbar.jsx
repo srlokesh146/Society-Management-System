@@ -8,8 +8,10 @@ import NotificationImage from "../assets/images/notificationimage.png";
 import useCurrentPath from "./useCurrentPath";
 import { FaChevronRight } from "react-icons/fa6";
 import { useSelector } from "react-redux";
-import NotificationModal from "./modal/NotificationModal";
 import PayNowModal from "./modal/PayNowModal";
+import PayPersonModal from "./modal/PayPersonModal";
+import PayMentMathodModal from "./modal/PayMentMathodModal";
+import PayMenCard from "./modal/PayMenCard";
 
 const Navbar = () => {
   const { user } = useSelector((store) => store.auth);
@@ -17,6 +19,8 @@ const Navbar = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [clearedNotifications, setClearedNotifications] = useState(false);
   const [isPayNowOpen, setIsPayNowOpen] = useState(false);
+  const [isPaymentNowOpen, setIsPaymantNowOpen] = useState(false);
+  const [isPaymenCardOpen, setisPaymenCardOpen] = useState(false);
   const [selectedMembers, setSelectedMembers] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAccepted, setIsAccepted] = useState(false);
@@ -24,15 +28,8 @@ const Navbar = () => {
   const location = useLocation();
 
   const baseAmount = 1500;
-  const perPersonAmount = baseAmount + selectedMembers * 200;
+  const perPersonAmount = baseAmount + selectedMembers * 1500;
   const totalAmount = perPersonAmount * selectedMembers;
-
-  const handleChange = (e) => {
-    const membersCount = Number(e.target.value);
-    setSelectedMembers(membersCount);
-  };
-
-
 
   const {
     isDashboard,
@@ -59,10 +56,11 @@ const Navbar = () => {
     setIsAccepted(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setIsAccepted(false);
+  const handleChange = (e) => {
+    const membersCount = Number(e.target.value);
+    setSelectedMembers(membersCount);
   };
+
 
   const handleNotificationClick = () => {
     setIsNotificationOpen(!isNotificationOpen);
@@ -113,6 +111,8 @@ const Navbar = () => {
           >
             Home
           </span>
+          
+
           <FaChevronRight className="mr-[3px] w-[12px]" />
 
           {Navigationbar.map((item, index) => (
@@ -233,7 +233,7 @@ const Navbar = () => {
                             Accept
                           </button>
                           <button
-                            onClick={handleCloseModal}
+                            onClick={() => setIsModalOpen(false)}
                             className={`px-[28px] py-[8px] text-xs rounded-[10px] ${isAccepted ? 'bg-[#5678E9] text-white border border-gray-300' : 'border border-gray-300'}`}
                           >
                             Decline
@@ -258,21 +258,40 @@ const Navbar = () => {
               )}
             </div>
           )}
-          <NotificationModal
+          <PayPersonModal
             isOpen={isModalOpen}
-            onClose={handleCloseModal}
-            totalAmount={totalAmount} 
-            perPersonAmount={perPersonAmount} 
-            setIsPayNowOpen = {setIsPayNowOpen}
-            handleChange = {handleChange}
-            selectedMembers = {selectedMembers}
+            onClose={() => {
+              setIsModalOpen(false);
+              setIsAccepted(true);
+            }}
+            totalAmount={totalAmount}
+            perPersonAmount={perPersonAmount}
+            setIsPayNowOpen={setIsPayNowOpen}
+            handleChange={handleChange}
+            selectedMembers={selectedMembers}
           />
           <PayNowModal
             isOpen={isPayNowOpen}
-            onClose={() => setIsPayNowOpen(false)}
-            totalAmount={totalAmount} 
-            perPersonAmount={perPersonAmount} 
-            selectedMembers = {selectedMembers}
+            onClose={() => { setIsPayNowOpen(false); setIsAccepted(true); }}
+            totalAmount={totalAmount}
+            perPersonAmount={perPersonAmount}
+            selectedMembers={selectedMembers}
+            setIsPaymanNowOpen={() => setIsPaymantNowOpen(true)}
+          />
+          <PayMentMathodModal
+            isOpen={isPaymentNowOpen}
+            onClose={() => {
+              setIsPaymantNowOpen(false);
+              setIsAccepted(true);
+            }}
+            setisPaymenCardOpen={() => setisPaymenCardOpen(true)}
+          />
+          <PayMenCard
+            isOpen={isPaymenCardOpen}
+            onClose={() => {
+              setisPaymenCardOpen(false);
+              setIsAccepted(false);
+            }}
           />
         </div>
 

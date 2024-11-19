@@ -30,6 +30,9 @@ import OwnerForm from "./pages/OwnerForm.jsx";
 import VisitorTracking from "./pages/securitypage/VisitorTracking.jsx";
 import EmergencyManagement from "./pages/securitypage/EmergencyManagement.jsx";
 import PrivateRoutes from "./routes/PrivateRoutes.jsx";
+import EventsParticipate from "./pages/residentpanel/EventsParticipation/Activityparticipate.jsx";
+import ActivityParticipate from "./pages/residentpanel/EventsParticipation/Activityparticipate.jsx";
+import Eventtab from "./pages/residentpanel/EventsParticipation/EventTab/Eventtab.jsx";
 import ResidentOwner from "./pages/ResidentPanel/ResidentOwner.jsx";
 import ServiceAndComplaint from "./pages/ResidentPanel/ServiceAndComplaint.jsx";
 import ResidentSecurityProtocol from "./pages/ResidentPanel/ResidentSecurityProtocol.jsx";
@@ -258,6 +261,15 @@ function App() {
                     }
                   />
                   <Route
+
+                    path="/eventsParticipate"
+                    element={
+                      <PrivateRoutes>
+                        <Eventtab />
+                      </PrivateRoutes>
+                    }
+                  />
+
                     path="/residentowner"
                     element={
                       <PrivateRoutes>
