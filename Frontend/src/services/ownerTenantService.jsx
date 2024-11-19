@@ -65,5 +65,5 @@ export const GetResident = async (id) =>
   await api.get(`/v2/resident/resident/${id}`);
 
 // delete resident by id
-export const DeleteResident = async (id) =>
-  await api.delete(`/v2/resident/resident/${id}`);
+export const VacantResident = async (id) =>
+  await api.put(`v2/resident/update/${id}`, {});

@@ -61,7 +61,6 @@ const Navbar = () => {
     setSelectedMembers(membersCount);
   };
 
-
   const handleNotificationClick = () => {
     setIsNotificationOpen(!isNotificationOpen);
     setClearedNotifications(false);
@@ -111,7 +110,6 @@ const Navbar = () => {
           >
             Home
           </span>
-          
 
           <FaChevronRight className="mr-[3px] w-[12px]" />
 
@@ -228,13 +226,21 @@ const Navbar = () => {
                         <div className="space-x-3">
                           <button
                             onClick={handleOpenModal}
-                            className={`px-[28px] py-[8px] text-xs rounded-[10px] ${isAccepted ? 'border border-gray-300' : 'bg-[#5678E9] text-white border border-gray-300'}`}
+                            className={`px-[28px] py-[8px] text-xs rounded-[10px] ${
+                              isAccepted
+                                ? "border border-gray-300"
+                                : "bg-[#5678E9] text-white border border-gray-300"
+                            }`}
                           >
                             Accept
                           </button>
                           <button
                             onClick={() => setIsModalOpen(false)}
-                            className={`px-[28px] py-[8px] text-xs rounded-[10px] ${isAccepted ? 'bg-[#5678E9] text-white border border-gray-300' : 'border border-gray-300'}`}
+                            className={`px-[28px] py-[8px] text-xs rounded-[10px] ${
+                              isAccepted
+                                ? "bg-[#5678E9] text-white border border-gray-300"
+                                : "border border-gray-300"
+                            }`}
                           >
                             Decline
                           </button>
@@ -250,9 +256,7 @@ const Navbar = () => {
                             {option}
                           </button>
                         ))}
-
                     </div>
-
                   </div>
                 ))
               )}
@@ -272,7 +276,10 @@ const Navbar = () => {
           />
           <PayNowModal
             isOpen={isPayNowOpen}
-            onClose={() => { setIsPayNowOpen(false); setIsAccepted(true); }}
+            onClose={() => {
+              setIsPayNowOpen(false);
+              setIsAccepted(true);
+            }}
             totalAmount={totalAmount}
             perPersonAmount={perPersonAmount}
             selectedMembers={selectedMembers}
@@ -315,7 +322,9 @@ const Navbar = () => {
         <div className="flex flex-col md:flex">
           <h6 className="font-bold text-[16px] max-sm:hidden">
             {user.role === "security"
-              ? user?.full_name || Avatar
+              ? user?.full_name
+              : user?.role === "resident"
+              ? user?.Full_name
               : user?.FirstName + " " + user?.LastName}
           </h6>
           <span className="text-[12px] leading-[18px] text-[#A7A7A7] max-sm:hidden">

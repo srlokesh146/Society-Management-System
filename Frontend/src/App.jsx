@@ -37,7 +37,6 @@ import ResidentOwner from "./pages/ResidentPanel/ResidentOwner.jsx";
 import ServiceAndComplaint from "./pages/ResidentPanel/ServiceAndComplaint.jsx";
 import ResidentSecurityProtocol from "./pages/ResidentPanel/ResidentSecurityProtocol.jsx";
 
-
 function App() {
   const [isSidebaropen, setSidebaropen] = useState(false);
   const location = useLocation();
@@ -81,227 +80,228 @@ function App() {
           </PrivateRoutes>
         )}
 
+        <div
+          className={`flex-1 ${
+            shouldRenderSidebarAndNavbar
+              ? "p-6 max-sm:p-4 overflow-auto max-md:overflow-auto"
+              : "lg:overflow-hidden max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-y-auto"
+          } bg-gray-100 max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-auto`}
+        >
+          <Routes>
+            {/* Public Routes without Sidebar and Navbar */}
+            <Route path="/" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route path="/otpscreenpage" element={<OtpScreenpage />} />
+            <Route path="/resetpassword" element={<ResetPassword />} />
 
-          <div className={`flex-1 ${shouldRenderSidebarAndNavbar ? "p-6 max-sm:p-4 overflow-auto max-md:overflow-auto" : "lg:overflow-hidden max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-y-auto"} bg-gray-100 max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-auto`}>
+            {/* Protected Routes with Sidebar and Navbar */}
+            {shouldRenderSidebarAndNavbar && (
+              <>
+                <Route
+                  path="/dashboard"
+                  element={
+                    <PrivateRoutes>
+                      <Dashboard />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/editprofile"
+                  element={
+                    <PrivateRoutes>
+                      <EditProfileForm />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/residentmanagement"
+                  element={<Residentmanagement />}
+                />
+                <Route
+                  path="/complainttable"
+                  element={
+                    <PrivateRoutes>
+                      <ComplaintTable />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/reqtracking"
+                  element={
+                    <PrivateRoutes>
+                      <ReqTracking />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/visitorlog"
+                  element={
+                    <PrivateRoutes>
+                      <VisitorLog />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/SecurityProtocols"
+                  element={
+                    <PrivateRoutes>
+                      <SecurityProtocols />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/securityguard"
+                  element={
+                    <PrivateRoutes>
+                      <SecurityGuardDetails />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/announcement"
+                  element={
+                    <PrivateRoutes>
+                      <Announcement />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/facilitymanagement"
+                  element={
+                    <PrivateRoutes>
+                      <Facilitymanagement />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/note"
+                  element={
+                    <PrivateRoutes>
+                      <Note />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/expense"
+                  element={
+                    <PrivateRoutes>
+                      <Expense />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/income"
+                  element={
+                    <PrivateRoutes>
+                      <Income />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/other-income"
+                  element={
+                    <PrivateRoutes>
+                      <OtherIncome />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/ownerform"
+                  element={
+                    <PrivateRoutes>
+                      <OwnerForm />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/ownerform/edit"
+                  element={
+                    <PrivateRoutes>
+                      <OwnerForm />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/tenantform"
+                  element={
+                    <PrivateRoutes>
+                      <TenantForm />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/tenantform/edit"
+                  element={
+                    <PrivateRoutes>
+                      <TenantForm />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/residentmanagement"
+                  element={
+                    <PrivateRoutes>
+                      <ResidentManagement />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/visitortracking"
+                  element={
+                    <PrivateRoutes>
+                      <VisitorTracking />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/emergencymanagement"
+                  element={
+                    <PrivateRoutes>
+                      <EmergencyManagement />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/eventsParticipate"
+                  element={
+                    <PrivateRoutes>
+                      <Eventtab />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/residentowner"
+                  element={
+                    <PrivateRoutes>
+                      <ResidentOwner />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/serviceandcomplaint"
+                  element={
+                    <PrivateRoutes>
+                      <ServiceAndComplaint />
+                    </PrivateRoutes>
+                  }
+                />
 
-            <Routes>
-              {/* Public Routes without Sidebar and Navbar */}
-              <Route path="/" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/forgotpassword" element={<ForgotPassword />} />
-              <Route path="/otpscreenpage" element={<OtpScreenpage />} />
-              <Route path="/resetpassword" element={<ResetPassword />} />
-
-
-              {/* Protected Routes with Sidebar and Navbar */}
-              {shouldRenderSidebarAndNavbar && (
-                <>
-                  <Route
-                    path="/dashboard"
-                    element={
-                      <PrivateRoutes>
-                        <Dashboard />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/editprofile"
-                    element={
-                      <PrivateRoutes>
-                        <EditProfileForm />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/residentmanagement"
-                    element={<Residentmanagement />}
-                  />
-                  <Route
-                    path="/complainttable"
-                    element={
-                      <PrivateRoutes>
-                        <ComplaintTable />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/reqtracking"
-                    element={
-                      <PrivateRoutes>
-                        <ReqTracking />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/visitorlog"
-                    element={
-                      <PrivateRoutes>
-                        <VisitorLog />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/SecurityProtocols"
-                    element={
-                      <PrivateRoutes>
-                        <SecurityProtocols />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/securityguard"
-                    element={
-                      <PrivateRoutes>
-                        <SecurityGuardDetails />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/announcement"
-                    element={
-                      <PrivateRoutes>
-                        <Announcement />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/facilitymanagement"
-                    element={
-                      <PrivateRoutes>
-                        <Facilitymanagement />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/note"
-                    element={
-                      <PrivateRoutes>
-                        <Note />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/expense"
-                    element={
-                      <PrivateRoutes>
-                        <Expense />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/income"
-                    element={
-                      <PrivateRoutes>
-                        <Income />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/other-income"
-                    element={
-                      <PrivateRoutes>
-                        <OtherIncome />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/ownerform"
-                    element={
-                      <PrivateRoutes>
-                        <OwnerForm />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/ownerform/edit"
-                    element={
-                      <PrivateRoutes>
-                        <OwnerForm />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/tenantform"
-                    element={
-                      <PrivateRoutes>
-                        <TenantForm />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/tenantform/edit"
-                    element={
-                      <PrivateRoutes>
-                        <TenantForm />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/residentmanagement"
-                    element={
-                      <PrivateRoutes>
-                        <ResidentManagement />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/visitortracking"
-                    element={
-                      <PrivateRoutes>
-                        <VisitorTracking />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/emergencymanagement"
-                    element={
-                      <PrivateRoutes>
-                        <EmergencyManagement />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-
-                    path="/eventsParticipate"
-                    element={
-                      <PrivateRoutes>
-                        <Eventtab />
-                      </PrivateRoutes>
-                    }
-                  />
-
-                    path="/residentowner"
-                    element={
-                      <PrivateRoutes>
-                        <ResidentOwner />
-                      </PrivateRoutes>
-                    }
-                  />
-                  <Route
-                    path="/serviceandcomplaint"
-                    element={
-                      <PrivateRoutes>
-                        <ServiceAndComplaint />
-                      </PrivateRoutes>
-                    }
-                  />
-                 
-                  <Route
-                    path="/residentsecurityprotocol"
-                    element={
-                      <PrivateRoutes>
-                        <ResidentSecurityProtocol />
-                      </PrivateRoutes>
-                    }
-                  />
-                 
-                </>
-              )}
-            </Routes>
-          </div>
+                <Route
+                  path="/residentsecurityprotocol"
+                  element={
+                    <PrivateRoutes>
+                      <ResidentSecurityProtocol />
+                    </PrivateRoutes>
+                  }
+                />
+              </>
+            )}
+          </Routes>
         </div>
-        <Toaster position="top-right" reverseOrder={false} />
       </div>
+      <Toaster position="top-right" reverseOrder={false} />
+    </div>
   );
 }
 

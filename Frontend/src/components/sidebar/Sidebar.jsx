@@ -4,6 +4,7 @@ import { FiMenu } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 import { sidebarItems } from "../../constantdata";
 import { securityBar } from "../../constantdata";
+import { residentItems } from "../../constantdata";
 
 import Logo from "../Logo";
 import logout from "../../assets/images/logout.png";
@@ -85,6 +86,8 @@ export default function Sidebar() {
       setTabs(sidebarItems);
     } else if (role === "security") {
       setTabs(securityBar);
+    } else if (role === "resident") {
+      setTabs(residentItems);
     }
   }, []);
 
@@ -94,7 +97,7 @@ export default function Sidebar() {
         className="lg:hidden fixed top-[26px] left-4 z-[9999] max-sm:block"
         onClick={toggleSidebar}
       >
-       <img src={sidebaricon} alt="" />
+        <img src={sidebaricon} alt="" />
       </button>
 
       <aside
