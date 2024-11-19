@@ -326,11 +326,11 @@ function Expense() {
                 </div>
 
                 <div>
-                  <label className="block text-sm text-black-600 mb-1">
+                  <label className="block text-sm text-wrap text-black-600 mb-1">
                     Upload Bill*
                   </label>
                   <div
-                    className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer"
+                    className="border-2 text-wrap border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer"
                     onClick={() => document.getElementById("fileInput").click()} // Trigger file input on click
                     onDragOver={(e) => e.preventDefault()} // Prevent default behavior for drag over
                     onDrop={(e) => {

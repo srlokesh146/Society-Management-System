@@ -1,25 +1,39 @@
 import React from 'react';
 
-const PayNowModal = ({ isOpen, onClose, selectedMembers, totalAmount, }) => {
+const PayNowModal = ({ isOpen, onClose, selectedMembers, totalAmount, perPersonAmount, setIsPaymanNowOpen }) => {
+
+    const handlePaymentmathod = () => {
+        setIsPaymanNowOpen(true);
+        onClose();
+    };
+
     if (!isOpen) return null;
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
             <div className="bg-white p-6 shadow-lg relative w-[410px] rounded-[15px]">
-                <h2 className="text-lg font-semibold mb-[10px]">Payment Details</h2>
+                <h2 className="text-lg font-semibold mb-[10px]">Detail of the Per Person</h2>
                 <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
-                <div className="mb-4 flex justify-between">
+                <div className="mb-[5px] flex justify-between">
                     <p className="text-[16px] leading-[24px] text-[#4F4F4F] font-normal">
-                        <span>Total Members:</span>
+                        <span>Per Person Amount :</span>
                     </p>
-                    <p className="w-[87px] bg-[#F4F4F4] text-[#4F4F4F] flex justify-center py-[5px] rounded-full">
+                    <p className="w-[87px] text-[#4F4F4F] flex justify-center py-[5px]">
+                        {perPersonAmount}
+                    </p>
+                </div>
+                <div className="mb-[5px] flex justify-between">
+                    <p className="text-[16px] leading-[24px] text-[#4F4F4F] font-normal">
+                        <span>Total Members :</span>
+                    </p>
+                    <p className="w-[87px] text-[#4F4F4F] flex justify-center py-[5px]">
                         {selectedMembers}
                     </p>
                 </div>
-
+                <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
                 <div className="mb-[20px] flex justify-between">
                     <p className="text-[16px] leading-[24px] text-[#202224] font-medium">
-                        <span>Total Amount:</span>
+                        <span>Total Amount :</span>
                     </p>
                     <p className="w-[87px] flex justify-center text-[#202224] font-medium rounded-full">
                         ₹ {totalAmount.toLocaleString()}
@@ -34,8 +48,8 @@ const PayNowModal = ({ isOpen, onClose, selectedMembers, totalAmount, }) => {
                         Cancel
                     </button>
                     <button
-                        onClick={onClose}
-                        className="flex-1 px-4 py-2 bg-[#5678E9] text-white rounded-lg hover:bg-[#FF5500]"
+                         onClick={handlePaymentmathod}
+                        className="flex-1 px-4 py-2 bg-custom-gradient text-white rounded-lg hover:bg-[#FF5500]"
                     >
                         Pay Now
                     </button>

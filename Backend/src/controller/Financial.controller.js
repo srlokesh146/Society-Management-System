@@ -374,9 +374,10 @@ exports.CreateMaintenance = async (req, res) => {
       resident: resident.id,
       paymentStatus: "pending",
       residentType: resident.Resident_status,
+      paymentMode:"cash"
     }));
 
-    console.log(residentsWithStatus);
+  
 
     maintenance.residentList = residentsWithStatus;
 
@@ -403,9 +404,10 @@ exports.CreateMaintenance = async (req, res) => {
 //get maintenance
 exports.GetMaintenance = async (req, res) => {
   try {
-    const maintenanceRecords = await Maintenance.find().populate({
-      path: "residentList.resident",
-    });
+    // const maintenanceRecords = await Maintenance.find().populate({
+    //   path: "residentList.resident",
+    // });
+    const maintenanceRecords = await Maintenance.find().populate("residentList.resident");
     return res.status(200).json({
       success: true,
       Maintenance: maintenanceRecords,
@@ -418,6 +420,90 @@ exports.GetMaintenance = async (req, res) => {
     });
   }
 };
+////update and get payment
+exports.updatePaymentMode = async (req, res) => {
+  const { maintenanceId, residentId } = req.params;  
+  const { paymentMode } = req.body;        
+  console.log(req.body);
+            
+
+  try {
+  
+    const updatedMaintenance = await Maintenance.findOneAndUpdate(
+      { _id: maintenanceId, "residentList.resident": residentId }, 
+      { $set: { "residentList.$.paymentMode": paymentMode,
+        "residentList.$.paymentStatus": "done"
+       } },
+      { new: true } 
+    ).populate("residentList.resident"); 
+
+    if (!updatedMaintenance) {
+      return res.status(404).json({
+        success: false,
+        message: "Maintenance record or resident not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Payment mode updated successfully",
+      Maintenance: updatedMaintenance,
+    });
+  } catch (error) {
+    console.error("Error updating payment mode:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error updating payment mode",
+    });
+  }
+};
+//FindByIdUserAndMaintance
+exports.FindByIdUserAndMaintance =async(req,res)=>{
+ try {
+    const loggedInUserId = req.user.id;
+    console.log("Logged-in User ID:", loggedInUserId);
+
+    
+    const maintenanceRecords = await Maintenance.find({
+      "residentList.resident": loggedInUserId 
+    })
+      .populate({
+        path: 'residentList.resident', 
+        match: { _id: loggedInUserId }, 
+        select: 'name email role' 
+      });
+
+    console.log("Maintenance Records:", maintenanceRecords);
+
+    if (!maintenanceRecords || maintenanceRecords.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No maintenance records found for the logged-in user.',
+      });
+    }
+
+  
+    const filteredRecords = maintenanceRecords.map(record => {
+      
+      record.residentList = record.residentList.filter(residentEntry => 
+        residentEntry.resident && String(residentEntry.resident._id) === loggedInUserId &&
+        residentEntry.paymentStatus === "pending" 
+      );
+      return record;
+    }).filter(record => record.residentList.length > 0); 
+
+    return res.status(200).json({
+      success: true,
+      Maintenance: filteredRecords,
+    });
+  } catch (error) {
+    console.error("Error fetching Maintenance:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching Maintenance",
+    });
+  }
+}
 //add income
 exports.CreateIncome = async (req, res) => {
   try {

@@ -1,6 +1,7 @@
 import React from "react";
 
 const Member = ({ member }) => {
+  console.log(member);
   return (
     <div className="bg-white p-6  mt-6 rounded-lg shadow-sm">
       <h1 className="font-semibold font-lg">Member : {member.length}</h1>

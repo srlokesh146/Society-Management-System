@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { FaImage } from "react-icons/fa";
-import Member from "../components/Member";
-import Vehicle from "../components/Vehicle";
-import MaintenceDetails from "../components/MaintenceDetails";
-import PendingMaintence from "../components/PendingMaintence";
-import DueMaintence from "../components/DueMaintence";
-import AnnouncementDetails from "../components/AnnouncementDetails";
-import Form from "../components/Form";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import Member from "../../components/Member";
+import Vehicle from "../../components/Vehicle";
+import MaintenceDetails from "../../components/MaintenceDetails";
+import PendingMaintence from "../../components/PendingMaintence";
+import DueMaintence from "../../components/DueMaintence";
+import AnnouncementDetails from "../../components/AnnouncementDetails";
+import Form from "../../components/Form";
 
 const ResidentOwner = () => {
   const { user } = useSelector((store) => store.auth);

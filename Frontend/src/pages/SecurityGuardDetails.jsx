@@ -269,7 +269,7 @@ function SecurityGuardDetails() {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm font-semibold text-gray-500">
+                    <div className="text-sm font-medium text-gray-500">
                       {guard.MailOrPhone}
                     </div>
                   </td>

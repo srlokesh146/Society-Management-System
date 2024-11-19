@@ -454,13 +454,13 @@ function EditProfileForm() {
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="bg-gray-300 w-[180px] text-gray-700 px-4 py-2 rounded-lg"
+                  className="bg-gray-300 w-[180px] text-gray-700 px-4 py-2 rounded-lg h-12"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className={`w-[180px] px-4 py-2 rounded-lg ${isFormValid()
+                  className={`w-[180px] h-12 px-4 py-2 rounded-lg ${isFormValid()
                     ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white"
                     : "bg-[#F6F8FB] text-gray-400"
                     }`}
