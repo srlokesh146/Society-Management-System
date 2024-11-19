@@ -117,7 +117,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Priority*
             </label>
-            <div className="flex gap-4">
+            <div className="flex gap-4 max-sm:flex-col">
               {["High", "Medium", "Low"].map((priority) => (
                 <label key={priority} className="flex items-center">
                   <input
@@ -129,7 +129,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
                     className="hidden"
                   />
                   <span
-                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[114px] text-[14px] cursor-pointer
+                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[114px] text-[14px] cursor-pointer max-sm:w-full
                     ${selectedPriority === priority
                         ? "border-[#FF6B07] bg-white font-medium"
                         : "border-gray-200"
@@ -160,7 +160,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Status*
             </label>
-            <div className="flex gap-4">
+            <div className="flex gap-4 max-sm:flex-col">
               {["Open", "Pending", "Solve"].map((status) => (
                 <label key={status} className="flex items-center">
                   <input
@@ -172,7 +172,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
                     className="hidden"
                   />
                   <span
-                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[113px] text-sm cursor-pointer
+                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[113px] text-sm cursor-pointer  max-sm:w-full
                     ${
                       selectedStatus === status
                         ? "border-[#FF6B07] bg-white font-medium"

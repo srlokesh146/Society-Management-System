@@ -98,7 +98,7 @@ export default function Sidebar() {
       </button>
 
       <aside
-        className={`fixed top-0 left-0 h-full w-[280px] bg-white p-4 shadow-lg border border-gray-200 transition-transform duration-300 lg:transition-none lg:relative lg:transform-none ${
+        className={`fixed top-0 left-0 z-[99] h-full w-[280px] bg-white p-4 shadow-lg border border-gray-200 transition-transform duration-300 lg:transition-none lg:relative lg:transform-none ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } lg:w-[280px] lg:block z-[9999]`}
       >

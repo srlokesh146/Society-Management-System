@@ -273,9 +273,46 @@ ul::-webkit-scrollbar-thumb {
 @media (min-width: 640px) and (max-width: 875px) {
   .notication-class {
     min-width: 25rem;
-    left: 105px;
+    left: 0;
   }
 }
+
+@media (max-width: 840px) {
+  .notication-class {
+    min-width: 25rem;
+    left: -300px;
+  }
+}
+
+
+@media (min-width: 320px) and (max-width: 420px) {
+  .notication-class {
+    min-width: 25rem;
+    left: -220px;
+  }
+}
+
+
+@media (min-width: 420px) and (max-width: 575px) {
+  .notication-class {
+    min-width: 25rem;
+    left: -220px;
+  }
+}
+
+
+/* Mobile-Friendly Layout */
+@media (max-width: 768px) {
+  .notification-dropdown {
+    width: 95%;
+    left: 2.5%; /* Center the dropdown */
+  }
+
+  .notification-dropdown img {
+    max-width: 80px; /* Smaller image on mobile */
+  }
+}
+
 
 
 
