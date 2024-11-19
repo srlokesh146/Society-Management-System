@@ -2,6 +2,8 @@
 const jwt=require("jsonwebtoken");
 const User = require("../models/user.schema");
 const Guard = require("../models/SecurityGuard.model");
+const Owner = require("../models/Owener.model");
+const Tenante = require("../models/Tenent.model");
 
 exports.auth = async (req, res, next) => {
     try {
@@ -22,10 +24,16 @@ exports.auth = async (req, res, next) => {
     if (!user) {
       user = await Guard.findById(decoded.userId);
     }
+    if (!user) {
+      user = await Owner.findById(decoded.userId);
+    }
+    if (!user) {
+      user = await Tenante.findById(decoded.userId);
+    }
 
     
     if (!user) {
-      return res.status(404).json({ success: false, message: 'User or Guard not found' });
+      return res.status(404).json({ success: false, message: 'User not found' });
     }
   
       

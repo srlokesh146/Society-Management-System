@@ -34,6 +34,10 @@ router.post("/checkpassword",auth,FinancialController.CheckMaintenancePassword)
 router.post("/addmaintenance",FinancialController.CreateMaintenance)
 //get maintenance
 router.get("/viewmaintenance",FinancialController.GetMaintenance)
+//update and get payment
+router.put('/maintenance/:maintenanceId/resident/:residentId/payment', FinancialController.updatePaymentMode);
+//FindByIdUserAndMaintance
+router.get("/getuserandMaintance",auth,FinancialController.FindByIdUserAndMaintance)
 //add income
 router.post("/addincome",FinancialController.CreateIncome)
 //get income
