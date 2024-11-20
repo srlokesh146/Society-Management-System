@@ -422,18 +422,22 @@ exports.GetMaintenance = async (req, res) => {
 };
 ////update and get payment
 exports.updatePaymentMode = async (req, res) => {
-  const { maintenanceId, residentId } = req.params;  
-  const { paymentMode } = req.body;        
+  const { maintenanceId } = req.params; 
+  const { paymentMode } = req.body; 
+  const residentId = req.user.id; 
+
   console.log(req.body);
-            
 
   try {
-  
+   
     const updatedMaintenance = await Maintenance.findOneAndUpdate(
       { _id: maintenanceId, "residentList.resident": residentId }, 
-      { $set: { "residentList.$.paymentMode": paymentMode,
-        "residentList.$.paymentStatus": "done"
-       } },
+      { 
+        $set: { 
+          "residentList.$.paymentMode": paymentMode,
+          "residentList.$.paymentStatus": "done"
+        } 
+      },
       { new: true } 
     ).populate("residentList.resident"); 
 
@@ -446,7 +450,7 @@ exports.updatePaymentMode = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Payment mode updated successfully",
+      message: "Payment mode  successfully",
       Maintenance: updatedMaintenance,
     });
   } catch (error) {
@@ -504,10 +508,92 @@ exports.FindByIdUserAndMaintance =async(req,res)=>{
     });
   }
 }
+exports.applyPenalty = async (req, res) => {
+  try {
+    console.log("Running penalty application...");
+
+    const today = new Date();
+
+  
+    const maintenances = await Maintenance.find();
+
+    console.log("Found maintenances:", maintenances.length);  
+
+    for (const maintenance of maintenances) {
+      const { dueDate, penaltyAmount, residentList } = maintenance;
+
+    
+      const dueDateTime = new Date(dueDate).getTime();
+      const currentTime = today.getTime();
+      const diffDays = Math.ceil((currentTime - dueDateTime) / (1000 * 60 * 60 * 24));
+
+      console.log("Due Date:", dueDate);
+      console.log("Difference in days:", diffDays);
+
+     
+      if (diffDays >= 7) {
+        for (const resident of residentList) {
+          console.log("Resident ID:", resident._id);
+          console.log("Resident Payment Status:", resident.paymentStatus);
+
+          if (resident.paymentStatus === "pending") {
+           
+            const updatedPenalty = resident.penalty + penaltyAmount;
+
+            console.log(`Applying penalty for Resident ID: ${resident._id}. Existing Penalty: ${resident.penalty}, Penalty to Add: ${penaltyAmount}`);
+
+            
+            const result = await Maintenance.updateOne(
+              { _id: maintenance._id, "residentList._id": resident._id },
+              {
+                $set: {
+                  "residentList.$.penalty": updatedPenalty,
+                },
+              }
+            );
+
+            if (result.nModified > 0) {
+              console.log(
+                `Penalty applied successfully for Resident ID: ${resident._id}, Maintenance ID: ${maintenance._id}`
+              );
+            } else {
+              console.log(
+                `No update made for Resident ID: ${resident._id}, Maintenance ID: ${maintenance._id}`
+              );
+            }
+          }
+        }
+      }
+    }
+
+    console.log("Penalty application completed successfully.");
+
+    
+    if (res) {
+      return res.status(200).json({
+        success: true,
+        message: "Penalties applied successfully for all overdue payments.",
+      });
+    }
+  } catch (error) {
+    console.error("Error in applying penalties:", error);
+
+    
+    if (res) {
+      return res.status(500).json({
+        success: false,
+        message: "Error in applying penalties.",
+        error: error.message,
+      });
+    }
+  }
+};
 //add income
 exports.CreateIncome = async (req, res) => {
   try {
     const { title, date, dueDate, description, amount, member } = req.body;
+
+    // Validate required fields
     if (!title || !date || !dueDate || !description || !amount) {
       return res.status(400).json({
         success: false,
@@ -515,6 +601,7 @@ exports.CreateIncome = async (req, res) => {
       });
     }
 
+   
     const income = new Income({
       title,
       date,
@@ -523,19 +610,35 @@ exports.CreateIncome = async (req, res) => {
       amount,
       member,
     });
+
+   
+    const ownerData = await Owner.find();
+    const tenantData = await Tenante.find();
+
+    const residentList = [...ownerData, ...tenantData];
+
+    console.log("Fetched residents:", residentList);
+
+    
+    const residentsWithStatus = residentList.map((resident) => ({
+      resident: resident._id,
+      paymentStatus: "pending",
+      residentType: resident.Resident_status, 
+      paymentMode: "cash",
+    }));
+
+    
+    income.members = residentsWithStatus;
+
+    
     await income.save();
-    if (!income) {
-      return res.status(400).json({
-        success: false,
-        message: "Soemthing went wrong",
-      });
-    }
+
     return res.status(200).json({
       success: true,
       message: "Income Successfully Added",
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error adding income:", error);
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
@@ -545,7 +648,7 @@ exports.CreateIncome = async (req, res) => {
 //get income
 exports.GetIncome = async (req, res) => {
   try {
-    const income = await Income.find();
+    const income = await Income.find().populate("members.resident");
     return res.status(200).json({
       success: true,
       Income: income,
@@ -558,6 +661,61 @@ exports.GetIncome = async (req, res) => {
     });
   }
 };
+////update and get payment
+exports.updatePaymentModeIncome = async (req, res) => {
+  const { incomeId } = req.params; 
+  const { paymentMode } = req.body; 
+  const residentId = req.user.id; 
+  console.log("Resident ID from user:", residentId);
+  console.log("Request body:", req.body);
+
+  try {
+   
+    const incomeRecord = await Income.findOne({ 
+      _id: incomeId, 
+      "members.resident": residentId 
+    });
+
+    if (!incomeRecord) {
+      return res.status(404).json({
+        success: false,
+        message: "Income record or resident not found",
+      });
+    }
+
+    
+    const updatedMembers = incomeRecord.members.map(member => {
+      if (member.resident.toString() === residentId) {
+        return {
+          ...member,
+          paymentMode: paymentMode, 
+          paymentStatus: "done"     
+        };
+      }
+      return member;
+    });
+
+   
+    incomeRecord.members = updatedMembers;
+    await incomeRecord.save();
+
+   
+    const populatedIncomeRecord = await incomeRecord.populate("members.resident");
+
+    return res.status(200).json({
+      success: true,
+      message: "Payment mode and status updated successfully",
+      updatedIncome: populatedIncomeRecord,
+    });
+  } catch (error) {
+    console.error("Error updating payment mode:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error updating payment mode",
+    });
+  }  
+};
+
 //get by id income
 exports.GetByIdIncome = async (req, res) => {
   try {
@@ -630,3 +788,79 @@ exports.UpdateIncome = async (req, res) => {
     });
   }
 };
+//merge payment code
+// exports.updatePaymentMode = async (req, res) => {
+//   const { type, id } = req.params; // Type (maintenance/income) and ID of the record
+//   const { paymentMode } = req.body; 
+//   const residentId = req.user.id; // Logged-in user's ID
+
+//   try {
+//     let Model;
+//     if (type === 'maintenance') {
+//       Model = Maintenance;
+//     } else if (type === 'income') {
+//       Model = Income;
+//     } else {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Invalid type specified. Must be 'maintenance' or 'income'."
+//       });
+//     }
+
+//     // Find and update the record based on residentId, and update paymentMode and paymentStatus
+//     const updatedRecord = await Model.findOneAndUpdate(
+//       { _id: id, "residentList.resident": residentId },
+//       {
+//         $set: {
+//           "residentList.$.paymentMode": paymentMode,
+//           "residentList.$.paymentStatus": "done"
+//         }
+//       },
+//       { new: true }
+//     ).populate("residentList.resident");
+
+//     if (!updatedRecord) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Record or resident not found",
+//       });
+//     }
+
+//     return res.status(200).json({
+//       success: true,
+//       message: `Payment mode updated successfully for ${type}`,
+//       data: updatedRecord,
+//     });
+//   } catch (error) {
+//     console.error("Error updating payment mode:", error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Error updating payment mode",
+//     });
+//   }
+// };
+//get done and paymented income
+exports.GetIncomeDone = async (req, res) => {
+  try {
+  
+    const income = await Income.find({
+      "members": { 
+        $elemMatch: { 
+          paymentStatus: "done" 
+        } 
+      }
+    }).populate("members.resident");
+
+    return res.status(200).json({
+      success: true,
+      Income: income,
+    });
+  } catch (error) {
+    console.error("Error fetching Income:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching Income",
+    });
+  }
+};
+

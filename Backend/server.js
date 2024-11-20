@@ -9,6 +9,7 @@ const constant = require("./src/config/constant.js");
 const port = constant.PORT;
 require("./src/config/db");
 const cors = require("cors");
+const cron = require("node-cron");
 
 // for all origin
 const corsOptions = {
@@ -32,6 +33,23 @@ const FinancialRoutes=require("./src/routes/Financial.route.js")
 const VisitorRoutes=require("./src/routes/visitor.route.js")
 const AlertRoutes= require("./src/routes/alert.route.js")
 const chatRoute=require("./src/routes/chat.route.js")
+const PenaltyController=require("./src/controller/Financial.controller.js")
+
+
+//appply penlty
+
+
+
+cron.schedule("0 0 * * * *", async () => {
+  try {
+    console.log("Starting scheduled penalty application...");
+    await PenaltyController.applyPenalty();  
+    console.log("Scheduled penalty application completed.");
+  } catch (error) {
+    console.error("Error in scheduled penalty application:", error.message);
+  }
+});
+
 
 //user registration and login schema
 app.use("/api/v1/auth", UserRoutes);

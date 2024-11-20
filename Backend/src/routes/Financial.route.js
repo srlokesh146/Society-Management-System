@@ -35,17 +35,23 @@ router.post("/addmaintenance",FinancialController.CreateMaintenance)
 //get maintenance
 router.get("/viewmaintenance",FinancialController.GetMaintenance)
 //update and get payment
-router.put('/maintenance/:maintenanceId/resident/:residentId/payment', FinancialController.updatePaymentMode);
+router.put('/maintenance/:maintenanceId/resident/payment', auth,FinancialController.updatePaymentMode);
 //FindByIdUserAndMaintance
 router.get("/getuserandMaintance",auth,FinancialController.FindByIdUserAndMaintance)
+//apply penlty 
+router.post("/applypenlty", FinancialController.applyPenalty);
 //add income
 router.post("/addincome",FinancialController.CreateIncome)
 //get income
 router.get("/viewincome",FinancialController.GetIncome)
 //get by id income
 router.get("/income/:id",FinancialController.GetByIdIncome)
+//update and get payment
+router.put('/income/:incomeId/resident/payment', auth,FinancialController.updatePaymentModeIncome);
 //delete income
 router.delete("/income/:id",FinancialController.DeleteIncome)
 //update income
 router.patch("/income/:id",FinancialController.UpdateIncome)
+//get done income
+router.get("/doneincome",FinancialController.GetIncomeDone)
 module.exports=router;
