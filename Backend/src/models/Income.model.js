@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, default: mongoose } = require("mongoose");
 
 const incomeschema= new Schema({
     title:{
@@ -21,10 +21,33 @@ const incomeschema= new Schema({
         type:Number,
         required:true
     },
+    members:[{
+        resident: {
+          type: mongoose.SchemaTypes.ObjectId,
+          refPath: 'residentList.residentType', 
+          required: true,
+        },
+        residentType: {
+          type: String,
+          
+          enum: ["Owner", "Tenante"], 
+        },
+        paymentStatus: {
+          type: String,
+          enum: ["pending", "done"],
+          default: "pending",
+        },
+        paymentMode: {
+          type: String,
+          enum: ["online", "cash"],
+          default: "cash",
+        },
+       
+    }],
     member:{
         type:Number,
         default:0
-    }
+       }
 
 },{timestamps:true})
 const Income=model("Income",incomeschema)
