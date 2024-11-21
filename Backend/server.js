@@ -34,6 +34,7 @@ const VisitorRoutes=require("./src/routes/visitor.route.js")
 const AlertRoutes= require("./src/routes/alert.route.js")
 const chatRoute=require("./src/routes/chat.route.js")
 const PenaltyController=require("./src/controller/Financial.controller.js")
+const PollRoutes=require("./src/routes/poll.route.js")
 
 
 //appply penlty
@@ -75,6 +76,8 @@ app.use("/api/v2/visitor",VisitorRoutes)
 app.use("/api/v2/alert",AlertRoutes)
 //chat api
 app.use("/api/v2/chat",chatRoute)
+//poll apis
+app.use("/api/v2/poll",PollRoutes)
 
 require("./src/utils/chatIo.js")
 
