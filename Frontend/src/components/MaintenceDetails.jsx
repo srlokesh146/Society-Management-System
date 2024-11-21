@@ -65,7 +65,7 @@ function MaintenceDetails() {
                         <h6 className="text-[#202224] font-semibold text-[16px] leading-2 max-sm:text-[14px] max-md:text-[18px] mb-[5px]">
                           {card.title}
                         </h6>
-                        <h3 className={`font-bold text-[26px] max-sm:text-[20px] max-sm:font-medium max-md:text-[20px] max-lg:text-[20px] max-xl:text-[20px] max-2xl:text-[20px] ${card.textColor}`}>
+                        <h3 className={`font-semibold text-[26px] max-sm:text-[20px] max-sm:font-medium max-md:text-[20px] max-lg:text-[20px] max-xl:text-[20px] max-2xl:text-[20px] ${card.textColor}`}>
                           <span className="text-[26px] mr-[5px]">{` ₹`}</span>
                           <span className="text-[26px]">{card.amount}</span>
                         </h3>

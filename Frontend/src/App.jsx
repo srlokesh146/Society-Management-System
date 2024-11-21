@@ -36,6 +36,9 @@ import Eventtab from "./pages/residentpanel/EventsParticipation/EventTab/Eventta
 import ResidentOwner from "./pages/ResidentPanel/ResidentOwner.jsx";
 import ServiceAndComplaint from "./pages/ResidentPanel/ServiceAndComplaint.jsx";
 import ResidentSecurityProtocol from "./pages/ResidentPanel/ResidentSecurityProtocol.jsx";
+import Maintenceinvoices from "./pages/ResidentPanel/Maintenceinvoices.jsx";
+import InvoicesPage from "./pages/ResidentPanel/InvoicesPage.jsx";
+import OtherIncomeInvoices from "./pages/ResidentPanel/OtherIncomeInvoices.jsx";
 
 function App() {
   const [isSidebaropen, setSidebaropen] = useState(false);
@@ -295,6 +298,31 @@ function App() {
                     </PrivateRoutes>
                   }
                 />
+                <Route
+                  path="/maintenceinvoices"
+                  element={
+                    <PrivateRoutes>
+                      <Maintenceinvoices />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/invoicespage"
+                  element={
+                    <PrivateRoutes>
+                      <InvoicesPage />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/otherincomeinvoices"
+                  element={
+                    <PrivateRoutes>
+                      <OtherIncomeInvoices />
+                    </PrivateRoutes>
+                  }
+                />
+               
               </>
             )}
           </Routes>

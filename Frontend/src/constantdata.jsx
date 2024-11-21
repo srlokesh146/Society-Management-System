@@ -5,7 +5,7 @@ import { FaMoneyBill } from "react-icons/fa6";
 import { RiMoneyDollarBoxFill } from "react-icons/ri";
 import { HiMiniBuildingOffice2 } from "react-icons/hi2";
 import { AiFillSecurityScan } from "react-icons/ai";
-import { FaUserShield, FaBullhorn, FaAddressCard } from "react-icons/fa";
+import { FaUserShield, FaBullhorn, FaAddressCard, FaMoneyCheck } from "react-icons/fa";
 import { RiMessageFill } from "react-icons/ri";
 import icon1 from "./assets/images/icon-1.png";
 import moneyrecive from "./assets/images/money-recive.png";
@@ -77,6 +77,7 @@ export const sidebarItems = [
     label: "Announcement",
     icon: <FaBullhorn />,
   },
+
 ];
 
 export const securityBar = [
@@ -101,27 +102,38 @@ export const residentItems = [
   {
     id: 2,
     path: "/residentowner",
-    label: "Personal Detail",
+    label: "Personal Details",
     icon: <TbLayoutDashboardFilled />,
   },
   {
     id: 3,
-    path: "/eventsparticipate",
-    label: "Events Participation",
-    icon: <MdEvent />,
-  },
-  {
-    id: 4,
     path: "/serviceandcomplaint",
     label: "Service And Complaint",
     icon: <FaAddressCard />,
   },
   {
+    id: 4,
+    path: "/eventsparticipate",
+    label: "Events Participation",
+    icon: <MdEvent />,
+  },
+  {
     id: 5,
+    label: "Payment Portol",
+    icon: <FaMoneyCheck />,
+    subItems: [
+      { id: 6, path: "/maintenceinvoices", label: "Maintence Invoices" },
+      { id: 7, path: "/otherincomeinvoices", label: "Other Income Invoices" },
+    ],
+  },
+  {
+    id: 8,
     path: "/residentsecurityprotocol",
     label: "Security Protocols",
     icon: <FaAddressCard />,
   },
+ 
+
 ];
 
 export const Navigationbar = [
@@ -147,6 +159,9 @@ export const Navigationbar = [
   { path: "/residentowner", label: "PersonalDetails" },
   { path: "/serviceandcomplaint", label: "ServiceAndComplaint" },
   { path: "/residentsecurityprotocol", label: "SecurityProtocols" },
+  { path: "/maintenceinvoices", label: "maintenceinvoices" },
+  { path: "/invoicespage", label: "InvoicesPage" },
+  { path: "/otherincomeinvoices", label: "otherincomeinvoices" },
 ];
 
 export const cardData = [
