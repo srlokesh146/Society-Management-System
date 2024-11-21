@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
+import PayMentMathodModal from './modal/PayMentMathodModal';
+import PayMenCard from './modal/PayMenCard';
 
 
 const maintence = [
@@ -37,6 +39,13 @@ const maintence = [
 ];
 
 function PendingMaintence() {
+    const [isPaymentNowOpen, setIsPaymantNowOpen] = useState(false);
+    const [isPaymenCardOpen, setisPaymenCardOpen] = useState(false);
+
+    const handlePendingMaintence = () =>{
+        setIsPaymantNowOpen(true)
+    };
+
     return (
         <div>
             <div className="bg-white p-6  mt-6 rounded-lg shadow-sm">
@@ -78,13 +87,30 @@ function PendingMaintence() {
                                         <span className="text-[15px] ml-40 text-green-600 ">{` ₹`}</span>
                                         <p className=" text-green-600">{maintence.total}</p>
                                     </div>
-                                    <button className='h-14 bg-custom-gradient text-white font-bold  rounded-xl w-full border '>Pay Now</button>
+                                    <button
+                                      onClick={handlePendingMaintence}
+                                    className='h-14 bg-custom-gradient text-white font-bold  rounded-xl w-full border '>Pay Now</button>
                                 </div>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
+            <PayMentMathodModal
+            isOpen={isPaymentNowOpen}
+            onClose={() => {
+              setIsPaymantNowOpen(false);
+            
+            }}
+            setisPaymenCardOpen={() => setisPaymenCardOpen(true)}
+          />
+          <PayMenCard
+            isOpen={isPaymenCardOpen}
+            onClose={() => {
+              setisPaymenCardOpen(false);
+              
+            }}
+          />
         </div>
     )
 }
