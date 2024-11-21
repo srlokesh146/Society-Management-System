@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaTimes } from "react-icons/fa";
-import { GetComplaints } from "../../services/complaintService";
-import toast from "react-hot-toast";
+
 
 const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
@@ -17,9 +16,20 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
   });
   const [formErrors, setFormErrors] = useState({});
 
+  const isFormValid = () => {
+    return (
+      formData.complainer &&
+      formData.name &&
+      formData.description &&
+      formData.wing &&
+      formData.unit &&
+      formData.priority &&
+      formData.status
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     onSubmit(formData);
     setFormData({
       complainer: "",
@@ -40,17 +50,6 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
     }));
   };
 
-  const isFormValid = () => {
-    return (
-      formData.complainer &&
-      formData.name &&
-      formData.description &&
-      formData.wing &&
-      formData.unit &&
-      formData.priority &&
-      formData.status
-    );
-  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999]">

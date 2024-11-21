@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { FaTimes, FaCalendarAlt } from "react-icons/fa";
 
 const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
-
-  const [selectedPriority, setSelectedPriority] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("");
 
   const [formData, setFormData] = useState({
     requesterName: "",
@@ -13,31 +10,18 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
     date: "",
     wing: "",
     unit: "",
-    
+    priority: "",
+    status: "",
   });
 
-  // Check if form is valid
-  const isFormValid = () => {
-  
-    return (
-      formData.requesterName &&
-      formData.requestName &&
-      formData.date &&
-      formData.wing &&
-      formData.unit &&
-      selectedPriority &&
-      selectedStatus
-    );
-  };
-
-  // Handle input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const isFormValid =
+    formData.requesterName &&
+    formData.requestName &&
+    formData.date &&
+    formData.wing &&
+    formData.unit &&
+    formData.priority &&
+    formData.status;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -50,11 +34,20 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
       date: formData.get("date"),
       wing: formData.get("wing"),
       unit: formData.get("unit"),
-      priority: selectedPriority,
-      status: selectedStatus,
+      priority: formData.get("priority"),
+      status: formData.get("status"),
     };
 
     onSubmit(RequestData);
+  };
+
+  // Handle input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   return (
@@ -62,7 +55,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
       <div className="bg-white rounded-lg w-full max-w-[410px] p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-gray-800">Create Request</h2>
-              
+
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
@@ -72,7 +65,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
         </div>
         <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Complainant Name */}
+          {/* Requester Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Requester Name*
@@ -96,6 +89,8 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
             <input
               type="text"
               name="requestName"
+              value={formData.requestName}
+              onChange={handleInputChange}
               className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500"
               placeholder="Enter name"
               required
@@ -110,6 +105,8 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
             <input
               type="text"
               name="description"
+              value={formData.description}
+              onChange={handleInputChange}
               className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500"
               placeholder="Enter description"
               required
@@ -145,6 +142,8 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
               <input
                 type="text"
                 name="wing"
+                value={formData.wing}
+                onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500"
                 placeholder="Enter wing"
                 required
@@ -157,6 +156,8 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
               <input
                 type="text"
                 name="unit"
+                value={formData.unit}
+                onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500"
                 placeholder="Enter unit"
                 required
@@ -176,15 +177,15 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
                     type="radio"
                     name="priority"
                     value={priority}
-                    checked={selectedPriority === priority}
-                    onChange={() => setSelectedPriority(priority)}
+                    checked={formData.priority === priority}
+                    onChange={handleInputChange}
                     className="hidden"
                     required
                   />
                   <span
                     className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[113px] text-[14px] cursor-pointer
                     ${
-                      selectedPriority === priority
+                      formData.priority === priority
                         ? "border-[#FF6B07] bg-white font-medium"
                         : ""
                     }
@@ -193,12 +194,12 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
                     <div
                       className={`w-4 h-4 rounded-full border-2 flex items-center justify-center 
                       ${
-                        selectedPriority === priority
+                        formData.priority === priority
                           ? "border-orange-500"
                           : "border-gray-300"
                       }`}
                     >
-                       {selectedPriority === priority && (
+                      {formData.priority === priority && (
                         <div className="w-2 h-2 bg-[#FF6B07] rounded-full"></div>
                       )}
                     </div>
@@ -221,15 +222,15 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
                     type="radio"
                     name="status"
                     value={status}
-                    checked={selectedStatus === status}
-                    onChange={() => setSelectedStatus(status)}
+                    checked={formData.status === status}
+                    onChange={handleInputChange}
                     className="hidden"
                     required
                   />
                   <span
                     className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[113px] text-sm cursor-pointer
                     ${
-                      selectedStatus === status
+                      formData.status === status
                         ? "border-[#FF6B07] bg-white font-medium"
                         : ""
                     }
@@ -238,12 +239,12 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
                     <div
                       className={`w-4 h-4 rounded-full border-2 flex items-center justify-center 
                       ${
-                        selectedStatus === status
+                        formData.status === status
                           ? "border-orange-500"
                           : "border-gray-300"
                       }`}
                     >
-                      {selectedStatus === status && (
+                      {formData.status === status && (
                         <div className="w-2 h-2 bg-[#FF6B07] rounded-full"></div>
                       )}
                     </div>
@@ -267,11 +268,10 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
               type="submit"
               className={`w-full px-4 py-3 text-md font-medium rounded-md transition-all duration-300
                 ${
-                    isFormValid()
+                  isFormValid
                     ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white hover:opacity-90"
                     : "bg-[#F6F8FB] text-black"
                 }`}
-                
             >
               Create
             </button>

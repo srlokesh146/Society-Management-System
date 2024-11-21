@@ -1,12 +1,11 @@
 import React from "react";
 import { FaTimes } from "react-icons/fa";
 
-const DeleteConfirmModal = ({ isOpen, onClose, complaint, onDelete }) => {
+const DeleteConfirmModal = ({ isOpen, onClose, complaint, onConfirm }) => {
   if (!isOpen) return null;
 
   const handleDelete = (id) => {
-    onDelete(id);
-    onClose();
+    onConfirm(id);
   };
 
   return (

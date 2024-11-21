@@ -1,11 +1,11 @@
-import React from 'react';
-import { FaTimes } from 'react-icons/fa';
+import React from "react";
+import { FaTimes } from "react-icons/fa";
 
-const DeleteRequestModal = ({ isOpen, onClose, Request, onDelete }) => {
+const DeleteRequestModal = ({ isOpen, onClose, request, onConfirm }) => {
   if (!isOpen) return null;
 
   const handleDelete = () => {
-    onDelete(Request._id);
+    onConfirm(request._id);
     onClose();
   };
 
@@ -13,14 +13,19 @@ const DeleteRequestModal = ({ isOpen, onClose, Request, onDelete }) => {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999]">
       <div className="bg-white rounded-lg w-full p-6 max-w-[410px]">
         <div className="flex justify-between items-center mb-[10px]">
-          <h2 className="text-xl font-semibold text-gray-800">Delete Request ?</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <h2 className="text-xl font-semibold text-gray-800">
+            Delete Request ?
+          </h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
             <FaTimes size={20} />
           </button>
         </div>
         <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
         <p className="text-gray-600 mb-6">
-          Are you sure you want to delete this Request? 
+          Are you sure you want to delete this Request?
         </p>
 
         <div className="flex justify-center gap-3 mt-6">
@@ -42,4 +47,4 @@ const DeleteRequestModal = ({ isOpen, onClose, Request, onDelete }) => {
   );
 };
 
-export default  DeleteRequestModal;
+export default DeleteRequestModal;
