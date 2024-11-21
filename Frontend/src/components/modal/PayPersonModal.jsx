@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PayNowModal from "./PayNowModal";
 
-const PayPersonModal = ({ isOpen, selectedMembers, onClose, setIsPayNowOpen, perPersonAmount, totalAmount, handleChange, setIsAccepted }) => {
+const PayPersonModal = ({ isOpen, selectedMembers, onClose, setIsPayNowOpen, perPersonAmount, totalAmount, handleChange }) => {
 
     const handleGetPass = () => {
         setIsPayNowOpen(true);
@@ -34,7 +34,7 @@ const PayPersonModal = ({ isOpen, selectedMembers, onClose, setIsPayNowOpen, per
                         onChange={handleChange}
                         className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black w-full"
                     >
-                        {[1, 2, 3, 4, 5].map((num) => (
+                        {[0, 1, 2, 3, 4, 5].map((num) => (
                             <option key={num} value={num}>
                                 {num}
                             </option>

@@ -77,6 +77,16 @@ export const sidebarItems = [
     label: "Announcement",
     icon: <FaBullhorn />,
   },
+  {
+    id: 18,
+    label: "Community",
+    icon: <AiFillSecurityScan />,
+    subItems: [
+      { id: 19, path: "/accessforums", label: "Access Forums" },
+      { id: 20, path: "/polls", label: "Polls" },
+      { id: 21, path: "/communitiesdiscussion", label: "Communities Discussion" },
+    ],
+  },
 ];
 
 export const securityBar = [

@@ -36,8 +36,10 @@ export default function PayMenCard({ isOpen, onClose }) {
       isValid = false;
     }
 
+  
+    const cardNumberSpaces = cardNumber.replace(/\s/g, '');
     const cardNumberPattern = /^[0-9]{16}$/;
-    if (!cardNumber || !cardNumberPattern.test(cardNumber)) {
+    if (!cardNumber || !cardNumberPattern.test(cardNumberSpaces)) {
       newErrors.cardNumber = 'Card Number must be 16 digits';
       isValid = false;
     }
