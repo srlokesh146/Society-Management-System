@@ -36,6 +36,8 @@ import Eventtab from "./pages/residentpanel/EventsParticipation/EventTab/Eventta
 import ResidentOwner from "./pages/ResidentPanel/ResidentOwner.jsx";
 import ServiceAndComplaint from "./pages/ResidentPanel/ServiceAndComplaint.jsx";
 import ResidentSecurityProtocol from "./pages/ResidentPanel/ResidentSecurityProtocol.jsx";
+import AccessForums from "./pages/residentpanel/Community/AccessForums.jsx";
+import Polls from "./pages/residentpanel/Community/Polls.jsx";
 
 function App() {
   const [isSidebaropen, setSidebaropen] = useState(false);
@@ -70,9 +72,8 @@ function App() {
       )}
 
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 main ${
-          isSidebaropen && shouldRenderSidebarAndNavbar ? "ml-[280px]" : "ml-0"
-        }`}
+        className={`flex-1 flex flex-col transition-all duration-300 main ${isSidebaropen && shouldRenderSidebarAndNavbar ? "ml-[280px]" : "ml-0"
+          }`}
       >
         {shouldRenderSidebarAndNavbar && (
           <PrivateRoutes>
@@ -81,11 +82,10 @@ function App() {
         )}
 
         <div
-          className={`flex-1 ${
-            shouldRenderSidebarAndNavbar
+          className={`flex-1 ${shouldRenderSidebarAndNavbar
               ? "p-6 max-sm:p-4 overflow-auto max-md:overflow-auto"
               : "lg:overflow-hidden max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-y-auto"
-          } bg-gray-100 max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-auto`}
+            } bg-gray-100 max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-auto`}
         >
           <Routes>
             {/* Public Routes without Sidebar and Navbar */}
@@ -292,6 +292,22 @@ function App() {
                   element={
                     <PrivateRoutes>
                       <ResidentSecurityProtocol />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/accessforums"
+                  element={
+                    <PrivateRoutes>
+                      <AccessForums />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/polls"
+                  element={
+                    <PrivateRoutes>
+                      <Polls />
                     </PrivateRoutes>
                   }
                 />

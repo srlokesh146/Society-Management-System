@@ -48,7 +48,7 @@ const PayNowModal = ({ isOpen, onClose, selectedMembers, totalAmount, perPersonA
                         Cancel
                     </button>
                     <button
-                         onClick={handlePaymentmathod}
+                        onClick={handlePaymentmathod}
                         className="flex-1 px-4 py-2 bg-custom-gradient text-white rounded-lg hover:bg-[#FF5500]"
                     >
                         Pay Now
