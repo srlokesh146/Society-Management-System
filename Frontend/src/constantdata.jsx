@@ -106,15 +106,15 @@ export const residentItems = [
   },
   {
     id: 3,
-    path: "/eventsparticipate",
-    label: "Events Participation",
-    icon: <MdEvent />,
-  },
-  {
-    id: 4,
     path: "/serviceandcomplaint",
     label: "Service And Complaint",
     icon: <FaAddressCard />,
+  },
+  {
+    id: 4,
+    path: "/eventsparticipate",
+    label: "Events Participation",
+    icon: <MdEvent />,
   },
   {
     id: 5,
