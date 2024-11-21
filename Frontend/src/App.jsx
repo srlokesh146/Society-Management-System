@@ -39,6 +39,9 @@ import ResidentSecurityProtocol from "./pages/ResidentPanel/ResidentSecurityProt
 import Maintenceinvoices from "./pages/ResidentPanel/Maintenceinvoices.jsx";
 import InvoicesPage from "./pages/ResidentPanel/InvoicesPage.jsx";
 import OtherIncomeInvoices from "./pages/ResidentPanel/OtherIncomeInvoices.jsx";
+import AccessForums from "./pages/residentpanel/Community/AccessForums.jsx";
+import Polls from "./pages/residentpanel/Community/Polls.jsx";
+
 
 function App() {
   const [isSidebaropen, setSidebaropen] = useState(false);
@@ -73,9 +76,8 @@ function App() {
       )}
 
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 main ${
-          isSidebaropen && shouldRenderSidebarAndNavbar ? "ml-[280px]" : "ml-0"
-        }`}
+        className={`flex-1 flex flex-col transition-all duration-300 main ${isSidebaropen && shouldRenderSidebarAndNavbar ? "ml-[280px]" : "ml-0"
+          }`}
       >
         {shouldRenderSidebarAndNavbar && (
           <PrivateRoutes>
@@ -84,11 +86,10 @@ function App() {
         )}
 
         <div
-          className={`flex-1 ${
-            shouldRenderSidebarAndNavbar
+          className={`flex-1 ${shouldRenderSidebarAndNavbar
               ? "p-6 max-sm:p-4 overflow-auto max-md:overflow-auto"
               : "lg:overflow-hidden max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-y-auto"
-          } bg-gray-100 max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-auto`}
+            } bg-gray-100 max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-auto`}
         >
           <Routes>
             {/* Public Routes without Sidebar and Navbar */}
@@ -303,6 +304,13 @@ function App() {
                   element={
                     <PrivateRoutes>
                       <Maintenceinvoices />
+                      </PrivateRoutes>
+                  <Route   
+                  path="/accessforums"
+                  element={
+                    <PrivateRoutes>
+                      <AccessForums />
+
                     </PrivateRoutes>
                   }
                 />
@@ -322,7 +330,15 @@ function App() {
                     </PrivateRoutes>
                   }
                 />
-               
+               <Route
+                  path="/polls"
+                  element={
+                    <PrivateRoutes>
+                      <Polls />
+                    </PrivateRoutes>
+                  }
+                />
+
               </>
             )}
           </Routes>

@@ -21,15 +21,15 @@ const Navbar = () => {
   const [isPayNowOpen, setIsPayNowOpen] = useState(false);
   const [isPaymentNowOpen, setIsPaymantNowOpen] = useState(false);
   const [isPaymenCardOpen, setisPaymenCardOpen] = useState(false);
-  const [selectedMembers, setSelectedMembers] = useState(0);
+  const [selectedMembers, setSelectedMembers] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAccepted, setIsAccepted] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
+  const perPersonAmount = 1500;
   const baseAmount = 1500;
-  const perPersonAmount = baseAmount + selectedMembers * 1500;
-  const totalAmount = perPersonAmount * selectedMembers;
+  const totalAmount = baseAmount * selectedMembers;
 
   const {
     isDashboard,

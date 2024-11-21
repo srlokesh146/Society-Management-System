@@ -264,6 +264,10 @@ ul::-webkit-scrollbar-thumb {
   }
 } */
 
+.input::placeholder {
+  padding-left: 15px;
+  font-size: 30px;
+}
 
 
 
