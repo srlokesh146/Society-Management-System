@@ -11,14 +11,11 @@ import speaker from "../../../assets/images/speaker.svg";
 
 export default function AccessForums() {
     const [message, setMessage] = useState("");
-    const [selectedChatId, setSelectedChatId] = useState(null);
+    const [selectedChatId, setSelectedChatId] = useState(3); // Default to the third chat (Arlene McCoy)
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
     const [discussions, setDiscussions] = useState([
-        { id: 1, message: "Hi there, How are you?", time: "9:20" },
-        { id: 2, message: "Waiting for your reply. As I have to go back soon. I have to travel long distance.", time: "9:22" },
-        { id: 3, message: "Hi, I am coming there in few minutes. Please wait!! I am in taxi right now.", time: "9:30" },
-        { id: 4, message: "PDF", time: "9:45", file: "2.3 MB" },
-        { id: 5, message: "Sure, see you soon.", time: "10:00" },
+        { id: 1, sender: "Michael John", message: "Hello! How are you?", time: "10:25", isReceived: true },
+        { id: 2, sender: "You", message: "I am good, thanks!", time: "10:30", isReceived: false }
     ]);
 
     const chats = [
@@ -28,11 +25,27 @@ export default function AccessForums() {
         { id: 4, name: "Esther Howard", message: "Hello, Esther", time: "10:27" },
     ];
 
+    const sampleDiscussions = {
+        1: [
+            { id: 1, sender: "Michael John", message: "Hello! How are you?", time: "10:25", isReceived: true },
+        ],
+        2: [
+            { id: 1, sender: "Jenny Wilson", message: "Good Morning!", time: "7:05", isReceived: true },
+        ],
+        3: [
+            { id: 1, sender: "Arlene McCoy", message: "Hi there, How are you?", time: "9:20", isReceived: true },
+            { id: 2, sender: "You", message: "I’m good, how about you?", time: "9:25", isReceived: false },
+        ],
+        4: [
+            { id: 1, sender: "Esther Howard", message: "See you at the meeting!", time: "10:30", isReceived: true },
+        ],
+    };
+
     const handleSendMessage = () => {
         if (message.trim()) {
-            setDiscussions([
-                ...discussions,
-                { id: discussions.length + 1, message, time: new Date().toLocaleTimeString() },
+            setDiscussions((prev) => [
+                ...prev,
+                { id: prev.length + 1, sender: "You", message, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), isReceived: false },
             ]);
             setMessage("");
         }
@@ -44,7 +57,8 @@ export default function AccessForums() {
 
     const handleChatClick = (chatId) => {
         setSelectedChatId(chatId);
-        setMessage("");
+        setDiscussions(sampleDiscussions[chatId] || []); // Load discussions for the selected chat
+        setMessage(""); // Clear input field
     };
 
     return (
@@ -61,11 +75,12 @@ export default function AccessForums() {
                         />
                         <FiSearch className="absolute left-3 top-[14px] text-gray-400 text-[20px] mr-[20px]" />
                     </div>
-                    <div className='overflow-x-auto ps-[20px] custom-scrollbar h-[70vh]'>
+                    <div className="overflow-x-auto ps-[20px] custom-scrollbar h-[70vh]">
                         {chats.map((chat) => (
                             <div
                                 key={chat.id}
-                                className={`flex justify-between items-center p-2 hover:bg-gray-50 transition-all duration-300 py-[12px] ${selectedChatId === chat.id ? 'bg-gray-200' : ''}`}
+                                className={`flex justify-between items-center p-2 transition-all duration-300 py-[12px] ${selectedChatId === chat.id ? 'bg-gray-200' : 'hover:bg-gray-50'
+                                    }`}
                                 onClick={() => handleChatClick(chat.id)}
                             >
                                 <div className="flex items-center">
@@ -88,61 +103,48 @@ export default function AccessForums() {
 
             {/* Discussions Section */}
             <div className="flex-1 flex flex-col">
+                {/* Header Section */}
                 <div className="flex justify-between items-center bg-white py-[18px] px-6 rounded-tr-[15px]">
-                    <>
-                        <div className="flex items-center justify-between">
-                            <img
-                                className="h-10 w-10 rounded-full object-cover mr-[19px]"
-                                src={Avatar}
-                                alt="Avatar"
-                            />
-                            <div>
-                                <h4 className="font-semibold">Arlene McCoy</h4>
-                                <span className="text-xs text-gray-400">9:20</span>
+                    <div className="flex items-center">
+                        <img
+                            className="h-10 w-10 rounded-full object-cover mr-[19px]"
+                            src={Avatar}
+                            alt="Avatar"
+                        />
+                        <div>
+                            <h4 className="font-semibold">{chats.find(chat => chat.id === selectedChatId)?.name}</h4> {/* Header shows the selected chat's name */}
+                            <span className="text-xs text-gray-400">Active</span>
+                        </div>
+                    </div>
+                    <div className="relative flex items-center space-x-4">
+                        <img src={videoicon} alt='videoicon' className="text-gray-500 text-2xl cursor-pointer hover:text-blue-500" />
+                        <img src={callicon} onClick={toggleDropdown} className="text-gray-500 text-2xl cursor-pointer hover:text-blue-500" />
+                        {isDropdownVisible && (
+                            <div className="absolute top-[40px] right-0 bg-white shadow-lg rounded-lg w-[112px] p-[20px] z-10">
+                                <ul className="space-y-2">
+                                    <li className="text-[#202224] hover:text-blue-500 cursor-pointer font-semibold mb-[10px]">Copy</li>
+                                    <li className="text-[#202224] hover:text-blue-500 cursor-pointer font-semibold">Forward</li>
+                                </ul>
                             </div>
-                        </div>
-                        <div className="relative flex items-center space-x-4">
-                            <img src={videoicon} alt='videoicon'
-                                className="text-gray-500 text-2xl cursor-pointer hover:text-blue-500"
-                            />
-                            <img src={callicon} onClick={toggleDropdown} className="text-gray-500 text-2xl cursor-pointer hover:text-blue-500" />
-                            {isDropdownVisible && (
-                                <div className="absolute top-[40px] right-0 bg-white shadow-lg rounded-lg w-[112px] p-[20px] z-10">
-                                    <ul className="space-y-2">
-                                        <li className="text-[#202224] hover:text-blue-500 cursor-pointer font-semibold mb-[10px]">Copy</li>
-                                        <li className="text-[#202224] hover:text-blue-500 cursor-pointer font-semibold">Forward</li>
-                                    </ul>
-                                </div>
-                            )}
-                            <img src={dottedicon} alt='dottedicon'
-                                className="text-gray-500 text-2xl cursor-pointer hover:text-blue-500"
-                            />
-                        </div>
-                    </>
+                        )}
+                        <img src={dottedicon} alt='dottedicon' className="text-gray-500 text-2xl cursor-pointer hover:text-blue-500" />
+                    </div>
                 </div>
 
                 {/* Chat Messages */}
-                <div className="overflow-x-auto ps-[20px] custom-scrollbar h-[70vh] bg-[#F4F4F4]">
-                    {selectedChatId && discussions.map((chat) => (
-                        selectedChatId === chat.id && (
+                <div className="overflow-x-auto p-[20px] custom-scrollbar h-[73vh] bg-[#F4F4F4]">
+                    {discussions.map((chat) => (
+                        <div
+                            key={chat.id}
+                            className={`flex ${chat.isReceived ? 'justify-start' : 'justify-end'} mb-4`}
+                        >
                             <div
-                                key={chat.id}
-                                className="flex justify-between items-center p-2 transition-all duration-300 py-[12px]"
+                                className={`max-w-[70%] p-3 rounded-lg ${chat.isReceived ? 'bg-gray-200 text-left' : 'bg-blue-500 text-white text-right'}`}
                             >
-                                <div className="flex items-center justify-between">
-                                    <div>
-                                        <h4 className="font-semibold">{chat.sender}</h4>
-                                        <p className="text-sm text-gray-600 bg-gray-200 p-[15px] rounded-[10px] text-wrap">
-                                            {chat.message}
-                                        </p>
-                                        <span className="text-xs text-gray-400">{chat.time}</span>
-                                        {chat.file && (
-                                            <p className="text-xs text-gray-400 mt-1">{chat.file}</p>
-                                        )}
-                                    </div>
-                                </div>
+                                <p className="text-sm">{chat.message}</p>
+                                <span className="text-xs text-gray-400 block mt-2">{chat.time}</span>
                             </div>
-                        )
+                        </div>
                     ))}
                 </div>
 
@@ -150,21 +152,26 @@ export default function AccessForums() {
                 <div className="flex items-center p-[20px] bg-white border-t relative">
                     <input
                         type="text"
-                        className="w-full p-2 rounded-full shadow-[0px_7px_15px_0px_#0000000D] py-[9px] ps-[10px] pl-[40px] relative"
+                        className="w-full p-2 rounded-full shadow-[0px_7px_15px_0px_#0000000D] py-[9px] ps-[40px] pl-[40px] relative"
                         placeholder="Type a message..."
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                     />
-                    <img
-                        src={Smiley}
-                        alt="Smiley"
-                        className="absolute left-[40px] translate-x-[-20px] cursor-pointer"
+                    <img src={Smiley} alt="Smiley" className="absolute left-[40px] translate-x-[-20px] cursor-pointer" />
+                    <img src={camera} alt="Camera Icon" className="absolute right-[40px] translate-x-[-65px] cursor-pointer" />
+                    <label
+                        htmlFor="file-upload"
+                        className="cursor-pointer absolute right-[15px] translate-x-[-130px]"
+                    >
+                        <img src={Paperclip} alt="Attachment Icon" />
+                    </label>
+                    <input
+                        id="file-upload"
+                        type="file"
+                        className="hidden"
                     />
-                    <img src={camera} alt="" className='absolute right-[40px] translate-x-[-65px] cursor-pointer'/>
-                    <img src={Paperclip} alt="" className='absolute right-[40px] translate-x-[-105px] cursor-pointer'/>
-                    <div className='cursor-pointer'>
-                        <img src={speaker} alt="" />
-                    </div>
+                    <img src={speaker} alt="Speaker Icon" className="absolute right-[15px] cursor-pointer" />
                 </div>
             </div>
         </div>
