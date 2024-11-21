@@ -77,9 +77,6 @@ export const sidebarItems = [
     label: "Announcement",
     icon: <FaBullhorn />,
   },
-
-
-
   {
     id: 18,
     label: "Community",
@@ -175,6 +172,7 @@ export const Navigationbar = [
   { path: "/maintenceinvoices", label: "maintenceinvoices" },
   { path: "/invoicespage", label: "InvoicesPage" },
   { path: "/otherincomeinvoices", label: "otherincomeinvoices" },
+  { path: "/polls", label: "polls" },
 ];
 
 export const cardData = [

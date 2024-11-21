@@ -40,7 +40,8 @@ import Maintenceinvoices from "./pages/ResidentPanel/Maintenceinvoices.jsx";
 import InvoicesPage from "./pages/ResidentPanel/InvoicesPage.jsx";
 import OtherIncomeInvoices from "./pages/ResidentPanel/OtherIncomeInvoices.jsx";
 import AccessForums from "./pages/residentpanel/Community/AccessForums.jsx";
-import Polls from "./pages/residentpanel/Community/Polls.jsx";
+import Polls from "./pages/residentpanel/Community/OwnPolls.jsx";
+import CommunityTab from "./pages/residentpanel/Community/communitytab/CommunityTab.jsx";
 
 
 function App() {
@@ -335,7 +336,7 @@ function App() {
                   path="/polls"
                   element={
                     <PrivateRoutes>
-                      <Polls />
+                      <CommunityTab />
                     </PrivateRoutes>
                   }
                 />
