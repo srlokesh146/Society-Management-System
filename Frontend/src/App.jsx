@@ -305,6 +305,7 @@ function App() {
                     <PrivateRoutes>
                       <Maintenceinvoices />
                       </PrivateRoutes>
+                  }/>
                   <Route   
                   path="/accessforums"
                   element={
