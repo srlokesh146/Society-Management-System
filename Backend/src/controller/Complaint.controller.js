@@ -26,9 +26,10 @@ exports.CreateComplaint= async(req,res)=>{
         description,
         wing,
         unit,
-        priority: priority || "Medium", // Default to "Medium" if not provided
-        status: status || "Pending",    // Default to "Pending" if not provided
-        apply: req.user._id        // This assumes `req.user` is populated by the auth middleware
+        priority: priority || "Medium", 
+        status: status || "Pending",    
+        createdBy: req.user._id, 
+      createdByType: req.user.type,      
     });
 
 
@@ -53,7 +54,7 @@ exports.CreateComplaint= async(req,res)=>{
 exports.GetComplaints = async (req, res) => {
   try {
     const complaints = await Complaint.find({})
-      .populate("apply", "profileImage") 
+      .populate("createdBy", "profileImage") 
       .sort({ wing: 1, unit: 1 }); 
 
     return res.status(200).json({
@@ -68,7 +69,36 @@ exports.GetComplaints = async (req, res) => {
     });
   }
 };
+//Login user get Complaint
+exports.getUserComplaints = async (req, res) => {
+  try {
+    const loggedInUserId = req.user.id;
+    const userType = req.user.type;
 
+    const complaints = await Complaint.find({
+      createdBy: loggedInUserId,
+      createdByType: userType
+    })
+    .populate({
+      path: "createdBy",
+      select: "name profileImage", 
+    })
+    
+
+    console.log("User's Complaints:", complaints);
+
+    return res.status(200).json({
+      success: true,
+      data: complaints,
+    });
+  } catch (error) {
+    console.error("Error fetching complaints:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching complaints",
+    });
+  }
+};
 //filtering apis 
 exports.filterComplaint = async (req, res) => {
   try {
@@ -109,13 +139,12 @@ exports.filterComplaint = async (req, res) => {
     });
   }
 };
-
 //get By Id complaint
 exports.GetByIdComplaints = async (req, res) => {
   try {
     const complaintid=req.params.id
     const complaints = await Complaint.findById(complaintid)
-      .populate("apply", "profileImage") 
+      .populate("createdBy", "profileImage") 
       .sort({ wing: 1, unit: 1 }); 
 
     return res.status(200).json({
@@ -194,8 +223,6 @@ exports.UpdateComplaint=async(req,res)=>{
      });
   }
 }
-
-
 //create request
 exports.CreateRequest= async(req,res)=>{
   try {
@@ -226,7 +253,8 @@ exports.CreateRequest= async(req,res)=>{
        unit,
        priority: priority || "Medium", 
        status: status || "Open",    
-       apply: req.user._id        
+       createdBy: req.user._id, 
+      createdByType: req.user.type,      
    });
 
 
@@ -251,8 +279,8 @@ exports.CreateRequest= async(req,res)=>{
 exports.GetRequest = async (req, res) => {
   try {
     const request = await Request.find({})
-      .populate("apply", "profileImage") // Populate with only Owner_image and Full_name
-      .sort({ wing: 1, unit: 1 }); // Sort by unit in ascending order
+      .populate("createdBy", "profileImage") 
+      .sort({ wing: 1, unit: 1 }); 
 
     return res.status(200).json({
       success: true,
@@ -266,12 +294,41 @@ exports.GetRequest = async (req, res) => {
     });
   }
 };
+//Login user adding Complaint
+exports.getUserRequest = async (req, res) => {
+  try {
+    const loggedInUserId = req.user.id;
+    const userType = req.user.type; 
+
+    const income = await Request.find({
+      createdBy: loggedInUserId,
+      createdByType: userType
+    })
+    .populate({
+      path: "createdBy",
+      select: "name profileImage", 
+    })
+   
+    console.log("User's income:", income);
+
+    return res.status(200).json({
+      success: true,
+      data: income,
+    });
+  } catch (error) {
+    console.error("Error fetching income:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching income",
+    });
+  }
+};
 //get By Id complaint
 exports.GetByIdRequest = async (req, res) => {
   try {
     const requestid=req.params.id
     const request= await Request.findById(requestid)
-      .populate("apply", "profileImage") 
+      .populate("createdBy", "profileImage") 
       .sort({ wing: 1, unit: 1 }); 
       console.log(request);
       

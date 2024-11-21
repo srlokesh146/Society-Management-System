@@ -40,6 +40,8 @@ router.put('/maintenance/:maintenanceId/resident/payment', auth,FinancialControl
 router.get("/getuserandMaintance",auth,FinancialController.FindByIdUserAndMaintance)
 //apply penlty 
 router.post("/applypenlty", FinancialController.applyPenalty);
+//get done maintannace
+router.get("/donemaintannace",FinancialController.GetMaintananceDone)
 //add income
 router.post("/addincome",FinancialController.CreateIncome)
 //get income
@@ -54,4 +56,6 @@ router.delete("/income/:id",FinancialController.DeleteIncome)
 router.patch("/income/:id",FinancialController.UpdateIncome)
 //get done income
 router.get("/doneincome",FinancialController.GetIncomeDone)
+//FindByIdUserAndMaintance
+router.get("/getuserandIncome",auth,FinancialController.FindByIdUserAndIncome)
 module.exports=router;

@@ -35,10 +35,15 @@ const requestschema= new Schema({
         default:"Open",
         enum:['Open', 'Pending', 'Solve'] 
     },
-    apply: {
+    createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        refPath: 'createdByType', 
+        require:true
     },
+    createdByType: {
+        type: String, 
+        enum: ['Owner', 'Tenante',"User"] 
+    }
     
 },{timestamps:true})
 const Request= model("Request",requestschema)
