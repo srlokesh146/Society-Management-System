@@ -15,7 +15,7 @@ const maintenanceschema = new Schema(
       required: true,
     },
     penaltyDay: {
-      type: String,
+      type: Date,
       required: true,
     },
     residentList: [

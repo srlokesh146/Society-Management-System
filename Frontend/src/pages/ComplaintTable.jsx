@@ -175,7 +175,7 @@ const ComplaintPage = () => {
                           }}
                           className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                         >
-                          <img src={edit} alt=""/>
+                          <img src={edit} alt="" />
                         </button>
                         <button
                           onClick={() => {
@@ -184,7 +184,7 @@ const ComplaintPage = () => {
                           }}
                           className="cursor-pointer text-red-500 hover:text-red-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                         >
-                          <img src={trash} alt=""/>
+                          <img src={trash} alt="" />
                         </button>
                       </div>
                     </td>
@@ -199,19 +199,19 @@ const ComplaintPage = () => {
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
             onSubmit={handleSubmit}
+          />
+          {/* Edit Modal */}
+          {selectedComplaint && (
+            <EditComplaintModal
+              isOpen={isEditModalOpen}
+              onClose={() => {
+                setIsEditModalOpen(false);
+                setSelectedComplaint(null);
+              }}
+              complaint={selectedComplaint}
+              onSubmit={handleUpdate}
             />
-            {/* Edit Modal */}
-            {selectedComplaint && (
-              <EditComplaintModal
-                isOpen={isEditModalOpen}
-                onClose={() => {
-                  setIsEditModalOpen(false);
-                  setSelectedComplaint(null);
-                }}
-                complaint={selectedComplaint}
-                onSubmit={handleUpdate}
-              />
-            )}
+          )}
 
           {/* View Modal */}
           {selectedComplaint && (
@@ -225,7 +225,6 @@ const ComplaintPage = () => {
             />
           )}
 
-
           {/* Delete Modal */}
           {selectedComplaint && (
             <DeleteConfirmModal
@@ -234,7 +233,7 @@ const ComplaintPage = () => {
                 setIsDeleteModalOpen(false);
                 setSelectedComplaint(null);
               }}
-              onDelete={handleDelete}
+              onConfirm={handleDelete}
               complaint={selectedComplaint}
             />
           )}
@@ -251,7 +250,9 @@ const PriorityBadge = ({ priority }) => {
     Low: "bg-[#39973D] text-white font-medium text-xs",
   };
   return (
-    <p className={`flex items-center justify-center w-[100px] h-[31px] rounded-full text-xs ${styles[priority]}`}>
+    <p
+      className={`flex items-center justify-center w-[100px] h-[31px] rounded-full text-xs ${styles[priority]}`}
+    >
       {priority}
     </p>
   );
@@ -269,7 +270,9 @@ const StatusBadge = ({ status }) => {
     status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
 
   return (
-    <p className={`flex items-center justify-center w-[100px] h-[31px]  rounded-full ${styles[capitalizedStatus]}`}>
+    <p
+      className={`flex items-center justify-center w-[100px] h-[31px]  rounded-full ${styles[capitalizedStatus]}`}
+    >
       {capitalizedStatus}
     </p>
   );
