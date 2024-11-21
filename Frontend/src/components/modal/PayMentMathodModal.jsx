@@ -5,9 +5,15 @@ export default function PayMentMathodModal({ onClose, isOpen, setisPaymenCardOpe
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("Master Card");
 
   const handlePaymentCardmathod = () => {
-    setisPaymenCardOpen(true);
-    onClose();
-};
+    if (selectedPaymentMethod === "Cash Payment") {
+      // Just close the modal for cash payment
+      onClose();
+    } else {
+      // Open another modal for card payments
+      setisPaymenCardOpen(true);
+      onClose();
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -73,3 +79,4 @@ export default function PayMentMathodModal({ onClose, isOpen, setisPaymenCardOpe
     </div>
   );
 }
+          
