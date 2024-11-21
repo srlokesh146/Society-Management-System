@@ -71,7 +71,6 @@ const Income = () => {
   const handleContinue = async () => {
     try {
       const response = await ConfirmPassword({ password: password });
-      console.log(response);
       toast.success(response.data.message);
       setIsModalOpen(false);
       setIsMaintenanceModalOpen(true);
@@ -80,6 +79,15 @@ const Income = () => {
     } finally {
       setPassword("");
     }
+  };
+
+  const calculateDate = (daysToAdd) => {
+    const today = new Date(); 
+    today.setDate(today.getDate() + daysToAdd); 
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`; 
   };
 
   const handleApply = async () => {
@@ -116,7 +124,7 @@ const Income = () => {
           maintenanceAmount: +maintenanceAmount,
           penaltyAmount: +penaltyAmount,
           dueDate,
-          penaltyDay,
+          penaltyDay: calculateDate(parseInt(penaltyDay)),
         };
         const response = await CreateMaintenance(data);
         toast.success(response.data.message);
@@ -223,7 +231,7 @@ const Income = () => {
                 key={index}
                 className="flex items-center justify-center relative w-full"
                 style={{
-                  borderRadius: '15px',
+                  borderRadius: "15px",
                 }}
               >
                 <div
@@ -254,7 +262,9 @@ const Income = () => {
                         <h6 className="text-[#202224] font-semibold text-[16px] leading-2 max-sm:text-[14px] max-md:text-[18px] mb-[5px]">
                           {card.title}
                         </h6>
-                        <h3 className={`font-bold text-[26px] max-sm:text-[20px] max-sm:font-medium max-md:text-[20px] max-lg:text-[20px] max-xl:text-[20px] max-2xl:text-[20px] ${card.textColor}`}>
+                        <h3
+                          className={`font-bold text-[26px] max-sm:text-[20px] max-sm:font-medium max-md:text-[20px] max-lg:text-[20px] max-xl:text-[20px] max-2xl:text-[20px] ${card.textColor}`}
+                        >
                           <span className="text-[26px] mr-[5px]">{` ₹`}</span>
                           <span className="text-[26px]">{card.amount}</span>
                         </h3>
@@ -280,20 +290,22 @@ const Income = () => {
       <div>
         <div className="flex flex-1 rounded-md  h-14 mb-0 max-sm:container max-sm:mx-auto max-md:container max-md:mx-auto max-lg:container max-lg:mx-auto max-2xl:container max-2xl:mx-auto">
           <button
-            className={`relative py-2 px-6 ${activeTab === "maintenance"
-              ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-lg text-white"
-              : "bg-gray-100 text-black-600"
-              }`}
+            className={`relative py-2 px-6 ${
+              activeTab === "maintenance"
+                ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-lg text-white"
+                : "bg-gray-100 text-black-600"
+            }`}
             onClick={() => setActiveTab("maintenance")}
           >
             Maintenance
           </button>
-            <button
-            className={`relative py-2 px-6 ${activeTab === "otherIncome"
-              ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white"
-              : "bg-gray-100 text-black-600"
-              }`}
-            onClick={handleOtherIncomeClick} 
+          <button
+            className={`relative py-2 px-6 ${
+              activeTab === "otherIncome"
+                ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white"
+                : "bg-gray-100 text-black-600"
+            }`}
+            onClick={handleOtherIncomeClick}
           >
             Other Income
           </button>
@@ -339,19 +351,20 @@ const Income = () => {
                   <td className="py-3 px-4">{item.date}</td>
                   <td className="py-3 px-4">
                     <span
-                      className={`px-3 py-1 rounded-full inline-flex items-center gap-1.5 w-[113px] h-[31px] justify-center text-[14px] ${item.status === "Tenant"
-                        ? "bg-pink-50 text-pink-500"
-                        : "bg-purple-50 text-purple-500"
-                        }`}
+                      className={`px-3 py-1 rounded-full inline-flex items-center gap-1.5 w-[113px] h-[31px] justify-center text-[14px] ${
+                        item.status === "Tenant"
+                          ? "bg-pink-50 text-pink-500"
+                          : "bg-purple-50 text-purple-500"
+                      }`}
                     >
                       {item.status === "Tenant" ? (
                         <FaUser size={12} />
                       ) : (
                         <img
-                        src={ownerImage}
-                        className="mr-[4px]"
-                        alt="Owner Icon"
-                      />
+                          src={ownerImage}
+                          className="mr-[4px]"
+                          alt="Owner Icon"
+                        />
                       )}
                       {item.status}
                     </span>
@@ -373,19 +386,16 @@ const Income = () => {
                   </td>
                   <td className="py-3   px-4">
                     <span
-                      className={`py-1 px-2.5 rounded-full inline-flex items-center justify-center text-[14px] gap-1.5 font-medium w-[113px] h-[31px] ${item.paymentStatus === "Pending"
-                        ? "bg-yellow-50 text-yellow-500 "
-                        : "bg-green-50 text-green-500"
-                        }`}
+                      className={`py-1 px-2.5 rounded-full inline-flex items-center justify-center text-[14px] gap-1.5 font-medium w-[113px] h-[31px] ${
+                        item.paymentStatus === "Pending"
+                          ? "bg-yellow-50 text-yellow-500 "
+                          : "bg-green-50 text-green-500"
+                      }`}
                     >
                       {item.paymentStatus === "Pending" ? (
                         <BsClockFill size={12} />
                       ) : (
-                        <img
-                        src={verify}
-                        className="mr-[4px]"
-                        alt="verify"
-                      />
+                        <img src={verify} className="mr-[4px]" alt="verify" />
                       )}
                       {item.paymentStatus}
                     </span>
@@ -393,15 +403,16 @@ const Income = () => {
                   <td className="py-3 px-4">
                     <div className="flex items-center">
                       <span
-                        className={`inline-flex items-center justify-center  w-[113px] h-[31px] text-[14px] ${item.payment === "Online"
-                          ? "text-blue-600 bg-blue-50"
-                          : "text-gray-600 bg-gray-50"
-                          } px-2 py-1 rounded-full`}
+                        className={`inline-flex items-center justify-center  w-[113px] h-[31px] text-[14px] ${
+                          item.payment === "Online"
+                            ? "text-blue-600 bg-blue-50"
+                            : "text-gray-600 bg-gray-50"
+                        } px-2 py-1 rounded-full`}
                       >
                         {item.payment === "Online" ? (
-                          <img src={wallet} className="pr-[2.5px]"/>
+                          <img src={wallet} className="pr-[2.5px]" />
                         ) : (
-                          <img src={moneys} className="pr-[2.5px]"/>
+                          <img src={moneys} className="pr-[2.5px]" />
                         )}
                         {item.payment}
                       </span>
@@ -511,7 +522,9 @@ const Income = () => {
                     className="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500"
                     placeholder="0000"
                   />
-                  {submitted && errors.maintenanceAmount && <p className="text-red-500">{errors.maintenanceAmount}</p>}
+                  {submitted && errors.maintenanceAmount && (
+                    <p className="text-red-500">{errors.maintenanceAmount}</p>
+                  )}
                 </div>
               </div>
               <div>
@@ -530,7 +543,9 @@ const Income = () => {
                     className="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500"
                     placeholder="0000"
                   />
-                  {submitted && errors.penaltyAmount && <p className="text-red-500">{errors.penaltyAmount}</p>}
+                  {submitted && errors.penaltyAmount && (
+                    <p className="text-red-500">{errors.penaltyAmount}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -547,7 +562,9 @@ const Income = () => {
                 onChange={(e) => setDueDate(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500"
               />
-              {submitted && errors.dueDate && <p className="text-red-500">{errors.dueDate}</p>}
+              {submitted && errors.dueDate && (
+                <p className="text-red-500">{errors.dueDate}</p>
+              )}
             </div>
 
             {/* Penalty Day Selection */}
@@ -587,7 +604,9 @@ const Income = () => {
                     />
                   </svg>
                 </div>
-                {submitted && errors.penaltyDay && <p className="text-red-500">{errors.penaltyDay}</p>}
+                {submitted && errors.penaltyDay && (
+                  <p className="text-red-500">{errors.penaltyDay}</p>
+                )}
               </div>
             </div>
 
@@ -606,9 +625,9 @@ const Income = () => {
                   !penaltyAmount ||
                   !dueDate ||
                   !penaltyDay
-                  ? "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
-                  : "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
-                  }`}
+                    ? "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
+                    : "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
+                }`}
               >
                 Apply
               </button>
@@ -621,4 +640,3 @@ const Income = () => {
 };
 
 export default Income;
-

@@ -83,7 +83,9 @@ const ReqTracking = () => {
       <div className="bg-white rounded-xl shadow-sm p-4 md:p-6 lg:p-8">
         <div className="flex flex-col gap-4">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 max-sm:items-center">
-            <h1 className="text-[20px] font-semibold text-gray-800 max-xl:mb-0">Create Request</h1>
+            <h1 className="text-[20px] font-semibold text-gray-800 max-xl:mb-0">
+              Create Request
+            </h1>
             <button
               onClick={() => setIsModalOpen(true)}
               className="mt-4 md:mt-0 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white px-4 py-2 rounded-md hover:opacity-90 transition-all duration-300"
@@ -96,14 +98,30 @@ const ReqTracking = () => {
             <table className="w-full text-center">
               <thead>
                 <tr className="bg-indigo-50">
-                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">Requester Name</th>
-                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">Request Name</th>
-                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">Description</th>
-                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">Request Date</th>
-                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">Unit Number</th>
-                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">Priority</th>
-                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">Status</th>
-                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">Action</th>
+                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">
+                    Requester Name
+                  </th>
+                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">
+                    Request Name
+                  </th>
+                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">
+                    Description
+                  </th>
+                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">
+                    Request Date
+                  </th>
+                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">
+                    Unit Number
+                  </th>
+                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">
+                    Priority
+                  </th>
+                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">
+                    Status
+                  </th>
+                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -111,7 +129,11 @@ const ReqTracking = () => {
                   <tr key={Request._id} className="border-b hover:bg-gray-50">
                     <td className="px-4 md:px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <img src={avatar} alt="" className="w-6 h-6 md:w-8 md:h-8 rounded-full" />
+                        <img
+                          src={avatar}
+                          alt=""
+                          className="w-6 h-6 md:w-8 md:h-8 rounded-full"
+                        />
                         <span className="text-sm md:text-md font-medium text-[#4F4F4F]">
                           {Request.requester}
                         </span>
@@ -134,7 +156,9 @@ const ReqTracking = () => {
                       <span className="bg-blue-50 text-blue-600 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">
                         {Request.wing}
                       </span>
-                      <span className="ml-4 mt-0 text-sm font-medium text-gray-600">{Request.unit}</span>
+                      <span className="ml-4 mt-0 text-sm font-medium text-gray-600">
+                        {Request.unit}
+                      </span>
                     </td>
                     <td className="px-4 md:px-6 py-4">
                       <PriorityBadge priority={Request.priority} />
@@ -144,16 +168,31 @@ const ReqTracking = () => {
                     </td>
                     <td className="px-4 md:px-6 py-4">
                       <div className="flex gap-2 justify-center">
-                        <button onClick={() => { setSelectedRequest(Request); setIsViewModalOpen(true); }}
-                          className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]">
+                        <button
+                          onClick={() => {
+                            setSelectedRequest(Request);
+                            setIsViewModalOpen(true);
+                          }}
+                          className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
+                        >
                           <img src={eye} alt="" />
                         </button>
-                        <button onClick={() => { setSelectedRequest(Request); setIsEditModalOpen(true); }}
-                          className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]">
+                        <button
+                          onClick={() => {
+                            setSelectedRequest(Request);
+                            setIsEditModalOpen(true);
+                          }}
+                          className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
+                        >
                           <img src={edit} alt="" />
                         </button>
-                        <button onClick={() => { setSelectedRequest(Request); setIsDeleteModalOpen(true); }}
-                          className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]">
+                        <button
+                          onClick={() => {
+                            setSelectedRequest(Request);
+                            setIsDeleteModalOpen(true);
+                          }}
+                          className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
+                        >
                           <img src={trash} alt="" />
                         </button>
                       </div>
@@ -165,15 +204,42 @@ const ReqTracking = () => {
           </div>
 
           {/* Modals */}
-          <CreateRequestModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={handleSubmit} />
+          <CreateRequestModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            onSubmit={handleSubmit}
+          />
           {selectedRequest && (
-            <ViewRequestModal isOpen={isViewModalOpen} onClose={() => { setIsViewModalOpen(false); setSelectedRequest(null); }} Request={selectedRequest} />
+            <ViewRequestModal
+              isOpen={isViewModalOpen}
+              onClose={() => {
+                setIsViewModalOpen(false);
+                setSelectedRequest(null);
+              }}
+              Request={selectedRequest}
+            />
           )}
           {selectedRequest && (
-            <EditRequestModal isOpen={isEditModalOpen} onClose={() => { setIsEditModalOpen(false); setSelectedRequest(null); }} Request={selectedRequest} onSubmit={handleUpdate} />
+            <EditRequestModal
+              isOpen={isEditModalOpen}
+              onClose={() => {
+                setIsEditModalOpen(false);
+                setSelectedRequest(null);
+              }}
+              Request={selectedRequest}
+              onSubmit={handleUpdate}
+            />
           )}
           {selectedRequest && (
-            <DeleteRequestModal isOpen={isDeleteModalOpen} onClose={() => { setIsDeleteModalOpen(false); setSelectedRequest(null); }} onDelete={handleDelete} Request={selectedRequest} />
+            <DeleteRequestModal
+              isOpen={isDeleteModalOpen}
+              onClose={() => {
+                setIsDeleteModalOpen(false);
+                setSelectedRequest(null);
+              }}
+              onConfirm={handleDelete}
+              request={selectedRequest}
+            />
           )}
         </div>
       </div>
@@ -188,7 +254,9 @@ const PriorityBadge = ({ priority }) => {
     Low: "bg-[#39973D] text-white font-medium text-xs",
   };
   return (
-    <p className={`flex items-center justify-center w-[80px] md:w-[100px] h-[24px] md:h-[31px] rounded-full ${styles[priority]}`}>
+    <p
+      className={`flex items-center justify-center w-[80px] md:w-[100px] h-[24px] md:h-[31px] rounded-full ${styles[priority]}`}
+    >
       {priority}
     </p>
   );
@@ -200,10 +268,13 @@ const StatusBadge = ({ status }) => {
     Solve: "bg-[#39973D1A] text-[#39973D] font-medium text-xs",
     Open: "bg-[#5678E91A] text-[#5678E9] font-medium text-xs",
   };
-  const capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+  const capitalizedStatus =
+    status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
 
   return (
-    <p className={`flex items-center justify-center w-[80px] md:w-[100px] h-[24px] md:h-[31px] rounded-full ${styles[capitalizedStatus]}`}>
+    <p
+      className={`flex items-center justify-center w-[80px] md:w-[100px] h-[24px] md:h-[31px] rounded-full ${styles[capitalizedStatus]}`}
+    >
       {capitalizedStatus}
     </p>
   );
