@@ -905,8 +905,6 @@ exports.FindByIdUserAndIncome = async (req, res) => {
       
     });
 
-    console.log("Income Records before filtering:", incomerecord);
-
     if (!incomerecord || incomerecord.length === 0) {
       return res.status(404).json({
         success: false,
@@ -924,7 +922,6 @@ exports.FindByIdUserAndIncome = async (req, res) => {
       return record;
     }).filter(record => record.members.length > 0);
 
-    console.log("Filtered Income Records:", filteredRecords);
 
     return res.status(200).json({
       success: true,

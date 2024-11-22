@@ -18,3 +18,11 @@ export const DeleteIncome = async (id) =>
 //update Income by id
 export const UpdateIncome = async (id, data) =>
   await api.patch(`/v2/financial/income/${id}`, data);
+
+// get event for spacific user
+export const GetEventsForUser = async () =>
+  await api.get("/v2/financial/getuserandIncome");
+
+// event payment by id
+export const paymemtEvent = async (id, data) =>
+  await api.put(`/v2/financial/income/${id}/resident/payment`, data);

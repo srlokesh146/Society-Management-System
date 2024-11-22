@@ -18,4 +18,4 @@ export const GetPendingMaintenances = async () =>
 
 // Update Maintenance status by id
 export const UpdateMaintenanceStatus = async (id, data) =>
-  await api.post(`/v2/financial/maintenance/${id}/resident/payment`, data);
+  await api.put(`/v2/financial/maintenance/${id}/resident/payment`, data);

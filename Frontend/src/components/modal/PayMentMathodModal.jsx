@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import { paymentMethods } from "../../constantdata";
 
-export default function PayMentMathodModal({ onClose, isOpen, setisPaymenCardOpen }) {
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("Master Card");
+export default function PayMentMathodModal({
+  onClose,
+  isOpen,
+  setisPaymenCardOpen,
+  handlePayment,
+}) {
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState("Master Card");
 
   const handlePaymentCardmathod = () => {
     if (selectedPaymentMethod === "Cash Payment") {
-      // Just close the modal for cash payment
+      handlePayment("cash");
       onClose();
     } else {
-      // Open another modal for card payments
       setisPaymenCardOpen(true);
       onClose();
     }
@@ -20,7 +25,9 @@ export default function PayMentMathodModal({ onClose, isOpen, setisPaymenCardOpe
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
       <div className="bg-white p-6 shadow-lg relative w-[410px] rounded-[15px]">
-        <h2 className="text-lg font-semibold mb-[10px]">Detail of the Per Person</h2>
+        <h2 className="text-lg font-semibold mb-[10px]">
+          Detail of the Per Person
+        </h2>
         <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
         {/* Payment Methods */}
         <div className="space-y-4 mb-6">
@@ -34,7 +41,11 @@ export default function PayMentMathodModal({ onClose, isOpen, setisPaymenCardOpe
               }`}
             >
               <div className="flex items-center">
-                <img src={method.image} alt={method.name} className="w-10 h-10 mr-4" />
+                <img
+                  src={method.image}
+                  alt={method.name}
+                  className="w-10 h-10 mr-4"
+                />
                 <span className="font-medium">{method.name}</span>
               </div>
               <input
@@ -79,4 +90,3 @@ export default function PayMentMathodModal({ onClose, isOpen, setisPaymenCardOpe
     </div>
   );
 }
-          

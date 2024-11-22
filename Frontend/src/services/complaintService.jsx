@@ -19,3 +19,7 @@ export const DeleteComplaint = async (id) =>
 //update complaint by id
 export const UpdateComplaint = async (id, data) =>
   await api.patch(`/v2/complaint/${id}`, data);
+
+// get complaint for spacific user
+export const GetComplaintsForUser = async () =>
+  await api.get("/v2/complaint/getusercomplaint");
