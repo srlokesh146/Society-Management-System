@@ -75,17 +75,17 @@ export default function AccessForums() {
                         />
                         <FiSearch className="absolute left-3 top-[14px] text-gray-400 text-[20px] mr-[20px]" />
                     </div>
-                    <div className="overflow-x-auto ps-[20px] custom-scrollbar h-[70vh]">
+                    <div className="overflow-x-auto custom-scrollbar h-[70vh]">
                         {chats.map((chat) => (
                             <div
                                 key={chat.id}
-                                className={`flex justify-between items-center p-2 transition-all duration-300 py-[12px] ${selectedChatId === chat.id ? 'bg-gray-200' : 'hover:bg-gray-50'
+                                className={`flex justify-between items-center p-2 transition-all duration-300 py-[12px] cursor-pointer rounded-[10px] ${selectedChatId === chat.id ? 'bg-gray-200' : 'hover:bg-gray-50 rounded-[10px]'
                                     }`}
                                 onClick={() => handleChatClick(chat.id)}
                             >
                                 <div className="flex items-center">
                                     <img
-                                        className="h-10 w-10 rounded-full object-cover mr-[19px]"
+                                        className="h-[48px] w-[48px] rounded-full object-cover mr-[19px]"
                                         src={Avatar}
                                         alt="Avatar"
                                     />
