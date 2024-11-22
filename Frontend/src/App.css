@@ -371,6 +371,15 @@ ul::-webkit-scrollbar-thumb {
 }
 
 
+.filter-grayscale {
+  filter: brightness(10%);
+}
+
+.filter-grayscale:hover {
+  filter: brightness(0%);
+}
+
+
 
 
 /* Custom scrollbar for responsiveness */
