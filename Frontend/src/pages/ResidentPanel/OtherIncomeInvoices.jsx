@@ -102,16 +102,16 @@ function OtherIncomeInvoices() {
   return (
     <div>
       <div className="bg-white p-6 mt-6 rounded-lg shadow-sm">
-        <div className="flex justify-between">
+        <div className="flex flex-col  sm:flex-row items-center justify-between">
           <h1 className="font-semibold text-[20px]">Due Event Payment</h1>
           <button
-            className="border p-3 bg-custom-gradient rounded-lg text-white font-medium"
+            className="border p-3 mt-4 sm:mt-0 bg-custom-gradient rounded-lg text-white font-medium"
             onClick={() => openModal(data[0])} // For example, opening the first invoice modal
           >
             View Invoice
           </button>
         </div>
-        <div className="grid grid-cols-1 mt-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 mt-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {events.map((event) => (
             <div key={event._id} className="border border-grey-800 rounded-lg">
               <div className="bg-[#5678E9] text-white p-4 flex justify-between items-center rounded-t-lg">

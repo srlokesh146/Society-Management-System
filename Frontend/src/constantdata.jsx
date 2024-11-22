@@ -175,6 +175,7 @@ export const Navigationbar = [
   { path: "/otherincomeinvoices", label: "otherincomeinvoices" },
   { path: "/polls", label: "polls" },
   { path: "/communitiesdiscusion", label: "CommunitiesDiscussion" },
+  { path: "/adminincome", label: "MaintenceDetails" },
 ];
 
 export const cardData = [
