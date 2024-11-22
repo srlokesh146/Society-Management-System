@@ -77,16 +77,7 @@ export const sidebarItems = [
     label: "Announcement",
     icon: <FaBullhorn />,
   },
-  {
-    id: 18,
-    label: "Community",
-    icon: <AiFillSecurityScan />,
-    subItems: [
-      { id: 19, path: "/accessforums", label: "Access Forums" },
-      { id: 20, path: "/polls", label: "Polls" },
-      { id: 21, path: "/communitiesdiscussion", label: "Communities Discussion" },
-    ],
-  },
+ 
 
 ];
 
@@ -129,15 +120,25 @@ export const residentItems = [
   },
   {
     id: 5,
-    label: "Payment Portol",
-    icon: <FaMoneyCheck />,
+    label: "Community",
+    icon: <AiFillSecurityScan />,
     subItems: [
-      { id: 6, path: "/maintenceinvoices", label: "Maintence Invoices" },
-      { id: 7, path: "/otherincomeinvoices", label: "Other Income Invoices" },
+      { id: 6, path: "/accessforums", label: "Access Forums" },
+      { id: 7, path: "/polls", label: "Polls" },
+      { id: 8, path: "/communitiesdiscusion", label: "Communities Discussion" },
     ],
   },
   {
-    id: 8,
+    id: 9,
+    label: "Payment Portol",
+    icon: <FaMoneyCheck />,
+    subItems: [
+      { id: 10, path: "/maintenceinvoices", label: "Maintence Invoices" },
+      { id: 11, path: "/otherincomeinvoices", label: "Other Income Invoices" },
+    ],
+  },
+  {
+    id: 12,
     path: "/residentsecurityprotocol",
     label: "Security Protocols",
     icon: <FaAddressCard />,
@@ -173,6 +174,7 @@ export const Navigationbar = [
   { path: "/invoicespage", label: "InvoicesPage" },
   { path: "/otherincomeinvoices", label: "otherincomeinvoices" },
   { path: "/polls", label: "polls" },
+  { path: "/communitiesdiscusion", label: "CommunitiesDiscussion" },
 ];
 
 export const cardData = [

@@ -42,6 +42,7 @@ import OtherIncomeInvoices from "./pages/ResidentPanel/OtherIncomeInvoices.jsx";
 import AccessForums from "./pages/residentpanel/Community/AccessForums.jsx";
 import Polls from "./pages/residentpanel/Community/OwnPolls.jsx";
 import CommunityTab from "./pages/residentpanel/Community/communitytab/CommunityTab.jsx";
+import Discusion from "./pages/ResidentPanel/Community/communitytab/Discusion.jsx";
 
 
 function App() {
@@ -337,6 +338,14 @@ function App() {
                   element={
                     <PrivateRoutes>
                       <CommunityTab />
+                    </PrivateRoutes>
+                  }
+                />
+               <Route
+                  path="/communitiesdiscusion"
+                  element={
+                    <PrivateRoutes>
+                      <Discusion />
                     </PrivateRoutes>
                   }
                 />
