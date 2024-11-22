@@ -19,3 +19,7 @@ export const DeleteRequest = async (id) =>
 //update Request by id
 export const UpdateRequest = async (id, data) =>
   await api.patch(`/v2/complaint/request/${id}`, data);
+
+// get requests for spacific user
+export const GetRequestsForUser = async () =>
+  await api.get("/v2/complaint/getuserrequest");

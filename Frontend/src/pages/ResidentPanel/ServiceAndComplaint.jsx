@@ -7,13 +7,14 @@ import CreateRequestModal from "../../components/modal/CreateRequestModal";
 import {
   CreateComplaint,
   DeleteComplaint,
-  GetComplaints,
+  GetComplaintsForUser,
 } from "../../services/complaintService";
 import toast from "react-hot-toast";
 import {
   CreateRequest,
   DeleteRequest,
   GetRequests,
+  GetRequestsForUser,
 } from "../../services/requestTrackingService";
 
 const ServiceAndComplaint = () => {
@@ -61,7 +62,7 @@ const ServiceAndComplaint = () => {
   // Fetch All Requests
   const fetchRequests = async () => {
     try {
-      const response = await GetRequests();
+      const response = await GetRequestsForUser();
       setRequests(response.data.data);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -97,7 +98,7 @@ const ServiceAndComplaint = () => {
   // Fetch All Complaints
   const fetchComplaints = async () => {
     try {
-      const response = await GetComplaints();
+      const response = await GetComplaintsForUser();
       setComplaints(response.data.data);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -191,8 +192,8 @@ const ServiceAndComplaint = () => {
                     </div>
                     <div className="flex items-center text-sm sm:text-base text-gray-500">
                       <span className="font-sm  ">Status</span>
-                      <p className="text-blue-500 bg-indigo-50 font-semibold p-1 w-24 text-center rounded-full ml-auto">
-                        {item.status}
+                      <p className="text-blue-500  font-semibold p-1 w-24 text-center rounded-full ml-auto">
+                        <StatusBadge status={item.status} />
                       </p>
                     </div>
                     <div className="justify-between items-center text-sm sm:text-base text-gray-500">
@@ -282,8 +283,8 @@ const ServiceAndComplaint = () => {
                     </div>
                     <div className="flex items-center text-sm sm:text-base text-gray-500">
                       <span className="font-sm  ">Status</span>
-                      <p className="text-blue-500 bg-indigo-50 font-semibold p-1 w-24 text-center rounded-full ml-auto">
-                        {item.status}
+                      <p className="text-blue-500  font-semibold p-1 w-24 text-center rounded-full ml-auto">
+                        <StatusBadge status={item.status} />
                       </p>
                     </div>
                     <div className="justify-between items-center text-sm sm:text-base text-gray-500">
@@ -320,5 +321,23 @@ const ServiceAndComplaint = () => {
     </div>
   );
 };
+const StatusBadge = ({ status }) => {
+  const styles = {
+    Pending: "bg-[#FFC3131A] text-[#FFC313] font-medium text-xs",
+    Solve: "bg-[#39973D1A] text-[#39973D] font-medium text-xs",
+    Open: "bg-[#5678E91A] text-[#5678E9] font-medium text-xs",
+  };
 
+  const lowercaseStatus = status.toLowerCase();
+  const capitalizedStatus =
+    status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+
+  return (
+    <p
+      className={`flex items-center justify-center w-[100px] h-[31px]  rounded-full ${styles[capitalizedStatus]}`}
+    >
+      {capitalizedStatus}
+    </p>
+  );
+};
 export default ServiceAndComplaint;

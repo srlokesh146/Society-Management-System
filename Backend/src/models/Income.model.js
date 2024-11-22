@@ -24,7 +24,7 @@ const incomeschema= new Schema({
     members:[{
         resident: {
           type: mongoose.SchemaTypes.ObjectId,
-          refPath: 'residentList.residentType', 
+          refPath: 'members.residentType', 
           required: true,
         },
         residentType: {

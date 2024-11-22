@@ -588,6 +588,32 @@ exports.applyPenalty = async (req, res) => {
     }
   }
 };
+//get done maintannace 
+
+exports.GetMaintananceDone = async (req, res) => {
+  try {
+    const maintenanceRecords = await Maintenance.find({
+      "residentList.paymentStatus": "done"
+    }).populate("residentList.resident");
+
+    // Filter residentList to include only those with paymentStatus: "done"
+    const filteredRecords = maintenanceRecords.map(record => {
+      record.residentList = record.residentList.filter(resident => resident.paymentStatus === "done");
+      return record;
+    });
+
+    return res.status(200).json({
+      success: true,
+      Maintenance: filteredRecords,
+    });
+  } catch (error) {
+    console.error("Error fetching maintenance:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching maintenance",
+    });
+  }
+};
 //add income
 exports.CreateIncome = async (req, res) => {
   try {
@@ -704,7 +730,7 @@ exports.updatePaymentModeIncome = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Payment mode and status updated successfully",
+      message: "Payment  status  successfully",
       updatedIncome: populatedIncomeRecord,
     });
   } catch (error) {
@@ -715,7 +741,6 @@ exports.updatePaymentModeIncome = async (req, res) => {
     });
   }  
 };
-
 //get by id income
 exports.GetByIdIncome = async (req, res) => {
   try {
@@ -842,18 +867,21 @@ exports.UpdateIncome = async (req, res) => {
 //get done and paymented income
 exports.GetIncomeDone = async (req, res) => {
   try {
-  
-    const income = await Income.find({
-      "members": { 
-        $elemMatch: { 
-          paymentStatus: "done" 
-        } 
-      }
+   
+    const incomeRecords = await Income.find({
+      "members.paymentStatus": "done"
     }).populate("members.resident");
+
+    
+    const filteredIncome = incomeRecords.map(record => {
+    
+      record.members = record.members.filter(member => member.paymentStatus === "done");
+      return record;
+    });
 
     return res.status(200).json({
       success: true,
-      Income: income,
+      Income: filteredIncome,
     });
   } catch (error) {
     console.error("Error fetching Income:", error);
@@ -863,4 +891,47 @@ exports.GetIncomeDone = async (req, res) => {
     });
   }
 };
+//FindByIdUserAndMaintance
+exports.FindByIdUserAndIncome = async (req, res) => {
+  try {
+    const loggedInUserId = req.user.id;
+    console.log("Logged-in User ID:", loggedInUserId);
 
+    // Retrieve income records where the logged-in user is a member resident
+    const incomerecord = await Income.find({
+      "members.resident": loggedInUserId 
+    }).populate({
+      path: 'members.resident',
+      
+    });
+
+    if (!incomerecord || incomerecord.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No maintenance records found for the logged-in user.',
+      });
+    }
+
+    // Filter records for pending payments
+    const filteredRecords = incomerecord.map(record => {
+      record.members = record.members.filter(residentEntry =>
+        residentEntry.resident &&
+        String(residentEntry.resident._id) === loggedInUserId &&
+        residentEntry.paymentStatus === "pending"
+      );
+      return record;
+    }).filter(record => record.members.length > 0);
+
+
+    return res.status(200).json({
+      success: true,
+      Income: filteredRecords,
+    });
+  } catch (error) {
+    console.error("Error fetching Income:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching Income",
+    });
+  }
+}

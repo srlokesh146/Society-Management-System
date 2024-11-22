@@ -7,6 +7,9 @@ router.post("/addcomplaint",auth,ComplaintTracking.CreateComplaint);
 //get complaint 
 router.get("/viewcomplaint",ComplaintTracking.GetComplaints)
 
+//get user complaint
+router.get("/getusercomplaint",auth,ComplaintTracking.getUserComplaints)
+
 //get by id complaint
 router.get("/complaint/:id",ComplaintTracking.GetByIdComplaints)
 //filter data
@@ -22,6 +25,8 @@ router.patch("/:id",ComplaintTracking.UpdateComplaint)
 router.post("/addrequest",auth,ComplaintTracking.CreateRequest)
 //get request
 router.get("/viewrequest",ComplaintTracking.GetRequest)
+//get user request
+router.get("/getuserrequest",auth,ComplaintTracking.getUserRequest)
 //get by id request
 router.get("/request/:id",ComplaintTracking.GetByIdRequest)
 //delete request

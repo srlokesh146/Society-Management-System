@@ -31,11 +31,19 @@ const compliantschema= new Schema({
         default:"Open",
         enum:['Open', 'Pending', 'Solve'] 
     },
-    apply: {
+    // apply: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "User"
+    // },
+    createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        refPath: 'createdByType', 
+        require:true
     },
-    
+    createdByType: {
+        type: String, 
+        enum: ['Owner', 'Tenante',"User"] 
+    }
 },{timestamps:true})
 const Complaint= model("Complaint",compliantschema)
 module.exports=Complaint;

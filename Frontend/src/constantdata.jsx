@@ -98,6 +98,7 @@ export const sidebarItems = [
     ]
   }
 ]
+];
 
 export const securityBar = [
   {
@@ -181,6 +182,63 @@ export const Navigationbar = [
   { path: '/otherincomeinvoices', label: 'otherincomeinvoices' },
   { path: '/polls', label: 'polls' }
 ]
+
+    label: "Community",
+    icon: <AiFillSecurityScan />,
+    subItems: [
+      { id: 6, path: "/accessforums", label: "Access Forums" },
+      { id: 7, path: "/polls", label: "Polls" },
+      { id: 8, path: "/communitiesdiscusion", label: "Communities Discussion" },
+    ],
+  },
+  {
+    id: 9,
+    label: "Payment Portol",
+    icon: <FaMoneyCheck />,
+    subItems: [
+      { id: 10, path: "/maintenceinvoices", label: "Maintence Invoices" },
+      { id: 11, path: "/otherincomeinvoices", label: "Other Income Invoices" },
+    ],
+  },
+  {
+    id: 12,
+    path: "/residentsecurityprotocol",
+    label: "Security Protocols",
+    icon: <FaAddressCard />,
+  },
+ 
+
+];
+
+export const Navigationbar = [
+  { path: "/editprofile", label: "EditProfile" },
+  { path: "/residentmanagement", label: "ResidentManagement" },
+  { path: "/reqtracking", label: "RequestTracking" },
+  { path: "/visitorlog", label: "VisitorLog" },
+  { path: "/SecurityProtocols", label: "SecurityProtocols" },
+  { path: "/announcement", label: "Announcement" },
+  { path: "/facilitymanagement", label: "FacilityManagement" },
+  { path: "/note", label: "Note" },
+  { path: "/ownerform", label: "OwnerForm" },
+  { path: "/tenantform", label: "TenantForm" },
+  { path: "/complainttable", label: "CreateComplaint" },
+  { path: "/income", label: "FinancialMaintenance" },
+  { path: "/expense", label: "Expense" },
+  { path: "/securityguard", label: "SecurityGuard" },
+  { path: "/other-income", label: "OtherIncome" },
+  { path: "/visitortracking", label: "VisitorTracking" },
+  { path: "/emergencymanagement", label: "EmergencyManagement" },
+  { path: "/activityparticipate", label: "ActivityParticipate" },
+  { path: "/eventsparticipate", label: "EventsParticipate" },
+  { path: "/residentowner", label: "PersonalDetails" },
+  { path: "/serviceandcomplaint", label: "ServiceAndComplaint" },
+  { path: "/residentsecurityprotocol", label: "SecurityProtocols" },
+  { path: "/maintenceinvoices", label: "maintenceinvoices" },
+  { path: "/invoicespage", label: "InvoicesPage" },
+  { path: "/otherincomeinvoices", label: "otherincomeinvoices" },
+  { path: "/polls", label: "polls" },
+  { path: "/communitiesdiscusion", label: "CommunitiesDiscussion" },
+];
 
 export const cardData = [
   {
