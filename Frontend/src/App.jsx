@@ -43,6 +43,8 @@ import AccessForums from "./pages/residentpanel/Community/AccessForums.jsx";
 import Polls from "./pages/residentpanel/Community/OwnPolls.jsx";
 import CommunityTab from "./pages/residentpanel/Community/communitytab/CommunityTab.jsx";
 import Discusion from "./pages/ResidentPanel/Community/communitytab/Discusion.jsx";
+import ViewIncome from "./components/modal/AdminIncome.jsx";
+import AdminIncome from "./components/modal/AdminIncome.jsx";
 
 
 function App() {
@@ -346,6 +348,14 @@ function App() {
                   element={
                     <PrivateRoutes>
                       <Discusion />
+                    </PrivateRoutes>
+                  }
+                />
+               <Route
+                  path="/adminincome"
+                  element={
+                    <PrivateRoutes>
+                      <AdminIncome />
                     </PrivateRoutes>
                   }
                 />
