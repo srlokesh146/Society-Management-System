@@ -64,8 +64,8 @@ export default function AccessForums() {
     return (
         <div className="flex bg-gray-100">
             {/* Chats Section */}
-            <div className="w-1/4 flex flex-col space-y-4">
-                <div className="bg-white h-[91vh] shadow-lg rounded-tl-[15px] p-6">
+            <div className="w-1/4 flex flex-col space-y-4 max-md:w-full max-xl:w-1/2 max-2xl:w-1/2 max-sm:w-full">
+                <div className="bg-white h-[91vh] shadow-lg rounded-tl-[15px] p-6 max-sm:p-4">
                     <h1 className="mb-[12px] text-[#202224] text-[20px] font-semibold">Chat</h1>
                     <div className="relative">
                         <input
@@ -102,7 +102,7 @@ export default function AccessForums() {
             </div>
 
             {/* Discussions Section */}
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col max-sm:hidden max-md:hidden">
                 {/* Header Section */}
                 <div className="flex justify-between items-center bg-white py-[18px] px-6 rounded-tr-[15px]">
                     <div className="flex items-center">

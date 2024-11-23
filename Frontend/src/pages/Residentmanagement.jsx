@@ -86,12 +86,12 @@ export default function ResidentManagement() {
     <div>
       <div className="bg-white pt-[20px] rounded-[15px] shadow-md">
         <div className="flex justify-between items-center mb-[27px] ps-[20px] pr-[20px] max-sm:flex-col">
-          <h2 className="text-[20px] font-semibold leading-4 max-sm:text-[16px] max-mb:text-[18px] max-sm:mb-3">
+          <h2 className="text-[20px] font-semibold leading-[30px] max-sm:leading-[25px] max-sm:text-[16px] max-mb:text-[18px] max-sm:mb-3">
             Resident Tenant and Owner Details
           </h2>
           <div>
             <button
-              className="modal bg-custom-gradient py-[12px] px-[10px] rounded-[10px] text-white font-semibold text-[18px] leading-[27px] w-[294px]"
+              className="modal bg-custom-gradient py-[12px] px-[10px] rounded-[10px] text-white font-semibold text-[18px] leading-[27px] w-[294px] max-sm:w-[269px] max-sm:text-[16px]"
               onClick={handleAddResident}
             >
               + Add New Resident details
