@@ -18,13 +18,28 @@ function PendingMaintence() {
     setIsPaymantNowOpen(true);
   };
 
+  const filterDate = (data) => {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    const filteredDatesCurrentMonth = data.filter((v) => {
+      const dateObj = new Date(v.createdAt);
+      return (
+        dateObj.getMonth() === currentMonth &&
+        dateObj.getFullYear() === currentYear
+      );
+    });
+
+    return filteredDatesCurrentMonth;
+  };
+
   const fetchPendingMaintenances = async () => {
     try {
       const response = await GetPendingMaintenances();
-      setMaintenance(response.data.Maintenance);
-    } catch (error) {
-      // toast.error(error.response.data.message);
-    }
+      const data = response.data.Maintenance;
+      const currentMonthData = filterDate(data);
+      setMaintenance(currentMonthData);
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -46,7 +61,6 @@ function PendingMaintence() {
       setPayMaintenance(null);
     }
   };
-
 
   return (
     <div>

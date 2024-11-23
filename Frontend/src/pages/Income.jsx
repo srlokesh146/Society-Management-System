@@ -142,77 +142,128 @@ const Income = () => {
     }
   };
 
-  const handleViewClick = (user) => {
+  const handleViewClick = (user) => { 
     setSelectedUser(user);
     setIsViewModalOpen(true);
   };
 
-  const ViewDetailsModal = ({ user, onClose }) => (
-    <div className="fixed inset-0 bg-[#00000014] flex items-center justify-center z-[9999]">
-      <div className="bg-white rounded-xl w-[450px] overflow-hidden">
-        {/* Header */}
-        <div className="flex justify-between items-center px-6 py-4">
-          <h3 className="text-lg font-semibold">View Maintenance Details</h3>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
-          >
-            ×
-          </button>
-        </div>
+  const ViewDetailsModal = ({ user, onClose }) => {
+    return (
+      <>
+        <div className="fixed inset-0 bg-[#00000014] flex items-center justify-center z-[9999]">
+          <div className="bg-white rounded-xl w-[450px] overflow-hidden">
+            {/* Header */}
+            <div className="flex justify-between items-center px-6 py-4">
+              <h3 className="text-lg font-semibold">
+                View Maintenance Details
+              </h3>
+              <button
+                onClick={onClose}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                ×
+              </button>
+            </div>
 
-        {/* User Profile */}
-        <div className="px-6 py-4 flex items-center gap-3 border-t border-b border-gray-100">
-          <div className="w-12 h-12 rounded-full overflow-hidden">
-            <img src={""} alt={""} className="w-full h-full object-cover" />
-          </div>
-          <div>
-            <h4 className="font-semibold text-gray-800">{""}</h4>
-            <p className="text-sm text-gray-500">{""}</p>
-          </div>
-        </div>
+            {/* User Profile */}
+            <div className="px-6 py-4 flex items-center gap-3 border-t border-b border-gray-100">
+              <div className="w-12 h-12 rounded-full overflow-hidden">
+                <img
+                  src={user.resident.profileImage}
+                  alt={""}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-800">
+                  {user.resident.Full_name}
+                </h4>
+                <p className="text-sm text-gray-500">
+                  {new Date(user.createdAt).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "2-digit",
+                    year: "numeric",
+                  })}
+                </p>
+              </div>
+            </div>
 
-        {/* Details Grid */}
-        <div className="grid grid-cols-4 gap-6 p-6">
-          <div>
-            <p className="text-sm text-gray-500 mb-1">Wing</p>
-            <p className="font-medium">{""}</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-500 mb-1">Unit</p>
-            <p className="font-medium">{""}</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-500 mb-1">Status</p>
-            <span className="px-2 py-1 text-xs rounded-full bg-[#F3F0FF] text-[#5B3ED6]">
-              {""}
-            </span>
-          </div>
-          <div>
-            <p className="text-sm text-gray-500 mb-1">Amount</p>
-            <p className="font-medium text-[#12B76A]">₹ {""}</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-500 mb-1">Penalty</p>
-            <p className="font-medium text-gray-400">--</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-500 mb-1">Status</p>
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 bg-yellow-400 rounded-full"></span>
-              <span className="text-sm">Pending</span>
+            {/* Details Grid */}
+            <div className="grid grid-cols-4 gap-6 p-6">
+              <div>
+                <p className="text-sm text-gray-500 mb-1">Wing</p>
+                <p className="font-medium">{user.resident.Wing}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 mb-1">Unit</p>
+                <p className="font-medium">{user.resident.Unit}</p>
+              </div>
+              <div className="flex flex-col justify-center items-center">
+                <p className="text-sm text-gray-500 mb-1">Status</p>
+                <span
+                  className={`flex px-2 py-1 rounded-full text-[14px] ${
+                    user.resident.Resident_status === "Tenante"
+                      ? "bg-pink-50 text-pink-500"
+                      : "bg-purple-50 text-purple-500"
+                  }`}
+                >
+                  {user.resident.Resident_status === "Tenante" ? (
+                    <FaUser size={12} />
+                  ) : (
+                    <img
+                      src={ownerImage}
+                      className="mr-[4px]"
+                      alt="Owner Icon"
+                    />
+                  )}
+                  {user.resident.Resident_status}
+                </span>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 mb-1">Amount</p>
+                <p className="font-medium text-[#12B76A]">
+                  ₹ {user.maintenanceAmount}
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 mb-1">Penalty</p>
+                {user.penalty === 0 ? (
+                  <span className="font-medium text-gray-400 px-2">--</span>
+                ) : (
+                  <span className="bg-[#E74C3C] px-2 text-white rounded-full">{user.penalty}</span>
+                )}
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 mb-1">Status</p>
+                <div className="flex items-center gap-1.5">
+                  <span
+                    className={`py-1 px-2.5 rounded-full inline-flex items-center justify-center text-[14px] gap-1.5 font-medium w-[113px] h-[31px] ${
+                      user.paymentStatus === "pending"
+                        ? "bg-yellow-50 text-yellow-500 "
+                        : "bg-green-50 text-green-500"
+                    }`}
+                  >
+                    {user.paymentStatus === "pending" ? (
+                      <BsClockFill size={12} />
+                    ) : (
+                      <img src={verify} className="mr-[4px]" alt="verify" />
+                    )}
+                    {user.paymentStatus}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 mb-1">Payment</p>
+                <span className="px-2 py-1 text-xs rounded-full bg-[#F2F4F7] text-[#475467]">
+                  {user.paymentMode}
+                </span>
+              </div>
             </div>
           </div>
-          <div>
-            <p className="text-sm text-gray-500 mb-1">Payment</p>
-            <span className="px-2 py-1 text-xs rounded-full bg-[#F2F4F7] text-[#475467]">
-              Cash
-            </span>
-          </div>
         </div>
-      </div>
-    </div>
-  );
+      </>
+    );
+  };
 
   const handleOtherIncomeClick = () => {
     navigate("/other-income");
@@ -344,7 +395,7 @@ const Income = () => {
             <tbody>
               {maintenanceList.map((m) =>
                 m.residentList.map((r) => (
-                  <tr key={m._id} className="border-t border-gray-100">
+                  <tr key={r._id} className="border-t border-gray-100">
                     <td className="py-3 px-4">
                       <div className="flex items-center">
                         <img
@@ -440,7 +491,12 @@ const Income = () => {
                     </td>
                     <td className="py-3 px-4">
                       <button
-                        onClick={() => handleViewClick(m)}
+                        onClick={() =>
+                          handleViewClick({
+                            ...m,
+                            ...r,
+                          })
+                        }
                         className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                       >
                         <img src={eye} />
@@ -449,6 +505,7 @@ const Income = () => {
                       {/* Render Modal */}
                       {isViewModalOpen && (
                         <ViewDetailsModal
+                          user={selectedUser}
                           onClose={() => {
                             setIsViewModalOpen(false);
                             setSelectedUser(null);
