@@ -304,7 +304,7 @@ const Navbar = () => {
 
         {/* Profile Icon */}
         <div
-          className="border-l border-[#F4F4F4] pl-[20px] cursor-pointer"
+          className="border-l border-[#F4F4F4] pl-[20px] cursor-pointer max-sm:border-0 max-sm:pl-0"
           onClick={handleProfileClick}
         >
           <img

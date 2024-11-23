@@ -44,8 +44,8 @@ export default function Discussion() {
     return (
         <div className="flex h-screen bg-gray-100">
             {/* Sidebar (Chats List) */}
-            <div className="w-1/4 bg-white shadow-lg rounded-tl-lg overflow-hidden flex flex-col">
-                <div className="p-6">
+            <div className="w-1/4 bg-white shadow-lg rounded-tl-lg overflow-hidden max-sm:hidden max-md:hidden flex flex-col p-6 max-md:w-full max-xl:w-1/2 max-2xl:w-1/2 max-sm:w-full">
+                <div>
                     <h1 className="text-xl font-semibold text-gray-800">Chat</h1>
                     <div className="relative mt-4">
                         <input
@@ -56,7 +56,7 @@ export default function Discussion() {
                         <FiSearch className="absolute left-3 top-3 text-gray-400 text-lg" />
                     </div>
                 </div>
-                <div className="flex-1 overflow-y-auto p-4">
+                <div className="flex-1 overflow-y-auto">
                     {chats.map((chat) => (
                         <div
                             key={chat.id}

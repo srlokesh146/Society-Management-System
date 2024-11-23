@@ -71,16 +71,16 @@ const Polls = () => {
 
   return (
     <div className='bg-white pt-[30px] px-[20px] pb-[20px]'>
-      <div className='flex justify-between items-center pb-[30px]'>
+      <div className='flex justify-between items-center pb-[30px] max-sm:pb-[10px]'>
         <div>
-          <h2 className='text-[20px] leading-[30px] font-semibold text-[#202224]'>
+          <h2 className='text-[20px] leading-[30px] font-semibold text-[#202224] max-sm:text-[16px]'>
             Polls
           </h2>
         </div>
         <div>
           <button
             onClick={handleOpenModal}
-            className='bg-custom-gradient py-[12px] px-[14px] w-[138px] rounded-[10px] text-white'
+            className='bg-custom-gradient py-[12px] px-[14px] w-[138px] rounded-[10px] text-white text-[18px] font-semibold max-sm:w-[117px] max-sm:text-[16px] max-sm:px-2'
           >
             Create Polls
           </button>
@@ -96,7 +96,7 @@ const Polls = () => {
           return (
             <div
               key={index}
-              className='bg-white shadow-lg rounded-lg p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300'
+              className='bg-white shadow-lg rounded-lg p-6 border-gray-200 hover:shadow-xl transition-shadow duration-300 max-sm:p-[10px]'
             >
               <div className='flex justify-between'>
                 <div className='flex'>
@@ -104,10 +104,10 @@ const Polls = () => {
                     <img src={avatar} alt='' className='w-[48px]' />
                   </div>
                   <div>
-                    <p className='text-[18px] text-[#5678E9] font-semibold mb-[2px]'>
+                    <p className='text-[18px] text-[#5678E9] font-semibold mb-[2px] max-sm:text-[16px] max-sm:leading-[19.5px]'>
                       {poll.name}
                     </p>
-                    <p className='text-[14px] text-[#202224] leading-[27px]'>
+                    <p className='text-[14px] text-[#202224] leading-[27px] max-sm:text-[13px]'>
                       {poll.pollType}
                     </p>
                   </div>
@@ -126,7 +126,20 @@ const Polls = () => {
                 </h2>
               </div>
               <div className='mb-[20px] text-[#202224] text-[14px] leading-[21px]'>
-                {poll.selecttitle}
+                <div className='flex items-center'>
+                  <label className='radio'>
+                    <input
+                      type='radio'
+                      name={`poll-${index}`}
+                      className='w-4 h-4 rounded-full bg-gray-200'
+                      defaultChecked
+                    />
+                    <span className='ml-0 text-[14px] leading-[21px] text-[#4F4F4F]'>
+                    {poll.selecttitle}
+                    </span>
+                  </label>
+                </div>
+            
               </div>
 
               <div className='mb-4'>
@@ -150,7 +163,7 @@ const Polls = () => {
                   </div>
 
                   <div
-                    className='h-2 rounded-lg overflow-hidden bg-gray-200'
+                    className='h-[5px] rounded-lg overflow-hidden bg-gray-200'
                     style={{ width: '94%', marginLeft: '20px' }}
                   >
                     <div
@@ -181,7 +194,7 @@ const Polls = () => {
                     </span>
                   </div>
                   <div
-                    className='h-2 rounded-lg overflow-hidden bg-gray-200'
+                    className='h-[5px] rounded-lg overflow-hidden bg-gray-200'
                     style={{ width: '94%', marginLeft: '20px' }}
                   >
                     <div
