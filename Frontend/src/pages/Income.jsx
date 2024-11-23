@@ -222,6 +222,8 @@ const Income = () => {
     try {
       const response = await GetMaintenances();
       setMaintenanceList(response.data.Maintenance);
+      console.log(response);
+      
     } catch (error) {}
   };
 
@@ -348,7 +350,7 @@ const Income = () => {
                     <td className="py-3 px-4">
                       <div className="flex items-center">
                         <img
-                          src={r.resident.profileImage}
+                          src={r?.resident?.profileImage}
                           alt={""}
                           className="w-8 h-8 rounded-full mr-2"
                         />
