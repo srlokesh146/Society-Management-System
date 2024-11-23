@@ -4,12 +4,11 @@ const Poll = require("../models/poll.model");
 // Create a new poll
 exports.createPoll = async (req, res) => {
     try {
-        const { title,pollType, question, options } = req.body;
+        const { pollType, question, options } = req.body;
         console.log(req.body);
         
        
         if (
-            !title ||
             !pollType ||
             !question ||
             !options 
@@ -30,7 +29,6 @@ exports.createPoll = async (req, res) => {
         }
 
         const poll = new Poll({
-            title,
             pollType,
             question,
             options: options.map(option => ({ text: option })),

@@ -20,6 +20,8 @@ router.post("/addexpense", upload.fields([
 router.get("/viewexpense",FinancialController.GetAllExpense)
 //get by id 
 router.get("/expense/:id",FinancialController.GetByIdExpense)
+//total amount expense
+router.get("/ex/expense/total-amount", FinancialController.getTotalExpenseAmount);
 //delete expens
 router.delete("/expense/:id",FinancialController.DeleteExpens)
 //update expens
@@ -56,6 +58,8 @@ router.delete("/income/:id",FinancialController.DeleteIncome)
 router.patch("/income/:id",FinancialController.UpdateIncome)
 //get done income
 router.get("/doneincome",FinancialController.GetIncomeDone)
+//get done income total 
+router.get("/i/income/total-done", FinancialController.GetTotalIncomeDone);
 //FindByIdUserAndMaintance
 router.get("/getuserandIncome",auth,FinancialController.FindByIdUserAndIncome)
 module.exports=router;

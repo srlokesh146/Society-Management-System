@@ -1,10 +1,6 @@
 const { Schema, model, default: mongoose } = require('mongoose');
 
 const pollSchema = new Schema({
-    title: {
-        type: String,
-        required: true,
-    },
     pollType: {
         type: String,
         enum: ['multichoice', 'ranking', 'rating', 'numeric', 'text'],

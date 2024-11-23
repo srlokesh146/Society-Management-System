@@ -223,6 +223,34 @@ exports.GetAllExpense = async (req, res) => {
     });
   }
 };
+//get total expense amount
+exports.getTotalExpenseAmount = async (req, res) => {
+  try {
+    
+    const result = await Expense.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalAmount: { $sum: { $toDouble: "$amount" } } 
+        }
+      }
+    ]);
+
+   
+    const totalAmount = result.length > 0 ? result[0].totalAmount : 0;
+
+    return res.status(200).json({
+      success: true,
+      totalAmount,
+    });
+  } catch (error) {
+    console.error("Error calculating total expense amount:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error calculating total expense amount",
+    });
+  }
+};
 //get by id expens
 exports.GetByIdExpense = async (req, res) => {
   try {
@@ -589,7 +617,6 @@ exports.applyPenalty = async (req, res) => {
   }
 };
 //get done maintannace 
-
 exports.GetMaintananceDone = async (req, res) => {
   try {
     const maintenanceRecords = await Maintenance.find({
@@ -744,13 +771,25 @@ exports.updatePaymentModeIncome = async (req, res) => {
 //get by id income
 exports.GetByIdIncome = async (req, res) => {
   try {
-    const income = await Income.findById(req.params.id);
+    
+    const income = await Income.findById(req.params.id).populate("members.resident");
+
+    if (!income) {
+      return res.status(404).json({
+        success: false,
+        message: "Income record not found",
+      });
+    }
+
+    
+    income.members = income.members.filter(member => member.paymentStatus === "done");
+
     return res.status(200).json({
       success: true,
       Income: income,
     });
   } catch (error) {
-    console.error("Error fetching Income:", error);
+    console.error("Error fetching Income by ID:", error);
     return res.status(500).json({
       success: false,
       message: "Error fetching Income",
@@ -891,13 +930,40 @@ exports.GetIncomeDone = async (req, res) => {
     });
   }
 };
+//get total done income amount
+exports.GetTotalIncomeDone = async (req, res) => {
+  try {
+    const totalIncomeDone = await Income.aggregate([
+     
+      { $match: { "members.paymentStatus": "done" } },
+     
+      { $group: { 
+          _id: null, 
+          totalAmount: { $sum: "$amount" } 
+      }}
+    ]);
+
+    const totalAmount = totalIncomeDone.length > 0 ? totalIncomeDone[0].totalAmount : 0;
+
+    return res.status(200).json({
+      success: true,
+      totalAmount,
+    });
+  } catch (error) {
+    console.error("Error calculating total done income amount:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error calculating total done income amount",
+    });
+  }
+};
 //FindByIdUserAndMaintance
 exports.FindByIdUserAndIncome = async (req, res) => {
   try {
     const loggedInUserId = req.user.id;
     console.log("Logged-in User ID:", loggedInUserId);
 
-    // Retrieve income records where the logged-in user is a member resident
+    
     const incomerecord = await Income.find({
       "members.resident": loggedInUserId 
     }).populate({
@@ -912,7 +978,7 @@ exports.FindByIdUserAndIncome = async (req, res) => {
       });
     }
 
-    // Filter records for pending payments
+  
     const filteredRecords = incomerecord.map(record => {
       record.members = record.members.filter(residentEntry =>
         residentEntry.resident &&

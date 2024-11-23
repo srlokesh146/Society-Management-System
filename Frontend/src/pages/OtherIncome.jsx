@@ -26,10 +26,8 @@ const OtherIncome = () => {
   });
 
   const [incomeEntries, setIncomeEntries] = useState([]);
-
   const [activeTab, setActiveTab] = useState("otherIncome");
   const [dropdownOpen, setDropdownOpen] = useState(null);
-
   const isFormValid =
     formData.title &&
     formData.date &&
@@ -78,7 +76,10 @@ const OtherIncome = () => {
     toggleDropdown(id);
   };
 
+  // Updated handleView function to navigate to the Admin Icon page
   const handleView = (id) => {
+    // Navigate to the "adminIcon" page or wherever you want to go
+    navigate("/adminincome");
     const entry = incomeEntries.find((entry) => entry._id === id);
     setSelectedEntry(entry);
     setViewModalOpen(true);
@@ -125,7 +126,6 @@ const OtherIncome = () => {
     setDropdownOpen(dropdownOpen === id ? null : id);
   };
 
-  // handle cancel
   const handleCancel = () => {
     setFormData({
       title: "",
@@ -148,7 +148,6 @@ const OtherIncome = () => {
     setEditModalOpen(false);
   };
 
-  // fetching other income data
   const fetchIncome = async () => {
     try {
       const response = await GetIncomes();
@@ -161,7 +160,6 @@ const OtherIncome = () => {
   useEffect(() => {
     fetchIncome();
   }, []);
-
   return (
     <div className="p-6">
       <div className="">
@@ -232,7 +230,7 @@ const OtherIncome = () => {
                     </li>
                     <li
                       className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
-                      onClick={() => handleView(entry._id)}
+                      onClick={() => handleView(entry._id)} 
                     >
                       View
                     </li>
@@ -540,62 +538,7 @@ const OtherIncome = () => {
         </div>
       )}
 
-      {isViewModalOpen && selectedEntry && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[9999]">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full relative">
-            <button
-              onClick={() => setViewModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
-            >
-              <FaTimes size={20} /> {/* Cancel icon */}
-            </button>
-            <h2 className="text-xl font-semibold mb-2">View Income Details</h2>
-            <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
-            <div className="mb-4">
-              <label className="block text-sm text-grey-800 mb-1">Title:</label>
-              <p className="text-black font-medium">{selectedEntry.title}</p>
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm text-grey-800 mb-1">
-                Description:
-              </label>
-              <p className="text-black">{selectedEntry.description}</p>
-            </div>
-            <div className="grid grid-cols-2 gap-4 mb-4">
-              <div>
-                <label className="block text-sm text-grey-800 mb-1">
-                  Date:
-                </label>
-                <p className="text-black">
-                  {new Date(selectedEntry.date).toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })}
-                </p>
-              </div>
-              <div>
-                <label className="block text-sm text-grey-800 mb-1">
-                  Date:
-                </label>
-                <p className="text-black">
-                  {new Date(selectedEntry.date).toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })}
-                </p>
-              </div>
-              <div>
-                <label className="block text-sm text-grey-800 mb-1">
-                  Amount:
-                </label>
-                <p className="text-black font-medium">{selectedEntry.amount}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+    
     </div>
   );
 };
