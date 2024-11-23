@@ -28,7 +28,12 @@ const OtherIncome = () => {
   const [incomeEntries, setIncomeEntries] = useState([]);
   const [activeTab, setActiveTab] = useState("otherIncome");
   const [dropdownOpen, setDropdownOpen] = useState(null);
-  const [isFormValid, setIsFormValid] = useState(false);
+  const isFormValid =
+    formData.title &&
+    formData.date &&
+    formData.dueDate &&
+    formData.description &&
+    formData.amount;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -121,11 +126,6 @@ const OtherIncome = () => {
     setDropdownOpen(dropdownOpen === id ? null : id);
   };
 
-  const checkFormValidity = () => {
-    const { title, date, dueDate, description, amount } = formData;
-    setIsFormValid(title && date && dueDate && description && amount);
-  };
-
   const handleCancel = () => {
     setFormData({
       title: "",
@@ -187,7 +187,9 @@ const OtherIncome = () => {
 
       <div className="flex flex-col rounded-lg p-8 bg-white min-h-screen">
         <div className="flex justify-between items-center mb-4 max-sm:flex-col">
-          <h2 className="text-[20px] font-semibold text-gray-800 max-sm:mb-3">Other Income</h2>
+          <h2 className="text-[20px] font-semibold text-gray-800 max-sm:mb-3">
+            Other Income
+          </h2>
           <button
             className="px-4 py-2 bg-custom-gradient text-white rounded-lg hover:bg-orange-600"
             onClick={() => setIsModalOpen(true)}
@@ -383,7 +385,7 @@ const OtherIncome = () => {
                       ? "bg-custom-gradient text-white"
                       : "bg-[#F6F8FB] text-black"
                   }`}
-                  disabled={isFormValid}
+                  disabled={!isFormValid}
                 >
                   Apply
                 </button>
@@ -495,7 +497,12 @@ const OtherIncome = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-custom-gradient text-white px-4 py-3 rounded-lg w-full"
+                  className={`border px-4 py-3 rounded-lg w-full ${
+                    isFormValid
+                      ? "bg-custom-gradient text-white"
+                      : "bg-[#F6F8FB] text-black"
+                  }`}
+                  disabled={!isFormValid}
                 >
                   Save Changes
                 </button>

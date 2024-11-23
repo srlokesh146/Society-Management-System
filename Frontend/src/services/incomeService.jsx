@@ -26,3 +26,7 @@ export const GetEventsForUser = async () =>
 // event payment by id
 export const paymemtEvent = async (id, data) =>
   await api.put(`/v2/financial/income/${id}/resident/payment`, data);
+
+// Get event participants
+export const GetEventsParticipants = async () =>
+  await api.get("/v2/financial/doneincome");

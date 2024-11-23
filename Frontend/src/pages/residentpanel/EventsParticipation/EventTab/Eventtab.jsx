@@ -27,8 +27,8 @@ export default function Eventtab() {
                     Activity Participate
                 </div>
             </div>
-            {!activetab && <EventsParticipate />}
-            {activetab && <ActivityParticipate />}
+            {activetab && <EventsParticipate />}
+            {!activetab && <ActivityParticipate />}
         </div>
     )
 }
