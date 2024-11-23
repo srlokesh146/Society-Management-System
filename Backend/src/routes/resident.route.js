@@ -72,5 +72,8 @@ router.delete("/resident/:id", ResidentController.DeleteByIdResident);
 
 //blank field
 router.put("/update/:id",ResidentController.updateDataById)
+//total occupied unit 
+router.get('/unit/total-occupied-units',ResidentController.getTotalOccupiedUnits)
+
 
 module.exports = router;

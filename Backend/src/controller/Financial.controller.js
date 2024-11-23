@@ -1001,3 +1001,39 @@ exports.FindByIdUserAndIncome = async (req, res) => {
     });
   }
 }
+//total balance 
+exports.GetTotalBalance = async (req, res) => {
+  try {
+   
+    const totalMaintenance = await Maintenance.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalMaintenance: { $sum: "$maintenanceAmount" }
+        }
+      }
+    ]).exec();
+
+    const totalIncome = await Income.aggregate([
+      {
+        $group: {
+        _id: null,
+        totalIncome: { $sum: "$amount" }
+      }
+    }]).exec();
+
+    const totalBalance = totalMaintenance[0].totalMaintenance + totalIncome[0].totalIncome;
+
+    return res.status(200).json({
+      success: true,
+      totalBalance: totalBalance,
+    });
+  } catch (error) {
+    console.error("Error fetching total balance:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching total balance",
+    });
+  }
+};
+

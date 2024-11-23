@@ -62,4 +62,6 @@ router.get("/doneincome",FinancialController.GetIncomeDone)
 router.get("/i/income/total-done", FinancialController.GetTotalIncomeDone);
 //FindByIdUserAndMaintance
 router.get("/getuserandIncome",auth,FinancialController.FindByIdUserAndIncome)
+//total blance
+router.get("/total-balance-done", FinancialController.GetTotalBalance);
 module.exports=router;
