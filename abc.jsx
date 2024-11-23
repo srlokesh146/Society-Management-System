@@ -129,7 +129,6 @@ const Income = () => {
         };
         const response = await CreateMaintenance(data);
         toast.success(response.data.message);
-        GetMaintenancesList();
       } catch (error) {
         toast.error(error.response.data.message);
       } finally {
@@ -148,7 +147,7 @@ const Income = () => {
   };
 
   const ViewDetailsModal = ({ user, onClose }) => (
-    <div className="fixed inset-0 bg-[#00000014] flex items-center justify-center z-[9999]">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
       <div className="bg-white rounded-xl w-[450px] overflow-hidden">
         {/* Header */}
         <div className="flex justify-between items-center px-6 py-4">
@@ -164,11 +163,15 @@ const Income = () => {
         {/* User Profile */}
         <div className="px-6 py-4 flex items-center gap-3 border-t border-b border-gray-100">
           <div className="w-12 h-12 rounded-full overflow-hidden">
-            <img src={""} alt={""} className="w-full h-full object-cover" />
+            <img
+              src={user.avatar || "/default-avatar.png"}
+              alt={user.name}
+              className="w-full h-full object-cover"
+            />
           </div>
           <div>
-            <h4 className="font-semibold text-gray-800">{""}</h4>
-            <p className="text-sm text-gray-500">{""}</p>
+            <h4 className="font-semibold text-gray-800">{user.name}</h4>
+            <p className="text-sm text-gray-500">{user.date}</p>
           </div>
         </div>
 
@@ -176,21 +179,21 @@ const Income = () => {
         <div className="grid grid-cols-4 gap-6 p-6">
           <div>
             <p className="text-sm text-gray-500 mb-1">Wing</p>
-            <p className="font-medium">{""}</p>
+            <p className="font-medium">{user.wing}</p>
           </div>
           <div>
             <p className="text-sm text-gray-500 mb-1">Unit</p>
-            <p className="font-medium">{""}</p>
+            <p className="font-medium">{user.unit}</p>
           </div>
           <div>
             <p className="text-sm text-gray-500 mb-1">Status</p>
             <span className="px-2 py-1 text-xs rounded-full bg-[#F3F0FF] text-[#5B3ED6]">
-              {""}
+              {user.status}
             </span>
           </div>
           <div>
             <p className="text-sm text-gray-500 mb-1">Amount</p>
-            <p className="font-medium text-[#12B76A]">₹ {""}</p>
+            <p className="font-medium text-[#12B76A]">₹ {user.amount}</p>
           </div>
           <div>
             <p className="text-sm text-gray-500 mb-1">Penalty</p>
@@ -224,6 +227,20 @@ const Income = () => {
       setMaintenanceList(response.data.Maintenance);
     } catch (error) {}
   };
+
+  maintenanceList.map((m) => {
+    m.residentList.map((r) => {
+      console.log(r.resident.profileImage);
+      console.log(r.resident.Full_name);
+      console.log(r.resident.Unit);
+      console.log(r.resident.Resident_status);
+      console.log(r.resident.Phone_number);
+      console.log(m.maintenanceAmount);
+      console.log(r.penalty);
+      console.log(r.paymentStatus);
+      console.log(r.paymentMode);
+    });
+  });
 
   useEffect(() => {
     GetMaintenancesList();
@@ -447,8 +464,9 @@ const Income = () => {
                       </button>
 
                       {/* Render Modal */}
-                      {isViewModalOpen && (
+                      {isViewModalOpen && selectedUser && (
                         <ViewDetailsModal
+                          user={selectedUser}
                           onClose={() => {
                             setIsViewModalOpen(false);
                             setSelectedUser(null);

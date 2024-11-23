@@ -178,8 +178,9 @@ export const Navigationbar = [
   { path: '/polls', label: 'polls' },
   { path: "/communitiesdiscusion", label: "CommunitiesDiscussion" },
   { path: "/accessforums", label: "AccessForums" },
+  { path: "/adminincome", label: "MaintenceDetails" },
+];
 
-]
 
 export const cardData = [
   {
