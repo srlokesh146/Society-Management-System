@@ -52,12 +52,12 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
 
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999]">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999] overflow-y-auto custom-scrollbar">
       <div
-        className="bg-white rounded-lg w-full max-w-md p-6"
+        className="bg-white rounded-lg w-full max-w-[410px] p-6"
         style={{ maxWidth: "410px" }}
       >
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-[10px]">
           <h2 className="text-xl font-semibold text-gray-800">
             Create Complaint
           </h2>
@@ -172,7 +172,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Priority
             </label>
-            <div className="flex gap-4">
+            <div className="flex gap-4 max-sm:flex-col">
               {["High", "Medium", "Low"].map((priority) => (
                 <label key={priority} className="flex items-center">
                   <input
@@ -184,7 +184,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
                     className="hidden"
                   />
                   <span
-                    className={`flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded-md text-sm cursor-pointer
+                    className={`flex items-center gap-2 px-4  max-sm:w-full py-1.5 border border-gray-300 rounded-md text-sm cursor-pointer
                     ${
                       formData.priority === priority
                         ? "border-orange-500 bg-orange-50"
@@ -217,7 +217,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Status
             </label>
-            <div className="flex gap-4">
+            <div className="flex gap-4 max-sm:flex-col">
               {["Open", "Pending", "Solve"].map((status) => (
                 <label key={status} className="flex items-center">
                   <input
@@ -256,7 +256,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
           </div>
 
           {/* Buttons */}
-          <div className="flex justify-center gap-3 mt-6">
+          <div className="flex justify-center max-sm:flex-col gap-3 mt-6">
             <button
               type="button"
               onClick={onClose}

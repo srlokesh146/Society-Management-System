@@ -187,7 +187,7 @@ function Expense() {
               <th className="text-left px-6 py-3 text-md font-semibold text-black-800">
                 Bill Format
               </th>
-              <th className="text-left px-6 py-3 text-md font-semibold text-black-800">
+              <th className="text-left px-8 py-4 text-md font-semibold text-black-800">
                 Action
               </th>
             </tr>
@@ -213,7 +213,7 @@ function Expense() {
                     {getFileExtension(expense.bill)?.toUpperCase()}
                   </span>
                 </td>
-                <td className="px-6 py-4">
+                <td className=" py-4">
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleEditClick(expense)} // Open edit modal
