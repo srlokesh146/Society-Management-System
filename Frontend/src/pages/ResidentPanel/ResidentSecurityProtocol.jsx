@@ -22,34 +22,34 @@ function ResidentSecurityProtocol() {
   return (
     <div>
       <div className="bg-white rounded-xl p-6">
-        <h1 className="text-2xl font-semibold mb-4">Security Protocols</h1>
-        <div className="overflow-x-auto rounded-lg">
-          <table className="min-w-full rounded-lg shadow-sm">
+        <h1 className="text-[20px] font-semibold mb-4 leading-[30px]">Security Protocols</h1>
+        <div className="overflow-x-auto overflow-y-auto max-h-[50rem] custom-scrollbar">
+          <table className="min-w-full shadow-sm">
             <thead>
-              <tr className="bg-indigo-50 text-left">
-                <th className="font-semibold px-4 py-2">Title</th>
-                <th className="font-semibold px-4 py-2">Description</th>
-                <th className="font-semibold px-4 py-2">Date</th>
-                <th className="font-semibold px-4 py-2">Time</th>
+              <tr className="bg-indigo-50 h-[61px] text-[14px]">
+                <th className="font-semibold px-4 py-2 text-left rounded-tl-[15px]">Title</th>
+                <th className="font-semibold px-4 py-2 text-left">Description</th>
+                <th className="font-semibold px-4 py-2 text-center">Date</th>
+                <th className="font-semibold px-4 py-2 rounded-tr-[15px]">Time</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="pr-[10px]">
               {protocols.map((item, index) => (
                 <tr
                   key={index}
-                  className="bg-white font-normal border-b border-gray-100 px-4 py-4 text-[15px]"
+                  className="bg-white font-medium border-b border-gray-100 px-4 py-4 text-[15px] text-[#4F4F4F]"
                 >
                   <td className="px-4 py-4">{item.title}</td>
                   <td className="px-4 py-4">{item.description}</td>
-                  <td className="px-4 py-4">
+                  <td className="px-4 py-4 text-center">
                     {new Date(item.date).toLocaleDateString("en-GB", {
                       day: "2-digit",
                       month: "2-digit",
                       year: "numeric",
                     })}
                   </td>
-                  <td className="px- py-4">
-                    <p className="bg-gray-50 p-2 text-center w-20 rounded-full">
+                  <td className="py-4 flex justify-center ">
+                    <p className="bg-gray-50 py-[5px] text-center w-[92px] h-[34px] text-[16px] rounded-full">
                       {item.time}
                     </p>
                   </td>

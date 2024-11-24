@@ -10,7 +10,7 @@ export default function Eventtab() {
                 <div
                     onClick={() => setActiveTab(true)}
                     className={
-                        `px-6 py-5 rounded-t-lg cursor-pointer text-[14px] text-[#202224] ${activetab ? "bg-[#FF6B07] text-white" : "bg-white py-5 border-b-2 border-[#FF6B07]"
+                        `px-[21px] py-[18px] rounded-t-lg cursor-pointer text-[14px] text-[#202224] font-semibold max-sm:text-[14px] ${activetab ? "bg-[#FF6B07] text-white" : "bg-white py-5 border-b-2 border-[#FF6B07]"
                         }`
                     }
                 >
@@ -20,7 +20,7 @@ export default function Eventtab() {
                 <div
                     onClick={() => setActiveTab(false)}
                     className={
-                        `px-6 py-5 rounded-t-lg cursor-pointer text-[14px] text-[#202224] ${!activetab ? "bg-[#FF6B07] text-white" : "bg-white py-5 border-b-2 border-[#FF6B07]"
+                        `px-[21px] py-[18px] rounded-t-lg cursor-pointer text-[14px] text-[#202224] font-semibold max-sm:text-[14px] max-sm:px-[10px] ${!activetab ? "bg-[#FF6B07] text-white" : "bg-white py-5 border-b-2 border-[#FF6B07]"
                         }`
                     }
                 >

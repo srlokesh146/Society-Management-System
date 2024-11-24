@@ -139,7 +139,7 @@ const Polls = () => {
                     </span>
                   </label>
                 </div>
-            
+
               </div>
 
               <div className='mb-4'>
