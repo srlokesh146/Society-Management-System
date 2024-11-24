@@ -52,7 +52,7 @@ export default function EventsParticipate() {
               <tbody className="divide-y divide-gray-200">
                 {eventsParticipants.map((v) =>
                   v.members.map((m) => (
-                    <tr key={v._id}>
+                    <tr key={m._id}>
                       <div className="px-4 sm:px-6 py-4 flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
                           <img

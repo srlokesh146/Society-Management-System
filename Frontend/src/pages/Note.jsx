@@ -216,7 +216,7 @@ function Note() {
                       ${
                         isFormFilled
                           ? " bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
-                          : "bg-[#F6F8FB] font-bold text-black-400 cursor-not-allowed"
+                          : "bg-[#F6F8FB] text-black font-bold text-black-400 cursor-not-allowed"
                       }`}
                   >
                     {modalType === "save" ? "save" : "Save"}

@@ -228,7 +228,7 @@ function SecurityGuardDetails() {
         </button>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm overflow-x-auto custom-scrollbar min-w-0">
+      <div className="bg-white rounded-lg shadow-sm overflow-x-auto custom-scrollbar  min-w-0">
         <div className="overflow-x-auto block bg-transparent w-full">
           <table className="divide-y divide-gray-200 w-full">
             <thead className="bg-indigo-50">
@@ -349,7 +349,7 @@ function SecurityGuardDetails() {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] overflow-y-auto custom-scrollbar p-4">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm">
             <div className="">
               {modalMode !== "view" && (

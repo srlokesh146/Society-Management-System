@@ -173,7 +173,7 @@ function SecurityProtocols() {
       <div className="bg-white rounded-lg shadow-sm">
         <div className="overflow-x-auto custom-scrollbar  min-w-0 overflow-auto">
         <table className="min-w-full table-auto border-collapse border border-gray-200">
-  <thead className="bg-indigo-50 border-b border-gray-200">
+  <thead className="bg-indigo-50  border-b border-gray-200">
     <tr>
       <th className="px-6 py-4 text-left text-[14px] font-semibold text-gray-700">
         Title
@@ -187,7 +187,7 @@ function SecurityProtocols() {
       <th className="px-6 py-4 text-left text-[14px] font-semibold text-gray-700">
         Time
       </th>
-      <th className="px-6 py-4 text-left text-[14px]  font-semibold text-gray-700">
+      <th className="px-6  py-4 text-left text-[14px]  font-semibold text-gray-700">
         Action
       </th>
     </tr>
@@ -217,10 +217,10 @@ function SecurityProtocols() {
           </span>
         </td>
         <td className=" py-4 ">
-          <div className="flex items-center  gap-3">
+          <div className="flex items-center ml-[-60px] gap-3">
             <button
               onClick={() => handleEdit(protocol)}
-              className="flex items-center justify-center w-10 h-10 text-blue-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md"
+              className="flex items-center ml-[10px] justify-center w-10 h-10 text-blue-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md"
             >
               <img src={edit} alt="Edit" />
             </button>
@@ -248,7 +248,7 @@ function SecurityProtocols() {
 
       {/* Create/Edit Modal */}
       {(isCreateOpen || isEditOpen) && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center p-4 z-[9999]">
+        <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center p-4 z-[9999] ">
           <div className="bg-white p-6 sm:p-8 rounded-lg shadow-2xl w-[400px] max-w-md">
             <div className="flex justify-between items-center mb-[10px]">
               <h2 className="text-[20px] sm:text-2xl font-bold text-gray-800">

@@ -54,9 +54,7 @@ exports.ForgotFormat = (email,otp) => {
                                               following link and enter the OTP: <b>${otp}</b>.
                                           </p>
                                          
-                                          <a href="javascript:void(0);"
-                                              style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Reset
-                                              Password</a>
+                                         
                                       </td>
                                   </tr>
                                   <tr>

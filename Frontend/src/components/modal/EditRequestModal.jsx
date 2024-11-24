@@ -26,7 +26,7 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999]">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999] overflow-y-auto custom-scrollbar">
       <div className="bg-white rounded-lg w-full max-w-[410px] p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-gray-800">Edit Request</h2>
@@ -138,7 +138,7 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Priority*
             </label>
-            <div className="flex justify-between gap-4">
+            <div className="flex justify-between gap-4 max-sm:flex-col">
               {["High", "Medium", "Low"].map((priority) => (
                 <label key={priority} className="flex items-center">
                   <input
@@ -180,7 +180,7 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Status*
             </label>
-            <div className="flex justify-between gap-4">
+            <div className="flex justify-between gap-4 max-sm:flex-col">
               {["Open", "Pending", "Solve"].map((status) => (
                 <label key={status} className="flex items-center">
                   <input
@@ -218,7 +218,7 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
           </div>
 
           {/* Buttons */}
-          <div className="flex justify-center gap-3 mt-6">
+          <div className="flex justify-center gap-3 mt-6 max-sm:flex-col">
             <button
               type="button"
               onClick={onClose}

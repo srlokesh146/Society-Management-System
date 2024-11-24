@@ -52,9 +52,7 @@ exports.ForgotFormatResident = (name,email,password) => {
                                           Dear ${name},\n\nYou have successfully registered as a resident. Your login details are as follows:\n\nUsername: ${email}\nPassword: <b> ${password}</b>\n\nPlease keep this information secure.\n\nBest Regards,\nManagement
                                           </p>
                                          
-                                          <a href="javascript:void(0);"
-                                              style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Reset
-                                              Password</a>
+                                         
                                       </td>
                                   </tr>
                                   <tr>
