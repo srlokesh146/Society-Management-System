@@ -23,15 +23,15 @@ export const data = [
 
 function MaintenceDetails() {
   return (
-    <div className="p-4">
+    <div>
       <div className="h-auto w-full bg-white mt-6 rounded-lg flex flex-col items-start justify-start p-4 md:flex-row md:items-center md:justify-between">
         {/* Title */}
-        <h1 className="font-semibold text-lg text-start">
+        <h1 className="font-semibold text-[20px] text-start">
           Show Maintenance Details
         </h1>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 gap-4 mt-4 w-full sm:grid-cols-2 md:mt-0 md:w-auto md:flex md:space-x-4">
+        <div className="grid grid-cols-1 gap-4 mt-4 w-full sm:grid-cols-2 md:mt-0 md:w-auto md:flex md:space-x-4 max-sm:grid-cols-1">
           {data.map((card, index) => (
             <div
               key={index}
@@ -39,16 +39,18 @@ function MaintenceDetails() {
               style={{
                 borderImageSource: card.gradient,
                 borderImageSlice: 1,
+                height : "105px",
+                width : "236px"
               }}
             >
               {/* Left Accent Bar */}
               <div
-                className="w-[7px] h-[52px] absolute left-0 top-1/2 transform -translate-y-1/2 rounded-tr-lg rounded-br-lg"
+                className="w-[7px] h-[52px] absolute left-[-2px] top-1/2 transform -translate-y-1/2 rounded-tr-lg rounded-br-lg"
                 style={{ backgroundColor: card.bgColor }}
               />
               {/* Card Content */}
-              <div className="flex flex-col items-start justify-between w-full py-4 px-6">
-                <h6 className="text-[#202224] font-semibold text-base sm:text-lg mb-2">
+              <div className="flex flex-col items-start justify-between py-[19px] px-6">
+                <h6 className="text-[#202224] font-semibold text-base sm:text-[16px] mb-2">
                   {card.title}
                 </h6>
                 <h3

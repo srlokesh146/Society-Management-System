@@ -111,14 +111,14 @@ const ServiceAndComplaint = () => {
   }, []);
 
   return (
-    <div className="container mx-auto p-6 rounded-lg">
+    <div className="p-6 rounded-lg">
       {/* Tabs */}
       <div className="flex">
         <button
-          className={`px-2 py-3 rounded-t-lg ${
+          className={`px-[10px] py-[14px] w-[183px] rounded-t-lg cursor-pointer text-[14px] text-[#202224] font-semibold max-sm:text-[14px] ${
             activeTab === "complaint"
               ? "bg-custom-gradient text-white"
-              : "bg-white  text-black  border-b-4 border-orange-500"
+              : "bg-white text-black  border-b-2 border-orange-500"
           }`}
           onClick={() => setActiveTab("complaint")}
         >
@@ -126,10 +126,10 @@ const ServiceAndComplaint = () => {
         </button>
 
         <button
-          className={`px-2 py-3 rounded-t-lg ${
+          className={`px-[10px] py-[14px] w-[183px] rounded-t-lg cursor-pointer text-[14px] text-[#202224] font-semibold max-sm:text-[14px] ${
             activeTab === "request"
               ? "bg-custom-gradient text-white"
-              : "bg-white text-black  border-b-4 border-orange-500"
+              : "bg-white text-black  border-b-2 border-orange-500"
           }`}
           onClick={() => setActiveTab("request")}
         >

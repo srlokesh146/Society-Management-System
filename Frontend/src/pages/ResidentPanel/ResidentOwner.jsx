@@ -25,7 +25,7 @@ const ResidentOwner = () => {
   }, []);
 
   return (
-    <div className="container mx-auto p-6 rounded-lg">
+    <div className="rounded-lg">
       {/* Tabs */}
       <div className="flex">
         <button

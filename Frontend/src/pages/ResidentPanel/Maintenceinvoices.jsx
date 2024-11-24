@@ -64,7 +64,7 @@ function MaintenceInvoices() {
       {/* Pending Maintenance Section */}
       <div className="bg-white p-6 rounded-lg shadow-sm">
         <div className="flex flex-col sm:flex-row justify-between items-center">
-          <h1 className="font-semibold text-lg sm:text-xl">Pending Maintenance</h1>
+          <h1 className="font-semibold text-[20px] sm:text-xl">Pending Maintenance</h1>
           <button
             className="border p-3 mt-4 sm:mt-0 bg-custom-gradient rounded-lg text-white font-medium"
             onClick={handleViewInvoice}

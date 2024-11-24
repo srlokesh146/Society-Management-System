@@ -314,7 +314,7 @@ const Navbar = () => {
                 : user?.profileImage || Avatar
             }
             alt="Profile"
-            className="rounded-full w-[48px] h-[48px] max-sm:w-[50px] max-sm:h-[50px] sm:w-[50px] md-[50px] cursor-pointer object-contain"
+            className="rounded-full w-[48px] h-[48px] max-sm:w-[50px] max-sm:h-[50px] sm:w-[50px] md-[50px] cursor-pointer object-cover"
           />
         </div>
 

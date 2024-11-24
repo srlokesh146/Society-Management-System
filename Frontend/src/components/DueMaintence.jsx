@@ -49,30 +49,30 @@ function DueMaintence() {
                         <div key={Duemaintence._id} className="border border-gray-300 rounded-lg">
 
                             <div className="bg-[#5678E9] text-white p-4 flex justify-between items-center rounded-t-lg">
-                                <h2 className="text-sm sm:text-base font-semibold">{Duemaintence.name}</h2>
-                                <h2 className="text-sm bg-[#FFFFFF1A] w-28 text-center rounded-2xl p-1 font-semibold">Pending</h2>
+                                <h2 className="text-sm sm:text-base font-medium capitalize">{Duemaintence.name}</h2>
+                                <h2 className="text-sm bg-[#FFFFFF1A] w-28 text-center rounded-2xl p-1 font-medium h-[31px]">Pending</h2>
                             </div>
                             <div className="p-4">
                                 <div className="space-y-2">
-                                    <div className="flex justify-between items-center text-sm sm:text-base text-gray-500">
-                                        <span className="font-sm w-24"> Date</span>
-                                        <p className="text-grey-400 text-[15px]">{Duemaintence.date}</p>
+                                    <div className="flex justify-between items-center sm:text-base text-gray-500">
+                                        <span className="text-[14px] w-24"> Date</span>
+                                        <p className="text-grey-400 text-[14px]">{Duemaintence.date}</p>
                                     </div>
                                     
                                     <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
-                                    <div className="flex justify-between items-center text-sm sm:text-base text-gray-500">
-                                        <span className="font-sm w-32">Pending Date</span>
-                                        <p className="text-red-500">{Duemaintence.amount}</p>
+                                    <div className="flex justify-between items-center sm:text-base text-gray-500">
+                                        <span className="text-[14px] w-32">Pending Date</span>
+                                        <p className="text-red-500 text-[14px]">{Duemaintence.amount}</p>
                                     </div>
-                                    <div className="flex justify-between items-center text-sm sm:text-base text-gray-500">
-                                        <span className="font-sm ">Maintenance Amount</span>
-                                        <p className="text-red-500">{Duemaintence.duemaintenceamount}</p>
+                                    <div className="flex justify-between items-center sm:text-base text-gray-500">
+                                        <span className="text-[14px]">Maintenance Amount</span>
+                                        <p className="text-red-500 text-[14px]">{Duemaintence.duemaintenceamount}</p>
                                     </div>
                                     <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
                                    
                                     <button 
                                      onClick={handleDueMaintence}
-                                    className='h-14 bg-custom-gradient text-white font-bold  rounded-xl w-full border '>Pay Now</button>
+                                    className='h-[51px] bg-custom-gradient text-white font-semibold rounded-[10px] w-full border max-sm:h-[36px] text-[18px] max-sm:text-[16px]'>Pay Now</button>
                                 </div>
                             </div>
                         </div>
