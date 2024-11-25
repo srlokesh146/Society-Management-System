@@ -9,6 +9,7 @@ export default function EventsParticipate() {
   const fetchNotes = async () => {
     try {
       const response = await GetEventsParticipants();
+      console.log(response);
       setEventsParticipants(response.data.Income);
     } catch (error) {
       toast.error(error.response.data.message);

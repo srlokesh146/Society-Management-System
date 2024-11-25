@@ -21,6 +21,7 @@ export default function ActivityParticipate() {
   const fetchAnnouncement = async () => {
     try {
       const response = await GetAnnouncements();
+      console.log(response);
       setAnnouncements(response.data.Announcement);
     } catch (error) {
       toast.error(error.response.data.message);
