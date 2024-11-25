@@ -139,7 +139,6 @@ exports.login = async (req, res) => {
       });
     }
 
-   
     let query = {};
     if (EmailOrPhone.includes("@")) {
       query = {
@@ -154,7 +153,7 @@ exports.login = async (req, res) => {
         $or: [
           { Phone: EmailOrPhone },
           { MailOrPhone: EmailOrPhone },
-          { Phone_number: EmailOrPhone }, 
+          { Phone_number: EmailOrPhone },
         ],
       };
     }
@@ -173,10 +172,8 @@ exports.login = async (req, res) => {
       });
     }
 
-    
     const isPasswordValid = await bcrypt.compare(password, account.password);
-   
-    
+
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
@@ -191,7 +188,7 @@ exports.login = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "logged in successfully",
-      user: { ...account._doc, password: "" }, 
+      user: { ...account._doc, password: "" },
     });
   } catch (error) {
     console.error("Error during login:", error);
@@ -239,15 +236,23 @@ exports.SendOtp = async (req, res) => {
     });
     const currentTime = new Date();
 
-    let account = await User.findOne({ $or: [{ Email: EmailOrPhone }, { Phone: EmailOrPhone }] });
+    let account = await User.findOne({
+      $or: [{ Email: EmailOrPhone }, { Phone: EmailOrPhone }],
+    });
     if (!account) {
-      account = await Guard.findOne({ $or: [{ MailOrPhone: EmailOrPhone }, { MailOrPhone: EmailOrPhone }] });
+      account = await Guard.findOne({
+        $or: [{ MailOrPhone: EmailOrPhone }, { MailOrPhone: EmailOrPhone }],
+      });
     }
     if (!account) {
-      account = await Owner.findOne({ $or: [{ Email_address: EmailOrPhone }, { Phone: EmailOrPhone }] });
+      account = await Owner.findOne({
+        $or: [{ Email_address: EmailOrPhone }, { Phone: EmailOrPhone }],
+      });
     }
     if (!account) {
-      account = await Tenante.findOne({ $or: [{ Email_address: EmailOrPhone }, { Phone: EmailOrPhone }] });
+      account = await Tenante.findOne({
+        $or: [{ Email_address: EmailOrPhone }, { Phone: EmailOrPhone }],
+      });
     }
 
     if (!account) {
@@ -271,7 +276,11 @@ exports.SendOtp = async (req, res) => {
 
     if (EmailOrPhone.includes("@")) {
       // Send OTP via email
-       await senData(account.Email || account.MailOrPhone || account.Email_address , "foget your password" ,ForgotFormat(account.Email,otp));
+      await senData(
+        account.Email || account.MailOrPhone || account.Email_address,
+        "foget your password",
+        ForgotFormat(account.Email, otp)
+      );
 
       return res.status(200).json({
         success: true,
@@ -313,15 +322,15 @@ exports.verifyOtp = async (req, res) => {
     if (EmailOrPhone.includes("@")) {
       account =
         (await User.findOne({ Email: EmailOrPhone })) ||
-        (await Guard.findOne({ MailOrPhone: EmailOrPhone }))  || 
-        (await Owner.findOne({ Email_address: EmailOrPhone })) || 
-        (await Tenante.findOne({ Email_address: EmailOrPhone }))
+        (await Guard.findOne({ MailOrPhone: EmailOrPhone })) ||
+        (await Owner.findOne({ Email_address: EmailOrPhone })) ||
+        (await Tenante.findOne({ Email_address: EmailOrPhone }));
     } else {
       account =
         (await User.findOne({ Phone: EmailOrPhone })) ||
         (await Guard.findOne({ MailOrPhone: EmailOrPhone })) ||
         (await Owner.findOne({ Phone_number: EmailOrPhone })) ||
-        (await Tenante.findOne({ Phone_number: EmailOrPhone }))
+        (await Tenante.findOne({ Phone_number: EmailOrPhone }));
     }
 
     if (!account) {
@@ -387,9 +396,8 @@ exports.ResetPassword = async (req, res) => {
     const account =
       (await User.findOne({ Email: email })) ||
       (await Guard.findOne({ MailOrPhone: email })) ||
-      (await Owner.findOne({ Email_address: email })) || 
-      (await Tenante.findOne({ Email_address: email }))
-
+      (await Owner.findOne({ Email_address: email })) ||
+      (await Tenante.findOne({ Email_address: email }));
 
     if (!account) {
       return res.status(404).json({
