@@ -931,29 +931,49 @@ exports.GetIncomeDone = async (req, res) => {
   }
 };
 //get total done income amount
-exports.GetTotalIncomeDone = async (req, res) => {
+exports.GetTotalMaintenanceDone = async (req, res) => {
   try {
-    const totalIncomeDone = await Income.aggregate([
+    const totalMaintenanceDone = await Maintenance.aggregate([
      
-      { $match: { "members.paymentStatus": "done" } },
+      { $unwind: "$residentList" },
+
      
-      { $group: { 
-          _id: null, 
-          totalAmount: { $sum: "$amount" } 
-      }}
+      { $match: { "residentList.paymentStatus": "done" } },
+
+      
+      {
+        $addFields: {
+          residentAmount: {
+            $add: [
+              "$maintenanceAmount", 
+              "$residentList.penalty" 
+            ]
+          }
+        }
+      },
+
+    
+      {
+        $group: {
+          _id: null,
+          totalAmount: { $sum: "$residentAmount" },
+        }
+      },
     ]);
 
-    const totalAmount = totalIncomeDone.length > 0 ? totalIncomeDone[0].totalAmount : 0;
+   a
+    const totalAmount =
+      totalMaintenanceDone.length > 0 ? totalMaintenanceDone[0].totalAmount : 0;
 
     return res.status(200).json({
       success: true,
       totalAmount,
     });
   } catch (error) {
-    console.error("Error calculating total done income amount:", error);
+    console.error("Error calculating total maintenance done:", error);
     return res.status(500).json({
       success: false,
-      message: "Error calculating total done income amount",
+      message: "Error calculating total maintenance done",
     });
   }
 };
@@ -1002,38 +1022,38 @@ exports.FindByIdUserAndIncome = async (req, res) => {
   }
 }
 //total balance 
-exports.GetTotalBalance = async (req, res) => {
-  try {
+// exports.GetTotalBalance = async (req, res) => {
+//   try {
    
-    const totalMaintenance = await Maintenance.aggregate([
-      {
-        $group: {
-          _id: null,
-          totalMaintenance: { $sum: "$maintenanceAmount" }
-        }
-      }
-    ]).exec();
+//     const totalMaintenance = await Maintenance.aggregate([
+//       {
+//         $group: {
+//           _id: null,
+//           totalMaintenance: { $sum: "$maintenanceAmount" }
+//         }
+//       }
+//     ]).exec();
 
-    const totalIncome = await Income.aggregate([
-      {
-        $group: {
-        _id: null,
-        totalIncome: { $sum: "$amount" }
-      }
-    }]).exec();
+//     const totalIncome = await Income.aggregate([
+//       {
+//         $group: {
+//         _id: null,
+//         totalIncome: { $sum: "$amount" }
+//       }
+//     }]).exec();
 
-    const totalBalance = totalMaintenance[0].totalMaintenance + totalIncome[0].totalIncome;
+//     const totalBalance = totalMaintenance[0].totalMaintenance + totalIncome[0].totalIncome;
 
-    return res.status(200).json({
-      success: true,
-      totalBalance: totalBalance,
-    });
-  } catch (error) {
-    console.error("Error fetching total balance:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Error fetching total balance",
-    });
-  }
-};
+//     return res.status(200).json({
+//       success: true,
+//       totalBalance: totalBalance,
+//     });
+//   } catch (error) {
+//     console.error("Error fetching total balance:", error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Error fetching total balance",
+//     });
+//   }
+// };
 
