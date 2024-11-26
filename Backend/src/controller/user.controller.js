@@ -132,6 +132,10 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { EmailOrPhone, password } = req.body;
+    console.log(req.body);
+    
+    
+    
     if (!EmailOrPhone || !password) {
       return res.status(400).json({
         success: false,
@@ -168,7 +172,7 @@ exports.login = async (req, res) => {
     if (!account) {
       return res.status(404).json({
         success: false,
-        message: "Invalid credentials",
+        message: "Invalid  credentials",
       });
     }
 
@@ -332,7 +336,8 @@ exports.verifyOtp = async (req, res) => {
         (await Owner.findOne({ Phone_number: EmailOrPhone })) ||
         (await Tenante.findOne({ Phone_number: EmailOrPhone }));
     }
-
+   
+    
     if (!account) {
       return res.status(404).json({
         success: false,

@@ -149,7 +149,7 @@ const Register = () => {
   return (
     <div>
       <div
-        className="min-h-screen  flex flex-col  md:flex-row"
+        className="min-h-screen  flex flex-col  md:flex-row "
         style={{
           backgroundImage: `url(${BackgroundImage})`,
           backgroundSize: "cover",
@@ -176,7 +176,9 @@ const Register = () => {
         </div>
 
         {/* Right Section - Form */}
-        <div className="md:w-3/5 w-full flex items-center justify-center p-6">
+        <div className="md:w-3/5 w-full flex items-center justify-center p-6"
+          style={{ overflowY: "auto", height: "100vh" }}
+        >
           <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-[600px]">
             <h2 className="text-[34px] font-semibold mb-6 text-gray-800  max-sm:text-[2] max-sm:text-[24px] max-md:text-[28px]">
               Registration

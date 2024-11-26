@@ -81,13 +81,15 @@ app.use("/api/v2/poll", PollRoutes);
 
 require("./src/utils/chatIo.js");
 
+
 app.get("/", (req, res) => res.send("Hello World!"));
+
 server.listen(port, () =>
   console.log(`Example app listening on port ${port}!`)
 );
 
-// socket io
 
+// socket io
 const io = new Server(server, {
   cors: {
     origin: "*",
