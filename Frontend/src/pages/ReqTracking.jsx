@@ -87,17 +87,17 @@ const ReqTracking = () => {
             </h1>
             <button
               onClick={() => setIsModalOpen(true)}
-              className="mt-4 md:mt-0 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white px-4 py-2 rounded-md hover:opacity-90 transition-all duration-300"
+              className="mt-4 md:mt-0 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white px-4 h-[51px] rounded-md hover:opacity-90 transition-all duration-300"
             >
               Create Request
             </button>
           </div>
 
           <div className="max-h-[25rem] overflow-y-auto lg:overflow-x-hidden max-md:overflow-x-auto pr-[8px] ps-[20px] custom-scrollbar">
-            <table className="w-full text-center">
+            <table className="w-full text-center rounded-lg">
               <thead>
-                <tr className="bg-indigo-50">
-                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">
+                <tr className="bg-indigo-50  h-[61px]">
+                  <th className="px-4 md:px-8  rounded-tl-[10px]  py-3 text-md font-semibold text-black-500">
                     Requester Name
                   </th>
                   <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">
@@ -118,7 +118,7 @@ const ReqTracking = () => {
                   <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">
                     Status
                   </th>
-                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">
+                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500 rounded-tr-[10px]">
                     Action
                   </th>
                 </tr>
@@ -152,7 +152,7 @@ const ReqTracking = () => {
                         year: "numeric",
                       })}
                     </td>
-                    <td className="px-4 flex  md:px-6 py-4 text-sm md:text-md text-[#4F4F4F]">
+                    <td className="px-4 flex justify-center items-center  md:px-6 py-4 text-sm md:text-md text-[#4F4F4F]">
                       <span className="bg-blue-50 text-blue-600 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">
                         {Request.wing}
                       </span>
@@ -164,7 +164,9 @@ const ReqTracking = () => {
                       <PriorityBadge priority={Request.priority} />
                     </td>
                     <td className="px-4 md:px-6 py-4">
-                      <StatusBadge status={Request.status} />
+                <div className="flex justify-center items-center">
+                <StatusBadge status={Request.status} />
+                </div>
                     </td>
                     <td className="px-4 md:px-6 py-4">
                       <div className="flex gap-2 justify-center">

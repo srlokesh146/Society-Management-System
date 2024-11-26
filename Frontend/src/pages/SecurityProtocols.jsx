@@ -167,7 +167,7 @@ function SecurityProtocols () {
         </h1>
         <button
           onClick={handleCreate}
-          className='px-4 py-2 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)]  text-white rounded-md hover:opacity-90 flex items-center gap-2'
+          className='px-4  h-[51px]  bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)]  text-white rounded-[10px] hover:opacity-90 flex items-center gap-2'
         >
           Create Protocol
         </button>
@@ -184,10 +184,10 @@ function SecurityProtocols () {
                 <th className='px-6 py-4 text-left text-[14px] font-semibold text-[#202224]'>
                   Description
                 </th>
-                <th className='px-6 py-4 text-center text-[14px] font-semibold text-[#202224]'>
+                <th className='px-6 py-4 text-right text-[14px] font-semibold text-[#202224]'>
                   Date
                 </th>
-                <th className='px-6 py-4 text-center text-[14px] font-semibold text-[#202224]'>
+                <th className='px-6 py-4 text-right text-[14px] font-semibold text-[#202224]'>
                   Time
                 </th>
                 <th className='px-16 py-4 text-right text-[14px] font-semibold text-[#202224] rounded-tr-[15px]'>
@@ -208,15 +208,15 @@ function SecurityProtocols () {
                     <td className='px-6 py-6 line-clamp-1 max-w-[400px] max-h-[50px] text-md'>
                       {protocol.description}
                     </td>
-                    <td className='px-6 py-4 text-md text-center'>
+                    <td className=' py-4 text-md text-right'>
                       {new Date(protocol.date).toLocaleDateString('en-GB', {
                         day: '2-digit',
                         month: '2-digit',
                         year: 'numeric'
                       })}
                     </td>
-                    <td className='px-6 py-4 text-sm text-center'>
-                      <span className='inline-flex justify-center items-center px-3 py-1 bg-gray-100 rounded-full w-[92px] h-[34px] font-medium'>
+                    <td className=' py-4 text-sm text-right'>
+                      <span className='inline-flex justify-center items-center px-2 py-1 bg-gray-100 rounded-full w-[92px] h-[34px] font-medium'>
                         {protocol.time}
                       </span>
                     </td>

@@ -385,6 +385,15 @@ ul::-webkit-scrollbar-thumb {
 }
 
 
+  @media (min-width: 320px) and (max-width: 640px) {
+    .search-icon{
+      background-image: url(./assets/images/search.svg);
+      width: 100px;
+      height: 100px;
+      
+    }
+  }
+
 
 
 /* Custom scrollbar for responsiveness */

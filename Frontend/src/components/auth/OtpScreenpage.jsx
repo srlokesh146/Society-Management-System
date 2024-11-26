@@ -61,7 +61,7 @@ const OtpScreenpage = () => {
 
   return (
     <div className="flex lg:flex-row h-screen overflow-hidden bg-cover bg-center bg-image relative max-md:flex-col">
-      <div className="flex flex-col bg-[#F6F8FB] w-full lg:w-1/2 z-10">
+      <div className="flex flex-col bg-[#F6F8FB] w-full lg:w-1/2 z-10   max-lg:hidden ">
         <div className="pt-[60px] flex justify-start max-sm:pt-[30px]">
           <Logo logocss />
         </div>
@@ -74,7 +74,7 @@ const OtpScreenpage = () => {
         </div>
       </div>
 
-      <div className="flex items-center justify-center w-full lg:w-1/2 z-20 relative">
+      <div className="flex items-center  h-[100vh]  justify-center w-full lg:w-1/2 z-20 relative">
         <div className="pt-[20px] pb-[20px] px-[5%] lg:px-[20px] w-full max-w-[630px] rounded-lg z-30 relative">
           <h3 className="text-gray-700 text-[18px] font-semibold mb-[56px] ms-[40px] text-start max-sm:mb-[15px] max-md:mb-[15px]">
             3. OTP Screen (Unfill)
@@ -117,7 +117,7 @@ const OtpScreenpage = () => {
 
             <button
               onClick={handleOtp}
-              className={`w-full py-[12px] rounded leading-7 
+              className={`w-full py-[12px] rounded-[10px] leading-7 
                 ${otp.every((digit) => digit !== "")
                   ? "bg-custom-gradient text-white"
                   : "bg-[#F6F8FB] text-[#A7A7A7]"
