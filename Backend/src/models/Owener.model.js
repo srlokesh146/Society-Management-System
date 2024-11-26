@@ -77,7 +77,7 @@ const Ownerschema= new Schema({
     },
    password: {  // Add this field to store the hashed password
         type: String,
-        required: true
+        
     },
     Resident_status:{
         type:String,

@@ -25,7 +25,7 @@ export default function AccessForums() {
   const senderModel = useSelector((store) => store.auth.user.Resident_status);
   const [userList, setUserList] = useState([]);
   const [message, setMessage] = useState("");
-  const [selectedChatId, setSelectedChatId] = useState(3); // Default to the third chat (Arlene McCoy)
+  const [selectedChatId, setSelectedChatId] = useState(3); 
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [discussions, setDiscussions] = useState([]);
   const [receiver, setReceiver] = useState(null);
