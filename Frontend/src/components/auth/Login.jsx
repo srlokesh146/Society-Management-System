@@ -77,11 +77,13 @@ const Login = () => {
 
   return (
     <div
+
       className="flex items-center justify-center  bg-cover bg-center overflow-auto max-md:flex-col max-xl:flex-col"
       style={{ backgroundImage: `url(${BackgroundImage})` }} // Background image
     >
       {/* Left Section (Image and Title) */}
       <div className="bg-[#F6F8FB] rounded-lg shadow-lg   max-w-[950px] w-full flex flex-col items-start h-auto md:h-[950px] relative  max-md:hidden  max-lg:hidden">
+
         {/* Decorative Background Section */}
         <div className="absolute inset-0 opacity-10 rounded-lg"></div>
 

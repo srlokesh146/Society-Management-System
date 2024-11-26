@@ -60,8 +60,10 @@ const OtpScreenpage = () => {
   };
 
   return (
+
     <div className="flex lg:flex-row h-screen overflow-hidden bg-cover bg-center bg-image relative max-md:flex-col">
       <div className="flex flex-col bg-[#F6F8FB] w-full lg:w-1/2 z-10   max-lg:hidden ">
+
         <div className="pt-[60px] flex justify-start max-sm:pt-[30px]">
           <Logo logocss />
         </div>
@@ -79,7 +81,7 @@ const OtpScreenpage = () => {
           <h3 className="text-gray-700 text-[18px] font-semibold mb-[56px] ms-[40px] text-start max-sm:mb-[15px] max-md:mb-[15px]">
             3. OTP Screen (Unfill)
           </h3>
-          <div className="custom-shadow px-[50px] pt-[50px] pb-[85px] w-full text-start bg-white rounded-[15px] z-40 relative max-sm:px-[30px] max-sm:pb-[50px] max-sm:pt-[30px]">
+          <div className="custom-shadow px-[50px] pt-[50px] pb-[85px] w-full text-start bg-white rounded-[15px] z-40 relative max-sm:px-[15px] max-sm:pb-[50px] max-sm:pt-[30px]">
             <h2 className="text-[34px] font-semibold mb-[10px] text-gray-700 max-sm:text-[2] max-sm:text-[24px] max-md:text-[28px]">
               Enter OTP
             </h2>
@@ -87,7 +89,7 @@ const OtpScreenpage = () => {
               Please enter the 6-digit code sent to your phone number.
             </p>
 
-            <div className="flex mb-[20px] justify-start space-x-2">
+            <div className="flex mb-[20px] justify-start space-x-[20px] max-sm:space-x-[5px] max-md:justify-start">
               {otp.map((digit, index) => (
                 <input
                   key={index}
@@ -97,19 +99,19 @@ const OtpScreenpage = () => {
                   value={digit}
                   onChange={(e) => handleChange(index, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
-                  className="w-[14%] min-w-[40px] h-[60px] border border-[#D3D3D3] rounded-[10px] text-center text-[24px] text-[#D3D3D3] focus:outline-none"
+                  className="w-[60px] min-w-[40px] h-[60px] border border-[#D3D3D3] rounded-[10px] text-center text-[24px] text-[#D3D3D3] focus:outline-none"
                 />
               ))}
             </div>
 
             <div className="flex items-center justify-between mb-[20px]">
               <div className="flex items-center">
-                <AiOutlineClockCircle className="text-gray-600 mr-1" />
-                <span className="text-gray-600">00:30</span>
+                <AiOutlineClockCircle className="text-[#202224] text-base mr-1" />
+                <span className="text-[#202224] text-base">00:30</span>
               </div>
               <button
                 onClick={resendOtp}
-                className="text-[#A7A7A7] hover:text-[#000]"
+                className="text-[#A7A7A7] hover:text-[#000] text-sm"
               >
                 Resend OTP
               </button>

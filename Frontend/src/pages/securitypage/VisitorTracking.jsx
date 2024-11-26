@@ -188,6 +188,7 @@ export default function VisitorTracking() {
                           src={`https://i.pravatar.cc/150?img=${index}`}
                           alt=''
                         />
+
                       </div>
                       <div className='ml-4'>
                         <div className='text-[16px] font-medium text-[#4F4F4F]'>
