@@ -30,8 +30,8 @@ export default function OwnerForm() {
   });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("owner");
-  const [memberCount, setMemberCount] = useState(0);
-  const [vehicleCount, setVehicleCount] = useState(0);
+  const [memberCount, setMemberCount] = useState(1);
+  const [vehicleCount, setVehicleCount] = useState(1);
   const [isFormValid, setIsFormValid] = useState(false);
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [profilePhotoPreview, setProfilePhotoPreview] = useState(null);

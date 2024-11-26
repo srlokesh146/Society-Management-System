@@ -13,8 +13,8 @@ createRoot(document.getElementById("root")).render(
       <PersistGate loading={null} persistor={authPersist}>
         <BrowserRouter>
           <App />
-        </BrowserRouter>
-      </PersistGate>
-    </Provider>
+        </BrowserRouter>  
+      </PersistGate> 
+    </Provider> 
   </StrictMode>
 );
