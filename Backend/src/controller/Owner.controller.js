@@ -59,9 +59,7 @@ exports.addOwnerData = async (req, res) => {
     const Adhar_front = await uploadAndDeleteLocal(req.files?.Adhar_front);
     const Adhar_back = await uploadAndDeleteLocal(req.files?.Adhar_back);
     const Address_proof = await uploadAndDeleteLocal(req.files?.Address_proof);
-    const Rent_Agreement = await uploadAndDeleteLocal(
-      req.files?.Rent_Agreement
-    );
+    const Rent_Agreement = await uploadAndDeleteLocal(req.files?.Rent_Agreement);
 
     if (
       !Full_name ||
@@ -448,7 +446,7 @@ exports.updateDataById = async (req, res) => {
 
     const account = (await Owner.findById(id)) || (await Tenante.findById(id));
 
-
+    account.Email_address=undefined;
     account.password=undefined;
     account.UnitStatus = "Vacant";
     // Save the updated entity

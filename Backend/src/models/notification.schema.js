@@ -1,4 +1,7 @@
 const { Schema, default: mongoose, model } = require("mongoose");
+const Owner = require('../models/Owener.model');
+const Tenante = require('../models/Tenent.model');
+const User = require('../models/user.schema');
 
 const notificationschema= new Schema({
     title:{
@@ -19,7 +22,7 @@ const notificationschema= new Schema({
         default:false
     },
     users:[{
-        _id:{type:mongoose.Schema.Types.ObjectId},
+        _id:{type:mongoose.Schema.Types.ObjectId ,  refPath: 'users.model'},
         model:{
             type:String,
             enum:["Owner","Tenante","User"]
