@@ -382,17 +382,17 @@ const Income = () => {
           </div>
           <table className='min-w-full'>
             <thead>
-              <tr className='text-left  font-bold text-sm bg-indigo-50 rounded-lg  text-black-500'>
-                <th className='py-3 px-4 font-semibold'>Name</th>
-                <th className='py-3 px-4 font-semibold text-center'>Unit Number</th>
-                <th className='py-3 px-4 font-semibold text-center'>Date</th>
-                <th className='py-3 px-4 font-semibold text-center'>Status</th>
-                <th className='py-3 px-4 font-semibold text-center'>Phone Number</th>
-                <th className='py-3 px-4 font-semibold text-center'>Amount</th>
-                <th className='py-3 px-4 font-semibold text-center'>Penalty</th>
-                <th className='py-3 px-4 font-semibold text-center'>Status</th>
-                <th className='py-3 px-4 font-semibold text-center'>Payment</th>
-                <th className='py-3 px-4 font-semibold text-center'>Action</th>
+              <tr className='text-left  font-bold text-sm bg-indigo-50 rounded-lg text-black-500 h-[61px]'>
+                <th className='text-sm py-3 px-4 font-semibold rounded-tl-[15px]'>Name</th>
+                <th className='text-sm py-3 px-4 font-semibold text-center'>Unit Number</th>
+                <th className='text-sm py-3 px-4 font-semibold text-center'>Date</th>
+                <th className='text-sm py-3 px-4 font-semibold text-center'>Status</th>
+                <th className='text-sm py-3 px-4 font-semibold text-center'>Phone Number</th>
+                <th className='text-sm py-3 px-4 font-semibold text-center'>Amount</th>
+                <th className='text-sm py-3 px-4 font-semibold text-center'>Penalty</th>
+                <th className='text-sm py-3 px-4 font-semibold text-center'>Status</th>
+                <th className='text-sm py-3 px-4 font-semibold text-center'>Payment</th>
+                <th className='text-sm py-3 px-4 font-semibold text-center rounded-tr-[15px]'>Action</th>
               </tr>
             </thead>
             <tbody>
