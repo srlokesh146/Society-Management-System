@@ -448,6 +448,8 @@ exports.updateDataById = async (req, res) => {
 
     const account = (await Owner.findById(id)) || (await Tenante.findById(id));
 
+
+    account.password=undefined;
     account.UnitStatus = "Vacant";
     // Save the updated entity
     await account.save();

@@ -10,7 +10,6 @@ const port = constant.PORT;
 require("./src/config/db");
 const cors = require("cors");
 const cron = require("node-cron");
-
 // for all origin
 const corsOptions = {
   origin: function (origin, callback) {
@@ -79,7 +78,7 @@ app.use("/api/v2/chat",chatRoute)
 //poll apis
 app.use("/api/v2/poll",PollRoutes)
 
-require("./src/utils/chatIo.js")
+
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
