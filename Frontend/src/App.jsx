@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Login from "./components/auth/Login";
@@ -45,7 +45,8 @@ import CommunityTab from "./pages/residentpanel/Community/communitytab/Community
 import Discusion from "./pages/ResidentPanel/Community/communitytab/Discusion.jsx";
 import ViewIncome from "./components/modal/AdminIncome.jsx";
 import AdminIncome from "./components/modal/AdminIncome.jsx";
-
+import { io } from "socket.io-client";
+import Constant from "./config/Constant.jsx";
 
 function App() {
   const [isSidebaropen, setSidebaropen] = useState(false);
@@ -80,8 +81,9 @@ function App() {
       )}
 
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 main ${isSidebaropen && shouldRenderSidebarAndNavbar ? "ml-[280px]" : "ml-0"
-          }`}
+        className={`flex-1 flex flex-col transition-all duration-300 main ${
+          isSidebaropen && shouldRenderSidebarAndNavbar ? "ml-[280px]" : "ml-0"
+        }`}
       >
         {shouldRenderSidebarAndNavbar && (
           <PrivateRoutes>
@@ -90,10 +92,11 @@ function App() {
         )}
 
         <div
-          className={`flex-1 ${shouldRenderSidebarAndNavbar
+          className={`flex-1 ${
+            shouldRenderSidebarAndNavbar
               ? "p-6 max-sm:p-4 overflow-auto max-md:overflow-auto"
               : "lg:overflow-hidden max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-y-auto"
-            } bg-gray-100 max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-auto`}
+          } bg-gray-100 max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-auto`}
         >
           <Routes>
             {/* Public Routes without Sidebar and Navbar */}
@@ -308,14 +311,14 @@ function App() {
                   element={
                     <PrivateRoutes>
                       <Maintenceinvoices />
-                      </PrivateRoutes>
-                  }/>
-                  <Route   
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
                   path="/accessforums"
                   element={
                     <PrivateRoutes>
                       <AccessForums />
-
                     </PrivateRoutes>
                   }
                 />
@@ -335,7 +338,7 @@ function App() {
                     </PrivateRoutes>
                   }
                 />
-               <Route
+                <Route
                   path="/polls"
                   element={
                     <PrivateRoutes>
@@ -343,7 +346,7 @@ function App() {
                     </PrivateRoutes>
                   }
                 />
-               <Route
+                <Route
                   path="/communitiesdiscusion"
                   element={
                     <PrivateRoutes>
@@ -351,7 +354,7 @@ function App() {
                     </PrivateRoutes>
                   }
                 />
-               <Route
+                <Route
                   path="/adminincome"
                   element={
                     <PrivateRoutes>
@@ -359,7 +362,6 @@ function App() {
                     </PrivateRoutes>
                   }
                 />
-
               </>
             )}
           </Routes>

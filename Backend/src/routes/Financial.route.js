@@ -82,7 +82,7 @@ router.patch("/income/:id", FinancialController.UpdateIncome);
 //get done income
 router.get("/doneincome", FinancialController.GetIncomeDone);
 //get done income total
-router.get("/income/total-done", FinancialController.GetTotalIncomeDone);
+router.get("/totalMaintenanceDone", FinancialController.GetTotalMaintenanceDone);
 //FindByIdUserAndMaintance
 router.get(
   "/getuserandIncome",
@@ -90,5 +90,5 @@ router.get(
   FinancialController.FindByIdUserAndIncome
 );
 //total blance
-router.get("/total-balance-done", FinancialController.GetTotalBalance);
+// router.get("/total-balance-done", FinancialController.GetTotalBalance);
 module.exports = router;

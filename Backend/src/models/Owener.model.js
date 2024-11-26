@@ -86,7 +86,16 @@ const Ownerschema= new Schema({
     UnitStatus:{
         type:String,
         default:"Occupied"
-    }
+    },
+    otp: {
+      type: String,
+    },
+    otpExpiration: {
+      type: Date,
+      default: Date.now,
+      get: (otpExpiration) => otpExpiration.getTime(),
+      set: (otpExpiration) => new Date(otpExpiration),
+    },
 
 },{timestamps:true})
 

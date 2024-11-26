@@ -34,8 +34,8 @@ export default function TeantForm() {
   const [submitted, setSubmitted] = useState(false); // Track submission attempts
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("tenant");
-  const [memberCount, setMemberCount] = useState(0);
-  const [vehicleCount, setVehicleCount] = useState(0);
+  const [memberCount, setMemberCount] = useState(1);
+  const [vehicleCount, setVehicleCount] = useState(1);
   const [isFormValid, setIsFormValid] = useState(false);
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [profilePhotoPreview, setProfilePhotoPreview] = useState(null);
