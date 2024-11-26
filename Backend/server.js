@@ -79,7 +79,7 @@ app.use("/api/v2/chat", chatRoute);
 //poll apis
 app.use("/api/v2/poll", PollRoutes);
 
-require("./src/utils/chatIo.js");
+// require("./src/utils/chatIo.js");
 
 
 app.get("/", (req, res) => res.send("Hello World!"));

@@ -102,19 +102,19 @@ export default function VisitorTracking () {
           <table className='min-w-full table-auto border-collapse'>
             <thead className='bg-indigo-50'>
               <tr className='rounded-tl-[15px] rounded-tr-[15px] h-[61px]'>
-                <th className='px-4 sm:px-6 py-4 text-left text-md font-semibold text-black-500 tracking-wider rounded-tl-[15px]'>
+                <th className='px-4 sm:px-6 py-4 text-left text-md font-semibold text-black-500 rounded-tl-[15px]'>
                   Visitor Name
                 </th>
-                <th className='px-4 sm:px-6 py-4 text-start text-md font-semibold text-black-500 tracking-wider'>
+                <th className='px-4 sm:px-6 py-4 text-start text-md font-semibold text-black-500'>
                   Phone Number
                 </th>
-                <th className='px-4 sm:px-6 py-4 text-left text-md font-semibold text-black-500 tracking-wider'>
+                <th className='px-4 sm:px-6 py-4 text-left text-md font-semibold text-black-500'>
                   Date
                 </th>
-                <th className='px-4 sm:px-6 py-4 text-center text-md font-semibold text-black-500 tracking-wider'>
+                <th className='px-4 sm:px-6 py-4 text-center text-md font-semibold text-black-500'>
                   Unit Number
                 </th>
-                <th className='px-4 sm:px-10 py-4 text-right text-md font-semibold text-black-500 tracking-wider rounded-tr-[15px]'>
+                <th className='px-4 sm:px-10 py-4 text-right text-md font-semibold text-black-500 rounded-tr-[15px]'>
                   Time
                 </th>
               </tr>
