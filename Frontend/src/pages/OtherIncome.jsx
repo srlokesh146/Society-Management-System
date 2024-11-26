@@ -199,7 +199,8 @@ const OtherIncome = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-          {incomeEntries.map((entry) => (
+        {incomeEntries.length > 0 ? (
+          incomeEntries.map((entry) => (
             <div
               key={entry._id}
               className="bg-white h-80 w-[350px] shadow-xl rounded-lg border border-blue-300 relative"
@@ -270,7 +271,14 @@ const OtherIncome = () => {
                   : entry.description}
               </p>
             </div>
-          ))}
+           ))
+          ) : (
+            <tr>
+              <td colSpan='6' className='text-center py-4'>
+                No data found.
+              </td>
+            </tr>
+          )}
         </div>
       </div>
 

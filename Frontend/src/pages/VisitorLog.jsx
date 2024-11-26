@@ -30,28 +30,29 @@ const VisitorLogs = () => {
       <div className="bg-white rounded-lg shadow-sm overflow-y-auto overflow-x-auto custom-scrollbar">
         <div className="max-h-[50rem] ps-0 pr-[8px]">
           <table className="min-w-full table-auto border-collapse">
-            <thead className="bg-indigo-50">
+            <thead className="bg-indigo-50 h-[61px]">
               <tr>
-                <th className="px-4 sm:px-6 py-4 text-left text-[14px] font-semibold text-black-500 tracking-wider">
+                <th className="px-4 sm:px-6 py-4 text-left text-[14px] font-semibold text-black-500 rounded-ts-[15px]">
                   Visitor Name
                 </th>
-                <th className="px-4 sm:px-6 py-4 text-left text-[14px] font-semibold text-black-500 tracking-wider">
+                <th className="px-4 sm:px-6 py-4 text-left text-[14px] font-semibold text-black-500">
                   Phone Number
                 </th>
-                <th className="px-4 sm:px-6 py-4 text-left text-[14px] font-semibold text-black-500 tracking-wider">
+                <th className="px-4 sm:px-6 py-4 text-left text-[14px] font-semibold text-black-500">
                   Date
                 </th>
-                <th className="px-4 sm:px-6 py-4 text-center text-[14px] font-semibold text-black-500 tracking-wider">
+                <th className="px-4 sm:px-6 py-4 text-center text-[14px] font-semibold text-black-500">
                   Unit Number
                 </th>
-                <th className="px-4 sm:px-10 py-4 text-right text-[14px] font-semibold text-black-500 tracking-wider">
+                <th className="px-4 sm:px-10 py-4 text-right text-[14px] font-semibold text-black-500 rounded-tr-[15px]">
                   Time
                 </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-100">
-              {visitorLog.map((visitor, index) => (
-                <tr key={index} className="hover:bg-gray-50">
+            {visitorLog.length > 0 ? (
+              visitorLog.map((visitor, index) => (
+                <tr key={index} className="hover:bg-gray-50 text-[#4F4F4F]">
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="flex-shrink-0 h-10 w-10">
@@ -62,19 +63,19 @@ const VisitorLogs = () => {
                         />
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
+                        <div className="text-sm font-medium ">
                           {visitor.name}
                         </div>
                       </div>
                     </div>
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-500">
+                    <div className="text-sm font-medium">
                       {visitor.number}
                     </div>
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-500">
+                    <div className="text-sm font-medium">
                       {new Date(visitor.date).toLocaleDateString("en-GB", {
                         day: "2-digit",
                         month: "2-digit",
@@ -87,18 +88,25 @@ const VisitorLogs = () => {
                       <span className="h-[28px] w-[28px] flex items-center justify-center rounded-full bg-[#5678E91A] text-[#5678E9] text-xs font-medium mr-2">
                         {visitor.wing}
                       </span>
-                      <span className="text-sm font-medium text-gray-500">
+                      <span className="text-sm font-medium">
                         {visitor.unit}
                       </span>
                     </div>
                   </td>
                   <td className="py-4 whitespace-nowrap text-right">
-                    <div className="inline-flex justify-center items-center px-3 py-1 font-medium text-sm text-gray-500 bg-[#F6F8FB] rounded-full w-[92px] h-[34px]">
+                    <div className="inline-flex justify-center items-center px-3 py-1 font-medium text-sm bg-[#F6F8FB] rounded-full w-[92px] h-[34px]">
                       {visitor.time}
                     </div>
                   </td>
                 </tr>
-              ))}
+               ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="text-center py-4">
+                    No data found
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

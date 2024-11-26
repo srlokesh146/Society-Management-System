@@ -164,7 +164,7 @@ export const Navigationbar = [
   { path: '/income', label: 'FinancialMaintenance' },
   { path: '/expense', label: 'Expense' },
   { path: '/securityguard', label: 'SecurityGuard' },
-  { path: '/other-income', label: 'OtherIncome' },
+  { path: '/other-income', label: 'FinancialMaintenance' },
   { path: '/visitortracking', label: 'VisitorTracking' },
   { path: '/emergencymanagement', label: 'EmergencyManagement' },
   { path: '/activityparticipate', label: 'ActivityParticipate' },

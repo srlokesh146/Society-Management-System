@@ -1,225 +1,233 @@
-import React, { useEffect, useState } from "react";
-import { FaEdit, FaEllipsisV } from "react-icons/fa";
-import { CreateNote, GetNotes, UpdateNote } from "../services/notesService";
-import { toast } from "react-hot-toast";
+import React, { useEffect, useState } from 'react'
+import { FaEdit, FaEllipsisV } from 'react-icons/fa'
+import { CreateNote, GetNotes, UpdateNote } from '../services/notesService'
+import { toast } from 'react-hot-toast'
 
-function Note() {
-  const [notes, setNotes] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalType, setModalType] = useState("");
-  const [currentNote, setCurrentNote] = useState(null);
-  const [dropdownOpen, setDropdownOpen] = useState(null);
-  const [isFormFilled, setIsFormFilled] = useState(false);
+function Note () {
+  const [notes, setNotes] = useState([])
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalType, setModalType] = useState('')
+  const [currentNote, setCurrentNote] = useState(null)
+  const [dropdownOpen, setDropdownOpen] = useState(null)
+  const [isFormFilled, setIsFormFilled] = useState(false)
 
-  const checkFormFilled = (note) => {
+  const checkFormFilled = note => {
     return (
-      note?.title?.trim() !== "" &&
-      note?.description?.trim() !== "" &&
-      note?.date?.trim() !== ""
-    );
-  };
+      note?.title?.trim() !== '' &&
+      note?.description?.trim() !== '' &&
+      note?.date?.trim() !== ''
+    )
+  }
 
   const handleNoteChange = (field, value) => {
     const updatedNote = {
       ...currentNote,
-      [field]: value,
-    };
-    setCurrentNote(updatedNote);
-    setIsFormFilled(checkFormFilled(updatedNote));
-  };
+      [field]: value
+    }
+    setCurrentNote(updatedNote)
+    setIsFormFilled(checkFormFilled(updatedNote))
+  }
 
   const handleCreateNote = () => {
-    setModalType("create");
-    setCurrentNote({ title: "", description: "", date: "" });
-    setIsModalOpen(true);
-    setIsFormFilled(false);
-  };
+    setModalType('create')
+    setCurrentNote({ title: '', description: '', date: '' })
+    setIsModalOpen(true)
+    setIsFormFilled(false)
+  }
 
-  const handleEditNote = (note) => {
-    setModalType("edit");
-    setCurrentNote({ ...note });
-    setIsModalOpen(true);
-    setIsFormFilled(true);
-  };
+  const handleEditNote = note => {
+    setModalType('edit')
+    setCurrentNote({ ...note })
+    setIsModalOpen(true)
+    setIsFormFilled(true)
+  }
 
   const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setCurrentNote(null);
-  };
+    setIsModalOpen(false)
+    setCurrentNote(null)
+  }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (modalType === "create") {
+  const handleSubmit = async event => {
+    event.preventDefault()
+    if (modalType === 'create') {
       try {
-        const response = await CreateNote(currentNote);
-        fetchNotes();
-        toast.success(response.data.message);
+        const response = await CreateNote(currentNote)
+        fetchNotes()
+        toast.success(response.data.message)
       } catch (error) {
-        toast.error(error.response.data.message);
+        toast.error(error.response.data.message)
       }
-    } else if (modalType === "edit") {
+    } else if (modalType === 'edit') {
       const updateData = {
         title: currentNote.title,
         description: currentNote.description,
-        date: currentNote.date,
-      };
+        date: currentNote.date
+      }
       try {
-        const response = await UpdateNote(currentNote._id, updateData);
-        fetchNotes();
-        toast.success(response.data.message);
+        const response = await UpdateNote(currentNote._id, updateData)
+        fetchNotes()
+        toast.success(response.data.message)
       } catch (error) {
-        toast.error(error.response.data.message);
+        toast.error(error.response.data.message)
       } finally {
-        setDropdownOpen(false);
+        setDropdownOpen(false)
       }
     }
-    handleCloseModal();
-  };
+    handleCloseModal()
+  }
 
-  const toggleDropdown = (id) => {
-    setDropdownOpen(dropdownOpen === id ? null : id);
-  };
+  const toggleDropdown = id => {
+    setDropdownOpen(dropdownOpen === id ? null : id)
+  }
 
   const fetchNotes = async () => {
     try {
-      const response = await GetNotes();
-      setNotes(response.data.Note);
+      const response = await GetNotes()
+      setNotes(response.data.Note)
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchNotes();
-  }, []);
+    fetchNotes()
+  }, [])
 
   return (
-    <div className="container mx-auto p-4 sm:p-6  bg-white rounded-lg">
-      <div className="flex justify-between   items-center  mb-6">
-        <h1 className="text-[20px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px] max-sm:mb-0">
+    <div className='container mx-auto p-4 sm:p-6  bg-white rounded-lg'>
+      <div className='flex justify-between   items-center  mb-6'>
+        <h1 className='text-[20px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px]'>
           Note
         </h1>
         <button
           onClick={handleCreateNote}
-          className="px-4 py-2 bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white rounded-md hover:opacity-90"
+          className='px-4 py-2 bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white rounded-md hover:opacity-90'
         >
           Create Note
         </button>
       </div>
 
-      <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {notes.map((note) => (
-          <div
-            key={note._id}
-            className="bg-white rounded-lg border border-grey-800 hover:shadow-sm transition-shadow"
-          >
-            <div className="bg-[#5678E9] text-white p-4 rounded-t-lg flex justify-between items-center">
-              <h3 className="font-medium">{note.title}</h3>
-              <div className="relative">
-                <button
-                  onClick={() => toggleDropdown(note._id)}
-                  className="hover:opacity-80  text-blue-500 rounded-md p-1 bg-white h-5 w-5"
-                >
-                  <FaEllipsisV size={12} />
-                </button>
-                {dropdownOpen === note._id && (
-                  <div className="absolute right-0 mt-2 w-28 bg-white rounded-md hover:bg-gray-50 shadow-lg z-10">
-                    <button
-                      onClick={() => handleEditNote(note)}
-                      className="w-full px-3 py-2 text-left text-sm text-gray-700  flex items-center gap-2 font-semibold"
-                    >
-                      Edit
-                    </button>
-                  </div>
-                )}
+      <div className='grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+        {notes.length > 0 ? (
+          notes.map(note => (
+            <div
+              key={note._id}
+              className='bg-white rounded-lg border border-grey-800 hover:shadow-sm transition-shadow'
+            >
+              <div className='bg-[#5678E9] text-white p-4 rounded-t-lg flex justify-between items-center'>
+                <h3 className='font-medium'>{note.title}</h3>
+                <div className='relative'>
+                  <button
+                    onClick={() => toggleDropdown(note._id)}
+                    className='hover:opacity-80  text-blue-500 rounded-md p-1 bg-white h-5 w-5'
+                  >
+                    <FaEllipsisV size={12} />
+                  </button>
+                  {dropdownOpen === note._id && (
+                    <div className='absolute right-0 mt-2 w-28 bg-white rounded-md hover:bg-gray-50 shadow-lg z-10'>
+                      <button
+                        onClick={() => handleEditNote(note)}
+                        className='w-full px-3 py-2 text-left text-sm text-gray-700  flex items-center gap-2 font-semibold'
+                      >
+                        Edit
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
 
-            <div className="p-4">
-              <div className="space-y-2">
-                <p className="text-gray-500 text-sm">Description</p>
-                <p className="text-sm text-black-600">{note.description}</p>
+              <div className='p-4'>
+                <div className='space-y-2'>
+                  <p className='text-gray-500 text-sm'>Description</p>
+                  <p className='text-sm text-black-600'>{note.description}</p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <tr>
+            <td colSpan='6' className='text-center py-4'>
+              No data found.
+            </td>
+          </tr>
+        )}
       </div>
 
       {/* Create/Edit Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
-          <div className="bg-white rounded-lg w-[400px] max-w-md">
-            <div className="p-6">
-              <h2 className="text-xl font-semibold mb-3">
-                {modalType === "create" ? "Add Note" : "Edit Note"}
+        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4'>
+          <div className='bg-white rounded-lg w-[400px] max-w-md'>
+            <div className='p-6'>
+              <h2 className='text-xl font-semibold mb-3'>
+                {modalType === 'create' ? 'Add Note' : 'Edit Note'}
               </h2>
-              <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <div className='border-b border-[#F4F4F4] mb-[20px]'></div>
+              <form onSubmit={handleSubmit} className='space-y-4'>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
                     Title
                   </label>
                   <input
-                    name="title"
-                    type="text"
-                    value={currentNote?.title || ""}
-                    onChange={(e) => handleNoteChange("title", e.target.value)}
-                    className="w-full p-3 border border-gray-200 rounded-lg"
-                    placeholder="Enter title"
+                    name='title'
+                    type='text'
+                    value={currentNote?.title || ''}
+                    onChange={e => handleNoteChange('title', e.target.value)}
+                    className='w-full p-3 border border-gray-200 rounded-lg'
+                    placeholder='Enter title'
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
                     Description
                   </label>
                   <textarea
-                    name="description"
-                    value={currentNote?.description || ""}
-                    onChange={(e) =>
-                      handleNoteChange("description", e.target.value)
+                    name='description'
+                    value={currentNote?.description || ''}
+                    onChange={e =>
+                      handleNoteChange('description', e.target.value)
                     }
-                    className="w-full p-3 border border-gray-200 rounded-lg h-24"
-                    placeholder="Enter description"
+                    className='w-full p-3 border border-gray-200 rounded-lg h-24'
+                    placeholder='Enter description'
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
                     Date
                   </label>
                   <input
-                    name="date"
-                    type="date"
+                    name='date'
+                    type='date'
                     defaultValue={
                       currentNote?.date
-                        ? new Date(currentNote.date).toISOString().split("T")[0]
-                        : ""
+                        ? new Date(currentNote.date).toISOString().split('T')[0]
+                        : ''
                     }
-                    onChange={(e) => handleNoteChange("date", e.target.value)}
-                    className="w-full p-3 border border-gray-200 rounded-lg"
+                    onChange={e => handleNoteChange('date', e.target.value)}
+                    className='w-full p-3 border border-gray-200 rounded-lg'
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 mt-6">
+                <div className='grid grid-cols-2 gap-4 mt-6'>
                   <button
-                    type="button"
+                    type='button'
                     onClick={handleCloseModal}
-                    className="w-full py-3 text-gray-700 bg-white border border-gray-200 rounded-lg text-sm font-medium"
+                    className='w-full py-3 text-gray-700 bg-white border border-gray-200 rounded-lg text-sm font-medium'
                   >
                     Cancel
                   </button>
                   <button
-                    type="submit"
+                    type='submit'
                     disabled={!isFormFilled}
                     className={`w-full py-3 text-sm font-medium rounded-lg transition-all duration-300
                       ${
                         isFormFilled
-                          ? " bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
-                          : "bg-[#F6F8FB] text-black font-bold text-black-400 cursor-not-allowed"
+                          ? ' bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90'
+                          : 'bg-[#F6F8FB] text-black font-bold text-black-400 cursor-not-allowed'
                       }`}
                   >
-                    {modalType === "save" ? "save" : "Save"}
+                    {modalType === 'save' ? 'save' : 'Save'}
                   </button>
                 </div>
               </form>
@@ -228,7 +236,7 @@ function Note() {
         </div>
       )}
     </div>
-  );
+  )
 }
 
-export default Note;
+export default Note

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FaEye, FaTrash, FaPen } from "react-icons/fa";
 import CreateRequestModal from "../components/modal/CreateRequestModal";
 import ViewRequestModal from "../components/modal/ViewRequestModal";
 import EditRequestModal from "../components/modal/EditRequestModal";
@@ -125,7 +124,8 @@ const ReqTracking = () => {
                 </tr>
               </thead>
               <tbody>
-                {Requests.map((Request) => (
+              {Requests.length > 0 ? (
+                Requests.map((Request) => (
                   <tr key={Request._id} className="border-b hover:bg-gray-50">
                     <td className="px-4 md:px-6 py-4">
                       <div className="flex items-center gap-3">
@@ -198,7 +198,14 @@ const ReqTracking = () => {
                       </div>
                     </td>
                   </tr>
-                ))}
+               ))
+              ) : (
+                <tr>
+                  <td colSpan="8" className="text-center py-6 text-gray-500">
+                    No data found
+                  </td>
+                </tr>
+              )}
               </tbody>
             </table>
           </div>
