@@ -95,7 +95,7 @@ function FacilityManagement () {
     <div className='absolute right-0 mt-2 w-20 bg-white rounded-md shadow-lg z-10 hover:bg-gray-50'>
       <button
         onClick={() => handleEditFacility(facility)}
-        className='font-semibold w-full px-4 py-2 text-left text-sm text-black  flex items-center gap-2'
+        className='font-semibold h-[41px] w-[100px] ps-[10px] text-left text-sm text-black  flex items-center gap-2'
       >
         Edit
       </button>
@@ -169,14 +169,14 @@ function FacilityManagement () {
         <button
           type='button'
           onClick={handleCloseModal}
-          className='w-full py-3 text-gray-700 bg-white border border-gray-200 rounded-lg text-sm font-medium'
+          className='w-full h-[51px]  text-gray-700 bg-white border border-gray-200 rounded-lg text-sm font-medium'
         >
           Cancel
         </button>
         <button
           type='submit'
           disabled={!isFormFilled}
-          className={`w-full py-3 text-sm font-medium rounded-lg transition-all duration-300
+          className={`w-full h-[51px] text-sm font-medium rounded-lg transition-all duration-300
             ${
               isFormFilled
                 ? 'bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90'
@@ -364,14 +364,14 @@ function FacilityManagement () {
                   <button
                     type='button'
                     onClick={handleCloseModal}
-                    className='w-full py-2 sm:py-3 text-gray-700 bg-white border border-gray-200 rounded-lg text-sm font-medium'
+                    className='w-full py-2 sm:py-3 text-gray-700 bg-white border border-gray-200 rounded-[10px] text-sm font-medium'
                   >
                     Cancel
                   </button>
                   <button
                     type='submit'
                     disabled={!isFormFilled}
-                    className={`w-full py-2 sm:py-3 text-sm font-medium rounded-lg transition-all duration-300
+                    className={`w-full py-2 sm:py-3 text-sm font-medium rounded-[10px] transition-all duration-300
                       ${
                         isFormFilled
                           ? 'bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90'

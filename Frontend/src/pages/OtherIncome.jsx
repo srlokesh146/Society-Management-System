@@ -238,37 +238,41 @@ const OtherIncome = () => {
                   </ul>
                 </div>
               )}
-              <p className="text-gray-600 p-2">
-                Amount Per Member: <strong>{entry.amount}</strong>
+              <p className="text-gray-600 flex justify-between items-center p-2 *:">
+                Amount Per Member:
+                 <p className="text-blue-500 font-semibold bg-indigo-50 rounded-full px-5 py-1 ">₹ {entry.amount}</p>
               </p>
-              <p className="text-gray-600 p-2">
-                Total Members: <strong>{entry.member}</strong>
+              <p className="text-gray-600 flex justify-between items-center p-2">
+                Total Members: 
+             <p  className="text-black font-semibold">{entry.member} </p>
               </p>
-              <p className="text-gray-600 p-2">
+              <p className="text-gray-600 flex justify-between items-center p-2">
                 Date:{" "}
-                <strong>
+               <p  className="text-black font-semibold">
                   {new Date(entry.date).toLocaleDateString("en-GB", {
                     day: "2-digit",
                     month: "2-digit",
                     year: "numeric",
                   })}
-                </strong>
+               </p>
               </p>
-              <p className="text-gray-600 p-2">
+              <p className="text-gray-600 flex justify-between items-center p-2">
                 Due Date:{" "}
-                <strong>
+           <p className="text-black font-semibold">
                   {new Date(entry.dueDate).toLocaleDateString("en-GB", {
                     day: "2-digit",
                     month: "2-digit",
                     year: "numeric",
                   })}
-                </strong>
+                </p>
               </p>
               <p className="text-gray-600 p-2 mt-2 text-sm">
                 Description: <br />
-                {entry.description.length > 100
+             <p className="text-black font-medium">
+             {entry.description.length > 100
                   ? entry.description.slice(0, 100) + "..."
-                  : entry.description}
+                  : entry.description }
+             </p>
               </p>
             </div>
            ))

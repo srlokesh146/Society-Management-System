@@ -40,7 +40,6 @@ const chatRoute = require("./src/routes/chat.route.js");
 const PenaltyController = require("./src/controller/Financial.controller.js");
 const PollRoutes = require("./src/routes/poll.route.js");
 
-//appply penlty
 
 cron.schedule("0 0 * * * *", async () => {
   try {

@@ -15,6 +15,7 @@ import ConfirmationModal from '../components/modal/ConfirmationModal'
 import { GetResidents, VacantResident } from '../services/ownerTenantService'
 import { toast } from 'react-hot-toast'
 import eye from '../assets/images/eye.svg'
+import plus from '../assets/images/plus.svg'
 import edit from '../assets/images/edit.svg'
 import { useDispatch } from 'react-redux'
 import { ClearResident } from '../redux/features/ResidentSlice'
@@ -91,10 +92,11 @@ export default function ResidentManagement() {
           </h2>
           <div>
             <button
-              className='modal bg-custom-gradient py-[12px] px-[10px] rounded-[10px] text-white font-semibold text-[18px] leading-[27px] w-[294px] max-sm:w-[269px] max-sm:text-[16px]'
+              className='modal flex gap-2 bg-custom-gradient py-[12px] px-[10px] rounded-[10px] text-white font-semibold text-[18px] leading-[27px] w-[294px] max-sm:w-[269px] max-sm:text-[16px]'
               onClick={handleAddResident}
             >
-              + Add New Resident details
+              <img src={plus} alt="" />
+              Add New Resident details
             </button>
           </div>
         </div>

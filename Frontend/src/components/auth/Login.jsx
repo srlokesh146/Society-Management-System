@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import LoginImage from "../../assets/images/login.png"; // Importing the login image
 import BackgroundImage from "../../assets/images/bg.png"; // Importing the background image
 import { loginUser } from "../../services/AuthService";
+import logo from '../../assets/images/BrightWeb.png';
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { StoreUser } from "../../redux/features/AuthSlice";
@@ -76,18 +77,18 @@ const Login = () => {
 
   return (
     <div
-      className="flex items-center justify-center bg-cover bg-center overflow-auto max-md:flex-col max-xl:flex-row max-lg:h-[100vh] max-xl:h-[100vh] max-2xl:h-[100vh]"
+
+      className="flex items-center justify-center  bg-cover bg-center overflow-auto max-md:flex-col max-xl:flex-col"
       style={{ backgroundImage: `url(${BackgroundImage})` }} // Background image
     >
       {/* Left Section (Image and Title) */}
-      <div className="bg-gray-100 rounded-lg shadow-lg p-8 w-1/2 z-10 flex flex-col items-left h-auto md:h-[950px] relative max-xl:w-1/2 max-2xl:w-1/2 max-2xl:hidden">
+      <div className="bg-[#F6F8FB] rounded-lg shadow-lg   max-w-[950px] w-full flex flex-col items-start h-auto md:h-[950px] relative  max-md:hidden  max-lg:hidden">
+
         {/* Decorative Background Section */}
         <div className="absolute inset-0 opacity-10 rounded-lg"></div>
 
         {/* Title Section */}
-        <h1 className="text-5xl font-bold text-gray-700 z-10 mb-4 pt-[60px] max-sm:text-[30px] max-md:text-[40px] max-sm:pt-[40px]">
-          <span className="text-[#FE512E]">Dash</span>Stack
-        </h1>
+        <img className="pt-[60px] ps-[60px]" src={logo} alt="" />
 
         {/* Image Section */}
         <div className="flex-grow flex items-center justify-center w-full">
@@ -100,7 +101,7 @@ const Login = () => {
       </div>
 
       {/* Right Section (Login Form) */}
-      <div className="md:w-1/2 w-full flex items-center justify-center p-6">
+      <div className="md:w-1/2 w-full flex items-center  justify-center p-6 h-[100vh]  max-md:mx-auto ">
         <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-[530px]">
           <h2 className="text-2xl font-semibold mb-6 text-gray-800 max-sm:text-[2] max-sm:text-[24px] max-md:text-[28px]">
             Login
@@ -159,10 +160,10 @@ const Login = () => {
                 </button>
               </div>
 
-              {submitted &&
-                errors.password && ( // Show error if submitted
-                  <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-                )}
+              {submitted && errors.password && (
+                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+              )}
+
             </div>
 
             {/* Remember Me and Forgot Password */}
@@ -172,7 +173,7 @@ const Login = () => {
                   type="checkbox"
                   className="h-4 w-4 text-orange-500 focus:ring-orange-400 border-gray-300 rounded"
                 />
-                <span className="ml-2 text-gray-700">Remember me</span>
+                <span className="ml-2 text-gray-400">Remember me</span>
               </label>
               <Link
                 to="/forgotpassword"
@@ -185,7 +186,11 @@ const Login = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white py-3 rounded-lg font-medium "
+              disabled={!user.EmailOrPhone || !user.password} // Disable if fields are empty
+              className={`w-full py-3 rounded-lg font-medium  ${user.EmailOrPhone && user.password
+                ? "bg-custom-gradient  text-white" // Orange gradient when all fields are filled
+                : "bg-[#F6F8FB] text-[#A7A7A7] " // Gray button when fields are incomplete
+                }`}
             >
               Sign In
             </button>
