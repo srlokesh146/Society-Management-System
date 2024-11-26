@@ -6,7 +6,8 @@ const Member = ({ member }) => {
     <div className="bg-white p-6  mt-6 rounded-lg shadow-sm">
       <h1 className="font-semibold font-lg">Member : {member.length}</h1>
       <div className="grid grid-cols-1  mt-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {member.map((member) => (
+      {member.length > 0 ? (
+        member.map((member) => (
           <div key={member._id} className="border border-grey-800 rounded-lg">
             <div className="bg-[#5678E9]  text-white p-4 flex justify-between items-center rounded-t-lg">
               <h2 className="text-sm sm:text-base font-semibold">
@@ -48,7 +49,14 @@ const Member = ({ member }) => {
               </div>
             </div>
           </div>
-        ))}
+        ))
+      ) : (
+        <tr>
+          <td colSpan='7' className='text-center py-4 text-gray-500'>
+            No data found
+          </td>
+        </tr>
+      )}
       </div>
     </div>
   );

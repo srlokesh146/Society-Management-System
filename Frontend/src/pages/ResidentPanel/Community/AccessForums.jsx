@@ -118,7 +118,7 @@ export default function AccessForums() {
                     </div>
                     <div className="relative flex items-center space-x-4">
                         <img src={videoicon} alt='videoicon' className="text-gray-500 text-2xl cursor-pointer hover:text-blue-500" />
-                        <img src={callicon} onClick={toggleDropdown} className="text-gray-500 text-2xl cursor-pointer hover:text-blue-500" />
+                        <img src={callicon} className="text-gray-500 text-2xl cursor-pointer hover:text-blue-500" />
                         {isDropdownVisible && (
                             <div className="absolute top-[40px] right-0 bg-white shadow-lg rounded-lg w-[112px] p-[20px] z-10">
                                 <ul className="space-y-2">
@@ -127,7 +127,7 @@ export default function AccessForums() {
                                 </ul>
                             </div>
                         )}
-                        <img src={dottedicon} alt='dottedicon' className="text-gray-500 text-2xl cursor-pointer hover:text-blue-500" />
+                        <img onClick={toggleDropdown} src={dottedicon} alt='dottedicon' className="text-gray-500 text-2xl cursor-pointer hover:text-blue-500" />
                     </div>
                 </div>
 
@@ -152,7 +152,7 @@ export default function AccessForums() {
                 <div className="flex items-center p-[20px] bg-white border-t relative">
                     <input
                         type="text"
-                        className="w-full p-2 rounded-full shadow-[0px_7px_15px_0px_#0000000D] py-[9px] ps-[40px] pl-[40px] relative"
+                        className="w-[93.5%] p-2 rounded-full shadow-[0px_7px_15px_0px_#0000000D] py-[9px] ps-[40px] pl-[40px] relative"
                         placeholder="Type a message..."
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
