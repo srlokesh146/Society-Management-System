@@ -137,11 +137,11 @@ function Announcement () {
         </h1>
 
         <button
-          className='modal bg-custom-gradient py-[12px] px-[10px] rounded-[10px] text-white font-semibold text-[18px] leading-[27px] w-[294px]'
+          className='modal bg-custom-gradient py-[12px] px-[10px] rounded-[10px] text-white font-semibold text-[18px] leading-[27px] w-[238px]'
           onClick={handleCreateAnnouncement}
         >
           <div className='flex justify-center items-center '>
-            <FaPlus size={16} className='mx-2' />
+       
             <span className='text-sm sm:text-base md:text-lg lg:text-[18px]'>
               Create Announcement
             </span>
@@ -174,19 +174,19 @@ function Announcement () {
                         onClick={() => handleViewAnnouncement(announcement)}
                         className='w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2'
                       >
-                        <FaEye size={14} /> View
+                    View
                       </button>
                       <button
                         onClick={() => handleEditAnnouncement(announcement)}
                         className='w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2'
                       >
-                        <FaEdit size={14} /> Edit
+                        Edit
                       </button>
                       <button
                         onClick={() => handleDeleteAnnouncement(announcement)}
                         className='w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2'
                       >
-                        <FaTrash size={14} /> Delete
+                       Delete
                       </button>
                     </div>
                   )}

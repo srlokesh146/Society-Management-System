@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Avatar from "../assets/images/Avatar.png";
 import { Navigationbar, notifications } from "../constantdata";
 import NotificationImage from "../assets/images/notificationimage.png";
+import search from "../assets/images/search.svg";
 import useCurrentPath from "./useCurrentPath";
 import { FaChevronRight } from "react-icons/fa6";
 import { useSelector } from "react-redux";
@@ -90,16 +91,25 @@ const Navbar = () => {
   ]);
 
   return (
-    <div className="flex justify-between items-center p-4 bg-white shadow-md sticky top-0 left-0 w-full z-[99] max-md:justify-start max-md:flex max-md:items-start max-sm:flex-col max-sm:justify-start max-sm:items-start max-lg:pl-[50px]">
+    <div className=" flex justify-between items-center p-4 bg-white shadow-md sticky top-0 left-0 w-full z-[99] max-md:justify-start max-md:flex max-md:items-start max-sm:flex-col max-sm:justify-start max-sm:items-start max-lg:pl-[50px]">
       {showSearch ? (
-        <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-[35px] max-sm:hidden">
+
+        <div className="search-icon relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-[35px] max-sm:hidden ">
+
+        <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-0 max-sm:hidden">
+
           <input
             type="text"
             placeholder="Search..."
-            className="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 bg-[#F6F8FB] max-sm:mb-[15px] max-md:mb-[15px]"
+            className="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 bg-[#F6F8FB] max-sm:mb-[15px] max-xl:ml-[15px]"
           />
-          <span className="absolute left-3 top-3 text-gray-400">
+
+          <span className="absolute left-3 top-[10px] text-gray-400">
+           <img className="h-[20px]  w-[20px]" src={search} alt="" />
+
+          <span className="absolute left-3 top-3 text-gray-400 max-xl:left-6">
             <IoSearchOutline size={20} />
+
           </span>
         </div>
       ) : (
@@ -136,11 +146,12 @@ const Navbar = () => {
       )}
 
       <div className="flex items-center space-x-4 justify-end w-full max-md:justify-end max-sm:justify-end">
+      <div className="input-search-icon max-sm:block max-xl:hidden lg:hidden max-sm:rounded-full"></div>
         {/* Notification Icon */}
         <div className="relative">
           <IoNotifications
             size={38}
-            className="text-black cursor-pointer border border-[#D3D3D3] rounded-[10px] p-[8px] md:block"
+            className="text-black cursor-pointer border border-[#D3D3D3] rounded-[10px] p-[8px] md:block max-sm:rounded-full max-sm:bg-[#F6F8FB] max-sm:border-none max-sm:w-[50px] max-sm:h-[50px] max-sm:p-[10px]"
             onClick={handleNotificationClick}
           />
 

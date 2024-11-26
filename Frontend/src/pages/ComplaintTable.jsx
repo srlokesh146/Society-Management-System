@@ -82,7 +82,7 @@ const ComplaintPage = () => {
             </h1>
             <button
               onClick={() => setIsModalOpen(true)}
-              className=' bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white px-4 py-2 rounded-md hover:opacity-90 transition-all duration-300'
+              className=' bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white h-[51px] px-4 rounded-[10px] hover:opacity-90 transition-all duration-300'
             >
               Create Complaint
             </button>
@@ -144,7 +144,7 @@ const ComplaintPage = () => {
 
                       {/* <td className="px-6 py-[14px] text-[14px] font-medium text-[#4F4F4F]">{complaint.requestDate}</td> */}
                       <td className='px-6 py-[14px] text-[#4F4F4F] text-center'>
-                        <div className='flex items-center gap-2'>
+                        <div className='flex items-center justify-center gap-2'>
                           <span
                             className={`bg-blue-50 text-blue-600 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold`}
                           >
@@ -155,11 +155,15 @@ const ComplaintPage = () => {
                           </span>
                         </div>
                       </td>
-                      <td className='px-6 py-[14px] text-[#4F4F4F] text-center'>
-                        <PriorityBadge priority={complaint.priority} />
+                      <td className='px-6 py-[14px] text-[#4F4F4F]  text-center'>
+                      <div className='flex items-center justify-center'>
+                      <PriorityBadge priority={complaint.priority} />
+                      </div>
                       </td>
                       <td className='text-[#4F4F4F] text-center'>
-                        <StatusBadge status={complaint.status} />
+                       <div className='flex items-center justify-center'> 
+                       <StatusBadge status={complaint.status} />
+                       </div>
                       </td>
                       <td className='px-6 py-[14px] text-center'>
                         <div className='flex gap-2 justify-center'>

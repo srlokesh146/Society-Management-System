@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FaTimes } from 'react-icons/fa'
+import { IoMdClose } from "react-icons/io";
 
 const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null
@@ -64,10 +64,9 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
             onClick={onClose}
             className='text-gray-500 hover:text-gray-700'
           >
-            <FaTimes size={20} />
           </button>
         </div>
-        <div className='border-b border-[#F4F4F4] mb-[10px]'></div>
+        <div className='border-b border-[#F4F4F4] mb-[20px]'></div>
         <form onSubmit={handleSubmit} className='space-y-4'>
           {/* Complainant Name */}
           <div>
@@ -79,7 +78,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
               name='complainer'
               value={formData.complainer}
               onChange={handleInputChange}
-              className='w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500'
+              className='w-full p-2 border border-gray-300 rounded-[10px] outline-none focus:border-orange-500'
               placeholder='Enter name'
             />
             {formErrors.requesterName && (
@@ -99,7 +98,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
               name='name'
               value={formData.name}
               onChange={handleInputChange}
-              className='w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500'
+              className='w-full p-2 border border-gray-300 rounded-[10px] outline-none focus:border-orange-500'
               placeholder='Enter name'
             />
             {formErrors.requestName && (
@@ -119,7 +118,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
               rows='3'
               value={formData.description}
               onChange={handleInputChange}
-              className='w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500'
+              className='w-full p-2 border border-gray-300 rounded-[10px] outline-none focus:border-orange-500'
               placeholder='Enter description'
             />
             {formErrors.description && (
@@ -140,7 +139,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
                 name='wing'
                 value={formData.wing}
                 onChange={handleInputChange}
-                className='w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500'
+                className='w-full p-2 border border-gray-300 rounded-[10px] outline-none focus:border-orange-500'
                 placeholder='Enter wing'
               />
               {formErrors.wing && (
@@ -156,7 +155,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
                 name='unit'
                 value={formData.unit}
                 onChange={handleInputChange}
-                className='w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500'
+                className='w-full p-2 border border-gray-300 rounded-[10px] outline-none focus:border-orange-500'
                 placeholder='Enter unit'
               />
               {formErrors.unit && (
@@ -182,7 +181,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
                     className='hidden'
                   />
                   <span
-                    className={`flex items-center gap-2 px-4 max-sm:w-full py-1.5 border rounded-md text-sm
+                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[109px] text-[14px] cursor-pointer max-sm:w-full
                     ${
                       formData.priority === priority
                         ? 'border-[#FF6B07] bg-white font-medium'
@@ -231,7 +230,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
                     className='hidden'
                   />
                   <span
-                    className={`flex items-center gap-2 px-4  max-sm:w-full py-1.5 border border-gray-300 rounded-md text-sm cursor-pointer
+                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[109px] text-[14px] cursor-pointer max-sm:w-full
                     ${
                       formData.status === status
                         ? 'border-[#FF6B07] bg-white font-medium'

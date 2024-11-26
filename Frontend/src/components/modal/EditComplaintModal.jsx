@@ -51,7 +51,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
               type="text"
               name="complainer"
               defaultValue={complaint?.complainer}
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className="w-full p-2 border border-gray-300 rounded-[10px]"
               required
             />
           </div>
@@ -65,7 +65,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
               type="text"
               name="name"
               defaultValue={complaint?.name}
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className="w-full p-2 border border-gray-300 rounded-[10px]"
               required
             />
           </div>
@@ -79,7 +79,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
               name="description"
               defaultValue={complaint?.description}
               rows="3"
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className="w-full p-2 border border-gray-300 rounded-[10px]"
               required
             />
           </div>
@@ -94,7 +94,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
                 type="text"
                 name="wing"
                 defaultValue={complaint?.wing}
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="w-full p-2 border border-gray-300 rounded-[10px]"
                 required
               />
             </div>
@@ -106,7 +106,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
                 type="text"
                 name="unit"
                 defaultValue={complaint?.unit}
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="w-full p-2 border border-gray-300 rounded-[10px]"
                 required
               />
             </div>
@@ -129,7 +129,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
                     className="hidden"
                   />
                   <span
-                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[114px] text-[14px] cursor-pointer max-sm:w-full
+                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[109px] text-[14px] cursor-pointer max-sm:w-full
                     ${selectedPriority === priority
                         ? "border-[#FF6B07] bg-white font-medium"
                         : "border-gray-200"
@@ -172,7 +172,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
                     className="hidden"
                   />
                   <span
-                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[113px] text-sm cursor-pointer  max-sm:w-full
+                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[109px] text-sm cursor-pointer  max-sm:w-full
                     ${
                       selectedStatus === status
                         ? "border-[#FF6B07] bg-white font-medium"

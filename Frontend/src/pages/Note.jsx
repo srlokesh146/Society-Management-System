@@ -101,7 +101,7 @@ function Note () {
         </h1>
         <button
           onClick={handleCreateNote}
-          className='px-4 py-2 bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white rounded-md hover:opacity-90'
+          className='h-[51px] w-[138px] bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white rounded-md hover:opacity-90'
         >
           Create Note
         </button>
@@ -213,14 +213,14 @@ function Note () {
                   <button
                     type='button'
                     onClick={handleCloseModal}
-                    className='w-full py-3 text-gray-700 bg-white border border-gray-200 rounded-lg text-sm font-medium'
+                    className='w-full py-3 text-gray-700 bg-white border border-gray-200 rounded-[10px] text-sm font-medium'
                   >
                     Cancel
                   </button>
                   <button
                     type='submit'
                     disabled={!isFormFilled}
-                    className={`w-full py-3 text-sm font-medium rounded-lg transition-all duration-300
+                    className={`w-full py-3 text-sm font-medium rounded-[10px] transition-all duration-300
                       ${
                         isFormFilled
                           ? ' bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90'
