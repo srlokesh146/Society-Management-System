@@ -1,15 +1,13 @@
 import api from "./Api";
 
-// Total Balance
-export const TotalBalance = async () =>
-  api.get("/v2/financial/total-balance-done");
-
 // Total Income
 export const TotalIncome = async () =>
-  api.get("/v2/financial/income/total-done");
+  api.get("/v2/financial/totalMaintenanceDone");
 
 // Total Expense
-export const TotalExpense = async () => api.get("/v2/financial/");
+export const TotalExpense = async () =>
+  api.get("/v2/financial/ex/expense/total-amount");
 
 // Total Unit
-export const TotalUnit = async () => api.get("/v2/financial/");
+export const TotalUnit = async () =>
+  api.get("/v2/resident/unit/total-occupied-units");

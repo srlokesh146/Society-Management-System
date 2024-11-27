@@ -227,17 +227,15 @@ exports.GetAllExpense = async (req, res) => {
 //get total expense amount
 exports.getTotalExpenseAmount = async (req, res) => {
   try {
-    
     const result = await Expense.aggregate([
       {
         $group: {
           _id: null,
-          totalAmount: { $sum: { $toDouble: "$amount" } } 
-        }
-      }
+          totalAmount: { $sum: { $toDouble: "$amount" } },
+        },
+      },
     ]);
 
-   
     const totalAmount = result.length > 0 ? result[0].totalAmount : 0;
 
     return res.status(200).json({
@@ -403,10 +401,8 @@ exports.CreateMaintenance = async (req, res) => {
       resident: resident.id,
       paymentStatus: "pending",
       residentType: resident.Resident_status,
-      paymentMode:"cash"
+      paymentMode: "cash",
     }));
-
-  
 
     maintenance.residentList = residentsWithStatus;
 
@@ -464,7 +460,9 @@ exports.GetMaintenance = async (req, res) => {
     // const maintenanceRecords = await Maintenance.find().populate({
     //   path: "residentList.resident",
     // });
-    const maintenanceRecords = await Maintenance.find().populate("residentList.resident");
+    const maintenanceRecords = await Maintenance.find().populate(
+      "residentList.resident"
+    );
     return res.status(200).json({
       success: true,
       Maintenance: maintenanceRecords,
@@ -479,9 +477,9 @@ exports.GetMaintenance = async (req, res) => {
 };
 ////update and get payment
 exports.updatePaymentMode = async (req, res) => {
-  const { maintenanceId } = req.params; 
-  const { paymentMode } = req.body; 
-  const residentId = req.user.id; 
+  const { maintenanceId } = req.params;
+  const { paymentMode } = req.body;
+  const residentId = req.user.id;
 
   const maintenanceRecord = await Maintenance.findById(maintenanceId);
   if (!maintenanceRecord) {
@@ -493,17 +491,16 @@ exports.updatePaymentMode = async (req, res) => {
   
   const maintenanceAmount = maintenanceRecord.maintenanceAmount;
   try {
-   
     const updatedMaintenance = await Maintenance.findOneAndUpdate(
-      { _id: maintenanceId, "residentList.resident": residentId }, 
-      { 
-        $set: { 
+      { _id: maintenanceId, "residentList.resident": residentId },
+      {
+        $set: {
           "residentList.$.paymentMode": paymentMode,
-          "residentList.$.paymentStatus": "done"
-        } 
+          "residentList.$.paymentStatus": "done",
+        },
       },
-      { new: true } 
-    ).populate("residentList.resident"); 
+      { new: true }
+    ).populate("residentList.resident");
 
 
   
@@ -577,35 +574,35 @@ for (const user of allUsers) {
   }
 };
 //FindByIdUserAndMaintance
-exports.FindByIdUserAndMaintance =async(req,res)=>{
- try {
+exports.FindByIdUserAndMaintance = async (req, res) => {
+  try {
     const loggedInUserId = req.user.id;
-  
     const maintenanceRecords = await Maintenance.find({
-      "residentList.resident": loggedInUserId 
-    })
-      .populate({
-        path: 'residentList.resident', 
-        match: { _id: loggedInUserId }, 
-        select: 'name email role' 
-      });
+      "residentList.resident": loggedInUserId,
+    }).populate({
+      path: "residentList.resident",
+      match: { _id: loggedInUserId },
+      select: "name email role",
+    });
 
     if (!maintenanceRecords || maintenanceRecords.length === 0) {
       return res.status(404).json({
         success: false,
-        message: 'No maintenance records found for the logged-in user.',
+        message: "No maintenance records found for the logged-in user.",
       });
     }
 
-  
-    const filteredRecords = maintenanceRecords.map(record => {
-      
-      record.residentList = record.residentList.filter(residentEntry => 
-        residentEntry.resident && String(residentEntry.resident._id) === loggedInUserId &&
-        residentEntry.paymentStatus === "pending" 
-      );
-      return record;
-    }).filter(record => record.residentList.length > 0); 
+    const filteredRecords = maintenanceRecords
+      .map((record) => {
+        record.residentList = record.residentList.filter(
+          (residentEntry) =>
+            residentEntry.resident &&
+            String(residentEntry.resident._id) === loggedInUserId &&
+            residentEntry.paymentStatus === "pending"
+        );
+        return record;
+      })
+      .filter((record) => record.residentList.length > 0);
 
     return res.status(200).json({
       success: true,
@@ -618,42 +615,41 @@ exports.FindByIdUserAndMaintance =async(req,res)=>{
       message: "Error fetching Maintenance",
     });
   }
-}
+};
 exports.applyPenalty = async (req, res) => {
   try {
     console.log("Running penalty application...");
 
     const today = new Date();
 
-  
     const maintenances = await Maintenance.find();
 
-    console.log("Found maintenances:", maintenances.length);  
+    console.log("Found maintenances:", maintenances.length);
 
     for (const maintenance of maintenances) {
       const { dueDate, penaltyAmount, residentList } = maintenance;
 
-    
       const dueDateTime = new Date(dueDate).getTime();
       const currentTime = today.getTime();
-      const diffDays = Math.ceil((currentTime - dueDateTime) / (1000 * 60 * 60 * 24));
+      const diffDays = Math.ceil(
+        (currentTime - dueDateTime) / (1000 * 60 * 60 * 24)
+      );
 
       console.log("Due Date:", dueDate);
       console.log("Difference in days:", diffDays);
 
-     
       if (diffDays >= 7) {
         for (const resident of residentList) {
           console.log("Resident ID:", resident._id);
           console.log("Resident Payment Status:", resident.paymentStatus);
 
           if (resident.paymentStatus === "pending") {
-           
             const updatedPenalty = resident.penalty + penaltyAmount;
 
-            console.log(`Applying penalty for Resident ID: ${resident._id}. Existing Penalty: ${resident.penalty}, Penalty to Add: ${penaltyAmount}`);
+            console.log(
+              `Applying penalty for Resident ID: ${resident._id}. Existing Penalty: ${resident.penalty}, Penalty to Add: ${penaltyAmount}`
+            );
 
-            
             const result = await Maintenance.updateOne(
               { _id: maintenance._id, "residentList._id": resident._id },
               {
@@ -679,7 +675,6 @@ exports.applyPenalty = async (req, res) => {
 
     console.log("Penalty application completed successfully.");
 
-    
     if (res) {
       return res.status(200).json({
         success: true,
@@ -689,7 +684,6 @@ exports.applyPenalty = async (req, res) => {
   } catch (error) {
     console.error("Error in applying penalties:", error);
 
-    
     if (res) {
       return res.status(500).json({
         success: false,
@@ -699,16 +693,18 @@ exports.applyPenalty = async (req, res) => {
     }
   }
 };
-//get done maintannace 
+//get done maintannace
 exports.GetMaintananceDone = async (req, res) => {
   try {
     const maintenanceRecords = await Maintenance.find({
-      "residentList.paymentStatus": "done"
+      "residentList.paymentStatus": "done",
     }).populate("residentList.resident");
 
     // Filter residentList to include only those with paymentStatus: "done"
-    const filteredRecords = maintenanceRecords.map(record => {
-      record.residentList = record.residentList.filter(resident => resident.paymentStatus === "done");
+    const filteredRecords = maintenanceRecords.map((record) => {
+      record.residentList = record.residentList.filter(
+        (resident) => resident.paymentStatus === "done"
+      );
       return record;
     });
 
@@ -737,7 +733,6 @@ exports.CreateIncome = async (req, res) => {
       });
     }
 
-   
     const income = new Income({
       title,
       date,
@@ -747,7 +742,6 @@ exports.CreateIncome = async (req, res) => {
       member,
     });
 
-   
     const ownerData = await Owner.find();
     const tenantData = await Tenante.find();
 
@@ -756,14 +750,12 @@ exports.CreateIncome = async (req, res) => {
     const residentsWithStatus = residentList.map((resident) => ({
       resident: resident._id,
       paymentStatus: "pending",
-      residentType: resident.Resident_status, 
+      residentType: resident.Resident_status,
       paymentMode: "cash",
     }));
 
-    
     income.members = residentsWithStatus;
 
-    
     await income.save();
 
     //add notification
@@ -823,15 +815,14 @@ exports.GetIncome = async (req, res) => {
 };
 ////update and get payment
 exports.updatePaymentModeIncome = async (req, res) => {
+
   const { incomeId } = req.params; 
   const { paymentMode } = req.body; 
   const residentId = req.user.id; 
-
   try {
-   
-    const incomeRecord = await Income.findOne({ 
-      _id: incomeId, 
-      "members.resident": residentId 
+    const incomeRecord = await Income.findOne({
+      _id: incomeId,
+      "members.resident": residentId,
     });
 
     if (!incomeRecord) {
@@ -841,21 +832,21 @@ exports.updatePaymentModeIncome = async (req, res) => {
       });
     }
 
-    
-    const updatedMembers = incomeRecord.members.map(member => {
+    const updatedMembers = incomeRecord.members.map((member) => {
       if (member.resident.toString() === residentId) {
         return {
           ...member,
-          paymentMode: paymentMode, 
-          paymentStatus: "done"     
+          paymentMode: paymentMode,
+          paymentStatus: "done",
         };
       }
       return member;
     });
 
-   
     incomeRecord.members = updatedMembers;
+    incomeRecord.member = incomeRecord.member + 1;
     await incomeRecord.save();
+
 
    
     // const residentData = await Owner.findById(residentId) || await Tenante.findById(residentId);
@@ -886,13 +877,14 @@ exports.updatePaymentModeIncome = async (req, res) => {
       success: false,
       message: "Error updating payment mode",
     });
-  }  
+  }
 };
 //get by id income
 exports.GetByIdIncome = async (req, res) => {
   try {
-    
-    const income = await Income.findById(req.params.id).populate("members.resident");
+    const income = await Income.findById(req.params.id).populate(
+      "members.resident"
+    );
 
     if (!income) {
       return res.status(404).json({
@@ -901,8 +893,9 @@ exports.GetByIdIncome = async (req, res) => {
       });
     }
 
-    
-    income.members = income.members.filter(member => member.paymentStatus === "done");
+    income.members = income.members.filter(
+      (member) => member.paymentStatus === "done"
+    );
 
     return res.status(200).json({
       success: true,
@@ -975,7 +968,7 @@ exports.UpdateIncome = async (req, res) => {
 //merge payment code
 // exports.updatePaymentMode = async (req, res) => {
 //   const { type, id } = req.params; // Type (maintenance/income) and ID of the record
-//   const { paymentMode } = req.body; 
+//   const { paymentMode } = req.body;
 //   const residentId = req.user.id; // Logged-in user's ID
 
 //   try {
@@ -1026,15 +1019,14 @@ exports.UpdateIncome = async (req, res) => {
 //get done and paymented income
 exports.GetIncomeDone = async (req, res) => {
   try {
-   
     const incomeRecords = await Income.find({
-      "members.paymentStatus": "done"
+      "members.paymentStatus": "done",
     }).populate("members.resident");
 
-    
-    const filteredIncome = incomeRecords.map(record => {
-    
-      record.members = record.members.filter(member => member.paymentStatus === "done");
+    const filteredIncome = incomeRecords.map((record) => {
+      record.members = record.members.filter(
+        (member) => member.paymentStatus === "done"
+      );
       return record;
     });
 
@@ -1054,34 +1046,26 @@ exports.GetIncomeDone = async (req, res) => {
 exports.GetTotalMaintenanceDone = async (req, res) => {
   try {
     const totalMaintenanceDone = await Maintenance.aggregate([
-     
       { $unwind: "$residentList" },
 
-     
       { $match: { "residentList.paymentStatus": "done" } },
 
-      
       {
         $addFields: {
           residentAmount: {
-            $add: [
-              "$maintenanceAmount", 
-              "$residentList.penalty" 
-            ]
-          }
-        }
+            $add: ["$maintenanceAmount", "$residentList.penalty"],
+          },
+        },
       },
 
-    
       {
         $group: {
           _id: null,
           totalAmount: { $sum: "$residentAmount" },
-        }
+        },
       },
     ]);
 
-   
     const totalAmount =
       totalMaintenanceDone.length > 0 ? totalMaintenanceDone[0].totalAmount : 0;
 
@@ -1103,31 +1087,30 @@ exports.FindByIdUserAndIncome = async (req, res) => {
     const loggedInUserId = req.user.id;
     console.log("Logged-in User ID:", loggedInUserId);
 
-    
     const incomerecord = await Income.find({
-      "members.resident": loggedInUserId 
+      "members.resident": loggedInUserId,
     }).populate({
-      path: 'members.resident',
-      
+      path: "members.resident",
     });
 
     if (!incomerecord || incomerecord.length === 0) {
       return res.status(404).json({
         success: false,
-        message: 'No maintenance records found for the logged-in user.',
+        message: "No maintenance records found for the logged-in user.",
       });
     }
 
-  
-    const filteredRecords = incomerecord.map(record => {
-      record.members = record.members.filter(residentEntry =>
-        residentEntry.resident &&
-        String(residentEntry.resident._id) === loggedInUserId &&
-        residentEntry.paymentStatus === "pending"
-      );
-      return record;
-    }).filter(record => record.members.length > 0);
-
+    const filteredRecords = incomerecord
+      .map((record) => {
+        record.members = record.members.filter(
+          (residentEntry) =>
+            residentEntry.resident &&
+            String(residentEntry.resident._id) === loggedInUserId &&
+            residentEntry.paymentStatus === "pending"
+        );
+        return record;
+      })
+      .filter((record) => record.members.length > 0);
 
     return res.status(200).json({
       success: true,
@@ -1140,11 +1123,11 @@ exports.FindByIdUserAndIncome = async (req, res) => {
       message: "Error fetching Income",
     });
   }
-}
-//total balance 
+};
+//total balance
 // exports.GetTotalBalance = async (req, res) => {
 //   try {
-   
+
 //     const totalMaintenance = await Maintenance.aggregate([
 //       {
 //         $group: {
@@ -1176,4 +1159,3 @@ exports.FindByIdUserAndIncome = async (req, res) => {
 //     });
 //   }
 // };
-

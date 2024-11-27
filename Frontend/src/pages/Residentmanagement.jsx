@@ -21,73 +21,74 @@ import { useDispatch } from 'react-redux'
 import { ClearResident } from '../redux/features/ResidentSlice'
 
 export default function ResidentManagement() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [showVacateModal, setShowVacateModal] = useState(false)
-  const [isViewModalOpen, setIsViewModalOpen] = useState(false)
-  const [selectedResident, setSelectedResident] = useState(null)
-  const [viewResident, setViewResident] = useState(null)
-  const [showConfirmModal, setShowConfirmModal] = useState(false)
-  const [residentList, setResidentList] = useState([])
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showVacateModal, setShowVacateModal] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [selectedResident, setSelectedResident] = useState(null);
+  const [viewResident, setViewResident] = useState(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [residentList, setResidentList] = useState([]);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleCloseModal = () => {
-    setIsModalOpen(false)
-    setSelectedResident(null)
-  }
+    setIsModalOpen(false);
+    setSelectedResident(null);
+  };
 
-  const handleSaveResident = updatedData => {
+  const handleSaveResident = (updatedData) => {
     if (selectedResident) {
-      console.log('Updating resident:', selectedResident.id, updatedData)
+      console.log("Updating resident:", selectedResident.id, updatedData);
     }
-    handleCloseModal()
-  }
+    handleCloseModal();
+  };
 
-  const handleEdit = resident => {
-    setSelectedResident(resident)
-    setIsModalOpen(true)
-  }
+  const handleEdit = (resident) => {
+    setSelectedResident(resident);
+    setIsModalOpen(true);
+  };
 
-  const handleView = resident => {
-    setViewResident(resident)
-    setIsViewModalOpen(true)
-  }
+  const handleView = (resident) => {
+    setViewResident(resident);
+    setIsViewModalOpen(true);
+  };
 
-  const handleDelete = async id => {
+  const handleDelete = async (id) => {
     try {
-      const response = await VacantResident(id)
-      fetchResidents()
-      toast.success(response.data.message)
+      const response = await VacantResident(id);
+      fetchResidents();
+      toast.success(response.data.message);
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message);
     } finally {
-      setShowVacateModal(false)
-      setShowConfirmModal(false)
-      setIsViewModalOpen(false)
+      setShowVacateModal(false);
+      setShowConfirmModal(false);
+      setIsViewModalOpen(false);
     }
-  }
+  };
 
   const handleAddResident = () => {
-    navigate('/ownerform')
-  }
+    navigate("/ownerform");
+  };
 
   // get all resident data
   const fetchResidents = async () => {
     try {
-      const response = await GetResidents()
-      setResidentList(response.data.Residents)
+      const response = await GetResidents();
+      console.log(response);
+      setResidentList(response.data.Residents);
     } catch (error) {}
-  }
+  };
 
   useEffect(() => {
-    fetchResidents()
-  }, [])
+    fetchResidents();
+  }, []);
 
   return (
     <div>
-      <div className='bg-white pt-[20px] rounded-[15px] shadow-md'>
-        <div className='flex justify-between items-center mb-[27px] ps-[20px] pr-[20px] max-sm:flex-col'>
-          <h2 className='text-[20px] font-semibold leading-[30px] max-sm:leading-[25px] max-sm:text-[16px] max-mb:text-[18px] max-sm:mb-3'>
+      <div className="bg-white pt-[20px] rounded-[15px] shadow-md">
+        <div className="flex justify-between items-center mb-[27px] ps-[20px] pr-[20px] max-sm:flex-col">
+          <h2 className="text-[20px] font-semibold leading-[30px] max-sm:leading-[25px] max-sm:text-[16px] max-mb:text-[18px] max-sm:mb-3">
             Resident Tenant and Owner Details
           </h2>
           <div>
@@ -101,32 +102,32 @@ export default function ResidentManagement() {
           </div>
         </div>
 
-        <div className='overflow-x-auto pr-[8px] ps-[20px] custom-scrollbar max-h-[44rem]'>
-          <table className='w-full table-auto border-collapse'>
+        <div className="overflow-x-auto pr-[8px] ps-[20px] custom-scrollbar max-h-[44rem]">
+          <table className="w-full table-auto border-collapse">
             <thead>
-              <tr className='text-start text-black bg-opacity-custom rounded-tl-[15px] rounded-tr-[15px] h-[61px]'>
-                <th className='text-[14px] font-semibold rounded-tl-[15px] px-4 py-2 text-start'>
+              <tr className="text-start text-black bg-opacity-custom rounded-tl-[15px] rounded-tr-[15px] h-[61px]">
+                <th className="text-[14px] font-semibold rounded-tl-[15px] px-4 py-2 text-start">
                   Full Name
                 </th>
-                <th className='text-[14px] font-semibold px-4 py-2 text-center'>
+                <th className="text-[14px] font-semibold px-4 py-2 text-center">
                   Unit Number
                 </th>
-                <th className='text-[14px] font-semibold px-4 py-2 text-center'>
+                <th className="text-[14px] font-semibold px-4 py-2 text-center">
                   Unit Status
                 </th>
-                <th className='text-[14px] font-semibold px-4 py-2 text-center'>
+                <th className="text-[14px] font-semibold px-4 py-2 text-center">
                   Resident Status
                 </th>
-                <th className='text-[14px] font-semibold px-4 py-2 text-center'>
+                <th className="text-[14px] font-semibold px-4 py-2 text-center">
                   Phone Number
                 </th>
-                <th className='text-[14px] font-semibold px-4 py-2 text-center'>
+                <th className="text-[14px] font-semibold px-4 py-2 text-center">
                   Member
                 </th>
-                <th className='text-[14px] font-semibold px-4 py-2 text-center'>
+                <th className="text-[14px] font-semibold px-4 py-2 text-center">
                   Vehicle
                 </th>
-                <th className='text-[14px] font-semibold rounded-tr-[15px] px-4 py-2 text-center'>
+                <th className="text-[14px] font-semibold rounded-tr-[15px] px-4 py-2 text-center">
                   Action
                 </th>
               </tr>
@@ -134,28 +135,26 @@ export default function ResidentManagement() {
             <tbody>
               {residentList.length > 0 ? (
                 residentList.map((resident, index) => (
-                  <tr key={index} className='border-b border-[#F4F4F4]'>
+                  <tr key={index} className="border-b border-[#F4F4F4]">
                     <td>
-                      <div className='flex items-center justify-start ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]'>
-                        {resident.ResidentStatus !== 'Owner' &&
-                        resident.UnitStatus !== 'Occupied' &&
-                        resident.ResidentStatus !== 'Tenant' ? (
+                      <div className="flex items-center justify-start ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]">
+                        {resident.UnitStatus !== "Occupied" ? (
                           <>
                             <img
                               src={avatar2}
-                              alt='Owner Document'
-                              className='mr-2 w-8 h-8 rounded-full'
+                              alt="Owner Document"
+                              className="mr-2 w-8 h-8 rounded-full"
                             />
-                            <span className='text-[#4F4F4F]'>-</span>
+                            <span className="text-[#4F4F4F]">-</span>
                           </>
                         ) : (
                           <>
                             <img
                               src={resident?.profileImage}
-                              alt='Profile'
-                              className='rounded-full mr-2 w-8 h-8'
+                              alt="Profile"
+                              className="rounded-full mr-2 w-8 h-8"
                             />
-                            <span className='text-[#4F4F4F] text-[16px]'>
+                            <span className="text-[#4F4F4F] text-[16px]">
                               {resident?.Full_name}
                             </span>
                           </>
@@ -163,130 +162,122 @@ export default function ResidentManagement() {
                       </div>
                     </td>
                     <td>
-                      <div className='px-4 py-2 text-center flex justify-center items-center text-[#4F4F4F]'>
-                        <span className='mr-2 w-[28px] h-[28px] bg-gray-200 rounded-full flex items-center justify-center text-[#5678E9] text-[14px] font-semibold'>
+                      <div className="px-4 py-2 text-center flex justify-center items-center text-[#4F4F4F]">
+                        <span className="mr-2 w-[28px] h-[28px] bg-gray-200 rounded-full flex items-center justify-center text-[#5678E9] text-[14px] font-semibold">
                           {resident.Wing}
                         </span>
                         {resident.Unit}
                       </div>
                     </td>
-                    <td className='px-6 py-4 text-center'>
+                    <td className="px-6 py-4 text-center">
                       <span
                         className={`inline-flex items-center justify-center px-3 py-1 rounded-full font-medium 
                     ${
-                      resident.UnitStatus === 'Occupied'
-                        ? 'bg-[#ECFFFF] text-[#14B8A6] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]'
-                        : 'bg-[#FFF6FF] text-[#9333EA] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]'
+                      resident.UnitStatus === "Occupied"
+                        ? "bg-[#ECFFFF] text-[#14B8A6] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
+                        : "bg-[#FFF6FF] text-[#9333EA] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
                     }`}
                       >
-                        {resident.UnitStatus === 'Occupied' ? (
-                          <img src={occupiedImage} className='mr-[4px]' />
+                        {resident.UnitStatus === "Occupied" ? (
+                          <img src={occupiedImage} className="mr-[4px]" />
                         ) : (
-                          <img src={vacateImage} className='mr-[4px]' />
+                          <img src={vacateImage} className="mr-[4px]" />
                         )}
 
                         {resident.UnitStatus}
                       </span>
                     </td>
-                    <td className='px-6 py-4 text-center'>
-                      {resident.UnitStatus === 'Occupied' ? (
+                    <td className="px-6 py-4 text-center">
+                      {resident.UnitStatus === "Occupied" ? (
                         <span
                           className={`inline-flex items-center justify-center px-3 py-1 rounded-full font-medium 
                        ${
-                         resident.Resident_status === 'Tenante'
-                           ? 'bg-[#FFF1F8] text-[#EC4899] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]'
-                           : 'bg-[#F1F0FF] text-[#4F46E5] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]'
+                         resident.Resident_status === "Tenante"
+                           ? "bg-[#FFF1F8] text-[#EC4899] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
+                           : "bg-[#F1F0FF] text-[#4F46E5] text-[14px] leading-[21px] font-medium w-[131px] h-[31px]"
                        }`}
                         >
-                          {resident.Resident_status === 'Tenante' ? (
+                          {resident.Resident_status === "Tenante" ? (
                             <img
                               src={tenantImage}
-                              className='mr-[4px]'
-                              alt='Tenant Icon'
+                              className="mr-[4px]"
+                              alt="Tenant Icon"
                             />
                           ) : (
                             <img
                               src={ownerImage}
-                              className='mr-[4px]'
-                              alt='Owner Icon'
+                              className="mr-[4px]"
+                              alt="Owner Icon"
                             />
                           )}
-                          {resident.Resident_status === 'Tenante'
-                            ? 'Tenant'
-                            : 'Owner'}
+                          {resident.Resident_status === "Tenante"
+                            ? "Tenant"
+                            : "Owner"}
                         </span>
                       ) : (
-                        <span className='text-[#4F4F4F] bg-[#F6F8FB] w-[106px] h-[31px] inline-flex items-center justify-center rounded-[70px]'>
+                        <span className="text-[#4F4F4F] bg-[#F6F8FB] w-[106px] h-[31px] inline-flex items-center justify-center rounded-[70px]">
                           --
                         </span>
                       )}
                     </td>
-                    <td className='text-center px-6 py-4 flex justify-center items-center'>
-                      {resident.Resident_status !== 'Owner' &&
-                      resident.UnitStatus !== 'Occupied' &&
-                      resident.Resident_status !== 'Tenante' ? (
-                        <div className='text-[#4F4F4F] bg-[#F6F8FB] w-[106px] h-[31px] flex  items-center justify-center rounded-[70px]'>
-                          <span className='text-[#4F4F4F]'>--</span>
+                    <td className="text-center px-6 py-4 flex justify-center items-center">
+                      {resident.UnitStatus !== "Occupied" ? (
+                        <div className="text-[#4F4F4F] bg-[#F6F8FB] w-[106px] h-[31px] flex  items-center justify-center rounded-[70px]">
+                          <span className="text-[#4F4F4F]">--</span>
                         </div>
                       ) : (
-                        <td className='px-4 py-[18px] text-center text-[#4F4F4F] text-[16px]'>
+                        <td className="px-4 py-[18px] text-center text-[#4F4F4F] text-[16px]">
                           {resident.Phone_number}
                         </td>
                       )}
                     </td>
                     <td>
-                      {resident.Resident_status !== 'Owner' &&
-                      resident.UnitStatus !== 'Occupied' &&
-                      resident.Resident_status !== 'Tenante' ? (
-                        <div className='flex items-center justify-center ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]'>
-                          <span className='text-[#4F4F4F]  bg-[#F6F8FB] w-[28px] h-[28px] rounded-full flex justify-center items-center'>
+                      {resident.UnitStatus !== "Occupied" ? (
+                        <div className="flex items-center justify-center ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]">
+                          <span className="text-[#4F4F4F]  bg-[#F6F8FB] w-[28px] h-[28px] rounded-full flex justify-center items-center">
                             -
                           </span>
                         </div>
                       ) : (
-                        <div className='flex items-center justify-center ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]'>
-                          <span className='text-[#4F4F4F]  bg-[#F6F8FB] w-[28px] h-[28px] rounded-full flex justify-center items-center'>
+                        <div className="flex items-center justify-center ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]">
+                          <span className="text-[#4F4F4F]  bg-[#F6F8FB] w-[28px] h-[28px] rounded-full flex justify-center items-center">
                             {resident.Member_Counting_Total}
                           </span>
                         </div>
                       )}
                     </td>
                     <td>
-                      {resident.Resident_status !== 'Owner' &&
-                      resident.UnitStatus !== 'Occupied' &&
-                      resident.Resident_status !== 'Tenante' ? (
-                        <div className='flex items-center justify-center ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]'>
-                          <span className='text-[#4F4F4F]  bg-[#F6F8FB] w-[28px] h-[28px] rounded-full flex justify-center items-center'>
+                      {resident.UnitStatus !== "Occupied" ? (
+                        <div className="flex items-center justify-center ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]">
+                          <span className="text-[#4F4F4F]  bg-[#F6F8FB] w-[28px] h-[28px] rounded-full flex justify-center items-center">
                             -
                           </span>
                         </div>
                       ) : (
-                        <div className='flex items-center justify-center ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]'>
-                          <span className='text-[#4F4F4F]  bg-[#F6F8FB] w-[28px] h-[28px] rounded-full flex justify-center items-center'>
+                        <div className="flex items-center justify-center ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]">
+                          <span className="text-[#4F4F4F]  bg-[#F6F8FB] w-[28px] h-[28px] rounded-full flex justify-center items-center">
                             {resident.Vehicle_Counting_Total}
                           </span>
                         </div>
                       )}
                     </td>
-                    <td className='text-center'>
-                      {resident.Resident_status !== 'Owner' &&
-                      resident.UnitStatus !== 'Occupied' &&
-                      resident.Resident_status !== 'Tenante' ? (
-                        <div className='flex items-center justify-center max-sm:min-w-[180px] max-md:min-w-[180px]'>
-                          <span className='text-[#4F4F4F] bg-[#F6F8FB] w-[106px] h-[31px] inline-flex items-center justify-center rounded-[70px]'>
+                    <td className="text-center">
+                      {resident.UnitStatus !== "Occupied" ? (
+                        <div className="flex items-center justify-center max-sm:min-w-[180px] max-md:min-w-[180px]">
+                          <span className="text-[#4F4F4F] bg-[#F6F8FB] w-[106px] h-[31px] inline-flex items-center justify-center rounded-[70px]">
                             -
                           </span>
                         </div>
                       ) : (
-                        <div className='flex items-center justify-center gap-3'>
+                        <div className="flex items-center justify-center gap-3">
                           <button
-                            className='cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]'
+                            className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                             onClick={() => handleEdit(resident)}
                           >
                             <img src={edit} />
                           </button>
                           <button
-                            className='cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] rounded-[10px] flex justify-center items-center'
+                            className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] rounded-[10px] flex justify-center items-center"
                             onClick={() => handleView(resident)}
                           >
                             <img src={eye} />
@@ -298,7 +289,7 @@ export default function ResidentManagement() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan='6' className='text-center py-4'>
+                  <td colSpan="6" className="text-center py-4">
                     No data found.
                   </td>
                 </tr>
@@ -313,7 +304,7 @@ export default function ResidentManagement() {
         onClose={handleCloseModal}
         onSave={handleSaveResident}
         resident={selectedResident}
-        mode='edit'
+        mode="edit"
         setShowVacateModal={setShowVacateModal}
       />
 
@@ -326,8 +317,8 @@ export default function ResidentManagement() {
       <ConfirmationModal
         showConfirmModal={showConfirmModal}
         onClose={() => {
-          setShowConfirmModal(false)
-          setShowVacateModal(false)
+          setShowConfirmModal(false);
+          setShowVacateModal(false);
         }}
         handleDelete={handleDelete}
       />
@@ -338,5 +329,5 @@ export default function ResidentManagement() {
         resident={viewResident}
       />
     </div>
-  )
+  );
 }

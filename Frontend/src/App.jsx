@@ -355,7 +355,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/adminincome"
+                  path="/adminincome/:id"
                   element={
                     <PrivateRoutes>
                       <AdminIncome />
