@@ -39,8 +39,8 @@ const AlertRoutes = require("./src/routes/alert.route.js");
 const chatRoute = require("./src/routes/chat.route.js");
 const PenaltyController = require("./src/controller/Financial.controller.js");
 const PollRoutes = require("./src/routes/poll.route.js");
+const NotificationRoute=require("./src/routes/notification.route.js")
 
-//appply penlty
 
 cron.schedule("0 0 * * * *", async () => {
   try {
@@ -78,8 +78,8 @@ app.use("/api/v2/alert", AlertRoutes);
 app.use("/api/v2/chat", chatRoute);
 //poll apis
 app.use("/api/v2/poll", PollRoutes);
-
-// require("./src/utils/chatIo.js");
+//notification apis 
+app.use("/api/v2/notication",NotificationRoute)
 
 app.get("/", (req, res) => res.send("Hello World!"));
 

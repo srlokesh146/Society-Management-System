@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import {
   FaCheck,
-  FaEye,
-  FaTrash,
-  FaPlus,
   FaSun,
   FaMoon,
   FaMale,
   FaFemale,
-  FaPencilAlt,
   FaTimes,
   FaCamera,
   FaCloudUploadAlt,
@@ -24,6 +20,8 @@ import {
 import eye from '../assets/images/eye.svg'
 import edit from '../assets/images/edit.svg'
 import trash from '../assets/images/trash.svg'
+import plus from '../assets/images/plus.svg'
+import Addimage from '../assets/images/Addimage.svg'
 
 function SecurityGuardDetails () {
   const [guards, setGuards] = useState([])
@@ -222,9 +220,10 @@ function SecurityGuardDetails () {
         </h1>
         <button
           onClick={handleAddSecurity}
-          className='px-4 py-2 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white rounded-md hover:opacity-90 flex items-center gap-2'
+          className='px-4 h-[51px] bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white rounded-[10px] hover:opacity-90 flex items-center gap-2'
         >
-          <FaPlus size={16} /> Add Security
+          <img src={plus} alt="" />
+          Add Security
         </button>
       </div>
 
@@ -566,7 +565,7 @@ function SecurityGuardDetails () {
                             </div>
                           ) : (
                             <>
-                              <FaCloudUploadAlt className='w-8 h-8 text-gray-400 mb-2' />
+                             <img src={Addimage} alt="" />
                               <span className='text-blue-500 text-sm'>
                                 Upload a file or drag and drop
                               </span>

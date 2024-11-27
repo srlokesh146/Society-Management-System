@@ -68,9 +68,8 @@ const Ownerschema = new Schema(
       enum: ["admin", "resident", "security"],
       default: "resident",
     },
-    password: {
-      // Add this field to store the hashed password
-      type: String,
+   password: {  // Add this field to store the hashed password
+        type: String,
     },
     Resident_status: {
       type: String,

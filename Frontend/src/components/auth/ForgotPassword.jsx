@@ -24,12 +24,12 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="flex lg:flex-row h-screen bg-cover bg-center bg-image max-md:flex-col">
-      <div className="flex flex-col bg-[#F6F8FB] w-full lg:w-1/2 z-10">
+    <div className="flex lg:flex-row h-screen  bg-cover bg-center bg-image max-md:flex-col">
+      <div className="flex flex-col bg-[#F6F8FB]  max-lg:hidden  w-full lg:w-1/2 z-10">
         <div className="pt-8 lg:pt-[60px] flex justify-start">
           <Logo logocss className="w-24 h-24 lg:w-32 lg:h-32" />
         </div>
-        <div className="flex-grow flex items-center justify-center mt-[93px] mb-[249px] max-sm:mt-[50px] max-sm:mb-[50px] max-md:mt-[30px] max-md:mb-[30px] max-lg:mt-[30px] max-lg:mb-[50px] z-10">
+        <div className="flex-grow  flex items-center justify-center mt-[93px] mb-[249px] max-sm:mt-[50px] max-sm:mb-[50px] max-md:mt-[30px] max-md:mb-[30px] max-lg:mt-[30px] max-lg:mb-[50px] z-10">
           <img
             src={passwordimage}
             alt="Otp image"
@@ -38,7 +38,7 @@ const ForgotPassword = () => {
         </div>
       </div>
 
-      <div className="flex items-center justify-center w-full lg:w-1/2 z-20">
+      <div className="flex items-center h-[100vh]  justify-center w-full lg:w-1/2 z-20">
         <div className="pt-8 pb-8 px-4 lg:px-[20px] w-full max-w-[630px]">
           <div className="custom-shadow p-[40px] w-full text-start rounded-[15px] bg-white z-30 relative">
             <h2 className="text-[28px] lg:text-[34px] font-semibold mb-[10px] text-gray-700 max-sm:text-[24px] max-md:text-[28px]">
@@ -61,11 +61,17 @@ const ForgotPassword = () => {
               />
             </div>
             <button
-              className="w-full text-white rounded-[10px] pt-[12px] pb-[12px] leading-7 text-[16px] lg:text-[18px] font-semibold"
+              className={`w-full  rounded-[10px] pt-[12px] pb-[12px] leading-7 text-[16px] lg:text-[18px] font-semibold ${EmailOrPhone
+                  ? "text-white" // Orange gradient when input is filled
+                  : "bg-[#F6F8FB] text-[#A7A7A7]" // Gray background when input is empty
+                }`}
               onClick={handleOtp}
-              style={{
-                background: "linear-gradient(90deg, #FE512E 0%, #F09619 100%)",
-              }}
+              disabled={!EmailOrPhone} // Disable button if input is empty
+              style={
+                EmailOrPhone
+                  ? { background: "linear-gradient(90deg, #FE512E 0%, #F09619 100%) " } // Active state
+                  : {} // Default state
+              }
             >
               Get OTP
             </button>

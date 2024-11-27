@@ -38,7 +38,7 @@ const ResetPassword = () => {
 
   return (
     <div className="flex flex-col lg:flex-row h-screen overflow-hidden bg-cover bg-center relative bg-image">
-      <div className="flex flex-col bg-[#F6F8FB] w-full lg:w-1/2 z-10">
+      <div className="flex flex-col bg-[#F6F8FB] w-full lg:w-1/2 z-10  max-lg:hidden ">
         <div className="pt-8 lg:pt-[60px] flex justify-start">
           <Logo logocss />
         </div>
@@ -51,7 +51,7 @@ const ResetPassword = () => {
         </div>
       </div>
 
-      <div className="flex items-center justify-center w-full lg:w-1/2 z-20">
+      <div className="flex items-center justify-center w-full lg:w-1/2 z-20  h-[100vh] ">
         <div className="w-full max-w-[630px] rounded-[15px] px-4 lg:px-0">
           <div className="custom-shadow px-4 lg:px-[50px] pt-8 lg:pt-[50px] pb-8 lg:pb-[85px] w-full text-start bg-white rounded-[15px] z-40 relative">
             <h2 className="text-[28px] lg:text-[34px] font-semibold mb-[20px] text-[#202224]">

@@ -8,6 +8,7 @@ const Maintenance = require("../models/maintenance.model");
 const Income = require("../models/Income.model");
 const Owner = require("../models/Owener.model");
 const Tenante = require("../models/Tenent.model");
+const Notification = require("../models/notification.schema");
 //create note
 exports.CreateNote = async (req, res) => {
   try {
@@ -407,6 +408,34 @@ exports.CreateMaintenance = async (req, res) => {
 
     await maintenance.save();
 
+
+     //add notification
+
+     
+    const adminUsers = await User.find({}, '_id');
+    const ownerUsers = ownerData.map(owner => ({ _id: owner._id, model: "Owner" }));
+    const tenantUsers = TenantData.map(tenant => ({ _id: tenant._id, model: "Tenante" }));
+
+   
+    const allUsers = [
+      ...adminUsers.map(admin => ({ _id: admin._id, model: "User" })), 
+      ...ownerUsers,
+      ...tenantUsers
+    ];
+
+    
+  
+    
+    const notification = new Notification({
+      title: "New Maintenance Added",
+      name: "Annual Maintenance",
+      message: `Per person amount :-  ${maintenanceAmount} rupees. - Duedate ${dueDate}`,
+      users:allUsers
+    });
+  
+   
+    await notification.save();
+  
     if (!maintenance) {
       return res.status(400).json({
         success: false,
@@ -452,8 +481,15 @@ exports.updatePaymentMode = async (req, res) => {
   const { paymentMode } = req.body;
   const residentId = req.user.id;
 
-  console.log(req.body);
-
+  const maintenanceRecord = await Maintenance.findById(maintenanceId);
+  if (!maintenanceRecord) {
+    return res.status(404).json({
+      success: false,
+      message: "Maintenance record not found",
+    });
+  }
+  
+  const maintenanceAmount = maintenanceRecord.maintenanceAmount;
   try {
     const updatedMaintenance = await Maintenance.findOneAndUpdate(
       { _id: maintenanceId, "residentList.resident": residentId },
@@ -465,6 +501,57 @@ exports.updatePaymentMode = async (req, res) => {
       },
       { new: true }
     ).populate("residentList.resident");
+
+
+  
+const ownerData = await Owner.find();
+const tenantData = await Tenante.find();
+
+
+
+const ownerUsers = ownerData.map(owner => ({ _id: owner._id, model: "Owner" }));
+const tenantUsers = tenantData.map(tenant => ({ _id: tenant._id, model: "Tenante" }));
+
+
+const allUsers = [
+  
+  ...ownerUsers,
+  ...tenantUsers
+];
+
+
+for (const user of allUsers) {
+  let userName = "User";
+  let unit = "N/A";  
+  let wing = "N/A"; 
+
+  if (user.model === "Owner") {
+    const owner = await Owner.findById(user._id);
+    if (owner) {
+      userName = owner.Full_name;
+      unit = owner.Unit;
+      wing = owner.Wing;
+    }
+  } else if (user.model === "Tenante") {
+    const tenant = await Tenante.findById(user._id);
+    if (tenant) {
+      userName = tenant.Full_name;
+      unit = tenant.Unit;
+      wing = tenant.Wing;
+    }
+  } 
+
+ 
+  const notification = new Notification({
+    title: `Maintenance ${wing}-${unit}`,
+    name: "Annual Maintenance",
+    message: `${userName} from unit ${unit}, wing ${wing} gave a maintenance of ${maintenanceAmount} rupees.`,
+    users: [{ _id: user._id, model: user.model }]
+  });
+
+  // Save the notification
+  await notification.save();
+}
 
     if (!updatedMaintenance) {
       return res.status(404).json({
@@ -490,8 +577,6 @@ exports.updatePaymentMode = async (req, res) => {
 exports.FindByIdUserAndMaintance = async (req, res) => {
   try {
     const loggedInUserId = req.user.id;
-    console.log("Logged-in User ID:", loggedInUserId);
-
     const maintenanceRecords = await Maintenance.find({
       "residentList.resident": loggedInUserId,
     }).populate({
@@ -499,8 +584,6 @@ exports.FindByIdUserAndMaintance = async (req, res) => {
       match: { _id: loggedInUserId },
       select: "name email role",
     });
-
-    console.log("Maintenance Records:", maintenanceRecords);
 
     if (!maintenanceRecords || maintenanceRecords.length === 0) {
       return res.status(404).json({
@@ -664,8 +747,6 @@ exports.CreateIncome = async (req, res) => {
 
     const residentList = [...ownerData, ...tenantData];
 
-    console.log("Fetched residents:", residentList);
-
     const residentsWithStatus = residentList.map((resident) => ({
       resident: resident._id,
       paymentStatus: "pending",
@@ -676,6 +757,33 @@ exports.CreateIncome = async (req, res) => {
     income.members = residentsWithStatus;
 
     await income.save();
+
+    //add notification
+
+     
+    const adminUsers = await User.find({}, '_id');
+    const ownerUsers = ownerData.map(owner => ({ _id: owner._id, model: "Owner" }));
+    const tenantUsers = tenantData.map(tenant => ({ _id: tenant._id, model: "Tenante" }));
+
+   
+    const allUsers = [
+      ...adminUsers.map(admin => ({ _id: admin._id, model: "User" })), 
+      ...ownerUsers,
+      ...tenantUsers
+    ];
+
+    
+  
+    
+    const notification = new Notification({
+      title: "Income created",
+      name: `${title}`,
+      message: `Per person amount :-  ${amount} rupees. - Duedate ${dueDate}`,
+      users:allUsers
+    });
+  
+   
+    await notification.save();
 
     return res.status(200).json({
       success: true,
@@ -707,12 +815,10 @@ exports.GetIncome = async (req, res) => {
 };
 ////update and get payment
 exports.updatePaymentModeIncome = async (req, res) => {
-  const { incomeId } = req.params;
-  const { paymentMode } = req.body;
-  const residentId = req.user.id;
-  console.log("Resident ID from user:", residentId);
-  console.log("Request body:", req.body);
 
+  const { incomeId } = req.params; 
+  const { paymentMode } = req.body; 
+  const residentId = req.user.id; 
   try {
     const incomeRecord = await Income.findOne({
       _id: incomeId,
@@ -741,9 +847,24 @@ exports.updatePaymentModeIncome = async (req, res) => {
     incomeRecord.member = incomeRecord.member + 1;
     await incomeRecord.save();
 
-    const populatedIncomeRecord = await incomeRecord.populate(
-      "members.resident"
-    );
+
+   
+    // const residentData = await Owner.findById(residentId) || await Tenante.findById(residentId);
+    // const userName = residentData ? residentData.Full_name : "Resident";
+    // const unit = residentData?.Unit || "unknown unit";
+    // const wing = residentData?.Wing || "unknown wing";
+
+    
+    // const notification = new Notification({
+    //   title: "Income Payment Done",
+    //   name: "Annual Income",
+    //   message: `${userName} from unit ${unit}, wing ${wing} has completed an income payment of ${incomeRecord.amount} rupees.`,
+    //   users: [{ _id: residentId, model: residentData ? "Owner" : "Tenante" }] 
+    // });
+    // await notification.save();
+
+   
+    const populatedIncomeRecord = await incomeRecord.populate("members.resident");
 
     return res.status(200).json({
       success: true,

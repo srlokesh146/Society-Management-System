@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { FaFilePdf, FaImage, FaPlus, FaTimes } from 'react-icons/fa'
 import eye from '../assets/images/eye.svg'
 import edit from '../assets/images/edit.svg'
+import plus from '../assets/images/plus.svg'
+import Addimage from '../assets/images/Addimage.svg'
 import trash from '../assets/images/trash.svg'
 import {
   CreateExpense,
@@ -162,16 +164,16 @@ function Expense () {
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className='bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white px-4 py-2 rounded-md hover:opacity-90 flex items-center gap-2'
+          className='bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white h-[51px] px-4 rounded-[10px] hover:opacity-90 flex items-center gap-2'
         >
-          <FaPlus size={16} /> Add New Expenses details
+          <img src={plus} alt="" /> Add New Expenses details
         </button>
       </div>
 
       <div className='overflow-x-auto visiter-table custom-scrollbar max-sm:overflow-7-auto'>
         <table className='w-full rounded-lg'>
           <thead>
-            <tr className='bg-indigo-50 rounded-lg '>
+            <tr className='bg-indigo-50 h-[61px] rounded-lg '>
               <th className='text-left px-6 py-3 text-md font-semibold text-[#202224] rounded-tl-[15px]'>
                 Title
               </th>
@@ -222,7 +224,7 @@ function Expense () {
                     </span>
                   </td>
                   <td className='py-4'>
-                    <div className='flex gap-2 justify-end'>
+                    <div className='flex gap-2 justify-center'>
                       <button
                         onClick={() => handleEditClick(expense)} // Open edit modal
                         className='cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]'
@@ -342,6 +344,7 @@ function Expense () {
 
                 <div>
                   <label className='block text-sm text-wrap text-black-600 mb-1'>
+                   
                     Upload Bill*
                   </label>
                   <div
@@ -359,7 +362,8 @@ function Expense () {
                     {newExpense.bill ? (
                       <p className='text-gray-600'>{newExpense.bill.name}</p>
                     ) : (
-                      <p className='text-gray-400'>
+                      <p className='text-black items-center justify-center flex flex-col'>
+                        <img src={Addimage} alt="" />
                         Upload a file or drag and drop
                       </p>
                     )}
@@ -388,13 +392,13 @@ function Expense () {
                   <button
                     type='button'
                     onClick={handleCancel}
-                    className='bg-white text-black w-[170px] px-4 py-3 border rounded-lg'
+                    className='bg-white text-black w-[170px] px-4 py-3 border rounded-[10px]'
                   >
                     Cancel
                   </button>
                   <button
                     type='submit'
-                    className={`w-[170px] px-4 py-3 bg-grey-200 border rounded-lg ${
+                    className={`w-[170px] px-4 py-3 bg-grey-200  rounded-[10px] ${
                       isFormValid
                         ? 'bg-gradient-to-r from-[#FE512E] to-[#F09619] font-semibold text-white'
                         : 'bg-[#F6F8FB] font-bold text-black-400 cursor-not-allowed'

@@ -214,64 +214,45 @@ const OtherIncome = () => {
                     <FaEllipsisV size={12} />
                   </button>
                 </div>
-                {dropdownOpen === entry._id && (
-                  <div className="absolute right-0 mt-2 w-32 h-32 bg-white border rounded-lg shadow-lg z-10">
-                    <ul className="py-2">
-                      <li
-                        className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
-                        onClick={() => handleEdit(entry._id)}
-                      >
-                        Edit
-                      </li>
-                      <li
-                        className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
-                        onClick={() => handleDelete(entry._id)}
-                      >
-                        Delete
-                      </li>
-                      <li
-                        className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
-                        onClick={() => handleView(entry._id)}
-                      >
-                        View
-                      </li>
-                    </ul>
-                  </div>
-                )}
-                <p className="text-gray-600 p-2">
-                  Amount Per Member: <strong>{entry.amount}</strong>
+              )}
+              <p className="text-gray-600 flex justify-between items-center p-2 *:">
+                Amount Per Member:
+                 <p className="text-blue-500 font-semibold bg-indigo-50 rounded-full px-5 py-1 ">₹ {entry.amount}</p>
+              </p>
+              <p className="text-gray-600 flex justify-between items-center p-2">
+                Total Members: 
+             <p  className="text-black font-semibold">{entry?.member} </p>
+              </p>
+              <p className="text-gray-600 flex justify-between items-center p-2">
+                Date:{" "}
+               <p  className="text-black font-semibold">
+                  {new Date(entry.date).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+               </p>
+              </p>
+              <p className="text-gray-600 flex justify-between items-center p-2">
+                Due Date:{" "}
+           <p className="text-black font-semibold">
+                  {new Date(entry.dueDate).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
                 </p>
-                <p className="text-gray-600 p-2">
-                  Total Members: <strong>{entry?.member}</strong>
-                </p>
-                <p className="text-gray-600 p-2">
-                  Date:{" "}
-                  <strong>
-                    {new Date(entry.date).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}
-                  </strong>
-                </p>
-                <p className="text-gray-600 p-2">
-                  Due Date:{" "}
-                  <strong>
-                    {new Date(entry.dueDate).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}
-                  </strong>
-                </p>
-                <p className="text-gray-600 p-2 mt-2 text-sm">
-                  Description: <br />
-                  {entry.description.length > 100
-                    ? entry.description.slice(0, 100) + "..."
-                    : entry.description}
-                </p>
-              </div>
-            ))
+              </p>
+              <p className="text-gray-600 p-2 mt-2 text-sm">
+                Description: <br />
+             <p className="text-black font-medium">
+             {entry.description.length > 100
+                  ? entry.description.slice(0, 100) + "..."
+                  : entry.description }
+             </p>
+              </p>
+            </div>
+           ))
           ) : (
             <tr>
               <td colSpan="6" className="text-center py-4">
