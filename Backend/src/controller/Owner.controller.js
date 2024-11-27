@@ -448,8 +448,7 @@ exports.updateDataById = async (req, res) => {
 
     const account = (await Owner.findById(id)) || (await Tenante.findById(id));
 
-
-    account.password=undefined;
+    account.password = undefined;
     account.UnitStatus = "Vacant";
     // Save the updated entity
     await account.save();
@@ -467,25 +466,19 @@ exports.updateDataById = async (req, res) => {
   }
 };
 //total occupied unit
-exports.getTotalOccupiedUnits = async (req,res) => {
+exports.getTotalOccupiedUnits = async (req, res) => {
   try {
-   
-    const tenantOccupiedUnits = await Tenante.find({ UnitStatus: "Occupied" }, ' Unit');
-    const ownerOccupiedUnits = await Owner.find({ UnitStatus: "Occupied" }, ' Unit');
+    const tenantOccupiedUnits = await Tenante.find();
+    const ownerOccupiedUnits = await Owner.find();
+    const uniqueOccupiedUnits = [...tenantOccupiedUnits, ...ownerOccupiedUnits];
+    return res.status(200).json({
+      success: true,
+      UnitTotal: uniqueOccupiedUnits.length,
+    });
 
-   
-    const uniqueOccupiedUnits = new Set(
-      [...tenantOccupiedUnits, ...ownerOccupiedUnits].map(unit => `${unit.Unit}`)
-    );
-      return res.status(200).json({
-        success:true,
-        UnitTotal:uniqueOccupiedUnits.size
-      })
-    
     // return uniqueOccupiedUnits.size;
   } catch (error) {
     console.error("Error calculating total occupied units:", error);
     throw error;
   }
 };
-

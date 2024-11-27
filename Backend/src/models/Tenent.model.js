@@ -4,68 +4,53 @@ const tenantschema = new Schema(
   {
     Owner_Full_name: {
       type: String,
-      
     },
     Owner_Phone: {
       type: String,
-      
     },
     Owner_Address: {
       type: String,
-      
     },
     profileImage: {
       type: String,
-     
     },
     Full_name: {
       type: String,
-      
     },
     Phone_number: {
       type: String,
-     
     },
     Email_address: {
       type: String,
-
     },
     Age: {
       type: Number,
-      
     },
     Gender: {
       type: String,
-      default:null,
+      default: null,
       enum: ["male", "female", "other"],
     },
     Wing: {
       type: String,
-     
     },
     Unit: {
       type: Number,
-      
     },
     Relation: {
       type: String,
-      
     },
     Adhar_front: {
       type: String,
-      
     },
     Adhar_back: {
       type: String,
-      
     },
     Address_proof: {
       type: String,
-     
     },
     Rent_Agreement: {
       type: String,
-     
     },
     Member_Counting: [
       {
@@ -85,9 +70,7 @@ const tenantschema = new Schema(
       },
     ],
     password: {
-      
       type: String,
-     
     },
     role: {
       type: String,

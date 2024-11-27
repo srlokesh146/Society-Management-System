@@ -30,3 +30,7 @@ export const paymemtEvent = async (id, data) =>
 // Get event participants
 export const GetEventsParticipants = async () =>
   await api.get("/v2/financial/doneincome");
+
+// get event participants list by other income id
+export const GetEventParticipantById = async (id) =>
+  await api.get(`/v2/financial/income/${id}`);

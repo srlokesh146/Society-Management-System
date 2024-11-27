@@ -101,7 +101,7 @@ export default function AccessForums() {
         receiverModel,
       });
       fetchChatHistory();
-      toast.success(response.data.message);
+      setDiscussions((prev) => [...prev, response.data.message]);
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
@@ -134,7 +134,6 @@ export default function AccessForums() {
       const data = { senderId: userId, receiverId };
       const response = await GetChatHistory(data);
       setDiscussions(response.data.data);
-      console.log(response);
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -143,6 +142,15 @@ export default function AccessForums() {
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  useEffect(() => {
+    socket.on("sendMessage", (newMessage) => {
+      setDiscussions((prev) => [...prev, newMessage]);
+    });
+    return () => {
+      socket.off("sendMessage");
+    };
+  }, [receiver]);
 
   useEffect(() => {
     fetchChatHistory();

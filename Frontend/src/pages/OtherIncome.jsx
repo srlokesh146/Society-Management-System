@@ -79,7 +79,7 @@ const OtherIncome = () => {
   // Updated handleView function to navigate to the Admin Icon page
   const handleView = (id) => {
     // Navigate to the "adminIcon" page or wherever you want to go
-    navigate("/adminincome");
+    navigate(`/adminincome/${id}`);
     const entry = incomeEntries.find((entry) => entry._id === id);
     setSelectedEntry(entry);
     setViewModalOpen(true);
@@ -199,82 +199,82 @@ const OtherIncome = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-        {incomeEntries.length > 0 ? (
-          incomeEntries.map((entry) => (
-            <div
-              key={entry._id}
-              className="bg-white h-80 w-[350px] shadow-xl rounded-lg border border-blue-300 relative"
-            >
-              <div className="bg-[#5678E9] text-white w-full p-2 flex justify-between items-center rounded-t-lg">
-                <h3 className="text-lg  font-semibold">{entry.title}</h3>
-                <button
-                  className="text-blue-500 bg-white p-1 rounded-md h-5 w-5"
-                  onClick={() => toggleDropdown(entry._id)}
-                >
-                  <FaEllipsisV size={12} />
-                </button>
-              </div>
-              {dropdownOpen === entry._id && (
-                <div className="absolute right-0 mt-2 w-32 h-32 bg-white border rounded-lg shadow-lg z-10">
-                  <ul className="py-2">
-                    <li
-                      className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
-                      onClick={() => handleEdit(entry._id)}
-                    >
-                      Edit
-                    </li>
-                    <li
-                      className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
-                      onClick={() => handleDelete(entry._id)}
-                    >
-                      Delete
-                    </li>
-                    <li
-                      className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
-                      onClick={() => handleView(entry._id)} 
-                    >
-                      View
-                    </li>
-                  </ul>
+          {incomeEntries.length > 0 ? (
+            incomeEntries.map((entry) => (
+              <div
+                key={entry._id}
+                className="bg-white h-80 w-[350px] shadow-xl rounded-lg border border-blue-300 relative"
+              >
+                <div className="bg-[#5678E9] text-white w-full p-2 flex justify-between items-center rounded-t-lg">
+                  <h3 className="text-lg  font-semibold">{entry.title}</h3>
+                  <button
+                    className="text-blue-500 bg-white p-1 rounded-md h-5 w-5"
+                    onClick={() => toggleDropdown(entry._id)}
+                  >
+                    <FaEllipsisV size={12} />
+                  </button>
                 </div>
-              )}
-              <p className="text-gray-600 p-2">
-                Amount Per Member: <strong>{entry.amount}</strong>
-              </p>
-              <p className="text-gray-600 p-2">
-                Total Members: <strong>{entry.member}</strong>
-              </p>
-              <p className="text-gray-600 p-2">
-                Date:{" "}
-                <strong>
-                  {new Date(entry.date).toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })}
-                </strong>
-              </p>
-              <p className="text-gray-600 p-2">
-                Due Date:{" "}
-                <strong>
-                  {new Date(entry.dueDate).toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })}
-                </strong>
-              </p>
-              <p className="text-gray-600 p-2 mt-2 text-sm">
-                Description: <br />
-                {entry.description.length > 100
-                  ? entry.description.slice(0, 100) + "..."
-                  : entry.description}
-              </p>
-            </div>
-           ))
+                {dropdownOpen === entry._id && (
+                  <div className="absolute right-0 mt-2 w-32 h-32 bg-white border rounded-lg shadow-lg z-10">
+                    <ul className="py-2">
+                      <li
+                        className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
+                        onClick={() => handleEdit(entry._id)}
+                      >
+                        Edit
+                      </li>
+                      <li
+                        className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
+                        onClick={() => handleDelete(entry._id)}
+                      >
+                        Delete
+                      </li>
+                      <li
+                        className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
+                        onClick={() => handleView(entry._id)}
+                      >
+                        View
+                      </li>
+                    </ul>
+                  </div>
+                )}
+                <p className="text-gray-600 p-2">
+                  Amount Per Member: <strong>{entry.amount}</strong>
+                </p>
+                <p className="text-gray-600 p-2">
+                  Total Members: <strong>{entry?.member}</strong>
+                </p>
+                <p className="text-gray-600 p-2">
+                  Date:{" "}
+                  <strong>
+                    {new Date(entry.date).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </strong>
+                </p>
+                <p className="text-gray-600 p-2">
+                  Due Date:{" "}
+                  <strong>
+                    {new Date(entry.dueDate).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </strong>
+                </p>
+                <p className="text-gray-600 p-2 mt-2 text-sm">
+                  Description: <br />
+                  {entry.description.length > 100
+                    ? entry.description.slice(0, 100) + "..."
+                    : entry.description}
+                </p>
+              </div>
+            ))
           ) : (
             <tr>
-              <td colSpan='6' className='text-center py-4'>
+              <td colSpan="6" className="text-center py-4">
                 No data found.
               </td>
             </tr>
@@ -545,8 +545,6 @@ const OtherIncome = () => {
           </div>
         </div>
       )}
-
-    
     </div>
   );
 };

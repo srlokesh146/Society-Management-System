@@ -79,15 +79,13 @@ app.use("/api/v2/chat", chatRoute);
 //poll apis
 app.use("/api/v2/poll", PollRoutes);
 
-require("./src/utils/chatIo.js");
-
+// require("./src/utils/chatIo.js");
 
 app.get("/", (req, res) => res.send("Hello World!"));
 
 server.listen(port, () =>
   console.log(`Example app listening on port ${port}!`)
 );
-
 
 // socket io
 const io = new Server(server, {
@@ -99,7 +97,6 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  
   // connect users
   socket.on("join", ({ userId, receiverId }) => {
     socket.userId = userId;
@@ -111,6 +108,13 @@ io.on("connection", (socket) => {
     // add media
     const newMessage = { userId, receiverId, message };
     io.to(socket.id).emit("sendMessage", newMessage);
+    const receiverSocket = Array.from(io.sockets.sockets.values()).find(
+      (s) => s.userId === receiverId
+    );
+
+    if (receiverSocket) {
+      receiverSocket.emit("sendMessage", newMessage);
+    }
   });
 
   io.on("disconnect", () => {

@@ -46,7 +46,7 @@ const Navbar = () => {
 
   const handleProfileClick = () => {
     setShowSearch(false);
-    if (isDashboard) {
+    if (user.role === "admin" && isDashboard) {
       navigate("/editprofile");
     }
   };
