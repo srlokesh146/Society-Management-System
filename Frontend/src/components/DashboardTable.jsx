@@ -126,7 +126,7 @@ const DashboardTable = () => {
   }, []);
 
   return (
-    <div className="bg-white pt-[20px] rounded-[15px] col-span-2 max-2xl:col-span-4">
+    <div className="bg-white pt-[20px] rounded-[15px] col-span-2 max-2xl:col-span-4 ">
       <div className="flex justify-between items-center mb-[27px] ps-[20px] pr-[20px]">
         <div>
           <h2 className="text-[20px] font-semibold leading-4 max-sm:text-[16px] max-mb:text-[18px]">

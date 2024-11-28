@@ -78,7 +78,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
               name='complainer'
               value={formData.complainer}
               onChange={handleInputChange}
-              className='w-full p-2 border border-gray-300 rounded-[10px] outline-none focus:border-orange-500'
+              className='w-full p-2 border border-gray-300 rounded-[10px] outline-none focus:border-black'
               placeholder='Enter name'
             />
             {formErrors.requesterName && (
@@ -98,7 +98,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
               name='name'
               value={formData.name}
               onChange={handleInputChange}
-              className='w-full p-2 border border-gray-300 rounded-[10px] outline-none focus:border-orange-500'
+              className='w-full p-2 border border-gray-300 rounded-[10px] outline-none focus:border-black'
               placeholder='Enter name'
             />
             {formErrors.requestName && (
@@ -118,7 +118,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
               rows='3'
               value={formData.description}
               onChange={handleInputChange}
-              className='w-full p-2 border border-gray-300 rounded-[10px] outline-none focus:border-orange-500'
+              className='w-full p-2 border border-gray-300 rounded-[10px] outline-none focus:border-black'
               placeholder='Enter description'
             />
             {formErrors.description && (
@@ -139,7 +139,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
                 name='wing'
                 value={formData.wing}
                 onChange={handleInputChange}
-                className='w-full p-2 border border-gray-300 rounded-[10px] outline-none focus:border-orange-500'
+                className='w-full p-2 border border-gray-300 rounded-[10px] outline-none focus:border-black'
                 placeholder='Enter wing'
               />
               {formErrors.wing && (
@@ -155,7 +155,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
                 name='unit'
                 value={formData.unit}
                 onChange={handleInputChange}
-                className='w-full p-2 border border-gray-300 rounded-[10px] outline-none focus:border-orange-500'
+                className='w-full p-2 border border-gray-300 rounded-[10px] outline-none focus:border-black'
                 placeholder='Enter unit'
               />
               {formErrors.unit && (

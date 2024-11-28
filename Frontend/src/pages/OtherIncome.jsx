@@ -215,7 +215,9 @@ const OtherIncome = () => {
                   </button>
                 </div>
                 {dropdownOpen === entry._id && (
-                <div className="absolute right-0 mt-2 w-32 h-32 bg-white border rounded-lg shadow-lg z-10">
+
+                <div className="absolute right-0 mt-[-10px] mr-2 w-[100px] h-32 bg-white border rounded-lg shadow-lg z-10">
+
                   <ul className="py-2">
                     <li
                       className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"

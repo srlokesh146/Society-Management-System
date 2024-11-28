@@ -82,7 +82,7 @@ function MaintenceInvoices () {
       {/* Pending Maintenance Section */}
       <div className='bg-white p-6 rounded-lg shadow-sm'>
         <div className='flex flex-col sm:flex-row justify-between items-center'>
-          <h1 className='font-semibold text-[20px] sm:text-xl'>
+          <h1 className='font-semibold text-[16px] sm:text-xl'>
             Pending Maintenance
           </h1>
           <button
@@ -105,7 +105,7 @@ function MaintenceInvoices () {
                   <h2 className='text-sm sm:text-base font-semibold'>
                     Maintenance
                   </h2>
-                  <h2 className='text-sm bg-[#FFFFFF1A] w-28 text-center rounded-2xl p-1 font-semibold'>
+                  <h2 className='text-sm bg-[#FFFFFF1A] w-28 text-center rounded-2xl p-1 '>
                     {maintence.residentList[0].paymentStatus}
                   </h2>
                 </div>
@@ -152,7 +152,7 @@ function MaintenceInvoices () {
                     </div>
                     <div className='border-b border-[#F4F4F4] mb-[20px]'></div>
                     <div className='flex justify-between items-center text-sm sm:text-base text-black'>
-                      <span className='font-sm font-semibold '>
+                      <span className='text-[16px] font-medium text-[#4F4F4F] '>
                         Grand Total
                       </span>
 
