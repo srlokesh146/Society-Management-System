@@ -160,6 +160,7 @@ const OtherIncome = () => {
   useEffect(() => {
     fetchIncome();
   }, []);
+
   return (
     <div className="p-6">
       <div className="">
@@ -215,7 +216,6 @@ const OtherIncome = () => {
                   </button>
                 </div>
                 {dropdownOpen === entry._id && (
-
                 <div className="absolute right-0 mt-[-10px] mr-2 w-[100px] h-32 bg-white border rounded-lg shadow-lg z-10">
                   <ul className="py-2">
                     <li
@@ -266,17 +266,40 @@ const OtherIncome = () => {
                     year: "numeric",
                   })}
                 </p>
-              </p>
-              <p className="text-gray-600 p-2 mt-2 text-sm">
-                Description: <br />
-             <p className="text-black font-medium">
-             {entry.description.length > 100
-                  ? entry.description.slice(0, 100) + "..."
-                  : entry.description }
-             </p>
-              </p>
-            </div>
-           ))
+                <p className="text-gray-600 flex justify-between items-center p-2">
+                  Total Members:
+                  <p className="text-black font-semibold">{entry?.member} </p>
+                </p>
+                <p className="text-gray-600 flex justify-between items-center p-2">
+                  Date:{" "}
+                  <p className="text-black font-semibold">
+                    {new Date(entry.date).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </p>
+                </p>
+                <p className="text-gray-600 flex justify-between items-center p-2">
+                  Due Date:{" "}
+                  <p className="text-black font-semibold">
+                    {new Date(entry.dueDate).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </p>
+                </p>
+                <p className="text-gray-600 p-2 mt-2 text-sm">
+                  Description: <br />
+                  <p className="text-black font-medium">
+                    {entry.description.length > 100
+                      ? entry.description.slice(0, 100) + "..."
+                      : entry.description}
+                  </p>
+                </p>
+              </div>
+            ))
           ) : (
             <tr>
               <td colSpan="6" className="text-center py-4">

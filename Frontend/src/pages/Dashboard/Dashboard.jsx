@@ -19,23 +19,23 @@ import DeleteConfirmationModal from '../../components/modal/DeleteConfirmationMo
 import {
   TotalExpense,
   TotalIncome,
-  TotalUnit
-} from '../../services/calculateTotalService'
-import { useSelector } from 'react-redux'
-import { FaChevronDown } from 'react-icons/fa'
+  TotalUnit,
+} from "../../services/calculateTotalService";
+import { useSelector } from "react-redux";
+import { GetMaintenances } from "../../services/maintenanceService";
 
 const Dashboard = () => {
-  const [importantNumbers, setImportantNumbers] = useState([])
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const [selectedContact, setSelectedContact] = useState(null)
-  const [isOpen, setIsOpen] = useState(false)
-  const [selectedPeriod, setSelectedPeriod] = useState('Month')
-  const [activities, setActivities] = useState([])
-  const [totalAmount, setTotalAmount] = useState(0)
-  const [totalExpense, setTotalExpense] = useState(0)
-  const [totalUnit, setTotalUnit] = useState(0)
-  const { role } = useSelector(store => store.auth.user)
+  const [importantNumbers, setImportantNumbers] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedContact, setSelectedContact] = useState(null);
+  const [activities, setActivities] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [totalExpense, setTotalExpense] = useState(0);
+  const [totalUnit, setTotalUnit] = useState(0);
+  const [pendingMaintenance, setPendingMaintenance] = useState([]);
+  const { role } = useSelector((store) => store.auth.user);
+
 
   const handleOpenModal = () => {
     setSelectedContact(null)
@@ -117,10 +117,61 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    fetchImportantNumbers()
-    fetchAnnouncement()
-    fetchTotal()
-  }, [])
+    fetchImportantNumbers();
+    fetchAnnouncement();
+    fetchTotal();
+    fetchPendingMaintenance();
+  }, []);
+
+  const fetchPendingMaintenance = async () => {
+    try {
+      const response = await GetMaintenances();
+      console.log(response.data.Maintenance);
+      setPendingMaintenance(response.data.Maintenance);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const cardData = [
+    {
+      title: "Total Balance",
+      amount: `₹ ${totalAmount - totalExpense}`,
+      bgColor: "rgba(255, 106, 0, 0.5)",
+      gradient:
+        "linear-gradient(255.6deg, #FF6A00 7.71%, rgba(255, 255, 255, 0) 18.54%)",
+      iconBg: "#FF6A00",
+      icon: icon1,
+    },
+    {
+      title: "Total Income",
+      amount: `₹ ${totalAmount}`,
+      bgColor: "rgba(57, 151, 61, 0.5)",
+      gradient:
+        "linear-gradient(255.6deg, #39973D 7.71%, rgba(255, 255, 255, 0) 18.54%)",
+      iconBg: "#39973D",
+      icon: moneyrecive,
+    },
+    {
+      title: "Total Expense",
+      amount: `₹ ${totalExpense}`,
+      bgColor: "rgba(134, 159, 243, 0.5)",
+      gradient:
+        "linear-gradient(255.6deg, #869FF3 7.71%, rgba(255, 255, 255, 0) 18.54%)",
+      iconBg: "#869FF3",
+      icon: moneysend,
+    },
+    {
+      title: "Total Unit",
+      amount: `${totalUnit}`,
+      bgColor: "rgba(235, 55, 195, 0.5)",
+      gradient:
+        "linear-gradient(255.6deg, #EB37C3 7.71%, rgba(255, 255, 255, 0) 18.54%)",
+      iconBg: "#EB37C3",
+      icon: vacate,
+    },
+  ];
+
 
   return (
     <div className='flex h-screen bg-gray-100'>
@@ -300,36 +351,49 @@ const Dashboard = () => {
                     View all
                   </button>
                 </div>
-                <ul className='max-h-64 overflow-y-auto pr-[8px]'>
-                  {pendingMaintenances.map((maintenance, index) => (
-                    <li
-                      key={index}
-                      className='border-b border-gray-200 py-2 flex items-center'
-                    >
-                      <img
-                        src={rogerimage}
-                        alt='Profile'
-                        className='rounded-full w-10 h-10 mr-3'
-                      />
-                      <div className='flex-1'>
-                        <div className='flex justify-between items-center'>
-                          <div className='font-normal'>
-                            <p className='font-normal text-[14px]'>
-                              {maintenance.name}
-                            </p>
-                            <p className='text-[#A7A7A7] text-[12px]'>
-                              {maintenance.duration}
-                            </p>
-                          </div>
-                          <div>
-                            <p className='text-[#E74C3C] font-bold'>
-                              ₹ {maintenance.amount}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
+                <ul className="max-h-64 overflow-y-auto pr-[8px]">
+                  {pendingMaintenance.map((v) =>
+                    v.residentList.map((r) => {
+                      if (r.paymentStatus === "pending") {
+                        return (
+                          <li
+                            key={v}
+                            className="border-b border-gray-200 py-2 flex items-center"
+                          >
+                            <img
+                              src={r.resident.profileImage}
+                              alt="Profile"
+                              className="rounded-full w-10 h-10 mr-3"
+                            />
+                            <div className="flex-1">
+                              <div className="flex justify-between items-center">
+                                <div className="font-normal">
+                                  <p className="font-normal text-[14px]">
+                                    {r.resident.Full_name}
+                                  </p>
+                                  <p className="text-[#A7A7A7] text-[12px]">
+                                    {new Date(v.dueDate).toLocaleDateString(
+                                      "en-GB",
+                                      {
+                                        day: "2-digit",
+                                        month: "2-digit",
+                                        year: "numeric",
+                                      }
+                                    )}
+                                  </p>
+                                </div>
+                                <div>
+                                  <p className="text-[#E74C3C] font-bold">
+                                    ₹ {v.maintenanceAmount}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                        );
+                      }
+                    })
+                  )}
                 </ul>
               </div>
             </div>
