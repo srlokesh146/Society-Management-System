@@ -174,6 +174,7 @@ export const Navigationbar = [
   { path: '/residentsecurityprotocol', label: 'SecurityProtocols' },
   { path: '/maintenceinvoices', label: 'maintenceinvoices' },
   { path: '/invoicespage', label: 'InvoicesPage' },
+  { path: '/otherinvoices', label: 'OtherInvoices' },
   { path: '/otherincomeinvoices', label: 'otherincomeinvoices' },
   { path: '/polls', label: 'polls' },
   { path: "/communitiesdiscusion", label: "CommunitiesDiscussion" },

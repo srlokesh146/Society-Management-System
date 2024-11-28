@@ -106,11 +106,10 @@ const Navbar = () => {
 
           <span className="absolute left-3 top-[10px] text-gray-400">
            <img className="h-[20px]  w-[20px]" src={search} alt="" />
+           </span>
 
-          <span className="absolute left-3 top-3 text-gray-400 max-xl:left-6">
-            <IoSearchOutline size={20} />
-
-          </span>
+       
+        </div>
         </div>
       ) : (
         <div className="flex items-center max-sm:hidden max-md:hidden">
@@ -344,6 +343,7 @@ const Navbar = () => {
         </div>
       </div>
     </div>
+  
   );
 };
 

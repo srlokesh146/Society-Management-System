@@ -216,12 +216,12 @@ function FacilityManagement () {
         </button>
       </div>
 
-      <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+      <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4  gap-4'>
         {facilities.length > 0 ? (
           facilities.map(facility => (
             <div
               key={facility._id}
-              className='bg-white rounded-lg shadow-sm  bordre border border-grey-800 hover:shadow-sm transition-shadow'
+              className='bg-white rounded-lg shadow-sm   border border-grey-800 hover:shadow-sm transition-shadow'
             >
               <div className='bg-[#5678E9] text-white p-4 rounded-t-lg flex justify-between items-center'>
                 <h3 className='font-medium'>{facility.name}</h3>

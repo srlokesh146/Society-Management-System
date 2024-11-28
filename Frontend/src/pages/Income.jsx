@@ -150,7 +150,7 @@ const Income = () => {
   const ViewDetailsModal = ({ user, onClose }) => {
     return (
       <>
-        <div className='fixed inset-0 bg-[#0000007a] flex items-center justify-center z-[9999]'>
+        <div className='fixed inset-0 bg-[#00000021] flex items-center justify-center z-[9999]'>
           <div className='bg-white rounded-xl w-[450px] overflow-hidden'>
             {/* Header */}
             <div className='flex justify-between items-center px-6 py-4'>

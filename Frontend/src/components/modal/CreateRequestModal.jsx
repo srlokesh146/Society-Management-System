@@ -75,7 +75,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
               name="requesterName"
               value={formData.requesterName}
               onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500"
+              className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-black"
               placeholder="Enter name"
               required
             />
@@ -91,7 +91,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
               name="requestName"
               value={formData.requestName}
               onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500"
+              className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-black"
               placeholder="Enter name"
               required
             />
@@ -107,7 +107,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
               name="description"
               value={formData.description}
               onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500"
+              className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-black"
               placeholder="Enter description"
               required
             />
@@ -124,7 +124,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
                 name="date"
                 value={formData.date}
                 onChange={handleInputChange}
-                className="w-full p-2 pl-10 border border-gray-300 rounded-md outline-none focus:border-orange-500"
+                className="w-full p-2 pl-10 border border-gray-300 rounded-md outline-none focus:border-black"
                 required
               />
               <FaCalendarAlt
@@ -144,7 +144,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
                 name="wing"
                 value={formData.wing}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500"
+                className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-black"
                 placeholder="Enter wing"
                 required
               />
@@ -158,7 +158,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
                 name="unit"
                 value={formData.unit}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-orange-500"
+                className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-black"
                 placeholder="Enter unit"
                 required
               />

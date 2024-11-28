@@ -218,12 +218,12 @@ const Dashboard = () => {
           {/* chart section */}
 
           <div className="grid grid-cols-12 w-full gap-3 h-full max-xl:grid-cols-6 max-2xl:grid-cols-6">
-            <div className="col-span-12 max-md:col-span-12 max-lg:col-span-6 md:col-span-6 rounded-lg shadow-[0px_0px_25px_0px_rgba(0,0,0,0.08)]">
+            <div className="col-span-12 max-md:col-span-12 max-lg:col-span-6 md:col-span-6 rounded-lg ">
               <BalanceChart />
             </div>
 
             <div className="col-span-12 max-md:col-span-12 lg:col-span-3 max-xl:col-span-3">
-              <div className="bg-white p-[20px] rounded-[15px] shadow-lg w-full">
+              <div className="bg-white p-[20px] rounded-[15px] h-[398px]  w-full">
                 <div className="flex justify-between items-center mb-5">
                   <h3 className="text-lg font-semibold max-sm:text-[16px] max-mb:text-[18px]">
                     Important Numbers
@@ -320,7 +320,7 @@ const Dashboard = () => {
             </div>
 
             <div className="max-md:col-span-12 lg:col-span-3 max-xl:col-span-3">
-              <div className="bg-white p-[20px] rounded-[15px] shadow-lg h-full">
+              <div className="bg-white p-[20px] rounded-[15px] h-full">
                 <div className="flex justify-between items-center mb-5">
                   <h3 className="text-lg font-semibold max-sm:text-[16px] max-mb:text-[18px]">
                     Pending Maintenances
@@ -370,7 +370,7 @@ const Dashboard = () => {
             <div className="col-span-2 max-2xl:col-span-2 max-xl:col-span-1">
               <DashboardTable />
             </div>
-            <div className="bg-[#fff] rounded-lg shadow-md w-full p-[20px] overflow-y-auto">
+            <div className="bg-[#fff] rounded-lg w-full p-[20px] overflow-y-auto">
               <div className="flex justify-between items-center mb-[27px] ps-[20px] pr-[20px] max-sm:ps-[10px] max-sm:pr-0">
                 <div>
                   <h2 className="text-[20px] font-semibold leading-[27px] max-sm:text-[16px] max-md:text-[18px] max-2xl:text-[18px]">
@@ -412,7 +412,7 @@ const Dashboard = () => {
                   activities.map((activity, index) => (
                     <li
                       key={activity._id}
-                      className="flex items-center justify-between bg-white py-[12px] px-[15px] rounded-lg shadow-sm max-sm:px-[5px]"
+                      className="flex items-center justify-between bg-white py-[12px] px-[15px] rounded-lg  max-sm:px-[5px]"
                     >
                       <div className="flex items-center space-x-2">
                         <div className="w-[40px] h-[40px] bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-bold acvtivity">
