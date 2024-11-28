@@ -10,15 +10,21 @@ const pollSchema = new Schema({
         type: String,
         required: true,
     },
-    options: [
-        {
-            text: String,
-            votes: {
-                type: Number,
-                default: 0,
+   options: [
+            {
+                text: String,
+                votes: {
+                    type: Number,
+                    default: 0,
+                },
+                voters: [
+                    {
+                        type: Schema.Types.ObjectId,
+                        refPath: 'createdByType', 
+                    },
+                ],
             },
-        },
-    ],
+        ],
     createdBy: {
         type: Schema.Types.ObjectId,
         refPath: 'createdByType',
@@ -26,7 +32,8 @@ const pollSchema = new Schema({
     createdByType: {
         type: String,
         enum: ['Owner', 'Tenante'],
-    }
+    },
+    
    
 },{timestamps:true});
 

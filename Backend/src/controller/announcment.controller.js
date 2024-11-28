@@ -148,7 +148,6 @@ exports.DeleteAnnouncement= async(req,res)=>{
          });
     }
 }
-
 //update announcement
 exports.UpdateAnnouncement =async(req,res)=>{
     try {

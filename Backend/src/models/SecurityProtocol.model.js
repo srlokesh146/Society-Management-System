@@ -20,7 +20,7 @@ const protocolschema = new Schema({
       const hours = now.getHours();
       const minutes = now.getMinutes().toString().padStart(2, "0");
       const ampm = hours >= 12 ? "PM" : "AM";
-      const formattedHours = hours % 12 || 12; // Convert to 12-hour format and handle 0 as 12
+      const formattedHours = hours % 12 || 12; 
       return `${formattedHours}:${minutes} ${ampm}`;
     }
   }

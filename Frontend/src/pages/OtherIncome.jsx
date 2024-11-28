@@ -214,7 +214,31 @@ const OtherIncome = () => {
                     <FaEllipsisV size={12} />
                   </button>
                 </div>
+                {dropdownOpen === entry._id && (
+                <div className="absolute right-0 mt-2 w-32 h-32 bg-white border rounded-lg shadow-lg z-10">
+                  <ul className="py-2">
+                    <li
+                      className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
+                      onClick={() => handleEdit(entry._id)}
+                    >
+                      Edit
+                    </li>
+                    <li
+                      className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
+                      onClick={() => handleDelete(entry._id)}
+                    >
+                      Delete
+                    </li>
+                    <li
+                      className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
+                      onClick={() => handleView(entry._id)} 
+                    >
+                      View
+                    </li>
+                  </ul>
+                </div>
               )}
+          
               <p className="text-gray-600 flex justify-between items-center p-2 *:">
                 Amount Per Member:
                  <p className="text-blue-500 font-semibold bg-indigo-50 rounded-full px-5 py-1 ">₹ {entry.amount}</p>

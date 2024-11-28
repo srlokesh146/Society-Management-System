@@ -1,10 +1,11 @@
 const ResidentController = require("../controller/Owner.controller");
 const TenateController = require("../controller/Tenante.controller");
+const { auth, IsAdmin } = require("../middleware/auth");
 const router = require("express").Router();
 const upload = require("../utils/Owner.images");
 //add owner
 router.post(
-  "/addowner",
+  "/addowner",auth,IsAdmin,
   upload.fields([
     { name: "Adhar_front", maxCount: 1 },
     { name: "Adhar_back", maxCount: 1 },
@@ -32,7 +33,7 @@ router.patch(
 
 //add tenant
 router.post(
-  "/addtenante",
+  "/addtenante",auth,IsAdmin,
   upload.fields([
     { name: "Adhar_front", maxCount: 1 },
     { name: "Adhar_back", maxCount: 1 },
@@ -51,7 +52,7 @@ router.get("/viewtenante", TenateController.GetAllTenante);
 
 //update tenant
 router.put(
-  "/tenante/:id",
+  "/tenante/:id",auth,IsAdmin,
   upload.fields([
     { name: "Adhar_front", maxCount: 1 },
     { name: "Adhar_back", maxCount: 1 },

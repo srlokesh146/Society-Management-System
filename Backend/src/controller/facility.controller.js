@@ -1,4 +1,8 @@
 const Facility = require("../models/facility.model");
+const Notification = require("../models/notification.schema");
+const Owner = require("../models/Owener.model");
+const Tenante = require("../models/Tenent.model");
+const User = require("../models/user.schema");
 
 //add facility
 exports.CreateFacility= async(req,res)=>{
@@ -19,12 +23,45 @@ exports.CreateFacility= async(req,res)=>{
         })
         await facility.save();
         
+        
+        
+        
+        const ownerData = await Owner.find();
+       const tenantData = await Tenante.find();
+
+    
+
+    //add notification
+
+     
+    const adminUsers = await User.find({}, '_id');
+    const ownerUsers = ownerData.map(owner => ({ _id: owner._id, model: "Owner" }));
+    const tenantUsers = tenantData.map(tenant => ({ _id: tenant._id, model: "Tenante" }));
+
+   
+    const allUsers = [
+      ...adminUsers.map(admin => ({ _id: admin._id, model: "User" })), 
+      ...ownerUsers,
+      ...tenantUsers
+    ];
+
+     
+    const notification = new Notification({
+      title: "new Facility",
+      name: name,
+      message: description,
+      users:allUsers
+    });
+
+
+    await notification.save();
+        
         return res.status(200).json({
             success:true,
             message:"Facility successfully added"
         })
     } catch (error) {
-        console.error(error);
+       
     return res.status(500).json({
          success: false,
          message: "error in protocol facility"
@@ -47,7 +84,7 @@ exports.GetAllFacility=async(req,res)=>{
           data: facility,
         });
       } catch (error) {
-        console.error("Error fetching facility:", error);
+       
         return res.status(500).json({
           success: false,
           message: "Error fetching facility",
@@ -70,7 +107,7 @@ exports.GetByIdFacility=async(req,res)=>{
           data: facility,
         });
       } catch (error) {
-        console.error("Error fetching facility:", error);
+        
         return res.status(500).json({
           success: false,
           message: "Error fetching facility",
@@ -93,7 +130,7 @@ exports.DeleteFacility=async(req,res)=>{
           message:"Facility successfully Deleted"
         });
       } catch (error) {
-        console.error("Error deleting facility:", error);
+        
         return res.status(500).json({
           success: false,
           message: "Error deleting facility",
@@ -126,7 +163,7 @@ exports.UpdateFacility= async(req,res)=>{
             message:"Facility successfully updated"
         })
     } catch (error) {
-        console.error(error);
+     
     return res.status(500).json({
          success: false,
          message: "error in protocol facility"
