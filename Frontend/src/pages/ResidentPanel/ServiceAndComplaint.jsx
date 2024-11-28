@@ -141,12 +141,12 @@ const ServiceAndComplaint = () => {
       {activeTab === 'complaint' && (
         <div className='bg-white rounded-xl shadow-sm p-10 '>
           <div className='flex justify-between items-center mb-6 max-sm:flex-col'>
-            <h1 className='text-[22px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px]'>
+            <h1 className='text-[20px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px]'>
               Complaint
             </h1>
             <button
               onClick={() => setIsModalOpen(true)} // Open the Create Complaint modal
-              className='bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white px-4 py-3 rounded-lg hover:opacity-90 transition-all duration-300'
+              className='h-[51px] bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white px-4 rounded-lg hover:opacity-90 transition-all duration-300'
             >
               Create Complaint
             </button>
@@ -159,7 +159,7 @@ const ServiceAndComplaint = () => {
                   className='border border-grey-800 rounded-lg'
                 >
                   <div className='bg-[#5678E9] text-white p-4 flex justify-between items-center rounded-t-lg'>
-                    <h2 className='text-sm sm:text-base font-semibold'>
+                    <h2 className='text-sm sm:text-base text-[16px] font-semibold'>
                       {item.name}
                     </h2>
                     <div className='relative'>
@@ -205,7 +205,7 @@ const ServiceAndComplaint = () => {
                       </div>
                       <div className='justify-between items-center text-sm sm:text-base text-gray-500'>
                         <span className='font-sm '>Description</span>
-                        <p className='text-black font-medium text-[14px] mt-1'>
+                        <p className='text-black font-[500px] text-[14px] mt-1'>
                           {item.description}
                         </p>
                       </div>
@@ -307,7 +307,7 @@ const ServiceAndComplaint = () => {
                       </div>
                       <div className='justify-between items-center text-sm sm:text-base text-gray-500'>
                         <span className='font-sm '>Description</span>
-                        <p className='text-black font-medium text-[14px] mt-1'>
+                        <p className='text-black font-[500px] text-[14px] mt-1'>
                           {item.description}
                         </p>
                       </div>

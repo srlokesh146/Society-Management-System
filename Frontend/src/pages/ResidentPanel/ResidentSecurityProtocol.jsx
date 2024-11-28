@@ -29,14 +29,14 @@ function ResidentSecurityProtocol () {
           <table className='min-w-full shadow-sm'>
             <thead>
               <tr className='bg-indigo-50 h-[61px] text-[14px]'>
-                <th className='font-semibold px-4 py-2 text-left rounded-tl-[15px]'>
+                <th className='font-medium px-4 py-2 text-left rounded-tl-[15px]'>
                   Title
                 </th>
-                <th className='font-semibold px-4 py-2 text-left'>
+                <th className='font-medium px-4 py-2 text-left'>
                   Description
                 </th>
-                <th className='font-semibold px-4 py-2 text-center'>Date</th>
-                <th className='font-semibold px-4 py-2 rounded-tr-[15px]'>
+                <th className='font-medium px-4 py-2 text-center'>Date</th>
+                <th className='font-medium px-4 py-2 rounded-tr-[15px]'>
                   Time
                 </th>
               </tr>
@@ -50,7 +50,7 @@ function ResidentSecurityProtocol () {
                   >
                     <td className='px-4 py-4'>{item.title}</td>
                     <td className='px-4 py-4'>{item.description}</td>
-                    <td className='px-4 py-4 text-center'>
+                    <td className='px-4 py-4  font-medium text-center'>
                       {new Date(item.date).toLocaleDateString('en-GB', {
                         day: '2-digit',
                         month: '2-digit',
@@ -58,7 +58,7 @@ function ResidentSecurityProtocol () {
                       })}
                     </td>
                     <td className='py-4 flex justify-center '>
-                      <p className='bg-gray-50 py-[5px] text-center w-[92px] h-[34px] text-[16px] rounded-full'>
+                      <p className='bg-gray-100 py-[5px] text-center w-[92px] h-[34px] text-[16px] rounded-full font-medium'>
                         {item.time}
                       </p>
                     </td>
