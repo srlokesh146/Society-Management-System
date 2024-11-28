@@ -93,24 +93,21 @@ const Navbar = () => {
   return (
     <div className=" flex justify-between items-center p-4 bg-white shadow-md sticky top-0 left-0 w-full z-[99] max-md:justify-start max-md:flex max-md:items-start max-sm:flex-col max-sm:justify-start max-sm:items-start max-lg:pl-[50px]">
       {showSearch ? (
-
         <div className="search-icon relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-[35px] max-sm:hidden ">
+          <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-0 max-sm:hidden">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 bg-[#F6F8FB] max-sm:mb-[15px] max-xl:ml-[15px]"
+            />
 
-        <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-0 max-sm:hidden">
-
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 bg-[#F6F8FB] max-sm:mb-[15px] max-xl:ml-[15px]"
-          />
-
-          <span className="absolute left-3 top-[10px] text-gray-400">
-           <img className="h-[20px]  w-[20px]" src={search} alt="" />
-
-          <span className="absolute left-3 top-3 text-gray-400 max-xl:left-6">
-            <IoSearchOutline size={20} />
-
-          </span>
+            <span className="absolute left-3 top-[10px] text-gray-400">
+              <img className="h-[20px]  w-[20px]" src={search} alt="" />
+            </span>
+            <span className="absolute left-3 top-3 text-gray-400 max-xl:left-6">
+              <IoSearchOutline size={20} />
+            </span>
+          </div>
         </div>
       ) : (
         <div className="flex items-center max-sm:hidden max-md:hidden">
@@ -146,7 +143,7 @@ const Navbar = () => {
       )}
 
       <div className="flex items-center space-x-4 justify-end w-full max-md:justify-end max-sm:justify-end">
-      <div className="input-search-icon max-sm:block max-xl:hidden lg:hidden max-sm:rounded-full"></div>
+        <div className="input-search-icon max-sm:block max-xl:hidden lg:hidden max-sm:rounded-full"></div>
         {/* Notification Icon */}
         <div className="relative">
           <IoNotifications

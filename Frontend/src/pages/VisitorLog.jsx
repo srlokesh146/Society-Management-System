@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { GetVisitors } from "../services/securityGuardService";
+import { convert24hrTo12hr } from "../utils/ConvertTime";
+
 
 const VisitorLogs = () => {
   const [visitorLog, setVisitorLog] = useState([]);
 
-  const fetchNotes = async () => {
+  const fetchVisitors = async () => {
     try {
       const response = await GetVisitors();
       console.log(response.data.data);
@@ -16,7 +18,7 @@ const VisitorLogs = () => {
   };
 
   useEffect(() => {
-    fetchNotes();
+    fetchVisitors();
   }, []);
 
   return (
@@ -50,56 +52,56 @@ const VisitorLogs = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-100">
-            {visitorLog.length > 0 ? (
-              visitorLog.map((visitor, index) => (
-                <tr key={index} className="hover:bg-gray-50 text-[#4F4F4F]">
-                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 h-10 w-10">
-                        <img
-                          className="h-10 w-10 rounded-full object-cover"
-                          src={`https://i.pravatar.cc/150?img=${index}`}
-                          alt=""
-                        />
-                      </div>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium ">
-                          {visitor.name}
+              {visitorLog.length > 0 ? (
+                visitorLog.map((visitor, index) => (
+                  <tr key={index} className="hover:bg-gray-50 text-[#4F4F4F]">
+                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0 h-10 w-10">
+                          <img
+                            className="h-10 w-10 rounded-full object-cover"
+                            src={`https://i.pravatar.cc/150?img=${index}`}
+                            alt=""
+                          />
+                        </div>
+                        <div className="ml-4">
+                          <div className="text-sm font-medium ">
+                            {visitor.name}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium">
-                      {visitor.number}
-                    </div>
-                  </td>
-                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium">
-                      {new Date(visitor.date).toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })}
-                    </div>
-                  </td>
-                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center justify-center">
-                      <span className="h-[28px] w-[28px] flex items-center justify-center rounded-full bg-[#5678E91A] text-[#5678E9] text-xs font-medium mr-2">
-                        {visitor.wing}
-                      </span>
-                      <span className="text-sm font-medium">
-                        {visitor.unit}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="py-4 whitespace-nowrap text-right">
-                    <div className="inline-flex justify-center items-center px-3 py-1 font-medium text-sm bg-[#F6F8FB] rounded-full w-[92px] h-[34px]">
-                      {visitor.time}
-                    </div>
-                  </td>
-                </tr>
-               ))
+                    </td>
+                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm font-medium">
+                        {visitor.number}
+                      </div>
+                    </td>
+                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm font-medium">
+                        {new Date(visitor.date).toLocaleDateString("en-GB", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })}
+                      </div>
+                    </td>
+                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center justify-center">
+                        <span className="h-[28px] w-[28px] flex items-center justify-center rounded-full bg-[#5678E91A] text-[#5678E9] text-xs font-medium mr-2">
+                          {visitor.wing}
+                        </span>
+                        <span className="text-sm font-medium">
+                          {visitor.unit}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="py-4 whitespace-nowrap text-right">
+                      <div className="inline-flex justify-center items-center px-3 py-1 font-medium text-sm bg-[#F6F8FB] rounded-full w-[92px] h-[34px]">
+                        {convert24hrTo12hr(visitor.time)}
+                      </div>
+                    </td>
+                  </tr>
+                ))
               ) : (
                 <tr>
                   <td colSpan="5" className="text-center py-4">

@@ -30,64 +30,6 @@ export default function AccessForums() {
   const [discussions, setDiscussions] = useState([]);
   const [receiver, setReceiver] = useState(null);
 
-  const chats = [
-    {
-      id: 1,
-      name: "Michael John",
-      message: "Hi, John! How are you doing?",
-      time: "10:27",
-    },
-    { id: 2, name: "Jenny Wilson", message: "Hello, Jenny", time: "7:00" },
-    { id: 3, name: "Arlene McCoy", message: "Typing...", time: "9:20" },
-    { id: 4, name: "Esther Howard", message: "Hello, Esther", time: "10:27" },
-  ];
-
-  const sampleDiscussions = {
-    1: [
-      {
-        id: 1,
-        sender: "Michael John",
-        message: "Hello! How are you?",
-        time: "10:25",
-        isReceived: true,
-      },
-    ],
-    2: [
-      {
-        id: 1,
-        sender: "Jenny Wilson",
-        message: "Good Morning!",
-        time: "7:05",
-        isReceived: true,
-      },
-    ],
-    3: [
-      {
-        id: 1,
-        sender: "Arlene McCoy",
-        message: "Hi there, How are you?",
-        time: "9:20",
-        isReceived: true,
-      },
-      {
-        id: 2,
-        sender: "You",
-        message: "I’m good, how about you?",
-        time: "9:25",
-        isReceived: false,
-      },
-    ],
-    4: [
-      {
-        id: 1,
-        sender: "Esther Howard",
-        message: "See you at the meeting!",
-        time: "10:30",
-        isReceived: true,
-      },
-    ],
-  };
-
   const handleSendMessage = async () => {
     try {
       const receiverId = receiver._id;

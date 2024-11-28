@@ -24,6 +24,7 @@ import {
   TotalUnit,
 } from "../../services/calculateTotalService";
 import { useSelector } from "react-redux";
+import { GetMaintenances } from "../../services/maintenanceService";
 
 const Dashboard = () => {
   const [importantNumbers, setImportantNumbers] = useState([]);
@@ -34,6 +35,7 @@ const Dashboard = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalExpense, setTotalExpense] = useState(0);
   const [totalUnit, setTotalUnit] = useState(0);
+  const [pendingMaintenance, setPendingMaintenance] = useState([]);
   const { role } = useSelector((store) => store.auth.user);
 
   const handleOpenModal = () => {
@@ -110,7 +112,30 @@ const Dashboard = () => {
     fetchImportantNumbers();
     fetchAnnouncement();
     fetchTotal();
+    fetchPendingMaintenance();
   }, []);
+
+  const fetchPendingMaintenance = async () => {
+    try {
+      const response = await GetMaintenances();
+      console.log(response.data.Maintenance);
+      setPendingMaintenance(response.data.Maintenance);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  pendingMaintenance.map((v) => {
+    v.residentList.map((r) => {
+      if (r.paymentStatus === "pending") {
+        console.log(r.paymentStatus);
+        console.log(r.resident.profileImage);
+        console.log(r.resident.Full_name);
+        console.log(v.dueDate);
+        console.log(v.maintenanceAmount);
+      }
+    });
+  });
 
   const cardData = [
     {
@@ -330,35 +355,48 @@ const Dashboard = () => {
                   </button>
                 </div>
                 <ul className="max-h-64 overflow-y-auto pr-[8px]">
-                  {pendingMaintenances.map((maintenance, index) => (
-                    <li
-                      key={index}
-                      className="border-b border-gray-200 py-2 flex items-center"
-                    >
-                      <img
-                        src={rogerimage}
-                        alt="Profile"
-                        className="rounded-full w-10 h-10 mr-3"
-                      />
-                      <div className="flex-1">
-                        <div className="flex justify-between items-center">
-                          <div className="font-normal">
-                            <p className="font-normal text-[14px]">
-                              {maintenance.name}
-                            </p>
-                            <p className="text-[#A7A7A7] text-[12px]">
-                              {maintenance.duration}
-                            </p>
-                          </div>
-                          <div>
-                            <p className="text-[#E74C3C] font-bold">
-                              ₹ {maintenance.amount}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
+                  {pendingMaintenance.map((v) =>
+                    v.residentList.map((r) => {
+                      if (r.paymentStatus === "pending") {
+                        return (
+                          <li
+                            key={v}
+                            className="border-b border-gray-200 py-2 flex items-center"
+                          >
+                            <img
+                              src={r.resident.profileImage}
+                              alt="Profile"
+                              className="rounded-full w-10 h-10 mr-3"
+                            />
+                            <div className="flex-1">
+                              <div className="flex justify-between items-center">
+                                <div className="font-normal">
+                                  <p className="font-normal text-[14px]">
+                                    {r.resident.Full_name}
+                                  </p>
+                                  <p className="text-[#A7A7A7] text-[12px]">
+                                    {new Date(v.dueDate).toLocaleDateString(
+                                      "en-GB",
+                                      {
+                                        day: "2-digit",
+                                        month: "2-digit",
+                                        year: "numeric",
+                                      }
+                                    )}
+                                  </p>
+                                </div>
+                                <div>
+                                  <p className="text-[#E74C3C] font-bold">
+                                    ₹ {v.maintenanceAmount}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                        );
+                      }
+                    })
+                  )}
                 </ul>
               </div>
             </div>

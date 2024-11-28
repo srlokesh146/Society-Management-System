@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import {
   FaCheck,
   FaSun,
@@ -8,366 +8,367 @@ import {
   FaTimes,
   FaCamera,
   FaCloudUploadAlt,
-  FaUser
-} from 'react-icons/fa'
-import { toast } from 'react-hot-toast'
+  FaUser,
+} from "react-icons/fa";
+import { toast } from "react-hot-toast";
 import {
   CreateSecurityGuard,
   DeleteSecurityGuard,
   GetSecurityGuards,
-  UpdateSecurityGuard
-} from '../services/securityGuardService'
-import eye from '../assets/images/eye.svg'
-import edit from '../assets/images/edit.svg'
-import trash from '../assets/images/trash.svg'
-import plus from '../assets/images/plus.svg'
-import Addimage from '../assets/images/Addimage.svg'
+  UpdateSecurityGuard,
+} from "../services/securityGuardService";
+import eye from "../assets/images/eye.svg";
+import edit from "../assets/images/edit.svg";
+import trash from "../assets/images/trash.svg";
+import plus from "../assets/images/plus.svg";
+import Addimage from "../assets/images/Addimage.svg";
+import { convert24hrTo12hr } from "../utils/ConvertTime";
 
-function SecurityGuardDetails () {
-  const [guards, setGuards] = useState([])
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [modalMode, setModalMode] = useState('add') // 'add', 'edit', 'view'
-  const [currentGuard, setCurrentGuard] = useState(null)
+function SecurityGuardDetails() {
+  const [guards, setGuards] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState("add"); // 'add', 'edit', 'view'
+  const [currentGuard, setCurrentGuard] = useState(null);
   const [newGuard, setNewGuard] = useState({
-    full_name: '',
-    MailOrPhone: '',
-    shift: '',
-    date: '',
-    time: '',
-    gender: '',
+    full_name: "",
+    MailOrPhone: "",
+    shift: "",
+    date: "",
+    time: "",
+    gender: "",
     profileimage: null,
-    adhar_card: null
-  })
+    adhar_card: null,
+  });
 
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const [guardToDelete, setGuardToDelete] = useState(null)
-  const [photoPreview, setPhotoPreview] = useState(null)
-  const [aadharPreview, setAadharPreview] = useState(null)
-  const [isDragging, setIsDragging] = useState(false)
-  const [isFormFilled, setIsFormFilled] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [guardToDelete, setGuardToDelete] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
+  const [aadharPreview, setAadharPreview] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [isFormFilled, setIsFormFilled] = useState(false);
 
-  const checkFormFilled = guard => {
+  const checkFormFilled = (guard) => {
     return (
-      guard.full_name.trim() !== '' &&
-      guard.MailOrPhone.trim() !== '' &&
-      guard.gender !== '' &&
-      guard.shift !== '' &&
-      guard.date !== '' &&
-      guard.time !== '' &&
+      guard.full_name.trim() !== "" &&
+      guard.MailOrPhone.trim() !== "" &&
+      guard.gender !== "" &&
+      guard.shift !== "" &&
+      guard.date !== "" &&
+      guard.time !== "" &&
       guard.adhar_card !== null
-    )
-  }
+    );
+  };
 
   const handleAddSecurity = () => {
-    setModalMode('add')
+    setModalMode("add");
     setNewGuard({
-      full_name: '',
-      MailOrPhone: '',
-      shift: '',
-      date: '',
-      time: '',
-      gender: '',
+      full_name: "",
+      MailOrPhone: "",
+      shift: "",
+      date: "",
+      time: "",
+      gender: "",
       profileimage: null,
-      adhar_card: null
-    })
-    setIsModalOpen(true)
-  }
+      adhar_card: null,
+    });
+    setIsModalOpen(true);
+  };
 
-  const handleEdit = guard => {
-    setModalMode('edit')
+  const handleEdit = (guard) => {
+    setModalMode("edit");
     // setCurrentGuard(guard);
-    setPhotoPreview(guard.profileimage)
-    setNewGuard({ ...guard })
-    setIsModalOpen(true)
-  }
+    setPhotoPreview(guard.profileimage);
+    setNewGuard({ ...guard });
+    setIsModalOpen(true);
+  };
 
-  const handleView = guard => {
-    setModalMode('view')
-    setCurrentGuard(guard)
-    setIsModalOpen(true)
-  }
+  const handleView = (guard) => {
+    setModalMode("view");
+    setCurrentGuard(guard);
+    setIsModalOpen(true);
+  };
 
   const handleCancel = () => {
-    setIsModalOpen(false)
-    setPhotoPreview(null)
-    setAadharPreview(null)
-  }
+    setIsModalOpen(false);
+    setPhotoPreview(null);
+    setAadharPreview(null);
+  };
 
-  const handleDeleteClick = guard => {
-    setGuardToDelete(guard)
-    setIsDeleteModalOpen(true)
-  }
+  const handleDeleteClick = (guard) => {
+    setGuardToDelete(guard);
+    setIsDeleteModalOpen(true);
+  };
 
   const handleConfirmDelete = async () => {
     try {
-      setGuards(guards.filter(guard => guard._id !== guardToDelete._id))
-      const response = await DeleteSecurityGuard(guardToDelete._id)
-      toast.success(response.data.message)
+      setGuards(guards.filter((guard) => guard._id !== guardToDelete._id));
+      const response = await DeleteSecurityGuard(guardToDelete._id);
+      toast.success(response.data.message);
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message);
     } finally {
-      setIsDeleteModalOpen(false)
+      setIsDeleteModalOpen(false);
     }
-  }
+  };
 
   const handleFileUpload = (event, type) => {
-    event.preventDefault()
-    const file = event.target.files[0]
-    handleFile(file, type)
+    event.preventDefault();
+    const file = event.target.files[0];
+    handleFile(file, type);
 
     const updatedGuard = {
       ...newGuard,
-      [type]: file
-    }
-    setIsFormFilled(checkFormFilled(updatedGuard))
-  }
+      [type]: file,
+    };
+    setIsFormFilled(checkFormFilled(updatedGuard));
+  };
 
   const handleDrop = (event, type) => {
-    event.preventDefault()
-    setIsDragging(false)
+    event.preventDefault();
+    setIsDragging(false);
 
-    const file = event.dataTransfer.files[0]
-    handleFile(file, type)
-  }
+    const file = event.dataTransfer.files[0];
+    handleFile(file, type);
+  };
 
   const handleFile = (file, type) => {
     if (file) {
       if (file.size > 10 * 1024 * 1024) {
-        alert('File size should be less than 10MB')
-        return
+        alert("File size should be less than 10MB");
+        return;
       }
 
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onloadend = () => {
-        if (type === 'profileimage') {
-          setPhotoPreview(reader.result)
-          setNewGuard({ ...newGuard, profileimage: file })
-        } else if (type === 'adhar_card') {
-          setAadharPreview(reader.result)
-          setNewGuard({ ...newGuard, adhar_card: file })
+        if (type === "profileimage") {
+          setPhotoPreview(reader.result);
+          setNewGuard({ ...newGuard, profileimage: file });
+        } else if (type === "adhar_card") {
+          setAadharPreview(reader.result);
+          setNewGuard({ ...newGuard, adhar_card: file });
         }
-      }
-      reader.readAsDataURL(file)
+      };
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
-  const handleDragOver = event => {
-    event.preventDefault()
-    setIsDragging(true)
-  }
+  const handleDragOver = (event) => {
+    event.preventDefault();
+    setIsDragging(true);
+  };
 
-  const handleDragLeave = event => {
-    event.preventDefault()
-    setIsDragging(false)
-  }
+  const handleDragLeave = (event) => {
+    event.preventDefault();
+    setIsDragging(false);
+  };
 
   const handleGuardChange = (field, value) => {
     const updatedGuard = {
       ...newGuard,
-      [field]: value
-    }
-    setNewGuard(updatedGuard)
-    setIsFormFilled(checkFormFilled(updatedGuard))
-  }
+      [field]: value,
+    };
+    setNewGuard(updatedGuard);
+    setIsFormFilled(checkFormFilled(updatedGuard));
+  };
 
   const handleSave = async () => {
-    setIsModalOpen(false)
+    setIsModalOpen(false);
     try {
-      let response
-      if (modalMode === 'add') {
-        response = await CreateSecurityGuard(newGuard)
-      } else if (modalMode === 'edit') {
-        response = await UpdateSecurityGuard(newGuard._id, newGuard)
+      let response;
+      if (modalMode === "add") {
+        response = await CreateSecurityGuard(newGuard);
+      } else if (modalMode === "edit") {
+        response = await UpdateSecurityGuard(newGuard._id, newGuard);
       }
-      fetchSecurityGuards()
-      toast.success(response.data.message)
+      fetchSecurityGuards();
+      toast.success(response.data.message);
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message);
     } finally {
-      setPhotoPreview(null)
-      setAadharPreview(null)
+      setPhotoPreview(null);
+      setAadharPreview(null);
       setNewGuard({
-        full_name: '',
-        MailOrPhone: '',
-        shift: '',
-        date: '',
-        time: '',
-        gender: '',
+        full_name: "",
+        MailOrPhone: "",
+        shift: "",
+        date: "",
+        time: "",
+        gender: "",
         profileimage: null,
-        adhar_card: null
-      })
+        adhar_card: null,
+      });
     }
-  }
+  };
 
   const fetchSecurityGuards = async () => {
     try {
-      const response = await GetSecurityGuards()
-      setGuards(response.data.Guard)
+      const response = await GetSecurityGuards();
+      setGuards(response.data.Guard);
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchSecurityGuards()
-  }, [])
+    fetchSecurityGuards();
+  }, []);
 
   return (
-    <div className='container mx-auto p-4 sm:p-6 bg-white rounded-lg'>
-      <div className='flex justify-between items-center mb-6 max-sm:flex-col'>
-        <h1 className='text-[20px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px]'>
+    <div className="container mx-auto p-4 sm:p-6 bg-white rounded-lg">
+      <div className="flex justify-between items-center mb-6 max-sm:flex-col">
+        <h1 className="text-[20px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px]">
           Security Guard Details
         </h1>
         <button
           onClick={handleAddSecurity}
-          className='px-4 h-[51px] bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white rounded-[10px] hover:opacity-90 flex items-center gap-2'
+          className="px-4 h-[51px] bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white rounded-[10px] hover:opacity-90 flex items-center gap-2"
         >
           <img src={plus} alt="" />
           Add Security
         </button>
       </div>
 
-      <div className='bg-white rounded-lg shadow-sm overflow-x-auto custom-scrollbar min-w-0'>
-        <div className='overflow-x-auto block bg-transparent w-full'>
-          <table className='divide-y divide-gray-200 w-full'>
-            <thead className='bg-indigo-50'>
-              <tr className='h-[61px] text-[#202224]'>
-                <th className='px-4 py-4 text-left text-sm text-nowrap font-semibold text-black-500 rounded-tl-[15px]'>
+      <div className="bg-white rounded-lg shadow-sm overflow-x-auto custom-scrollbar min-w-0">
+        <div className="overflow-x-auto block bg-transparent w-full">
+          <table className="divide-y divide-gray-200 w-full">
+            <thead className="bg-indigo-50">
+              <tr className="h-[61px] text-[#202224]">
+                <th className="px-4 py-4 text-left text-sm text-nowrap font-semibold text-black-500 rounded-tl-[15px]">
                   Security Guard Name
                 </th>
-                <th className='px-4 py-4 text-center text-nowrap text-sm font-semibold text-black-500'>
+                <th className="px-4 py-4 text-center text-nowrap text-sm font-semibold text-black-500">
                   Phone Number & E-Mail*
                 </th>
-                <th className='px-4 py-4 text-center text-sm font-semibold text-black-500'>
+                <th className="px-4 py-4 text-center text-sm font-semibold text-black-500">
                   Select Shift
                 </th>
-                <th className='px-4 py-4 text-center text-sm font-semibold text-black-500'>
+                <th className="px-4 py-4 text-center text-sm font-semibold text-black-500">
                   Shift Date
                 </th>
-                <th className='px-4 py-4 text-center text-sm font-semibold text-black-500'>
+                <th className="px-4 py-4 text-center text-sm font-semibold text-black-500">
                   Shift Time
                 </th>
-                <th className='px-4 py-4 text-center text-sm font-semibold text-black-500'>
+                <th className="px-4 py-4 text-center text-sm font-semibold text-black-500">
                   Gender
                 </th>
-                <th className='px-4 py-4 text-center text-sm font-semibold text-black-500 rounded-tr-[15px]'>
+                <th className="px-4 py-4 text-center text-sm font-semibold text-black-500 rounded-tr-[15px]">
                   Action
                 </th>
               </tr>
             </thead>
 
-            <tbody className='bg-white divide-y divide-gray-100'>
+            <tbody className="bg-white divide-y divide-gray-100">
               {guards.length > 0 ? (
                 guards.map((guard, i) => (
-                  <tr key={i} className='text-[#4F4F4F]'>
-                    <td className='px-1 py-4 text-center'>
-                      <div className='flex items-center'>
+                  <tr key={i} className="text-[#4F4F4F]">
+                    <td className="px-1 py-4 text-center">
+                      <div className="flex items-center">
                         <img
-                          className='h-10 w-10 rounded-full object-cover'
+                          className="h-10 w-10 rounded-full object-cover"
                           src={guard.profileimage}
-                          alt=''
+                          alt=""
                         />
-                        <div className='ml-4'>
-                          <div className='text-sm font-medium text-gray-900'>
+                        <div className="ml-4">
+                          <div className="text-sm font-medium text-gray-900">
                             {guard.full_name}
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td className='px-6 py-4'>
-                      <div className='text-sm font-medium text-center text-gray-500'>
+                    <td className="px-6 py-4">
+                      <div className="text-sm font-medium text-center text-gray-500">
                         {guard.MailOrPhone}
                       </div>
                     </td>
-                    <td className='px-6 py-4 text-center'>
+                    <td className="px-6 py-4 text-center">
                       <span
                         className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                          guard.shift === 'Day'
-                            ? 'bg-orange-50 text-orange-500'
-                            : 'bg-gray-600 text-white'
+                          guard.shift === "Day"
+                            ? "bg-orange-50 text-orange-500"
+                            : "bg-gray-600 text-white"
                         }`}
                       >
-                        {guard.shift === 'Day' ? (
-                          <FaSun className='mr-2' />
+                        {guard.shift === "Day" ? (
+                          <FaSun className="mr-2" />
                         ) : (
-                          <FaMoon className='mr-2' />
+                          <FaMoon className="mr-2" />
                         )}
                         {guard.shift}
                       </span>
                     </td>
-                    <td className='px-6 py-4 text-center'>
-                      <div className='text-sm font-medium text-gray-500'>
-                        {new Date(guard.date).toLocaleDateString('en-GB', {
-                          day: '2-digit',
-                          month: '2-digit',
-                          year: 'numeric'
+                    <td className="px-6 py-4 text-center">
+                      <div className="text-sm font-medium text-gray-500">
+                        {new Date(guard.date).toLocaleDateString("en-GB", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
                         })}
                       </div>
                     </td>
-                    <td className='px-6 py-4 text-center'>
-                      <div className='inline-flex justify-center items-center rounded-full px-3 py-1 font-medium text-sm text-gray-500 bg-[#F6F8FB] w-[92px] h-[34px]'>
-                        {guard.time}
+                    <td className="px-6 py-4 text-center">
+                      <div className="inline-flex justify-center items-center rounded-full px-3 py-1 font-medium text-sm text-gray-500 bg-[#F6F8FB] w-[92px] h-[34px]">
+                        {convert24hrTo12hr(guard.time)}
                       </div>
                     </td>
-                    <td className='px-6 py-4 text-center'>
+                    <td className="px-6 py-4 text-center">
                       <span
                         className={`inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium w-[113px] h-[31px] ${
-                          guard.gender === 'Male'
-                            ? 'bg-blue-50 text-blue-600'
-                            : 'bg-pink-50 text-pink-600'
+                          guard.gender === "Male"
+                            ? "bg-blue-50 text-blue-600"
+                            : "bg-pink-50 text-pink-600"
                         }`}
                       >
-                        {guard.gender === 'male' ? (
+                        {guard.gender === "male" ? (
                           <svg
-                            className='mr-[5px]'
-                            width='17'
-                            height='17'
-                            viewBox='0 0 17 17'
-                            fill='none'
-                            xmlns='http://www.w3.org/2000/svg'
+                            className="mr-[5px]"
+                            width="17"
+                            height="17"
+                            viewBox="0 0 17 17"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d='M5.90564 5.04901C5.91017 3.64094 7.05111 2.5 8.46371 2.5C9.87177 2.50453 11.0127 3.64547 11.0127 5.05806C11.0082 6.46613 9.86724 7.60707 8.45918 7.60707C7.04659 7.60707 5.90564 6.4616 5.90564 5.04901ZM13.0094 13.923C13.0094 14.3531 12.6607 14.7062 12.2306 14.7062H4.6153C4.18065 14.7062 3.83203 14.3531 3.83203 13.923C3.83203 11.3876 5.89206 9.323 8.41843 9.323C10.9448 9.323 13.0094 11.3876 13.0094 13.923Z'
-                              fill='#FE76A8'
+                              d="M5.90564 5.04901C5.91017 3.64094 7.05111 2.5 8.46371 2.5C9.87177 2.50453 11.0127 3.64547 11.0127 5.05806C11.0082 6.46613 9.86724 7.60707 8.45918 7.60707C7.04659 7.60707 5.90564 6.4616 5.90564 5.04901ZM13.0094 13.923C13.0094 14.3531 12.6607 14.7062 12.2306 14.7062H4.6153C4.18065 14.7062 3.83203 14.3531 3.83203 13.923C3.83203 11.3876 5.89206 9.323 8.41843 9.323C10.9448 9.323 13.0094 11.3876 13.0094 13.923Z"
+                              fill="#FE76A8"
                             />
                           </svg>
                         ) : (
                           <svg
-                            className='mr-[5px]'
-                            width='17'
-                            height='17'
-                            viewBox='0 0 17 17'
-                            fill='none'
-                            xmlns='http://www.w3.org/2000/svg'
+                            className="mr-[5px]"
+                            width="17"
+                            height="17"
+                            viewBox="0 0 17 17"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d='M5.90564 5.04901C5.91017 3.64094 7.05111 2.5 8.46371 2.5C9.87177 2.50453 11.0127 3.64547 11.0127 5.05806C11.0082 6.46613 9.86724 7.60707 8.45918 7.60707C7.04659 7.60707 5.90564 6.4616 5.90564 5.04901ZM13.0094 13.923C13.0094 14.3531 12.6607 14.7062 12.2306 14.7062H4.6153C4.18065 14.7062 3.83203 14.3531 3.83203 13.923C3.83203 11.3876 5.89206 9.323 8.41843 9.323C10.9448 9.323 13.0094 11.3876 13.0094 13.923Z'
-                              fill='#5678E9'
+                              d="M5.90564 5.04901C5.91017 3.64094 7.05111 2.5 8.46371 2.5C9.87177 2.50453 11.0127 3.64547 11.0127 5.05806C11.0082 6.46613 9.86724 7.60707 8.45918 7.60707C7.04659 7.60707 5.90564 6.4616 5.90564 5.04901ZM13.0094 13.923C13.0094 14.3531 12.6607 14.7062 12.2306 14.7062H4.6153C4.18065 14.7062 3.83203 14.3531 3.83203 13.923C3.83203 11.3876 5.89206 9.323 8.41843 9.323C10.9448 9.323 13.0094 11.3876 13.0094 13.923Z"
+                              fill="#5678E9"
                             />
                           </svg>
                         )}
-                        {guard.gender === 'Male' ? 'Male' : 'Female'}
+                        {guard.gender === "Male" ? "Male" : "Female"}
                       </span>
                     </td>
-                    <td className='px-1 py-4 text-center'>
-                      <div className='flex items-center gap-3 justify-center'>
+                    <td className="px-1 py-4 text-center">
+                      <div className="flex items-center gap-3 justify-center">
                         <button
                           onClick={() => handleEdit(guard)}
-                          className='cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]'
+                          className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                         >
-                          <img src={edit} alt='' />
+                          <img src={edit} alt="" />
                         </button>
                         <button
                           onClick={() => handleView(guard)}
-                          className='cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]'
+                          className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                         >
-                          <img src={eye} alt='' />
+                          <img src={eye} alt="" />
                         </button>
                         <button
                           onClick={() => handleDeleteClick(guard)}
-                          className='cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]'
+                          className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                         >
-                          <img src={trash} alt='' />
+                          <img src={trash} alt="" />
                         </button>
                       </div>
                     </td>
@@ -375,7 +376,7 @@ function SecurityGuardDetails () {
                 ))
               ) : (
                 <tr>
-                  <td colSpan='5' className='text-center py-4 text-gray-500'>
+                  <td colSpan="5" className="text-center py-4 text-gray-500">
                     No data found
                   </td>
                 </tr>
@@ -386,46 +387,46 @@ function SecurityGuardDetails () {
       </div>
 
       {isModalOpen && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] overflow-y-auto custom-scrollbar p-4'>
-          <div className='bg-white rounded-2xl shadow-xl w-full max-w-sm'>
-            <div className=''>
-              {modalMode !== 'view' && (
-                <form className='space-y-4 p-6'>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] overflow-y-auto custom-scrollbar p-4">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm">
+            <div className="">
+              {modalMode !== "view" && (
+                <form className="space-y-4 p-6">
                   {/* Photo Upload */}
-                  <div className='flex items-center mb-6'>
-                    <div className='relative'>
-                      <label htmlFor='photo-upload' className='cursor-pointer'>
+                  <div className="flex items-center mb-6">
+                    <div className="relative">
+                      <label htmlFor="photo-upload" className="cursor-pointer">
                         {photoPreview ? (
-                          <div className='relative'>
+                          <div className="relative">
                             <img
                               src={photoPreview}
-                              alt='Guard'
-                              className='w-20 h-20 rounded-full object-cover border-2 border-gray-200'
+                              alt="Guard"
+                              className="w-20 h-20 rounded-full object-cover border-2 border-gray-200"
                             />
-                            <div className='absolute bottom-0 right-0 bg-blue-500 rounded-full p-1.5 border-2 border-white'>
-                              <FaCamera className='w-3 h-3 text-white' />
+                            <div className="absolute bottom-0 right-0 bg-blue-500 rounded-full p-1.5 border-2 border-white">
+                              <FaCamera className="w-3 h-3 text-white" />
                             </div>
                           </div>
                         ) : (
-                          <div className='flex flex-col items-center'>
-                            <div className='w-20 h-20 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100'>
-                              <div className='w-8 h-8 rounded-full bg-white flex items-center justify-center'>
-                                <FaCamera className='w-4 h-4  text-gray-400' />
+                          <div className="flex flex-col items-center">
+                            <div className="w-20 h-20 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100">
+                              <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
+                                <FaCamera className="w-4 h-4  text-gray-400" />
                               </div>
                             </div>
                           </div>
                         )}
                       </label>
                       <input
-                        id='photo-upload'
-                        type='file'
-                        className='hidden'
-                        onChange={e => handleFileUpload(e, 'profileimage')}
-                        accept='image/*'
+                        id="photo-upload"
+                        type="file"
+                        className="hidden"
+                        onChange={(e) => handleFileUpload(e, "profileimage")}
+                        accept="image/*"
                       />
                     </div>
-                    <div className='ml-[15px]'>
-                      <span className='text-blue-500 text-sm font-medium'>
+                    <div className="ml-[15px]">
+                      <span className="text-blue-500 text-sm font-medium">
                         Add Photo
                       </span>
                     </div>
@@ -433,107 +434,107 @@ function SecurityGuardDetails () {
 
                   {/* Form Fields */}
                   <div>
-                    <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Full Name*
                     </label>
                     <input
-                      type='text'
-                      placeholder='Enter full name'
+                      type="text"
+                      placeholder="Enter full name"
                       value={newGuard.full_name}
-                      onChange={e =>
-                        handleGuardChange('full_name', e.target.value)
+                      onChange={(e) =>
+                        handleGuardChange("full_name", e.target.value)
                       }
-                      className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500'
+                      className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500"
                     />
                   </div>
 
                   <div>
-                    <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Phone Number & E-Mail*
                     </label>
                     <input
-                      type='tel'
-                      placeholder='Enter Number & E-Mail'
+                      type="tel"
+                      placeholder="Enter Number & E-Mail"
                       value={newGuard.MailOrPhone}
-                      onChange={e =>
-                        handleGuardChange('MailOrPhone', e.target.value)
+                      onChange={(e) =>
+                        handleGuardChange("MailOrPhone", e.target.value)
                       }
-                      className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500'
+                      className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500"
                     />
                   </div>
 
-                  <div className='grid grid-cols-2 gap-4'>
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className='block text-sm font-medium text-gray-700 mb-1'>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
                         Gender*
                       </label>
                       <select
                         value={newGuard.gender}
-                        onChange={e =>
-                          handleGuardChange('gender', e.target.value)
+                        onChange={(e) =>
+                          handleGuardChange("gender", e.target.value)
                         }
-                        className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500'
+                        className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500"
                       >
-                        <option value=''>Select Gender</option>
-                        <option value='Male'>Male</option>
-                        <option value='Female'>Female</option>
-                        <option value='Others'>Others</option>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Others">Others</option>
                       </select>
                     </div>
 
                     <div>
-                      <label className='block text-sm font-medium text-gray-700 mb-1'>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
                         Shift*
                       </label>
                       <select
                         value={newGuard.shift}
-                        onChange={e =>
-                          handleGuardChange('shift', e.target.value)
+                        onChange={(e) =>
+                          handleGuardChange("shift", e.target.value)
                         }
-                        className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500'
+                        className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500"
                       >
-                        <option value=''>Select Shift</option>
-                        <option value='Day'>Day</option>
-                        <option value='Night'>Night</option>
+                        <option value="">Select Shift</option>
+                        <option value="Day">Day</option>
+                        <option value="Night">Night</option>
                       </select>
                     </div>
                   </div>
 
-                  <div className='grid grid-cols-2 gap-4'>
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className='block text-sm font-medium text-gray-700 mb-1'>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
                         Shift Date*
                       </label>
-                      <div className='relative'>
+                      <div className="relative">
                         <input
-                          type='date'
+                          type="date"
                           defaultValue={
                             currentGuard?.date
                               ? new Date(currentGuard.date)
                                   .toISOString()
-                                  .split('T')[0]
-                              : ''
+                                  .split("T")[0]
+                              : ""
                           }
-                          onChange={e =>
-                            handleGuardChange('date', e.target.value)
+                          onChange={(e) =>
+                            handleGuardChange("date", e.target.value)
                           }
-                          className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 pr-10'
+                          className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 pr-10"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className='block text-sm font-medium text-gray-700 mb-1'>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
                         Shift Time*
                       </label>
-                      <div className='relative'>
+                      <div className="relative">
                         <input
-                          type='time'
+                          type="time"
                           value={newGuard.time}
-                          onChange={e =>
-                            handleGuardChange('time', e.target.value)
+                          onChange={(e) =>
+                            handleGuardChange("time", e.target.value)
                           }
-                          className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 pr-10'
+                          className="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 pr-10"
                         />
                       </div>
                     </div>
@@ -541,35 +542,35 @@ function SecurityGuardDetails () {
 
                   {/* Aadhar Upload */}
                   <div>
-                    <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Upload Aadhar Card*
                     </label>
                     <div
                       className={`border-2 border-dashed ${
                         isDragging
-                          ? 'border-blue-500 bg-blue-50'
-                          : 'border-gray-200'
+                          ? "border-blue-500 bg-blue-50"
+                          : "border-gray-200"
                       } rounded-lg p-4`}
                       onDragOver={handleDragOver}
                       onDragLeave={handleDragLeave}
-                      onDrop={e => handleDrop(e, 'adhar_card')}
+                      onDrop={(e) => handleDrop(e, "adhar_card")}
                     >
-                      <label htmlFor='aadhar-upload' className='cursor-pointer'>
-                        <div className='flex flex-col items-center justify-center text-center'>
+                      <label htmlFor="aadhar-upload" className="cursor-pointer">
+                        <div className="flex flex-col items-center justify-center text-center">
                           {aadharPreview ? (
-                            <div className='flex items-center space-x-2 text-green-500'>
-                              <FaCheck className='w-5 h-5' />
-                              <span className='text-sm font-medium'>
+                            <div className="flex items-center space-x-2 text-green-500">
+                              <FaCheck className="w-5 h-5" />
+                              <span className="text-sm font-medium">
                                 File uploaded successfully
                               </span>
                             </div>
                           ) : (
                             <>
-                             <img src={Addimage} alt="" />
-                              <span className='text-blue-500 text-sm'>
+                              <img src={Addimage} alt="" />
+                              <span className="text-blue-500 text-sm">
                                 Upload a file or drag and drop
                               </span>
-                              <span className='text-gray-400 text-xs mt-1'>
+                              <span className="text-gray-400 text-xs mt-1">
                                 PDF, JPG, GIF up to 10MB
                               </span>
                             </>
@@ -577,33 +578,33 @@ function SecurityGuardDetails () {
                         </div>
                       </label>
                       <input
-                        id='aadhar-upload'
-                        type='file'
-                        className='hidden'
-                        onChange={e => handleFileUpload(e, 'adhar_card')}
-                        accept='.pdf,.jpg,.jpeg,.png'
+                        id="aadhar-upload"
+                        type="file"
+                        className="hidden"
+                        onChange={(e) => handleFileUpload(e, "adhar_card")}
+                        accept=".pdf,.jpg,.jpeg,.png"
                       />
                     </div>
                   </div>
 
                   {/* Buttons */}
-                  <div className='grid grid-cols-2 gap-4 mt-6'>
+                  <div className="grid grid-cols-2 gap-4 mt-6">
                     <button
-                      type='button'
+                      type="button"
                       onClick={handleCancel}
-                      className='w-full p-3 text-gray-700 bg-white border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50'
+                      className="w-full p-3 text-gray-700 bg-white border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50"
                     >
                       Cancel
                     </button>
                     <button
-                      type='button'
+                      type="button"
                       onClick={handleSave}
                       disabled={!isFormFilled}
                       className={`w-full p-3 text-sm font-medium rounded-lg transition-all duration-300
                         ${
                           isFormFilled
-                            ? 'bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90'
-                            : 'bg-[#F6F8FB] text-black-400 cursor-not-allowed'
+                            ? "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
+                            : "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
                         }`}
                     >
                       Create
@@ -616,61 +617,61 @@ function SecurityGuardDetails () {
         </div>
       )}
 
-      {isModalOpen && modalMode === 'view' && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4'>
-          <div className='bg-white rounded-2xl shadow-xl w-full max-w-sm'>
-            <div className='p-6'>
-              <div className='flex justify-between items-center mb-4'>
-                <h2 className='text-xl font-semibold'>
+      {isModalOpen && modalMode === "view" && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold">
                   View Security Guard Details
                 </h2>
                 <button
                   onClick={() => {
-                    setIsModalOpen(false) // Ensure this function is correctly defined
+                    setIsModalOpen(false); // Ensure this function is correctly defined
                   }}
-                  className='text-gray-400 hover:text-gray-600'
+                  className="text-gray-400 hover:text-gray-600"
                 >
                   <FaTimes size={20} />
                 </button>
               </div>
-              <div className='border-b border-[#F4F4F4] mb-[10px]'></div>
-              <div className='space-y-4'>
+              <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
+              <div className="space-y-4">
                 {/* Profile Image & Name */}
-                <div className='flex items-center space-x-3 mb-6'>
+                <div className="flex items-center space-x-3 mb-6">
                   {currentGuard.profileimage ? (
                     <img
                       src={currentGuard.profileimage}
-                      alt='Guard'
-                      className='w-12 h-12 rounded-full object-cover'
+                      alt="Guard"
+                      className="w-12 h-12 rounded-full object-cover"
                     />
                   ) : (
-                    <div className='w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center'>
-                      <FaUser className='text-gray-400 text-xl' />
+                    <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                      <FaUser className="text-gray-400 text-xl" />
                     </div>
                   )}
                   <div>
-                    <h3 className='font-semibold text-lg'>
+                    <h3 className="font-semibold text-lg">
                       {currentGuard.full_name}
                     </h3>
-                    <p className='text-gray-500 text-sm'>
+                    <p className="text-gray-500 text-sm">
                       {new Date(currentGuard.date).toLocaleDateString()}
                     </p>
                   </div>
                 </div>
 
                 {/* Details */}
-                <div className='grid grid-cols-3 gap-4'>
+                <div className="grid grid-cols-3 gap-4">
                   <div>
-                    <p className='text-sm text-gray-500'>Select Shift</p>
+                    <p className="text-sm text-gray-500">Select Shift</p>
                     <div
                       className={`mt-1 px-3 py-1 rounded-full text-xs inline-flex items-center gap-1
                       ${
-                        currentGuard.shift === 'Day'
-                          ? 'bg-yellow-50 text-yellow-600'
-                          : 'bg-blue-50 text-blue-600'
+                        currentGuard.shift === "Day"
+                          ? "bg-yellow-50 text-yellow-600"
+                          : "bg-blue-50 text-blue-600"
                       }`}
                     >
-                      {currentGuard.shift === 'Day' ? (
+                      {currentGuard.shift === "Day" ? (
                         <FaSun size={12} />
                       ) : (
                         <FaMoon size={12} />
@@ -680,23 +681,23 @@ function SecurityGuardDetails () {
                   </div>
 
                   <div>
-                    <p className='text-sm text-gray-500'>Shift Time</p>
-                    <p className='mt-1 text-sm font-medium'>
-                      {currentGuard.time}
+                    <p className="text-sm text-gray-500">Shift Time</p>
+                    <p className="mt-1 text-sm font-medium">
+                      {convert24hrTo12hr(currentGuard.time)}
                     </p>
                   </div>
 
                   <div>
-                    <p className='text-sm text-gray-500'>Gender</p>
+                    <p className="text-sm text-gray-500">Gender</p>
                     <div
                       className={`mt-1 px-3 py-1 rounded-full text-xs inline-flex items-center gap-1
                       ${
-                        currentGuard.gender === 'Male'
-                          ? 'bg-blue-50 text-blue-600'
-                          : 'bg-pink-50 text-pink-600'
+                        currentGuard.gender === "Male"
+                          ? "bg-blue-50 text-blue-600"
+                          : "bg-pink-50 text-pink-600"
                       }`}
                     >
-                      {currentGuard.gender === 'Male' ? (
+                      {currentGuard.gender === "Male" ? (
                         <FaMale size={12} />
                       ) : (
                         <FaFemale size={12} />
@@ -712,39 +713,39 @@ function SecurityGuardDetails () {
       )}
 
       {isDeleteModalOpen && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4'>
-          <div className='bg-white rounded-2xl shadow-xl w-full max-w-sm'>
-            <div className='p-6'>
-              <div className='flex justify-between items-center mb-4'>
-                <h2 className='text-xl font-semibold'>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold">
                   Delete Security Guard ?
                 </h2>
 
                 <button
                   onClick={() => setIsDeleteModalOpen(false)}
-                  className='text-gray-400 hover:text-gray-600'
+                  className="text-gray-400 hover:text-gray-600"
                 >
                   <FaTimes size={20} />
                 </button>
               </div>
-              <div className='border-b border-[#F4F4F4] mb-[10px]'></div>
+              <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
 
-              <div className='text-center '>
-                <p className='text-gray-500 text-sm mb-6'>
+              <div className="text-center ">
+                <p className="text-gray-500 text-sm mb-6">
                   Do you really want to delete this security guard?
                 </p>
               </div>
 
-              <div className='flex gap-3'>
+              <div className="flex gap-3">
                 <button
                   onClick={() => setIsDeleteModalOpen(false)}
-                  className='flex-1 px-4 py-3 border border-gray-200 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50'
+                  className="flex-1 px-4 py-3 border border-gray-200 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleConfirmDelete}
-                  className='flex-1 px-4 py-3 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600'
+                  className="flex-1 px-4 py-3 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600"
                 >
                   Delete
                 </button>
@@ -754,7 +755,7 @@ function SecurityGuardDetails () {
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default SecurityGuardDetails
+export default SecurityGuardDetails;
