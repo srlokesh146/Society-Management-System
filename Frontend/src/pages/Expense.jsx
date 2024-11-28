@@ -12,6 +12,8 @@ import {
   UpdateExpense
 } from '../services/expenseService'
 import toast from 'react-hot-toast'
+import { useDispatch } from 'react-redux'
+import { setLoading } from "../redux/features/LoaderSlice";
 
 function Expense () {
   const [expenses, setExpenses] = useState([])
@@ -27,6 +29,8 @@ function Expense () {
     amount: '',
     bill: null
   })
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const isFormValid =
     newExpense.title &&
@@ -104,12 +108,15 @@ function Expense () {
   const handleSubmit = async e => {
     e.preventDefault()
     try {
+        setIsLoading(true)
       const response = await CreateExpense(newExpense)
+      
       toast.success(response.data.message)
       fetchExpenses()
     } catch (error) {
       toast.error(response.data.message)
     } finally {
+      setIsLoading(false)
       // Reset the form
       setIsModalOpen(false)
       setNewExpense({
@@ -257,7 +264,11 @@ function Expense () {
           </tbody>
         </table>
       </div>
-
+      {isLoading && (
+  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+    <div className="loader w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+)}
       {isModalOpen && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]'>
           <div className='bg-white rounded-lg w-[400px]  max-w-md mx-4'>
@@ -265,7 +276,13 @@ function Expense () {
               <h2 className='text-xl font-semibold mb-2'>
                 Add Expense Details
               </h2>
-              <div className='border-b border-[#F4F4F4] mb-[10px]'></div>
+           
+              <div className='border-b border-[#F4F4F4] mb-[10px]'></div>  
+               {isLoading && (
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[10000]">
+          <div className="loader w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
               <form onSubmit={handleSubmit} className='space-y-4'>
                 {/* Title Field */}
                 <div>
@@ -409,7 +426,7 @@ function Expense () {
                     }`}
                     disabled={!isFormValid} // Disable button if form is not valid
                   >
-                    Save
+                    {isLoading ? "Processing..." : "Save"}
                   </button>
                 </div>
               </form>

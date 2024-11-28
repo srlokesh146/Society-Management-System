@@ -259,30 +259,7 @@ const OtherIncome = () => {
                     })}
                   </p>
                 </p>
-                <p className="text-gray-600 flex justify-between items-center p-2">
-                  Due Date:{" "}
-                </p>
-                <p className="text-black font-medium">
-                  {new Date(entry.dueDate).toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })}
-                </p>
-                <p className="text-gray-600 flex justify-between items-center p-2">
-                  Total Members:
-                  <p className="text-black font-semibold">{entry?.member} </p>
-                </p>
-                <p className="text-gray-600 flex justify-between items-center p-2">
-                  Date:{" "}
-                  <p className="text-black font-semibold">
-                    {new Date(entry.date).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}
-                  </p>
-                </p>
+          
                 <p className="text-gray-600 flex justify-between items-center p-2">
                   Due Date:{" "}
                   <p className="text-black font-semibold">

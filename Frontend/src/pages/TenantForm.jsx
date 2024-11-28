@@ -5,6 +5,8 @@ import OwnerForm from "./OwnerForm";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CreateTenant, UpdateTenant } from "../services/ownerTenantService";
 import toast from "react-hot-toast";
+import { useDispatch } from 'react-redux'
+import { setLoading } from "../redux/features/LoaderSlice";
 
 export default function TeantForm() {
   const location = useLocation();
@@ -41,6 +43,8 @@ export default function TeantForm() {
   const [profilePhotoPreview, setProfilePhotoPreview] = useState(null);
   const [edit, setEdit] = useState(false);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (resident) {
@@ -117,12 +121,14 @@ export default function TeantForm() {
 
     if (Object.keys(newErrors).length === 0) {
       try {
+        setIsLoading(true)
         const response = await CreateTenant(formData);
         toast.success(response.data.message);
         navigate("/residentmanagement");
       } catch (error) {
         toast.error(error.response.data.message);
       } finally {
+        setIsLoading(false)
         setFormData({
           Owner_Full_name: "",
           Owner_Phone: "",
@@ -258,7 +264,11 @@ export default function TeantForm() {
           Tenant
         </button>
       </div>
-
+      {isLoading && (
+  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+    <div className="loader w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+)}
       <div className="grid grid-cols-1 bg-white rounded-lg p-6 shadow-md md:grid-cols-3 gap-4 mb-6">
         <div>
           <label className="block text-sm font-lighter text-black-500">
