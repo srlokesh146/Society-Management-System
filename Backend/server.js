@@ -37,7 +37,7 @@ const FinancialRoutes = require("./src/routes/Financial.route.js");
 const VisitorRoutes = require("./src/routes/visitor.route.js");
 const AlertRoutes = require("./src/routes/alert.route.js");
 const chatRoute = require("./src/routes/chat.route.js");
-const PenaltyController = require("./src/controller/income.controller.js");
+const PenaltyController = require("./src/controller/maintanance.controller.js");
 const PollRoutes = require("./src/routes/poll.route.js");
 const NotificationRoute=require("./src/routes/notification.route.js")
 

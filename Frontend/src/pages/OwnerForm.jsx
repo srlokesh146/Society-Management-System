@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { CreateOwner, UpdateOwner } from "../services/ownerTenantService";
 import { useLocation } from "react-router-dom";
+import { useDispatch } from 'react-redux'
+import { setLoading } from "../redux/features/LoaderSlice";
 
 export default function OwnerForm() {
   const location = useLocation();
@@ -39,6 +41,8 @@ export default function OwnerForm() {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (resident) {
@@ -115,12 +119,14 @@ export default function OwnerForm() {
 
     if (Object.keys(newErrors).length === 0) {
       try {
+        setIsLoading(true)
         const response = await CreateOwner(formData);
         toast.success(response.data.message);
         navigate("/residentmanagement");
       } catch (error) {
         toast.error(error.response.data.message);
       } finally {
+        setIsLoading(false)
         setFormData({
           Member_Counting: [],
           Vehicle_Counting: [],
@@ -262,6 +268,12 @@ export default function OwnerForm() {
         </button>
       </div>
 
+
+      {isLoading && (
+  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+    <div className="loader w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+)}
       {/* Form Container */}
       <div className="bg-white rounded-lg p-6 shadow-md">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4">

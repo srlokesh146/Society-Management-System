@@ -222,13 +222,7 @@ export const cardData = [
   }
 ]
 
-export const importantNumbers = [
-  { name: 'Hanna Danin', work: 'Plumber', phone: '+91 995867 33657' },
-  { name: 'Roger Lubin', work: 'Electrician', phone: '+91 898765 45677' },
-  { name: 'Evelyn Harper', work: 'Carpenter', phone: '+91 998765 12345' },
-  { name: 'Chris Foster', work: 'Painter', phone: '+91 987654 33211' },
-  { name: 'Chris Foster', work: 'Painter', phone: '+91 987654 33211' }
-]
+
 
 export const pendingMaintenances = [
   { name: 'Roger Lubin', amount: '5,000', duration: '2 Month Pending' },
@@ -241,44 +235,6 @@ export const pendingMaintenances = [
   { name: 'Roger Lubin', amount: '5,000', duration: '2 Month Pending' }
 ]
 
-export const complaintsData = [
-  {
-    id: 1,
-    complainerName: 'Evelyn Harper',
-    complaintName: 'Unethical Behavior',
-    date: '01/02/2024',
-    priority: 'Medium',
-    status: 'Pending'
-  },
-  {
-    id: 2,
-    complainerName: 'Evelyn Harper',
-    complaintName: 'Unethical Behavior',
-    date: '01/03/2024',
-    priority: 'High',
-    status: 'Resolved'
-  },
-  {
-    id: 3,
-    complainerName: 'Evelyn Harper',
-    complaintName: 'Unethical Behavior',
-    date: '01/04/2024',
-    priority: 'Low',
-    status: 'In Progress'
-  }
-]
-
-export const activities = [
-  { name: 'Society Meeting', date: '24-09-2024', time: '8:00 PM to 10:00 PM' },
-  { name: 'Holi Festival', date: '24-09-2024', time: '8:00 PM to 10:00 PM' },
-  { name: 'Ganesh Chaturthi', date: '24-09-2024', time: '8:00 PM to 10:00 PM' },
-  {
-    name: 'Navratri Festival',
-    date: '24-09-2024',
-    time: '8:00 PM to 10:00 PM'
-  },
-  { name: 'Society Meeting', date: '24-09-2024', time: '8:00 PM to 10:00 PM' }
-]
 
 export const notifications = [
   {
@@ -549,39 +505,7 @@ export const visitors = [
   }
 ]
 
-// const initialNotes = [
-//   {
-//     id: 1,
-//     title: "Rent or Mortgage",
-//     date: "2024-01-07",
-//     description:
-//       "A visual representation of your spending categories visual representation.",
-//   },
-//   {
-//     id: 2,
-//     title: "Housing Costs",
-//     description:
-//       "A visual representation of your spending categories visual representation.",
-//   },
-//   {
-//     id: 3,
-//     title: "Property Taxes",
-//     description:
-//       "A visual representation of your spending categories visual representation.",
-//   },
-//   {
-//     id: 4,
-//     title: "Maintenance Fees",
-//     description:
-//       "A visual representation of your spending categories visual representation.",
-//   },
-//   {
-//     id: 5,
-//     title: "Rent or Transportation",
-//     description:
-//       "A visual representation of your spending categories visual representation.",
-//   },
-// ];
+
 export const data = [
   {
     title: 'Maintenance Amount',
