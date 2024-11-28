@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaCalendarAlt, FaTimes } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 
 const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
   if (!isOpen) return null;
@@ -34,56 +35,56 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
           >
-            <FaTimes size={20} />
+            <IoMdClose size={20} className="text-black"/>
           </button>
         </div>
         <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Complainant Name */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#202224] mb-1">
               Complainer Name*
             </label>
             <input
               type="text"
               name="requester"
               defaultValue={Request?.requester}
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className="w-full p-2 border text-sm border-gray-300 rounded-[10px]"
               required
             />
           </div>
 
           {/* Request Name */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#202224] mb-1">
               Request Name*
             </label>
             <input
               type="text"
               name="name"
               defaultValue={Request?.name}
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className="w-full p-2 border text-sm border-gray-300 rounded-[10px]"
               required
             />
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#202224] mb-1">
               Description*
             </label>
             <textarea
               name="description"
               defaultValue={Request?.description}
               rows="3"
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className="w-full p-2 border text-sm border-gray-300 rounded-[10px]"
               required
             />
           </div>
 
           {/* Date */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#202224] mb-1">
               Date*
             </label>
             <div className="relative">
@@ -95,7 +96,7 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
                     ? new Date(Request.date).toISOString().split("T")[0]
                     : ""
                 }
-                className="w-full p-2 pl-10 border border-gray-300 rounded-md outline-none focus:border-orange-500"
+                className="w-full p-2 pl-10 border border-gray-300 rounded-[10px] outline-none focus:border-orange-500 text-sm"
                 required
               />
               <FaCalendarAlt
@@ -108,26 +109,26 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
           {/* Wing and Unit */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-[#202224] mb-1">
                 Wing*
               </label>
               <input
                 type="text"
                 name="wing"
                 defaultValue={Request?.wing}
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="w-full p-2 border text-sm border-gray-300 rounded-[10px]"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-[#202224] mb-1">
                 Unit*
               </label>
               <input
                 type="text"
                 name="unit"
                 defaultValue={Request?.unit}
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="w-full p-2 border text-sm border-gray-300 rounded-[10px]"
                 required
               />
             </div>
@@ -150,7 +151,7 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
                     className="hidden"
                   />
                   <span
-                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[113px] text-sm cursor-pointer
+                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[110px] text-sm cursor-pointer
                     ${selectedPriority === priority
                        ? "border-[#FF6B07] bg-white font-medium"
                         : "border-gray-200"
@@ -192,7 +193,7 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
                     className="hidden"
                   />
                   <span
-                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[113px] text-sm cursor-pointer
+                    className={`flex items-center gap-2 ps-[15px] py-1.5 border border-gray-300 rounded-[10px] w-[110px] text-sm cursor-pointer
                     ${selectedStatus === status
                         ? "border-[#FF6B07] bg-white font-medium"
                         : ""
@@ -222,13 +223,13 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
             <button
               type="button"
               onClick={onClose}
-              className="w-full px-4 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+              className="w-full px-4 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-[10px] hover:bg-gray-50"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="w-full px-4 py-3 text-sm font-medium text-white bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-md hover:opacity-90"
+              className="w-full px-4 py-3 text-sm font-medium text-white bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-[10px] hover:opacity-90"
             >
               Save
             </button>

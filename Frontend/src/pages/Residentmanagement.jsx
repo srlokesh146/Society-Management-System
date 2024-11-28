@@ -105,7 +105,7 @@ export default function ResidentManagement() {
         <div className="overflow-x-auto pr-[8px] ps-[20px] custom-scrollbar max-h-[44rem]">
           <table className="w-full table-auto border-collapse">
             <thead>
-              <tr className="text-start text-black bg-opacity-custom rounded-tl-[15px] rounded-tr-[15px] h-[61px]">
+              <tr className="text-start text-black bg-opacity-custom rounded-tl-[15px] rounded-tr-[15px] h-[61px] text-nowrap">
                 <th className="text-[14px] font-semibold rounded-tl-[15px] px-4 py-2 text-start">
                   Full Name
                 </th>

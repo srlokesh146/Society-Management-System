@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import avatar from '../../../assets/images/avatar.png'
 import eyeicon from '../../../assets/images/eyeicon.png'
+import circleimg from '../../../assets/images/circleimg.svg'
 import CreatePollModal from '../../../components/modal/CreatePollModal'
 
 const Polls = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [defaultSelected, setDefaultSelected] = useState(() => {
+    return JSON.parse(localStorage.getItem('pollDefaultSelected')) || {}
+  })
 
   const pollData = [
     {
@@ -14,7 +18,6 @@ const Polls = () => {
       question: 'Sales Deal with Toyota - Azure HF - AMS Amplify?',
       title: 'Sales Deal with Toyota - Azure HF - AMS Amplify?',
       date: '01/07/2024, 10:00 AM',
-      selecttitle: 'Select one or more',
       options: [
         { option: 'Yes', votes: 75 },
         { option: 'No', votes: 40 }
@@ -27,7 +30,6 @@ const Polls = () => {
       question: 'Sales Deal with Toyota - Azure HF - AMS Amplify?',
       title: 'Sales Deal with Toyota - Azure HF - AMS Amplify?',
       date: '01/07/2024, 10:00 AM',
-      selecttitle: 'Select one or more',
       options: [
         { option: 'Yes', votes: 65 },
         { option: 'No', votes: 35 }
@@ -40,7 +42,6 @@ const Polls = () => {
       question: 'Sales Deal with Toyota - Azure HF - AMS Amplify?',
       title: 'Sales Deal with Toyota - Azure HF - AMS Amplify?',
       date: '01/07/2024, 10:00 AM',
-      selecttitle: 'Select one or more',
       options: [
         { option: 'Yes', votes: 50 },
         { option: 'No', votes: 50 }
@@ -53,13 +54,23 @@ const Polls = () => {
       question: 'Sales Deal with Toyota - Azure HF - AMS Amplify?',
       title: 'Sales Deal with Toyota - Azure HF - AMS Amplify?',
       date: '01/07/2024, 10:00 AM',
-      selecttitle: 'Select one or more',
       options: [
         { option: 'Yes', votes: 80 },
         { option: 'No', votes: 20 }
       ]
     }
   ]
+
+  useEffect(() => {
+    localStorage.setItem('pollDefaultSelected', JSON.stringify(defaultSelected))
+  }, [defaultSelected])
+
+  const handleCheckboxChange = index => {
+    setDefaultSelected(prev => ({
+      ...prev,
+      [index]: !prev[index]
+    }))
+  }
 
   const handleOpenModal = () => {
     setIsModalOpen(true)
@@ -128,23 +139,17 @@ const Polls = () => {
               <div className='mb-[20px] text-[#202224] text-[14px] leading-[21px]'>
                 <div className='flex items-center'>
                   <label className='radio'>
-                    <input
-                      type='radio'
-                      name={`poll-${index}`}
-                      className='w-4 h-4 rounded-full bg-gray-200'
-                      defaultChecked
-                    />
+                    <img src={circleimg} alt='' className='mr-[8px]' />
                     <span className='ml-0 text-[14px] leading-[21px] text-[#4F4F4F]'>
-                    {poll.selecttitle}
+                      Select one or more
                     </span>
                   </label>
                 </div>
-
               </div>
 
               <div className='mb-4'>
                 <div className='mb-4'>
-                  <div className='flex justify-between items-center mb-2'>
+                  <div className='flex justify-between items-center'>
                     <div className='flex items-center'>
                       <label className='radio'>
                         <input
@@ -157,13 +162,16 @@ const Polls = () => {
                         </span>
                       </label>
                     </div>
-                    <span className='text-sm font-semibold text-gray-700'>
+                    <span className='flex items-center text-sm font-normal text-[#4F4F4F]'>
+                      <div>
+                        <img src={avatar} alt='' className='mr-[5px]'pconstant/>
+                      </div>
                       {poll.options[0].votes}
                     </span>
                   </div>
 
                   <div
-                    className='h-[5px] rounded-lg overflow-hidden bg-gray-200'
+                    className='mt-[5px] h-[5px] rounded-lg overflow-hidden bg-gray-200'
                     style={{ width: '94%', marginLeft: '20px' }}
                   >
                     <div
@@ -175,8 +183,8 @@ const Polls = () => {
                   </div>
                 </div>
 
-                <div className='mb-4'>
-                  <div className='flex justify-between items-center mb-2'>
+                <div className='mb-[10px]'>
+                  <div className='flex justify-between items-center'>
                     <div className='flex items-center'>
                       <label className='radio'>
                         <input
@@ -189,12 +197,15 @@ const Polls = () => {
                         </span>
                       </label>
                     </div>
-                    <span className='text-sm font-semibold text-gray-700'>
+                    <span className='flex items-center text-sm font-normal text-[#4F4F4F]'>
+                      <div>
+                        <img src={avatar} alt='' className='mr-[5px]'/>
+                      </div>
                       {poll.options[1].votes}
                     </span>
                   </div>
                   <div
-                    className='h-[5px] rounded-lg overflow-hidden bg-gray-200'
+                    className='mt-[5px] h-[5px] rounded-lg overflow-hidden bg-gray-200'
                     style={{ width: '94%', marginLeft: '20px' }}
                   >
                     <div

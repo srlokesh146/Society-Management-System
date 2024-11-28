@@ -4,12 +4,13 @@ import VisitorTrackingModal from '../../components/modal/VisitorTrackingModal'
 import { createVisitor, GetVisitors } from '../../services/securityGuardService'
 import toast from 'react-hot-toast'
 import plus from '../../assets/images/plus.svg'
+import downicon from '../../assets/images/downicon.svg'
 
 export default function VisitorTracking() {
   const [visitorList, setVisitorList] = useState([])
   const [isModalOpen, setModalOpen] = useState(false)
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [selectedOption, setSelectedOption] = React.useState("");
+  const [selectedOption, setSelectedOption] = React.useState("Month");
+  const [isOpenDropdown, setIsOpenDropdown] = useState(false)
 
 
   const handleOptionChange = (value) => {
@@ -21,6 +22,16 @@ export default function VisitorTracking() {
 
   const closeModal = () => {
     setModalOpen(false)
+  }
+
+  
+  const handleOptionClick = option => {
+    setSelectedOption(option)
+    setIsOpenDropdown(false)
+  }
+
+  const handleToggleDropdown = () => {
+    setIsOpenDropdown(prev => !prev)
   }
 
 
@@ -69,79 +80,48 @@ export default function VisitorTracking() {
             Visitor Tracking
           </h1>
           <div className='flex items-center gap-4 mb-[20px]'>
-            <div className="relative">
-              {/* Dropdown Header */}
-              <div
-                className="text-[15px] border border-gray-300 px-3 py-1 text-gray-700 flex items-center justify-between outline-none w-[116px] h-[50px] rounded-[10px] cursor-pointer"
-                onClick={() => setIsOpen(!isOpen)}
-              >
-                <span>{selectedOption || "Select"}</span>
-                {/* Down Arrow Icon */}
-                <span className="ml-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="w-4 h-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </span>
-              </div>
-
-              {/* Dropdown Content */}
-              {isOpen && (
-                <div className="absolute top-[60px] left-0 w-[149px] h-[123px] bg-white border border-gray-300 rounded-[10px] shadow-md z-10">
-                  <label
-                    className={`flex items-center p-2 text-[15px] cursor-pointer 
-                      }`}
+          <div className='relative'>
+          <button
+            onClick={handleToggleDropdown}
+            className='border border-gray-300 rounded-lg ps-[14px] py-1 text-[] flex items-center w-[120px] text-[15px] h-[44px] capitalize font-semibold'
+          >
+            {selectedOption}{' '}
+            <img src={downicon} className='ml-[9px] text-[12px] text-[#202224] ' />
+          </button>
+          {isOpenDropdown && (
+            <div className='absolute z-10 left-[-39px] bg-white rounded-lg shadow-[0px_0px_40px_0px_#0000000D] mt-1 w-[160px] py-[15px]'>
+              {['Select Month', 'Last week', 'Month', 'Last year'].map(
+                (option, index) => (
+                  <div
+                    key={option}
+                    onClick={
+                      option === 'Select Month'
+                        ? null
+                        : () => handleOptionClick(option)
+                    }
+                    className={`flex items-center bg-white cursor-pointer mb-[10px] ps-[15px] ${
+                      option === 'Select Month'
+                        ? 'text-gray-400 cursor-not-allowed'
+                        : selectedOption === option
+                        ? 'font-semibold text-black'
+                        : 'text-gray-600'
+                    }`}
                   >
                     <input
-                      type="radio"
-                      name="timeframe"
-                      value="week"
-                      className="mr-2  "
-                      onChange={(e) => handleOptionChange(e.target.value)}
+                      type='radio'
+                      name='period'
+                      checked={selectedOption === option}
+                      onChange={() => handleOptionClick(option)}
+                      className='custom-radio mr-2'
+                      disabled={option === 'Select Month'}
                     />
-                    Week
-                  </label>
-                  <label
-                    className={`flex items-center p-2 text-[15px] cursor-pointer ${selectedOption === "last-month" ? "" : ""
-                      }`}
-                  >
-                    <input
-                      type="radio"
-                      name="timeframe"
-                      value="month"
-                      className="mr-2"
-                      onChange={(e) => handleOptionChange(e.target.value)}
-                    />
-                     Month
-                  </label>
-                  <label
-                    className={`flex items-center p-2 text-[15px] cursor-pointer ${selectedOption === "last-year" ? "" : ""
-                      }`}
-                  >
-                    <input
-                      type="radio"
-                      name="timeframe"
-                      value="year"
-                      className="mr-2"
-                      onChange={(e) => handleOptionChange(e.target.value)}
-                    />
-                       Year
-                  </label>
-                </div>
+                    {option}
+                  </div>
+                )
               )}
-     
-            
-          </div>
+            </div>
+          )}
+        </div>
 
           <button
             onClick={openModal}

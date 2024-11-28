@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FiSearch } from "react-icons/fi";
-import Avatar from "../../../assets/images/Avatar.png";
+import search from "../../../assets/images/search.svg";
 import videoicon from "../../../assets/images/videoicon.png";
 import callicon from "../../../assets/images/callicon.png";
 import dottedicon from "../../../assets/images/dottedicon.svg";
@@ -29,64 +28,6 @@ export default function AccessForums() {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [discussions, setDiscussions] = useState([]);
   const [receiver, setReceiver] = useState(null);
-
-  const chats = [
-    {
-      id: 1,
-      name: "Michael John",
-      message: "Hi, John! How are you doing?",
-      time: "10:27",
-    },
-    { id: 2, name: "Jenny Wilson", message: "Hello, Jenny", time: "7:00" },
-    { id: 3, name: "Arlene McCoy", message: "Typing...", time: "9:20" },
-    { id: 4, name: "Esther Howard", message: "Hello, Esther", time: "10:27" },
-  ];
-
-  const sampleDiscussions = {
-    1: [
-      {
-        id: 1,
-        sender: "Michael John",
-        message: "Hello! How are you?",
-        time: "10:25",
-        isReceived: true,
-      },
-    ],
-    2: [
-      {
-        id: 1,
-        sender: "Jenny Wilson",
-        message: "Good Morning!",
-        time: "7:05",
-        isReceived: true,
-      },
-    ],
-    3: [
-      {
-        id: 1,
-        sender: "Arlene McCoy",
-        message: "Hi there, How are you?",
-        time: "9:20",
-        isReceived: true,
-      },
-      {
-        id: 2,
-        sender: "You",
-        message: "I’m good, how about you?",
-        time: "9:25",
-        isReceived: false,
-      },
-    ],
-    4: [
-      {
-        id: 1,
-        sender: "Esther Howard",
-        message: "See you at the meeting!",
-        time: "10:30",
-        isReceived: true,
-      },
-    ],
-  };
 
   const handleSendMessage = async () => {
     try {
@@ -170,7 +111,7 @@ export default function AccessForums() {
               placeholder="Search Here"
               className="py-2 w-full pl-10 bg-[#F6F8FB] h-[48px] rounded-lg"
             />
-            <FiSearch className="absolute left-3 top-[14px] text-gray-400 text-[20px] mr-[20px]" />
+            <img src={search} className="absolute left-3 top-[14px] text-gray-400 text-[20px] mr-[20px]" />
           </div>
 
           <div className="overflow-x-auto custom-scrollbar h-[70vh]">
@@ -218,7 +159,7 @@ export default function AccessForums() {
               <div>
                 <h4 className="font-semibold">{receiver?.Full_name}</h4>
                 {/* Header shows the selected chat's name */}
-                <span className="text-xs text-gray-400">Active</span>
+                <span className="text-xs text-gray-400">9:00</span>
               </div>
             </div>
             <div className="relative flex items-center space-x-4">
@@ -254,7 +195,7 @@ export default function AccessForums() {
         )}
 
         {/* Chat Messages */}
-        <div className="overflow-x-auto p-[20px] custom-scrollbar h-[70vh] bg-[#F4F4F4]">
+        <div className="overflow-x-auto p-[20px] custom-scrollbar h-[73.2vh] bg-[#F4F4F4]">
           {discussions.map((chat) => (
             <div
               key={chat._id}
@@ -283,7 +224,7 @@ export default function AccessForums() {
           <div className="flex items-center p-[20px] bg-white border-t relative">
             <input
               type="text"
-              className="w-full p-2 rounded-full shadow-[0px_7px_15px_0px_#0000000D] py-[9px] ps-[40px] pl-[40px] relative"
+              className="w-[94%] p-2 rounded-full shadow-[0px_7px_15px_0px_#0000000D] py-[9px] ps-[40px] pl-[40px] relative"
               placeholder="Type a message..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}

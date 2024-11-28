@@ -186,10 +186,9 @@ const Login = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={!user.EmailOrPhone || !user.password} // Disable if fields are empty
               className={`w-full py-3 rounded-lg font-medium  ${user.EmailOrPhone && user.password
-                ? "bg-custom-gradient  text-white" // Orange gradient when all fields are filled
-                : "bg-[#F6F8FB] text-[#A7A7A7] " // Gray button when fields are incomplete
+                ? "bg-custom-gradient  text-white"
+                : "bg-[#F6F8FB] text-[#A7A7A7] " 
                 }`}
             >
               Sign In

@@ -174,7 +174,7 @@ function SecurityProtocols () {
       </div>
 
       <div className='bg-white rounded-lg shadow-sm'>
-        <div className='overflow-x-auto custom-scrollbar min-w-0 overflow-auto'>
+        <div className='overflow-y-auto pr-[8px] max-h-[45rem] custom-scrollbar overflow-x-auto'>
           <table className='min-w-full table-auto border-collapse'>
             <thead className='bg-indigo-50 border-b border-gray-200 h-[61px]'>
               <tr>
@@ -184,10 +184,10 @@ function SecurityProtocols () {
                 <th className='px-6 py-4 text-left text-[14px] font-semibold text-[#202224]'>
                   Description
                 </th>
-                <th className='px-6 py-4 text-right text-[14px] font-semibold text-[#202224]'>
+                <th className='px-12 py-4 text-right text-[14px] font-semibold text-[#202224]'>
                   Date
                 </th>
-                <th className='px-6 py-4 text-right text-[14px] font-semibold text-[#202224]'>
+                <th className='px-12 py-4 text-right text-[14px] font-semibold text-[#202224]'>
                   Time
                 </th>
                 <th className='px-16 py-4 text-right text-[14px] font-semibold text-[#202224] rounded-tr-[15px]'>
@@ -205,17 +205,17 @@ function SecurityProtocols () {
                     <td className='px-6 py-4 text-md font-medium'>
                       {protocol.title}
                     </td>
-                    <td className='px-6 py-6 line-clamp-1 max-w-[400px] max-h-[50px] text-md'>
+                    <td className='px-6 py-6 line-clamp-1 max-w-[400px] max-h-[50px] text-md font-medium'>
                       {protocol.description}
                     </td>
-                    <td className=' py-4 text-md text-right'>
+                    <td className='px-4 py-4 text-md text-right font-medium'>
                       {new Date(protocol.date).toLocaleDateString('en-GB', {
                         day: '2-digit',
                         month: '2-digit',
                         year: 'numeric'
                       })}
                     </td>
-                    <td className=' py-4 text-sm text-right'>
+                    <td className='px-4 py-4 text-sm text-right'>
                       <span className='inline-flex justify-center items-center px-2 py-1 bg-gray-100 rounded-full w-[92px] h-[34px] font-medium'>
                         {protocol.time}
                       </span>

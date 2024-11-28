@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaTimes } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 
 const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
   if (!isOpen) return null;
@@ -36,7 +36,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
           >
-            <FaTimes size={20} />
+            <IoMdClose size={20} className="text-black"/>
           </button>
         </div>
         <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
@@ -44,42 +44,42 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Complainant Name */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#202224] mb-1">
               Complainer Name*
             </label>
             <input
               type="text"
               name="complainer"
               defaultValue={complaint?.complainer}
-              className="w-full p-2 border border-gray-300 rounded-[10px]"
+              className="w-full p-2 border border-gray-300 rounded-[10px] text-sm"
               required
             />
           </div>
 
           {/* Complaint Name */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#202224] mb-1">
               Complaint Name*
             </label>
             <input
               type="text"
               name="name"
               defaultValue={complaint?.name}
-              className="w-full p-2 border border-gray-300 rounded-[10px]"
+              className="w-full p-2 border border-gray-300 rounded-[10px] text-sm"
               required
             />
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#202224] mb-1">
               Description*
             </label>
             <textarea
               name="description"
               defaultValue={complaint?.description}
               rows="3"
-              className="w-full p-2 border border-gray-300 rounded-[10px]"
+              className="w-full p-2 border border-gray-300 rounded-[10px] text-sm"
               required
             />
           </div>
@@ -87,26 +87,26 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
           {/* Wing and Unit */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-[#202224] mb-1">
                 Wing*
               </label>
               <input
                 type="text"
                 name="wing"
                 defaultValue={complaint?.wing}
-                className="w-full p-2 border border-gray-300 rounded-[10px]"
+                className="w-full p-2 border border-gray-300 rounded-[10px] text-sm"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-[#202224] mb-1">
                 Unit*
               </label>
               <input
                 type="text"
                 name="unit"
                 defaultValue={complaint?.unit}
-                className="w-full p-2 border border-gray-300 rounded-[10px]"
+                className="w-full p-2 border border-gray-300 rounded-[10px] text-sm"
                 required
               />
             </div>
@@ -114,7 +114,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
 
           {/* Priority */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-[#202224] mb-2">
               Priority*
             </label>
             <div className="flex gap-4 max-sm:flex-col">
@@ -129,7 +129,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
                     className="hidden"
                   />
                   <span
-                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[109px] text-[14px] cursor-pointer max-sm:w-full
+                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] text-sm w-[109px] text-[14px] cursor-pointer max-sm:w-full
                     ${selectedPriority === priority
                         ? "border-[#FF6B07] bg-white font-medium"
                         : "border-gray-200"
@@ -157,7 +157,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
 
           {/* Status */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-[#202224] mb-2">
               Status*
             </label>
             <div className="flex gap-4 max-sm:flex-col">
@@ -172,7 +172,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
                     className="hidden"
                   />
                   <span
-                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[109px] text-sm cursor-pointer  max-sm:w-full
+                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] text-sm w-[109px] text-sm cursor-pointer  max-sm:w-full
                     ${
                       selectedStatus === status
                         ? "border-[#FF6B07] bg-white font-medium"

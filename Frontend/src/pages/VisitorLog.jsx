@@ -28,23 +28,23 @@ const VisitorLogs = () => {
         Visitor Logs
       </h1>
       <div className="bg-white rounded-lg shadow-sm overflow-y-auto overflow-x-auto custom-scrollbar">
-        <div className="max-h-[50rem] ps-0 pr-[8px]">
+        <div className="max-h-[45rem] ps-0 pr-[8px]">
           <table className="min-w-full table-auto border-collapse">
             <thead className="bg-indigo-50 h-[61px]">
-              <tr>
-                <th className="px-4 sm:px-6 py-4 text-left text-[14px] font-semibold text-black-500 rounded-ts-[15px]">
+              <tr className="text-nowrap text-[#202224]">
+                <th className="px-6 py-4 text-left text-[14px] font-semibold rounded-ts-[15px]">
                   Visitor Name
                 </th>
-                <th className="px-4 sm:px-6 py-4 text-left text-[14px] font-semibold text-black-500">
+                <th className="px-6 py-4 text-left text-[14px] font-semibold">
                   Phone Number
                 </th>
-                <th className="px-4 sm:px-6 py-4 text-left text-[14px] font-semibold text-black-500">
+                <th className="px-10 py-4 text-left text-[14px] font-semibold">
                   Date
                 </th>
-                <th className="px-4 sm:px-6 py-4 text-center text-[14px] font-semibold text-black-500">
+                <th className="px-6 py-4 text-center text-[14px] font-semibold">
                   Unit Number
                 </th>
-                <th className="px-4 sm:px-10 py-4 text-right text-[14px] font-semibold text-black-500 rounded-tr-[15px]">
+                <th className="px-4 sm:px-10 py-4 text-right text-[14px] font-semibold rounded-tr-[15px]">
                   Time
                 </th>
               </tr>
@@ -63,18 +63,18 @@ const VisitorLogs = () => {
                         />
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium ">
+                        <div className="text-sm font-medium">
                           {visitor.name}
                         </div>
                       </div>
                     </div>
                   </td>
-                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap font-medium">
                     <div className="text-sm font-medium">
                       {visitor.number}
                     </div>
                   </td>
-                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap font-medium">
                     <div className="text-sm font-medium">
                       {new Date(visitor.date).toLocaleDateString("en-GB", {
                         day: "2-digit",
