@@ -215,7 +215,7 @@ function EditProfileForm() {
                         onChange={(e) =>
                           setProfile({ ...profile, LastName: e.target.value })
                         }
-                        className="w-[320px] p-2 border border-[#202224] bg-transparent rounded-[10px] py-[10.5px] px-[13px] "
+                        className="w-full p-2 border border-[#202224] bg-transparent rounded-[10px] py-[10.5px] px-[13px] "
                         disabled={!isEditing}
                       />
                     </div>

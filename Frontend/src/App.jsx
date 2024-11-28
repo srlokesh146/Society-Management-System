@@ -47,6 +47,7 @@ import ViewIncome from "./components/modal/AdminIncome.jsx";
 import AdminIncome from "./components/modal/AdminIncome.jsx";
 import { io } from "socket.io-client";
 import Constant from "./config/Constant.jsx";
+import OtherInvoices from "./pages/ResidentPanel/OtherInvoices.jsx";
 
 function App() {
   const [isSidebaropen, setSidebaropen] = useState(false);
@@ -327,6 +328,14 @@ function App() {
                   element={
                     <PrivateRoutes>
                       <InvoicesPage />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/otherinvoices"
+                  element={
+                    <PrivateRoutes>
+                      <OtherInvoices />
                     </PrivateRoutes>
                   }
                 />

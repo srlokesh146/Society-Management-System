@@ -160,7 +160,7 @@ const BalanceChart = () => {
   }
 
   return (
-    <div className='p-[20px] bg-white rounded-[15px] shadow-lg h-full'>
+    <div className='p-[20px] bg-white rounded-[15px]  h-full'>
       <div className='flex justify-between items-center mb-4'>
         <h3 className='text-lg font-semibold'>Total Balance</h3>
         <div className='relative'>

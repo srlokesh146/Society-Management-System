@@ -443,7 +443,7 @@ function SecurityGuardDetails () {
                       onChange={e =>
                         handleGuardChange('full_name', e.target.value)
                       }
-                      className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500'
+                      className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black'
                     />
                   </div>
 
@@ -458,7 +458,7 @@ function SecurityGuardDetails () {
                       onChange={e =>
                         handleGuardChange('MailOrPhone', e.target.value)
                       }
-                      className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500'
+                      className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black'
                     />
                   </div>
 
@@ -472,7 +472,7 @@ function SecurityGuardDetails () {
                         onChange={e =>
                           handleGuardChange('gender', e.target.value)
                         }
-                        className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500'
+                        className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black'
                       >
                         <option value=''>Select Gender</option>
                         <option value='Male'>Male</option>
@@ -490,7 +490,7 @@ function SecurityGuardDetails () {
                         onChange={e =>
                           handleGuardChange('shift', e.target.value)
                         }
-                        className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500'
+                        className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black'
                       >
                         <option value=''>Select Shift</option>
                         <option value='Day'>Day</option>

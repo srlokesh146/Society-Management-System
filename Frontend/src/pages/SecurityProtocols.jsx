@@ -284,7 +284,7 @@ function SecurityProtocols () {
                   onChange={e =>
                     setNewProtocol({ ...newProtocol, title: e.target.value })
                   }
-                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black'
                   placeholder='Enter title'
                 />
               </div>
@@ -300,7 +300,7 @@ function SecurityProtocols () {
                       description: e.target.value
                     })
                   }
-                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black'
                   rows='2'
                   placeholder='Enter description'
                 />
@@ -329,7 +329,7 @@ function SecurityProtocols () {
                             date: e.target.value
                           })
                         }
-                        className='w-full px-3 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='w-full px-3 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black'
                       />
                       <img src={calendar} alt="" className='absolute left-3 top-1/2 transform -translate-y-1/2 text-black' />
                     </div>
@@ -348,7 +348,7 @@ function SecurityProtocols () {
                             time: e.target.value
                           })
                         }
-                        className='w-full px-3 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='w-full px-3 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black'
                       />
                       <img src={clock} alt="" className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'/>
                     </div>

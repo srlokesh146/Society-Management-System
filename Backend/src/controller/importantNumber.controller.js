@@ -13,24 +13,13 @@ exports.CreateNumber = async (req, res) => {
         message: "Phone Number Already Added...",
       });
     }
-    // Check if required fields are present
+   
     if (!Full_name || !Phone_Number || !Work) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
       });
     }
-
-    // Validate the phone number format
-    // const phoneRegex = /^\[6-9]\d{10}$/;
-    // if (!phoneRegex.test(Phone_Number)) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "Invalid phone number format",
-    //   });
-    // }
-
-    // Create and save the new number
     const numbersave = new ImportantNumber({
       Full_name,
       Phone_Number,
@@ -45,7 +34,7 @@ exports.CreateNumber = async (req, res) => {
       message: "Important Number Created",
     });
   } catch (error) {
-    console.log(error);
+    
     res.status(500).json({
       success: false,
       message: "Internal Server error",
@@ -67,7 +56,7 @@ exports.GetAllNumber = async (req, res) => {
       ImportantNumber: find,
     });
   } catch (error) {
-    console.log(error);
+   
     res.status(500).json({
       success: false,
       message: "Internal Server error",
@@ -89,7 +78,7 @@ exports.GetById = async (req, res) => {
       ImportantNumber: find,
     });
   } catch (error) {
-    console.log(error);
+   
     res.status(500).json({
       success: false,
       message: "Internal Server error",
@@ -111,7 +100,7 @@ exports.DeleteNumber = async (req, res) => {
       message: "Number Deleted",
     });
   } catch (error) {
-    console.log(error);
+   
     res.status(500).json({
       success: false,
       message: "Internal Server error",
@@ -123,7 +112,7 @@ exports.UpdateNumber = async (req, res) => {
   try {
     const { Full_name, Phone_Number, Work } = req.body;
 
-    // Check if required fields are present
+  
     if (!Full_name || !Phone_Number || !Work) {
       return res.status(400).json({
         success: false,
@@ -131,16 +120,7 @@ exports.UpdateNumber = async (req, res) => {
       });
     }
 
-    // Validate the phone number format
-    // const phoneRegex = /^\[6-9]\d{10}$/;
-    // if (!phoneRegex.test(Phone_Number)) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "Invalid phone number format",
-    //   });
-    // }
-
-    // Create and save the new number
+    
     const updatedata = await ImportantNumber.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -153,13 +133,13 @@ exports.UpdateNumber = async (req, res) => {
         message: "Something went Wrong",
       });
     }
-    // Confirm successful insertion
+    
     return res.status(200).json({
       success: true,
       message: "Number Updated",
     });
   } catch (error) {
-    console.log(error);
+   
     res.status(500).json({
       success: false,
       message: "Internal Server error",

@@ -46,7 +46,7 @@ export default function ActivityParticipate () {
             <table className='min-w-full table-auto border-collapse'>
               <thead className='bg-indigo-50'>
                 <tr className='rounded-tl-[15px] rounded-tr-[15px] h-[61px]'>
-                  <th className='px-4 sm:px-6 py-4 text-left text-[14px] font-semibold text-black-500 rounded-tl-[15px]'>
+                  <th className='px-4 sm:px-6 py-4 text-left text-[14px] font-[600px] text-black-500 rounded-tl-[15px]'>
                     Participator Name
                   </th>
                   <th className='px-4 py-4 text-start text-[14px] font-semibold text-black-500'>
@@ -58,7 +58,7 @@ export default function ActivityParticipate () {
                   <th className='px-4 py-4 text-center text-[14px] font-semibold text-black-500'>
                     Activity Date
                   </th>
-                  <th className='px-4 py-4 text-start text-[14px] font-semibold text-black-500 rounded-tr-[15px]'>
+                  <th className='px-6 py-4 text-center text-[14px] font-semibold text-black-500 rounded-tr-[15px]'>
                     Activity Name
                   </th>
                 </tr>
@@ -99,7 +99,7 @@ export default function ActivityParticipate () {
                             year: 'numeric'
                           })}
                         </td>
-                        <td className='px-4 py-2 text-[#4F4F4F] font-medium text-start'>
+                        <td className='px-4 py-2 text-[#4F4F4F] font-medium text-center'>
                           {event.title}
                         </td>
                       </tr>

@@ -37,7 +37,7 @@ const FinancialRoutes = require("./src/routes/Financial.route.js");
 const VisitorRoutes = require("./src/routes/visitor.route.js");
 const AlertRoutes = require("./src/routes/alert.route.js");
 const chatRoute = require("./src/routes/chat.route.js");
-const PenaltyController = require("./src/controller/Financial.controller.js");
+const PenaltyController = require("./src/controller/income.controller.js");
 const PollRoutes = require("./src/routes/poll.route.js");
 const NotificationRoute=require("./src/routes/notification.route.js")
 
@@ -104,9 +104,9 @@ io.on("connection", (socket) => {
   });
 
   // send message
-  socket.on("sendMessage", ({ userId, receiverId, message }) => {
+  socket.on("sendMessage", ({ userId, receiverId, message , media}) => {
     // add media
-    const newMessage = { userId, receiverId, message };
+    const newMessage = { userId, receiverId, message , media };
     io.to(socket.id).emit("sendMessage", newMessage);
     const receiverSocket = Array.from(io.sockets.sockets.values()).find(
       (s) => s.userId === receiverId

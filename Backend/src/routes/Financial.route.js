@@ -1,68 +1,72 @@
-const FinancialController = require("../controller/Financial.controller");
+const FinancialController = require("../controller/income.controller");
+const NoteController = require("../controller/note.controller");
+const ExpenseController = require("../controller/expense.controller");
+const MaintenanceController = require("../controller/maintanance.controller");
+
 const { auth } = require("../middleware/auth");
 const upload = require("../utils/Owner.images");
 const router = require("express").Router();
 //add notes
-router.post("/addnote", FinancialController.CreateNote);
+router.post("/addnote", NoteController.CreateNote);
 //get notes
-router.get("/viewnote", FinancialController.GetAllNotes);
+router.get("/viewnote", NoteController.GetAllNotes);
 //get By Id Notes
-router.get("/note/:id", FinancialController.GetByIdNotes);
+router.get("/note/:id", NoteController.GetByIdNotes);
 //delete note
-router.delete("/note/:id", FinancialController.DeleteNote);
+router.delete("/note/:id", NoteController.DeleteNote);
 //Update Note
-router.patch("/note/:id", FinancialController.UpdateNote);
+router.patch("/note/:id", NoteController.UpdateNote);
 //add expense
 router.post(
   "/addexpense",
   upload.fields([{ name: "bill", maxCount: 1 }]),
-  FinancialController.CreateExpense
+  ExpenseController.CreateExpense
 );
 //get expense
-router.get("/viewexpense", FinancialController.GetAllExpense);
+router.get("/viewexpense", ExpenseController.GetAllExpense);
 //get by id
-router.get("/expense/:id", FinancialController.GetByIdExpense);
+router.get("/expense/:id", ExpenseController.GetByIdExpense);
 //total amount expense
 router.get(
   "/ex/expense/total-amount",
-  FinancialController.getTotalExpenseAmount
+  ExpenseController.getTotalExpenseAmount
 );
 //delete expens
-router.delete("/expense/:id", FinancialController.DeleteExpens);
+router.delete("/expense/:id", ExpenseController.DeleteExpens);
 //update expens
 router.patch(
   "/expense/:id",
   upload.fields([{ name: "bill", maxCount: 1 }]),
-  FinancialController.UpdateExpense
+  ExpenseController.UpdateExpense
 );
 
 //check password correction in maintenance
 router.post(
   "/checkpassword",
   auth,
-  FinancialController.CheckMaintenancePassword
+  MaintenanceController.CheckMaintenancePassword
 );
 
 //add maintenance
-router.post("/addmaintenance", FinancialController.CreateMaintenance);
+router.post("/addmaintenance", MaintenanceController.CreateMaintenance);
 //get maintenance
-router.get("/viewmaintenance", FinancialController.GetMaintenance);
+router.get("/viewmaintenance", MaintenanceController.GetMaintenance);
 //update and get payment
 router.put(
   "/maintenance/:maintenanceId/resident/payment",
   auth,
-  FinancialController.updatePaymentMode
+  MaintenanceController.updatePaymentMode
 );
 //FindByIdUserAndMaintance
 router.get(
   "/getuserandMaintance",
   auth,
-  FinancialController.FindByIdUserAndMaintance
+  MaintenanceController.FindByIdUserAndMaintance
 );
 //apply penlty
-router.post("/applypenlty", FinancialController.applyPenalty);
+router.post("/applypenlty", MaintenanceController.applyPenalty);
 //get done maintannace
-router.get("/donemaintannace", FinancialController.GetMaintananceDone);
+router.get("/donemaintannace", MaintenanceController.GetMaintananceDone);
 //add income
 router.post("/addincome", FinancialController.CreateIncome);
 //get income
@@ -82,13 +86,12 @@ router.patch("/income/:id", FinancialController.UpdateIncome);
 //get done income
 router.get("/doneincome", FinancialController.GetIncomeDone);
 //get done income total
-router.get("/totalMaintenanceDone", FinancialController.GetTotalMaintenanceDone);
-//FindByIdUserAndMaintance
+router.get("/totalMaintenanceDone", FinancialController.GetTotalIncomeeDone);
+//FindByIdUserAndIncome
 router.get(
   "/getuserandIncome",
   auth,
   FinancialController.FindByIdUserAndIncome
 );
-//total blance
-// router.get("/total-balance-done", FinancialController.GetTotalBalance);
+
 module.exports = router;

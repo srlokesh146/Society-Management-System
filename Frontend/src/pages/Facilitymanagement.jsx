@@ -217,7 +217,7 @@ function FacilityManagement () {
         </button>
       </div>
 
-      <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+      <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4  gap-4'>
         {facilities.length > 0 ? (
           facilities.map(facility => (
             <div
