@@ -97,7 +97,7 @@ function App() {
             shouldRenderSidebarAndNavbar
               ? "p-6 max-sm:p-4 overflow-auto max-md:overflow-auto"
               : "lg:overflow-hidden max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-y-auto"
-          } bg-gray-100 max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-auto`}
+          } bg-[#F0F5FB] max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-auto`}
         >
           <Routes>
             {/* Public Routes without Sidebar and Navbar */}

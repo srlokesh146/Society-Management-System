@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from "react";
-import { FaTimes, FaCalendarAlt } from "react-icons/fa";
 
 const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
@@ -54,13 +53,12 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999] overflow-y-auto custom-scrollbar">
       <div className="bg-white rounded-lg w-full max-w-[410px] p-6">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-gray-800">Create Request</h2>
+          <h2 className="text-2xl font-semibold text-gray-800">Create Request</h2>
 
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
           >
-            <FaTimes size={20} />
           </button>
         </div>
         <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
@@ -75,7 +73,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
               name="requesterName"
               value={formData.requesterName}
               onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-black"
+              className="w-full py-[10.5px] ps-[13px] border border-gray-300 outline-none rounded-[10px] text-sm"
               placeholder="Enter name"
               required
             />
@@ -91,7 +89,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
               name="requestName"
               value={formData.requestName}
               onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-black"
+              className="w-full py-[10.5px] ps-[13px] border border-gray-300 outline-none rounded-[10px] text-sm"
               placeholder="Enter name"
               required
             />
@@ -107,7 +105,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
               name="description"
               value={formData.description}
               onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-black"
+              className="w-full py-[10.5px] ps-[13px] border border-gray-300 outline-none rounded-[10px] text-sm"
               placeholder="Enter description"
               required
             />
@@ -124,13 +122,13 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
                 name="date"
                 value={formData.date}
                 onChange={handleInputChange}
-                className="w-full p-2 pl-10 border border-gray-300 rounded-md outline-none focus:border-black"
+                className="w-full py-[10.5px] ps-[13px] pr-[13px] pl-10 border border-gray-300 outline-none rounded-[10px] text-sm "
                 required
               />
-              <FaCalendarAlt
+              {/* <FaCalendarAlt
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
                 size={16}
-              />
+              /> */}
             </div>
           </div>
           {/* Wing and Unit */}
@@ -144,7 +142,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
                 name="wing"
                 value={formData.wing}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-black"
+                className="w-full py-[10.5px] ps-[13px] border border-gray-300 outline-none rounded-[10px] text-sm"
                 placeholder="Enter wing"
                 required
               />
@@ -158,7 +156,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
                 name="unit"
                 value={formData.unit}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md outline-none focus:border-black"
+                className="w-full py-[10.5px] ps-[13px] border border-gray-300 outline-none rounded-[10px] text-sm"
                 placeholder="Enter unit"
                 required
               />
@@ -183,7 +181,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
                     required
                   />
                   <span
-                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[113px] text-[14px] cursor-pointer
+                    className={`flex items-center gapy-[10.5px] ps-[13px]  py-1.5 border border-gray-300 rounded-[10px] text-sm w-[110px] text-[14px] cursor-pointer
                     ${
                       formData.priority === priority
                         ? "border-[#FF6B07] bg-white font-medium"
@@ -192,7 +190,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
                     hover:border-orange-500 transition-all duration-200`}
                   >
                     <div
-                      className={`w-4 h-4 rounded-full border-2 flex items-center justify-center 
+                      className={`w-4 h-4 rounded-full border-2 flex items-center justify-center mr-[8px] 
                       ${
                         formData.priority === priority
                           ? "border-orange-500"
@@ -228,7 +226,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
                     required
                   />
                   <span
-                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[113px] text-sm cursor-pointer
+                    className={`flex items-center gapy-[10.5px] ps-[13px] py-1.5 border border-gray-300 rounded-[10px] text-sm w-[110px] cursor-pointer
                     ${
                       formData.status === status
                         ? "border-[#FF6B07] bg-white font-medium"
@@ -237,7 +235,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
                     hover:border-orange-500 transition-all duration-200`}
                   >
                     <div
-                      className={`w-4 h-4 rounded-full border-2 flex items-center justify-center 
+                      className={`w-4 h-4 rounded-full border-2 flex items-center justify-center mr-[8px] 
                       ${
                         formData.status === status
                           ? "border-orange-500"

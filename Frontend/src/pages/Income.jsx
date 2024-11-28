@@ -374,15 +374,16 @@ const Income = () => {
           </button>
         </div>
         {/* Table Section */}
-        <div className='overflow-x-auto bg-white rounded-lg shadow-md p-6 mb-4'>
+        <div className='bg-white rounded-lg shadow-md p-6 mb-4'>
           <div className='mb-4'>
             <h1 className='text-2xl font-semibold text-black-500'>
               Maintenace Details
             </h1>
           </div>
+          <div className='overflow-y-auto pr-[8px] max-h-[30rem] custom-scrollbar overflow-x-auto'>
           <table className='min-w-full'>
             <thead>
-              <tr className='text-left  font-bold text-sm bg-indigo-50 rounded-lg text-black-500 h-[61px]'>
+              <tr className='text-left  font-bold text-sm bg-indigo-50 rounded-lg text-[#202224] h-[61px] text-nowrap'>
                 <th className='text-sm py-3 px-4 font-semibold rounded-tl-[15px]'>Name</th>
                 <th className='text-sm py-3 px-4 font-semibold text-center'>Unit Number</th>
                 <th className='text-sm py-3 px-4 font-semibold text-center'>Date</th>
@@ -414,11 +415,11 @@ const Income = () => {
                         </div>
                       </td>
                       <td className='py-3 px-4 text-center'>
-                        <span className='text-black-600'>
+                        <span className='text-black-600 font-medium'>
                           {r.resident.Unit}
                         </span>
                       </td>
-                      <td className='py-3 px-4 text-center'>
+                      <td className='py-3 px-4 text-center font-medium'>
                         {new Date(m.createdAt).toLocaleDateString('en-GB', {
                           day: '2-digit',
                           month: '2-digit',
@@ -427,7 +428,7 @@ const Income = () => {
                       </td>
                       <td className='py-3 px-4 text-center'>
                         <span
-                          className={`px-3 py-1 rounded-full inline-flex items-center gap-1.5 w-[113px] h-[31px] justify-center text-[14px] ${
+                          className={`px-3 py-1 rounded-full inline-flex items-center gap-1.5 w-[113px] h-[31px] justify-center text-[14px] font-medium ${
                             r.resident.Resident_status === 'Tenante'
                               ? 'bg-pink-50 text-pink-500'
                               : 'bg-purple-50 text-purple-500'
@@ -445,26 +446,26 @@ const Income = () => {
                           {r.resident.Resident_status}
                         </span>
                       </td>
-                      <td className='py-3 px-4 text-center'>{r.resident.Phone_number}</td>
-                      <td className='py-3 px-4 text-center'>
+                      <td className='py-3 px-4 text-center font-medium'>{r.resident.Phone_number}</td>
+                      <td className='py-3 px-4 text-center font-medium'>
                         <span className='text-green-600'>
                           ₹ {m.maintenanceAmount}
                         </span>
                       </td>
-                      <td className='py-3 px-4 text-center'>
+                      <td className='py-3 px-4 text-center font-medium'>
                         {r.penalty === '--' ? (
-                          <span className='text-black-600 px-4 py-1 rounded-full bg-blue-50'>
+                          <span className='text-black-600 px-4 py-1 rounded-full bg-blue-50 font-medium'>
                             --
                           </span>
                         ) : (
-                          <span className='bg-[#E74C3C] text-white px-4 py-1 rounded-full'>
+                          <span className='bg-[#E74C3C] text-white px-4 py-1 rounded-full font-medium'>
                             {r.penalty}
                           </span>
                         )}
                       </td>
                       <td className='py-3 px-4 text-center'>
                         <span
-                          className={`py-1 px-2.5 rounded-full inline-flex items-center justify-center text-[14px] gap-1.5 font-medium w-[113px] h-[31px] ${
+                          className={`py-1 px-2.5 rounded-full inline-flex items-center justify-center text-[14px] gap-1.5 font-medium w-[113px] h-[31px] capitalize ${
                             r.paymentStatus === 'pending'
                               ? 'bg-yellow-50 text-yellow-500 '
                               : 'bg-green-50 text-green-500'
@@ -485,16 +486,16 @@ const Income = () => {
                       <td className='py-3 px-4 text-center'>
                         <div className='flex items-center justify-center'>
                           <span
-                            className={`inline-flex items-center justify-center  w-[113px] h-[31px] text-[14px] ${
+                            className={`inline-flex items-center justify-center w-[113px] h-[31px] text-[14px] font-medium capitalize ${
                               r.paymentMode === 'online'
                                 ? 'text-blue-600 font-medium bg-blue-50'
                                 : 'text-[#202224] font-medium bg-gray-50'
                             } px-2 py-1 rounded-full`}
                           >
                             {r.paymentMode === 'online' ? (
-                              <img src={wallet} className='pr-[2.5px]' />
+                              <img src={wallet} className='pr-[5px]' />
                             ) : (
-                              <img src={moneys} className='pr-[2.5px]' />
+                              <img src={moneys} className='pr-[5px]' />
                             )}
                             {r.paymentMode}
                           </span>
@@ -538,7 +539,7 @@ const Income = () => {
           </table>
         </div>
       </div>
-
+      </div>
       {/* Modal */}
       {isModalOpen && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]'>

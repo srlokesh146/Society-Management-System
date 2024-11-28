@@ -1,5 +1,5 @@
 import React from "react";
-import { FaTimes } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 
 const ViewComplaintModal = ({ isOpen, onClose, complaint }) => {
   let avatar = "https://mighty.tools/mockmind-api/content/human/65.jpg";
@@ -13,7 +13,7 @@ const ViewComplaintModal = ({ isOpen, onClose, complaint }) => {
           onClick={onClose}
           className="absolute top-50 right-3 text-gray-500 hover:text-gray-800"
         >
-          <FaTimes className="text-xl" />
+          <IoMdClose size={20} className="text-black"/>
         </button>
         <h4 className="text-xl font-semibold mb-[10px] leading-[30px] text-[20px]">
           View Complaint

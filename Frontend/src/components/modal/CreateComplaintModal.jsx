@@ -62,7 +62,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
           <div className='border-b border-[#F4F4F4] mb-[10px]'></div>
           <button
             onClick={onClose}
-            className='text-gray-500 hover:text-gray-700'
+            className='text-gray-500 hover:text-[text-[#202224]'
           >
           </button>
         </div>
@@ -70,7 +70,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
         <form onSubmit={handleSubmit} className='space-y-4'>
           {/* Complainant Name */}
           <div>
-            <label className='block text-sm font-medium text-gray-700 mb-1'>
+            <label className='block text-sm font-medium text-[text-[#202224] mb-1'>
               Complainer Name*
             </label>
             <input
@@ -90,7 +90,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
 
           {/* Complaint Name */}
           <div>
-            <label className='block text-sm font-medium text-gray-700 mb-1'>
+            <label className='block text-sm font-medium text-[text-[#202224] mb-1'>
               Complaint Name
             </label>
             <input
@@ -110,7 +110,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
 
           {/* Description */}
           <div>
-            <label className='block text-sm font-medium text-gray-700 mb-1'>
+            <label className='block text-sm font-medium text-[text-[#202224] mb-1'>
               Description
             </label>
             <textarea
@@ -131,7 +131,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
           {/* Wing and Unit */}
           <div className='grid grid-cols-2 gap-4'>
             <div>
-              <label className='block text-sm font-medium text-gray-700 mb-1'>
+              <label className='block text-sm font-medium text-[text-[#202224] mb-1'>
                 Wing
               </label>
               <input
@@ -147,7 +147,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
               )}
             </div>
             <div>
-              <label className='block text-sm font-medium text-gray-700 mb-1'>
+              <label className='block text-sm font-medium text-[text-[#202224] mb-1'>
                 Unit
               </label>
               <input
@@ -166,7 +166,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
 
           {/* Priority */}
           <div>
-            <label className='block text-sm font-medium text-gray-700 mb-2'>
+            <label className='block text-sm font-medium text-[text-[#202224] mb-2'>
               Priority
             </label>
             <div className='flex gap-4 max-sm:flex-col'>
@@ -215,7 +215,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
 
           {/* Status */}
           <div>
-            <label className='block text-sm font-medium text-gray-700 mb-2'>
+            <label className='block text-sm font-medium text-[text-[#202224] mb-2'>
               Status
             </label>
             <div className='flex gap-4 max-sm:flex-col'>
@@ -230,7 +230,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
                     className='hidden'
                   />
                   <span
-                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[109px] text-[14px] cursor-pointer max-sm:w-full
+                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] text-sm w-[109px] text-[14px] cursor-pointer max-sm:w-full
                     ${
                       formData.status === status
                         ? 'border-[#FF6B07] bg-white font-medium'
@@ -265,13 +265,13 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
             <button
               type='button'
               onClick={onClose}
-              className='w-[175px] py-[13.5px] px-[58.5px] border rounded-[10px] leading-[27px] font-medium text-[18px]'
+              className='w-[175px] py-[13.5px] px-[58.5px] border rounded-[10px] text-sm leading-[27px] font-medium text-[18px]'
             >
               Cancel
             </button>
             <button
               type='submit'
-              className={`w-[175px] py-[13.5px] px-[58.5px] text-[18px] font-medium text-black rounded-[10px] transition-all duration-300
+              className={`w-[175px] py-[13.5px] px-[58.5px] text-[18px] font-medium text-black rounded-[10px] text-sm transition-all duration-300
                 ${
                   isFormValid()
                     ? 'bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] hover:opacity-90 text-white'

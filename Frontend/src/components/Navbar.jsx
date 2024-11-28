@@ -112,6 +112,7 @@ const Navbar = () => {
         </div>
         </div>
         </div>
+        </div>
       ) : (
         <div className="flex items-center max-sm:hidden max-md:hidden">
           <span

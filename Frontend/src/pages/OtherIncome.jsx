@@ -198,12 +198,12 @@ const OtherIncome = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+        <div className="grid grid-cols-4 max-xl:grid-cols-2 max-sm:grid-cols-1 max-2xl:grid-cols-2 max-3xl:grid-cols-2 gap-5 mt-4">
           {incomeEntries.length > 0 ? (
             incomeEntries.map((entry) => (
               <div
                 key={entry._id}
-                className="bg-white h-80 w-[350px] shadow-xl rounded-lg border border-blue-300 relative"
+                className="bg-white h-80 shadow-xl rounded-lg border border-blue-300 relative"
               >
                 <div className="bg-[#5678E9] text-white w-full p-2 flex justify-between items-center rounded-t-lg">
                   <h3 className="text-lg  font-semibold">{entry.title}</h3>
@@ -217,7 +217,6 @@ const OtherIncome = () => {
                 {dropdownOpen === entry._id && (
 
                 <div className="absolute right-0 mt-[-10px] mr-2 w-[100px] h-32 bg-white border rounded-lg shadow-lg z-10">
-
                   <ul className="py-2">
                     <li
                       className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
@@ -240,18 +239,17 @@ const OtherIncome = () => {
                   </ul>
                 </div>
               )}
-          
-              <p className="text-gray-600 flex justify-between items-center p-2 *:">
+              <p className="text-gray-600 flex justify-between items-center p-2">
                 Amount Per Member:
                  <p className="text-blue-500 font-semibold bg-indigo-50 rounded-full px-5 py-1 ">₹ {entry.amount}</p>
               </p>
               <p className="text-gray-600 flex justify-between items-center p-2">
                 Total Members: 
-             <p  className="text-black font-semibold">{entry?.member} </p>
+             <p  className="text-black font-medium">{entry?.member} </p>
               </p>
               <p className="text-gray-600 flex justify-between items-center p-2">
                 Date:{" "}
-               <p  className="text-black font-semibold">
+               <p  className="text-black font-medium">
                   {new Date(entry.date).toLocaleDateString("en-GB", {
                     day: "2-digit",
                     month: "2-digit",
@@ -261,7 +259,7 @@ const OtherIncome = () => {
               </p>
               <p className="text-gray-600 flex justify-between items-center p-2">
                 Due Date:{" "}
-           <p className="text-black font-semibold">
+           <p className="text-black font-medium">
                   {new Date(entry.dueDate).toLocaleDateString("en-GB", {
                     day: "2-digit",
                     month: "2-digit",

@@ -268,14 +268,14 @@ function SecurityGuardDetails () {
                           alt=''
                         />
                         <div className='ml-4'>
-                          <div className='text-sm font-medium text-gray-900'>
+                          <div className='text-sm font-medium text-[#4F4F4F]'>
                             {guard.full_name}
                           </div>
                         </div>
                       </div>
                     </td>
                     <td className='px-6 py-4'>
-                      <div className='text-sm font-medium text-center text-gray-500'>
+                      <div className='text-sm font-medium text-center text-gray-[#4F4F4F]'>
                         {guard.MailOrPhone}
                       </div>
                     </td>
@@ -296,7 +296,7 @@ function SecurityGuardDetails () {
                       </span>
                     </td>
                     <td className='px-6 py-4 text-center'>
-                      <div className='text-sm font-medium text-gray-500'>
+                      <div className='text-sm font-medium text-gray-[#4F4F4F]'>
                         {new Date(guard.date).toLocaleDateString('en-GB', {
                           day: '2-digit',
                           month: '2-digit',
@@ -305,7 +305,7 @@ function SecurityGuardDetails () {
                       </div>
                     </td>
                     <td className='px-6 py-4 text-center'>
-                      <div className='inline-flex justify-center items-center rounded-full px-3 py-1 font-medium text-sm text-gray-500 bg-[#F6F8FB] w-[92px] h-[34px]'>
+                      <div className='inline-flex justify-center items-center rounded-full px-3 py-1 font-medium text-sm text-gray-[#4F4F4F] bg-[#F6F8FB] w-[92px] h-[34px]'>
                         {guard.time}
                       </div>
                     </td>
