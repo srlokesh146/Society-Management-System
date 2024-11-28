@@ -216,50 +216,53 @@ const OtherIncome = () => {
                   </button>
                 </div>
                 {dropdownOpen === entry._id && (
-                <div className="absolute right-0 mt-[-10px] mr-2 w-[100px] h-32 bg-white border rounded-lg shadow-lg z-10">
-                  <ul className="py-2">
-                    <li
-                      className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
-                      onClick={() => handleEdit(entry._id)}
-                    >
-                      Edit
-                    </li>
-                    <li
-                      className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
-                      onClick={() => handleDelete(entry._id)}
-                    >
-                      Delete
-                    </li>
-                    <li
-                      className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
-                      onClick={() => handleView(entry._id)} 
-                    >
-                      View
-                    </li>
-                  </ul>
-                </div>
-              )}
-              <p className="text-gray-600 flex justify-between items-center p-2">
-                Amount Per Member:
-                 <p className="text-blue-500 font-semibold bg-indigo-50 rounded-full px-5 py-1 ">₹ {entry.amount}</p>
-              </p>
-              <p className="text-gray-600 flex justify-between items-center p-2">
-                Total Members: 
-             <p  className="text-black font-medium">{entry?.member} </p>
-              </p>
-              <p className="text-gray-600 flex justify-between items-center p-2">
-                Date:{" "}
-               <p  className="text-black font-medium">
-                  {new Date(entry.date).toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })}
-               </p>
-              </p>
-              <p className="text-gray-600 flex justify-between items-center p-2">
-                Due Date:{" "}
-           <p className="text-black font-medium">
+                  <div className="absolute right-0 mt-[-10px] mr-2 w-[100px] h-32 bg-white border rounded-lg shadow-lg z-10">
+                    <ul className="py-2">
+                      <li
+                        className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
+                        onClick={() => handleEdit(entry._id)}
+                      >
+                        Edit
+                      </li>
+                      <li
+                        className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
+                        onClick={() => handleDelete(entry._id)}
+                      >
+                        Delete
+                      </li>
+                      <li
+                        className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
+                        onClick={() => handleView(entry._id)}
+                      >
+                        View
+                      </li>
+                    </ul>
+                  </div>
+                )}
+                <p className="text-gray-600 flex justify-between items-center p-2">
+                  Amount Per Member:
+                  <p className="text-blue-500 font-semibold bg-indigo-50 rounded-full px-5 py-1 ">
+                    ₹ {entry.amount}
+                  </p>
+                </p>
+                <p className="text-gray-600 flex justify-between items-center p-2">
+                  Total Members:
+                  <p className="text-black font-medium">{entry?.member} </p>
+                </p>
+                <p className="text-gray-600 flex justify-between items-center p-2">
+                  Date:{" "}
+                  <p className="text-black font-medium">
+                    {new Date(entry.date).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </p>
+                </p>
+                <p className="text-gray-600 flex justify-between items-center p-2">
+                  Due Date:{" "}
+                </p>
+                <p className="text-black font-medium">
                   {new Date(entry.dueDate).toLocaleDateString("en-GB", {
                     day: "2-digit",
                     month: "2-digit",

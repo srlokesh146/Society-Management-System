@@ -95,27 +95,24 @@ const Navbar = () => {
       {showSearch ? (
         <div className="search-icon relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-[35px] max-sm:hidden ">
           <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-0 max-sm:hidden">
-            <input
+            {/* <input
               type="text"
               placeholder="Search..."
               className="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 bg-[#F6F8FB] max-sm:mb-[15px] max-xl:ml-[15px]"
-            />
+            /> */}
 
-        <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-0 max-sm:hidden">
+            <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-0 max-sm:hidden">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 bg-[#F6F8FB] max-sm:mb-[15px] max-xl:ml-[15px]"
+              />
 
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 bg-[#F6F8FB] max-sm:mb-[15px] max-xl:ml-[15px]"
-          />
-
-          <span className="absolute left-3 top-[10px] text-gray-400">
-           <img className="h-[20px]  w-[20px]" src={search} alt="" />
-           </span>
-        </div>
-        </div>
-        </div>
-
+              <span className="absolute left-3 top-[10px] text-gray-400">
+                <img className="h-[20px]  w-[20px]" src={search} alt="" />
+              </span>
+            </div>
+          </div>
         </div>
       ) : (
         <div className="flex items-center max-sm:hidden max-md:hidden">
@@ -349,7 +346,6 @@ const Navbar = () => {
         </div>
       </div>
     </div>
-  
   );
 };
 

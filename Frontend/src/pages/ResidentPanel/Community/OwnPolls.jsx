@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import avatar from "../../../assets/images/avatar.png";
 import eyeicon from "../../../assets/images/eyeicon.png";
+import circleimg from "../../../assets/images/circleimg.svg";
 import { toast } from "react-hot-toast";
 import CreatePollModal from "../../../components/modal/CreatePollModal";
 import { CreateNewPoll, GetPolls } from "../../../services/pollService";
@@ -11,9 +12,9 @@ const Polls = () => {
   const [answer, setAnswer] = useState("");
 
 
-  useEffect(() => {
-    localStorage.setItem('pollDefaultSelected', JSON.stringify(defaultSelected))
-  }, [defaultSelected])
+  // useEffect(() => {
+  //   localStorage.setItem('pollDefaultSelected', JSON.stringify(defaultSelected))
+  // }, [defaultSelected])
 
   const handleCheckboxChange = index => {
     setDefaultSelected(prev => ({
