@@ -43,7 +43,7 @@ exports.CreateComplaint= async(req,res)=>{
          
      });
    } catch (error) {
-    console.error(error);
+    
     return res.status(500).json({
          success: false,
          message: "error in complaint adding"
@@ -62,7 +62,7 @@ exports.GetComplaints = async (req, res) => {
       data: complaints,
     });
   } catch (error) {
-    console.error("Error fetching complaints:", error);
+    
     return res.status(500).json({
       success: false,
       message: "Error fetching complaints",
@@ -83,16 +83,12 @@ exports.getUserComplaints = async (req, res) => {
       path: "createdBy",
       select: "name profileImage", 
     })
-    
-
-    console.log("User's Complaints:", complaints);
-
     return res.status(200).json({
       success: true,
       data: complaints,
     });
   } catch (error) {
-    console.error("Error fetching complaints:", error);
+  
     return res.status(500).json({
       success: false,
       message: "Error fetching complaints",
@@ -132,7 +128,6 @@ exports.filterComplaint = async (req, res) => {
       data: complaints,
     });
   } catch (error) {
-    console.error("Error fetching complaints:", error);
     return res.status(500).json({
       success: false,
       message: "Error fetching complaints",
@@ -152,7 +147,7 @@ exports.GetByIdComplaints = async (req, res) => {
       data: complaints,
     });
   } catch (error) {
-    console.error("Error fetching complaints:", error);
+    
     return res.status(500).json({
       success: false,
       message: "Error fetching complaints",
@@ -174,7 +169,6 @@ exports.DeleteComplaint= async(req,res)=>{
       message:"Complaint deleted successfully"
     })
   } catch (error) {
-    console.error("Error deleting complaints:", error);
     return res.status(500).json({
       success: false,
       message: "Error deleting complaints",
@@ -216,7 +210,7 @@ exports.UpdateComplaint=async(req,res)=>{
            
        });
   } catch (error) {
-    console.error(error);
+   
     return res.status(500).json({
          success: false,
          message: "error in complaint updating"
@@ -268,7 +262,7 @@ exports.CreateRequest= async(req,res)=>{
         
     });
   } catch (error) {
-   console.error(error);
+  
    return res.status(500).json({
         success: false,
         message: "error in Request adding"
@@ -287,7 +281,7 @@ exports.GetRequest = async (req, res) => {
       data: request,
     });
   } catch (error) {
-    console.error("Error fetching request:", error);
+   
     return res.status(500).json({
       success: false,
       message: "Error fetching request",
@@ -308,15 +302,12 @@ exports.getUserRequest = async (req, res) => {
       path: "createdBy",
       select: "name profileImage", 
     })
-   
-    console.log("User's income:", income);
-
     return res.status(200).json({
       success: true,
       data: income,
     });
   } catch (error) {
-    console.error("Error fetching income:", error);
+   
     return res.status(500).json({
       success: false,
       message: "Error fetching income",
@@ -338,7 +329,7 @@ exports.GetByIdRequest = async (req, res) => {
       data: request,
     });
   } catch (error) {
-    console.error("Error fetching request:", error);
+    
     return res.status(500).json({
       success: false,
       message: "Error fetching request",
@@ -360,7 +351,7 @@ exports.DeleteRequest= async(req,res)=>{
       message:"Request deleted successfully"
     })
   } catch (error) {
-    console.error("Error deleting Request:", error);
+   
     return res.status(500).json({
       success: false,
       message: "Error deleting Request",
@@ -402,7 +393,7 @@ exports.UpdateRequest=async(req,res)=>{
            
        });
   } catch (error) {
-    console.error(error);
+  
     return res.status(500).json({
          success: false,
          message: "error in request updating"

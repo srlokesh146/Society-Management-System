@@ -1,4 +1,8 @@
+const Notification = require("../models/notification.schema");
+const Owner = require("../models/Owener.model");
 const Alert = require("../models/SecurityAlert.model");
+const Tenante = require("../models/Tenent.model");
+const User = require("../models/user.schema");
 
 //add alert 
 exports.CreateAlert = async (req, res) => {
@@ -18,6 +22,36 @@ exports.CreateAlert = async (req, res) => {
       });
   
       await alert.save();
+
+      const ownerData = await Owner.find();
+      const tenantData = await Tenante.find();
+
+   
+
+   //add notification
+
+    
+   const adminUsers = await User.find({}, '_id');
+   const ownerUsers = ownerData.map(owner => ({ _id: owner._id, model: "Owner" }));
+   const tenantUsers = tenantData.map(tenant => ({ _id: tenant._id, model: "Tenante" }));
+
+  
+   const allUsers = [
+     ...adminUsers.map(admin => ({ _id: admin._id, model: "User" })), 
+     ...ownerUsers,
+     ...tenantUsers
+   ];
+
+    
+   const notification = new Notification({
+     title: "Security alert !",
+     name: alert_type,
+     message: description,
+     users:allUsers
+   });
+
+
+   await notification.save();
   
       
       return res.status(201).json({
@@ -26,7 +60,7 @@ exports.CreateAlert = async (req, res) => {
        
       });
     } catch (error) {
-      console.error("Error creating alert:", error);
+     
       return res.status(500).json({
         success: false,
         message: "Error in alert adding",
@@ -43,7 +77,7 @@ exports.GetAlert = async (req, res) => {
         data: alert,
       });
     } catch (error) {
-      console.error("Error fetching alert:", error);
+     
       return res.status(500).json({
         success: false,
         message: "Error fetching alert",

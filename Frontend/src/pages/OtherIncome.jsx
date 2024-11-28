@@ -215,7 +215,9 @@ const OtherIncome = () => {
                   </button>
                 </div>
                 {dropdownOpen === entry._id && (
+
                 <div className="absolute right-0 mt-[-10px] mr-2 w-[100px] h-32 bg-white border rounded-lg shadow-lg z-10">
+
                   <ul className="py-2">
                     <li
                       className="px-4 py-2 text-gray-600 cursor-pointer hover:text-black"
@@ -238,6 +240,7 @@ const OtherIncome = () => {
                   </ul>
                 </div>
               )}
+          
               <p className="text-gray-600 flex justify-between items-center p-2 *:">
                 Amount Per Member:
                  <p className="text-blue-500 font-semibold bg-indigo-50 rounded-full px-5 py-1 ">₹ {entry.amount}</p>

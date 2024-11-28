@@ -1,87 +1,120 @@
 const Notification = require("../models/notification.schema");
 
 exports.getAllNotifications = async (req, res) => {
-    try {
-      const notifications = await Notification.find()
-        .populate({
-          path: 'users._id',  
-          select: 'Full_name Unit Wing FirstName LastName', 
-          model: function(doc) { return doc.model; } 
-        });
-  
-      
-      const formattedNotifications = notifications.map(notification => {
-        const formattedUsers = notification.users.map(user => {
-          if (user.model === 'Owner' || user.model === 'Tenante') {
-            return {
-              ...user,
-              name: user._id.Full_name || 'Unknown User',
-              unit: user._id.Unit || 'unknown unit',
-              wing: user._id.Wing || 'unknown wing'
-            };
-          } else if (user.model === 'User') {
-            return {
-              ...user,
-              name: `${user._id.FirstName} ${user._id.LastName}` || 'Admin User',
-              unit: 'Admin Unit',
-              wing: 'Admin Wing'
-            };
-          }
-          return user;
-        });
-  
-        return {
-          ...notification._doc,
-          users: formattedUsers
-        };
+  try {
+    const userId = req.user._id; 
+
+   
+    const notifications = await Notification.find({
+      "users._id": userId,
+    });
+
+    
+    const formattedNotifications = notifications.map((notification) => {
+      return {
+        ...notification._doc,
+        users: notification.users.filter((user) => user._id.toString() === userId.toString()), 
+      };
+    });
+
+    return res.status(200).json({
+      success: true,
+      notifications: formattedNotifications,
+    });
+  } catch (error) {
+   
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching notifications",
+    });
+  }
+  };
+ exports.DeleteSingleNotification = async(req,res)=>{
+  const { notificationId } = req.params; 
+  const loggedInUserId = req.user._id; 
+
+  try {
+   
+    const notification = await Notification.findOne({
+      _id: notificationId,
+      "users._id": loggedInUserId, 
+    });
+
+    if (!notification) {
+      return res.status(404).json({
+        success: false,
+        message: "Notification not found or you are not authorized to delete it.",
       });
-  
+    }
+
+    
+    notification.users = notification.users.filter(
+      (user) => user._id.toString() !== loggedInUserId.toString()
+    );
+
+    
+    if (notification.users.length === 0) {
+      await notification.remove();
       return res.status(200).json({
         success: true,
-        notifications: formattedNotifications
-      });
-    } catch (error) {
-      console.error("Error fetching notifications:", error);
-      return res.status(500).json({
-        success: false,
-        message: "Error fetching notifications",
+        message: "Notification deleted successfully.",
       });
     }
-  };
-  exports.getNotifications = async (req, res) => {
-    const { notificationId, startDate, endDate } = req.query; // Optional query params for filtering
-  
-    try {
-      // Build query conditions
-      let query = {};
-  
-      // Filter by notification ID if provided
-      if (notificationId) {
-        query._id = notificationId;  // Match by ObjectId
-      }
-  
-      // Filter by date range if startDate and endDate are provided
-      if (startDate && endDate) {
-        query.createdAt = { $gte: new Date(startDate), $lte: new Date(endDate) }; // Date range
-      }
-  
-      // Find notifications based on the constructed query
-      const notifications = await Notification.find(query)
-        .populate('users._id') // This will populate the referenced models in `users._id`
-        .exec();
-  
-      // Return the notifications in the response
-      res.status(200).json({
-        success: true,
-        notifications,
-      });
-    } catch (error) {
-      console.error("Error fetching notifications:", error);
-      res.status(500).json({
+
+    
+    await notification.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Notification  successfully deleted",
+    });
+  } catch (error) {
+   
+    return res.status(500).json({
+      success: false,
+      message: "Error deleting notification.",
+    });
+  }
+ }
+ exports.DeleteAllNotification =async(req,res)=>{
+  const loggedInUserId = req.user._id; 
+
+  try {
+   
+    const notifications = await Notification.find({ "users._id": loggedInUserId });
+
+    if (!notifications.length) {
+      return res.status(404).json({
         success: false,
-        message: "Error fetching notifications",
+        message: "No notifications found for the logged-in user.",
       });
     }
-  };
+
   
-  
+    for (const notification of notifications) {
+     
+      notification.users = notification.users.filter(
+        (user) => user._id.toString() !== loggedInUserId.toString()
+      );
+
+     
+      if (notification.users.length === 0) {
+        await notification.remove();
+      } else {
+       
+        await notification.save();
+      }
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "All notifications  deleted.",
+    });
+  } catch (error) {
+    
+    return res.status(500).json({
+      success: false,
+      message: "Error deleting notifications.",
+    });
+  }
+ }

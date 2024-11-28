@@ -60,15 +60,13 @@ const Ownerschema = new Schema(
         vehicle_number: { type: String, required: true },
       },
     ],
-    // cloudinary_id: {
-    //     type: String,
-    //   },
+    
     role: {
       type: String,
       enum: ["admin", "resident", "security"],
       default: "resident",
     },
-   password: {  // Add this field to store the hashed password
+   password: {  
         type: String,
     },
     Resident_status: {

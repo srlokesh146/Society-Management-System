@@ -46,10 +46,6 @@ const maintenanceschema = new Schema(
         },
       },
     ],
-    // maintenanceapplyer: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "User"
-    // },
   },
   { timestamps: true }
 );
