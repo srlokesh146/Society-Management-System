@@ -174,7 +174,7 @@ function SecurityProtocols () {
       </div>
 
       <div className='bg-white rounded-lg shadow-sm'>
-        <div className='overflow-x-auto custom-scrollbar min-w-0 overflow-auto'>
+        <div className='overflow-y-auto pr-[8px] max-h-[45rem] custom-scrollbar overflow-x-auto'>
           <table className='min-w-full table-auto border-collapse'>
             <thead className='bg-indigo-50 border-b border-gray-200 h-[61px]'>
               <tr>
@@ -184,10 +184,10 @@ function SecurityProtocols () {
                 <th className='px-6 py-4 text-left text-[14px] font-semibold text-[#202224]'>
                   Description
                 </th>
-                <th className='px-6 py-4 text-right text-[14px] font-semibold text-[#202224]'>
+                <th className='px-12 py-4 text-right text-[14px] font-semibold text-[#202224]'>
                   Date
                 </th>
-                <th className='px-6 py-4 text-right text-[14px] font-semibold text-[#202224]'>
+                <th className='px-12 py-4 text-right text-[14px] font-semibold text-[#202224]'>
                   Time
                 </th>
                 <th className='px-16 py-4 text-right text-[14px] font-semibold text-[#202224] rounded-tr-[15px]'>
@@ -205,17 +205,17 @@ function SecurityProtocols () {
                     <td className='px-6 py-4 text-md font-medium'>
                       {protocol.title}
                     </td>
-                    <td className='px-6 py-6 line-clamp-1 max-w-[400px] max-h-[50px] text-md'>
+                    <td className='px-6 py-6 line-clamp-1 max-w-[400px] max-h-[50px] text-md font-medium'>
                       {protocol.description}
                     </td>
-                    <td className=' py-4 text-md text-right'>
+                    <td className='px-4 py-4 text-md text-right font-medium'>
                       {new Date(protocol.date).toLocaleDateString('en-GB', {
                         day: '2-digit',
                         month: '2-digit',
                         year: 'numeric'
                       })}
                     </td>
-                    <td className=' py-4 text-sm text-right'>
+                    <td className='px-4 py-4 text-sm text-right'>
                       <span className='inline-flex justify-center items-center px-2 py-1 bg-gray-100 rounded-full w-[92px] h-[34px] font-medium'>
                         {protocol.time}
                       </span>
@@ -284,7 +284,7 @@ function SecurityProtocols () {
                   onChange={e =>
                     setNewProtocol({ ...newProtocol, title: e.target.value })
                   }
-                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black'
                   placeholder='Enter title'
                 />
               </div>
@@ -300,7 +300,7 @@ function SecurityProtocols () {
                       description: e.target.value
                     })
                   }
-                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black'
                   rows='2'
                   placeholder='Enter description'
                 />
@@ -329,7 +329,7 @@ function SecurityProtocols () {
                             date: e.target.value
                           })
                         }
-                        className='w-full px-3 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='w-full px-3 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black'
                       />
                       <img src={calendar} alt="" className='absolute left-3 top-1/2 transform -translate-y-1/2 text-black' />
                     </div>
@@ -348,7 +348,7 @@ function SecurityProtocols () {
                             time: e.target.value
                           })
                         }
-                        className='w-full px-3 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='w-full px-3 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black'
                       />
                       <img src={clock} alt="" className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'/>
                     </div>

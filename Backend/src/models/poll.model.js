@@ -17,26 +17,33 @@ const pollSchema = new Schema(
       type: String,
       required: true,
     },
-    options: [
-      {
-        text: String,
-        votes: {
-          type: Number,
-          default: 0,
-        },
-      },
-    ],
+   options: [
+            {
+                text: String,
+                votes: {
+                    type: Number,
+                    default: 0,
+                },
+                voters: [
+                    {
+                        type: Schema.Types.ObjectId,
+                        refPath: 'createdByType', 
+                    },
+                ],
+            },
+        ],
     createdBy: {
       type: Schema.Types.ObjectId,
       refPath: "createdByType",
     },
     createdByType: {
-      type: String,
-      enum: ["Owner", "Tenante"],
+        type: String,
+        enum: ['Owner', 'Tenante'],
     },
-  },
-  { timestamps: true }
-);
+    
+   
+},{timestamps:true});
+
 
 const Poll = model("Poll", pollSchema);
 module.exports = Poll;

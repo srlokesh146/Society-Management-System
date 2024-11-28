@@ -1,5 +1,5 @@
 import React from "react";
-import { FaTimes } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 
 const ViewRequestModal = ({ isOpen, onClose, Request }) => {
   if (!isOpen) return null;
@@ -13,9 +13,9 @@ const ViewRequestModal = ({ isOpen, onClose, Request }) => {
           <div className="border-b border-[#F4F4F4] mb-[30px]"></div>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
+            className="text-[#A7A7A7] hover:text-gray-700"
           >
-            <FaTimes size={20} />
+            <IoMdClose size={20} className="text-black"/>
           </button>
         </div>
         <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
@@ -31,7 +31,7 @@ const ViewRequestModal = ({ isOpen, onClose, Request }) => {
               <h3 className="text-lg font-semibold text-gray-900">
                 {Request.requester}
               </h3>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-[#A7A7A7]">
                 {new Date(Request.date).toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
@@ -44,16 +44,16 @@ const ViewRequestModal = ({ isOpen, onClose, Request }) => {
           {/* Request Details */}
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-gray-500">
+              <label className="text-sm font-normal text-[#A7A7A7]">
                 Request Name
               </label>
-              <p className="mt-1 text-base font-medium text-gray-900">
+              <p className="mt-1 text-base font-normal text-gray-900">
                 {Request.name}
               </p>
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-500">
+              <label className="text-sm font-normal text-[#A7A7A7]">
                 Description
               </label>
               <p className="mt-1 text-base text-gray-900">
@@ -62,38 +62,38 @@ const ViewRequestModal = ({ isOpen, onClose, Request }) => {
             </div>
 
             <div className="flex gap-12">
-              <div>
-                <label className="text-sm font-medium text-gray-500">
+              <div className="text-center">
+                <label className="text-sm font-normal text-[#A7A7A7]">
                   Wing
                 </label>
-                <p className="mt-1 text-base font-medium text-[#5678E9]">
+                <p className="mt-1 text-base font-normal text-[#5678E9] bg-[#F6F8FB] rounded-full w-[28px] h-[28px] flex justify-center items-center">
                   {Request.wing || "A"}
                 </p>
               </div>
-              <div>
-                <label className="text-sm font-medium text-gray-500">
+              <div className="text-center">
+                <label className="text-sm font-normal text-[#A7A7A7]">
                   Unit
                 </label>
-                <p className="mt-1 text-base font-medium text-gray-900">
+                <p className="mt-1 text-base font-normal text-gray-900">
                   {Request.unit || "1002"}
                 </p>
               </div>
-              <div>
-                <label className="text-sm font-medium text-gray-500">
+              <div className="text-center">
+                <label className="text-sm font-normal text-[#A7A7A7]">
                   Priority
                 </label>
                 <p className="mt-1">
-                  <span className="px-3 py-1 text-sm font-medium text-white bg-[#5678E9] rounded-full">
+                  <span className="px-3 py-1 text-sm font-normal text-white bg-[#5678E9] rounded-full">
                     {Request.priority || "Medium"}
                   </span>
                 </p>
               </div>
-              <div>
-                <label className="text-sm font-medium text-gray-500">
+              <div className="text-center">
+                <label className="text-sm font-normal text-[#A7A7A7]">
                   Status
                 </label>
                 <p className="mt-1">
-                  <span className="px-3 py-1 text-sm font-medium text-[#5678E9] bg-[#5678E91A] rounded-full">
+                  <span className="px-3 py-1 text-sm font-normal text-[#5678E9] bg-[#5678E91A] rounded-full">
                     {Request.status || "Open"}
                   </span>
                 </p>

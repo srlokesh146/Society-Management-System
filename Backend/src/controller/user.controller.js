@@ -98,10 +98,7 @@ exports.signup = async (req, res) => {
     // Hash the password
     const hashpassword = await hash(password);
 
-    // Set user role or default to 'user'
-    // const userRole = role && ["admin", "resident", "security"].includes(role) ? role : "admin";
-
-    // Create user with hashed password, excluding Cpassword
+   
     const user = await User.create({
       FirstName,
       LastName,
@@ -132,7 +129,7 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { EmailOrPhone, password } = req.body;
-    console.log(req.body);
+    
     
     
     
@@ -197,7 +194,7 @@ exports.login = async (req, res) => {
       user: { ...account._doc, password: "" },
     });
   } catch (error) {
-    console.error("Error during login:", error);
+   
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -217,7 +214,7 @@ exports.logout = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Logged out successfully" });
   } catch (error) {
-    console.log("Error in logout controller", error.message);
+    
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -305,7 +302,7 @@ exports.SendOtp = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error("Error sending OTP:", error);
+  
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -315,7 +312,7 @@ exports.SendOtp = async (req, res) => {
 exports.verifyOtp = async (req, res) => {
   try {
     const { EmailOrPhone, otp } = req.body;
-    console.log(otp);
+   
 
     if (!EmailOrPhone || !otp) {
       return res.status(400).json({
@@ -354,21 +351,12 @@ exports.verifyOtp = async (req, res) => {
       });
     }
 
-    // const currentTime = new Date();
-    // if (account.otpExpiration && currentTime > account.otpExpiration) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "OTP has expired",
-    //   });
-    // }
-
     return res.status(200).json({
       success: true,
       message: "OTP verified successfully",
     });
   } catch (error) {
-    console.error("Error during OTP verification:", error);
-
+  
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -423,7 +411,7 @@ exports.ResetPassword = async (req, res) => {
       message: "Password changed successfully",
     });
   } catch (error) {
-    console.error("Error during password reset:", error);
+    
     return res.status(500).json({
       success: false,
       message: "Server error",
@@ -494,7 +482,7 @@ exports.UpdateProfile = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error("Update Profile Error:", error);
+    
     res.status(500).json({
       success: false,
       message: "Internal Server error",
@@ -518,7 +506,7 @@ exports.FindByIdProfile = async (req, res) => {
       Profile: find,
     });
   } catch (error) {
-    console.log("Error in logout controller", error.message);
+    
     return res.status(500).json({
       success: false,
       message: "Internal server error",

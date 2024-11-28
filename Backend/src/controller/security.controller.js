@@ -40,7 +40,7 @@ exports.CreateProtocol = async (req, res) => {
             message: "Protocol successfully Added"
         })
     } catch (error) {
-        console.error(error);
+        
         return res.status(500).json({
             success: false,
             message: "error in protocol creating"
@@ -62,7 +62,7 @@ exports.GetAllProtocol = async (req, res) => {
             Protocol: find
         })
     } catch (error) {
-        console.error(error);
+        
         return res.status(500).json({
             success: false,
             message: "error in protocol find"
@@ -84,7 +84,7 @@ exports.GetByIdProtocol = async (req, res) => {
             Protocol: find
         })
     } catch (error) {
-        console.error(error);
+       
         return res.status(500).json({
             success: false,
             message: "error in protocol find"
@@ -106,7 +106,7 @@ exports.DeleteProtocol = async (req, res) => {
             message: "Protocol are deleted"
         })
     } catch (error) {
-        console.error(error);
+        
         return res.status(500).json({
             success: false,
             message: "error in protocol delete"
@@ -143,7 +143,7 @@ exports.UpdateProtocol = async (req, res) => {
             message: "Protocol successfully updated"
         })
     } catch (error) {
-        console.error(error);
+        
         return res.status(500).json({
             success: false,
             message: "error in protocol updated"
@@ -167,7 +167,7 @@ exports.CreateSecurityGuard = async (req, res) => {
          role,
      } = req.body;
      const password = generatePassword();
-     console.log(password);
+   
  
      const hashpassword = await hash(password)
  
@@ -209,7 +209,7 @@ exports.CreateSecurityGuard = async (req, res) => {
              message: "All fields are required",
          });
      }
-     // Create a new owner document
+   
      const newOwner = new Guard({
          full_name,
          MailOrPhone,
@@ -228,11 +228,7 @@ exports.CreateSecurityGuard = async (req, res) => {
      let user;
      if (MailOrPhone.includes("@")) {
        
-        //  await senData(
-        //      newOwner.MailOrPhone,
-        //      "Registration Successful - Login Details",
-        //      `Dear ${newOwner.Full_name},\n\nYou have successfully registered as a security. Your login details are as follows:\n\nUsername: ${newOwner.MailOrPhone}\nPassword: <b> ${password}</b>\n\nPlease keep this information secure.\n\nBest Regards,\nManagement`
-        //  );
+        
          await senData(newOwner.MailOrPhone, "Registration Successfully" ,ForgotFormatSecurity(newOwner.full_name,newOwner.MailOrPhone,password));
        
      } else {
@@ -252,7 +248,7 @@ exports.CreateSecurityGuard = async (req, res) => {
      message:"Security Guard Successfully added"
   })
    } catch (error) {
-    console.error(error);
+    
         return res.status(500).json({
             success: false,
             message: "Internal server error"
@@ -275,7 +271,7 @@ exports.GetSecurityGuard= async (req,res)=>{
             Guard:find
         })
     } catch (error) {
-        console.error(error);
+     
         return res.status(500).json({
              success: false,
              message: "error in Announcement fetching"
@@ -296,7 +292,7 @@ exports.GetByIdGuard= async (req,res)=>{
             Guard:find
         })
     } catch (error) {
-        console.error(error);
+       
         return res.status(500).json({
              success: false,
              message: "error in Announcement fetching"
@@ -317,7 +313,7 @@ exports.DeleteGuard= async (req,res)=>{
             message:"Security Guard deleted"
         })
     } catch (error) {
-        console.error(error);
+       
         return res.status(500).json({
              success: false,
              message: "error in Announcement deleting"
@@ -357,7 +353,7 @@ exports.updateSecurityGuard = async (req, res) => {
                     });
                     return result.secure_url;
                 } catch (error) {
-                    console.error("Error uploading to Cloudinary:", error);
+                   
                     throw error;
                 }
             }
@@ -392,7 +388,7 @@ exports.updateSecurityGuard = async (req, res) => {
             
         });
     } catch (error) {
-        console.error("Error updating Security Guard:", error);
+       
         return res.status(500).json({
             success: false,
             message: "An error occurred while updating Security Guard details",

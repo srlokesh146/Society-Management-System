@@ -93,32 +93,32 @@ const ReqTracking = () => {
             </button>
           </div>
 
-          <div className="max-h-[25rem] overflow-y-auto lg:overflow-x-hidden max-md:overflow-x-auto pr-[8px] ps-[20px] custom-scrollbar">
+          <div className="overflow-y-auto pr-[8px] max-h-[41.5rem] custom-scrollbar overflow-x-auto">
             <table className="w-full text-center rounded-lg">
               <thead>
-                <tr className="bg-indigo-50  h-[61px]">
-                  <th className="px-4 md:px-8  rounded-tl-[10px]  py-3 text-md font-semibold text-black-500">
+                <tr className="bg-indigo-50 h-[61px] text-nowrap text-[#202224]">
+                  <th className="px-8 rounded-tl-[10px] py-3 text-sm font-semibold">
                     Requester Name
                   </th>
-                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">
+                  <th className="px-8 py-3 text-sm font-semibold">
                     Request Name
                   </th>
-                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">
+                  <th className="px-8 py-3 text-sm font-semibold">
                     Description
                   </th>
-                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">
+                  <th className="px-8 py-3 text-sm font-semibold">
                     Request Date
                   </th>
-                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">
+                  <th className="px-8 py-3 text-sm font-semibold">
                     Unit Number
                   </th>
-                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">
+                  <th className="px-8 py-3 text-sm font-semibold">
                     Priority
                   </th>
-                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500">
+                  <th className="px-8 py-3 text-sm font-semibold">
                     Status
                   </th>
-                  <th className="px-4 md:px-8 py-3 text-md font-semibold text-black-500 rounded-tr-[10px]">
+                  <th className="px-8 py-3 text-sm font-semibold rounded-tr-[10px]">
                     Action
                   </th>
                 </tr>
@@ -126,7 +126,7 @@ const ReqTracking = () => {
               <tbody>
               {Requests.length > 0 ? (
                 Requests.map((Request) => (
-                  <tr key={Request._id} className="border-b hover:bg-gray-50">
+                  <tr key={Request._id} className="border-b hover:bg-gray-50 text-[#4F4F4F]">
                     <td className="px-4 md:px-6 py-4">
                       <div className="flex items-center gap-3">
                         <img
@@ -134,25 +134,25 @@ const ReqTracking = () => {
                           alt=""
                           className="w-6 h-6 md:w-8 md:h-8 rounded-full"
                         />
-                        <span className="text-sm md:text-md font-medium text-[#4F4F4F]">
+                        <span className="text-base font-medium">
                           {Request.requester}
                         </span>
                       </div>
                     </td>
-                    <td className="px-4 md:px-6 py-4 text-sm md:text-md font-medium text-[#4F4F4F]">
+                    <td className="px-4 md:px-6 py-4 text-base font-medium">
                       {Request.name}
                     </td>
-                    <td className="px-4 md:px-6 py-4 text-sm md:text-md font-medium text-[#4F4F4F]">
+                    <td className="px-4 md:px-6 py-4 text-base font-medium">
                       {Request.description}
                     </td>
-                    <td className="px-4 md:px-6 py-4 text-sm md:text-md font-medium text-[#4F4F4F]">
+                    <td className="px-4 md:px-6 py-4 text-base font-medium">
                       {new Date(Request.date).toLocaleDateString("en-GB", {
                         day: "2-digit",
                         month: "2-digit",
                         year: "numeric",
                       })}
                     </td>
-                    <td className="px-4 flex justify-center items-center  md:px-6 py-4 text-sm md:text-md text-[#4F4F4F]">
+                    <td className="px-4 flex justify-center items-center  md:px-6 py-4 text-base">
                       <span className="bg-blue-50 text-blue-600 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">
                         {Request.wing}
                       </span>

@@ -47,6 +47,7 @@ import ViewIncome from "./components/modal/AdminIncome.jsx";
 import AdminIncome from "./components/modal/AdminIncome.jsx";
 import { io } from "socket.io-client";
 import Constant from "./config/Constant.jsx";
+import OtherInvoices from "./pages/ResidentPanel/OtherInvoices.jsx";
 
 function App() {
   const [isSidebaropen, setSidebaropen] = useState(false);
@@ -96,7 +97,7 @@ function App() {
             shouldRenderSidebarAndNavbar
               ? "p-6 max-sm:p-4 overflow-auto max-md:overflow-auto"
               : "lg:overflow-hidden max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-y-auto"
-          } bg-gray-100 max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-auto`}
+          } bg-[#F0F5FB] max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-auto`}
         >
           <Routes>
             {/* Public Routes without Sidebar and Navbar */}
@@ -327,6 +328,14 @@ function App() {
                   element={
                     <PrivateRoutes>
                       <InvoicesPage />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path="/otherinvoices"
+                  element={
+                    <PrivateRoutes>
+                      <OtherInvoices />
                     </PrivateRoutes>
                   }
                 />

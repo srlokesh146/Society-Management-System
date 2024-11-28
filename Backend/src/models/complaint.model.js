@@ -31,10 +31,6 @@ const compliantschema= new Schema({
         default:"Open",
         enum:['Open', 'Pending', 'Solve'] 
     },
-    // apply: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "User"
-    // },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         refPath: 'createdByType', 

@@ -166,30 +166,30 @@ function Expense () {
           onClick={() => setIsModalOpen(true)}
           className='bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white h-[51px] px-4 rounded-[10px] hover:opacity-90 flex items-center gap-2'
         >
-          <img src={plus} alt="" /> Add New Expenses details
+          <img src={plus} alt='' /> Add New Expenses details
         </button>
       </div>
 
-      <div className='overflow-x-auto visiter-table custom-scrollbar max-sm:overflow-7-auto'>
-        <table className='w-full rounded-lg'>
+      <div className='overflow-y-auto pr-[8px] max-h-[30rem] custom-scrollbar overflow-x-auto'>
+        <table className='w-full rounded-lg text-nowrap'>
           <thead>
-            <tr className='bg-indigo-50 h-[61px] rounded-lg '>
-              <th className='text-left px-6 py-3 text-md font-semibold text-[#202224] rounded-tl-[15px]'>
+            <tr className='bg-indigo-50 h-[61px] rounded-lg text-[#202224]'>
+              <th className='text-left px-6 py-3 text-sm font-semibold rounded-tl-[15px]'>
                 Title
               </th>
-                <th className='text-left px-6 py-3 text-md font-semibold text-[#202224]'>
+              <th className='text-left px-6 py-3 text-sm font-semibold'>
                 Description
               </th>
-              <th className='text-center px-6 py-3 text-md font-semibold text-[#202224]'>
+              <th className='text-center px-6 py-3 text-sm font-semibold'>
                 Date
               </th>
-              <th className='text-center px-6 py-3 text-md font-semibold text-[#202224]'>
+              <th className='text-center px-6 py-3 text-sm font-semibold'>
                 Amount
               </th>
-              <th className='text-center px-6 py-3 text-md font-semibold text-[#202224]'>
+              <th className='text-center px-6 py-3 text-sm font-semibold'>
                 Bill Format
               </th>
-              <th className='text-center px-12 py-4 text-md font-semibold text-[#202224] rounded-tr-[15px]'>
+              <th className='text-center px-12 py-4 text-sm font-semibold rounded-tr-[15px]'>
                 Action
               </th>
             </tr>
@@ -199,27 +199,27 @@ function Expense () {
               expenses.map(expense => (
                 <tr
                   key={expense._id}
-                  className='border-b border-grey-300 text-[#4F4F4F]'
+                  className='border-b border-grey-300 text-[#4F4F4F] font-medium'
                 >
-                  <td className='px-6 py-4'>{expense.title}</td>
-                  <td className='px-6 py-6 line-clamp-1 max-w-[400px] max-h-[50px]'>
+                  <td className='px-6 py-4 text-base'>{expense.title}</td>
+                  <td className='px-6 py-6 line-clamp-1 max-w-[400px] max-h-[50px] text-base'>
                     {expense.description}
                   </td>
-                  <td className='px-6 py-4 text-center'>
+                  <td className='px-6 py-4 text-center text-base text-[16px]'>
                     {new Date(expense.date).toLocaleDateString('en-GB', {
                       day: '2-digit',
                       month: '2-digit',
                       year: 'numeric'
                     })}
                   </td>
-                  <td className='px-6 py-6 text-green-600 text-center'>
+                  <td className='px-6 py-6 text-green-600 text-center text-base'>
                     ₹ {expense.amount}
                   </td>
-                  <td className='px-6 py-6 flex items-center justify-center'>
+                  <td className='px-6 py-6 flex items-center justify-center text-base'>
                     <FileTypeIcon
                       fileName={getFileExtension(expense.bill)?.toUpperCase()}
                     />
-                    <span className='ml-2'>
+                    <span className='ml-2 text-base'>
                       {getFileExtension(expense.bill)?.toUpperCase()}
                     </span>
                   </td>
@@ -227,7 +227,7 @@ function Expense () {
                     <div className='flex gap-2 justify-center'>
                       <button
                         onClick={() => handleEditClick(expense)} // Open edit modal
-                        className='cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]'
+                        className='cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px] text-base'
                       >
                         <img src={edit} />
                       </button>
@@ -275,7 +275,7 @@ function Expense () {
                   <input
                     type='text'
                     placeholder='Enter Title'
-                    className='w-full p-2 border border-gray-300 rounded-lg'
+                    className='w-full p-2 border border-gray-300 text-sm rounded-[10px]'
                     value={newExpense.title}
                     onChange={e =>
                       setNewExpense({ ...newExpense, title: e.target.value })
@@ -291,7 +291,7 @@ function Expense () {
                   </label>
                   <textarea
                     placeholder='Enter Description'
-                    className='w-full p-2 border border-gray-300 rounded-lg'
+                    className='w-full p-2 border border-gray-300 text-sm rounded-[10px]'
                     value={newExpense.description}
                     onChange={e =>
                       setNewExpense({
@@ -311,7 +311,7 @@ function Expense () {
                     </label>
                     <input
                       type='date'
-                      className='w-full p-2 border border-gray-300 rounded-lg'
+                      className='w-full p-2 border border-gray-300 text-sm rounded-[10px]'
                       value={newExpense.date}
                       onChange={e =>
                         setNewExpense({ ...newExpense, date: e.target.value })
@@ -328,7 +328,7 @@ function Expense () {
                       <input
                         type='text'
                         placeholder='0000'
-                        className='w-full p-2 pl-7 border border-gray-300 rounded-lg'
+                        className='w-full p-2 pl-7 border border-gray-300 text-sm rounded-[10px]'
                         value={newExpense.amount}
                         onChange={e =>
                           setNewExpense({
@@ -344,18 +344,17 @@ function Expense () {
 
                 <div>
                   <label className='block text-sm text-wrap text-black-600 mb-1'>
-                   
                     Upload Bill*
                   </label>
                   <div
-                    className='border-2 text-wrap border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer'
-                    onClick={() => document.getElementById('fileInput').click()} // Trigger file input on click
-                    onDragOver={e => e.preventDefault()} // Prevent default behavior for drag over
+                    className='border-2 text-wrap border-dashed border-gray-300 rounded-[10px] p-4 text-center cursor-pointer'
+                    onClick={() => document.getElementById('fileInput').click()}
+                    onDragOver={e => e.preventDefault()}
                     onDrop={e => {
                       e.preventDefault()
                       const files = e.dataTransfer.files
                       if (files.length > 0) {
-                        setNewExpense({ ...newExpense, bill: files[0] }) // Set the first file
+                        setNewExpense({ ...newExpense, bill: files[0] })
                       }
                     }}
                   >
@@ -363,11 +362,16 @@ function Expense () {
                       <p className='text-gray-600'>{newExpense.bill.name}</p>
                     ) : (
                       <p className='text-black items-center justify-center flex flex-col'>
-                        <img src={Addimage} alt="" />
-                        Upload a file or drag and drop
+                        <img src={Addimage} alt='' />
+                        <div className='flex mb-[4px]'>
+                          <span className='text-[#5678E9] text-sm leading-[21px] font-bold mr-[4px]'>
+                            Upload a file
+                          </span>
+                          <span className='text-[#4F4F4F] text-sm leading-[21px] font-bold'>or drag and drop</span>
+                        </div>
                       </p>
                     )}
-                    <p className='text-xs text-gray-500'>
+                    <p className='text-xs text-[#A7A7A7]'>
                       PNG, JPG, GIF up to 10MB
                     </p>
                   </div>

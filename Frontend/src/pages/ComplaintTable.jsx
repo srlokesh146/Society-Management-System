@@ -88,30 +88,30 @@ const ComplaintPage = () => {
             </button>
           </div>
 
-          <div className='overflow-x-auto '>
+          <div className='overflow-y-auto pr-[8px] max-h-[43.5rem] custom-scrollbar overflow-x-auto'>
             <table className='w-full'>
               <thead>
-                <tr className='border-b bg-indigo-50 rounded-lg overflow-hidden h-[61px]'>
-                  <th className='text-left px-8 py- text-sm font-semibold text-black-500 rounded-tl-[15px]'>
+                <tr className='border-b bg-indigo-50 rounded-lg overflow-hidden h-[61px] text-nowrap text-[text-[#4F4F4F]'>
+                  <th className='text-left px-8 py- text-sm font-semibold rounded-tl-[15px]'>
                     Complainer Name
                   </th>
-                  <th className='px-9 py-3 text-sm font-semibold text-black-500 text-center'>
+                  <th className='px-9 py-3 text-sm font-semibold text-center'>
                     Complaint Name
                   </th>
-                  <th className='px-24 py-3 text-sm font-semibold text-black-500 text-center'>
+                  <th className='px-24 py-3 text-sm font-semibold text-center'>
                     Description
                   </th>
-                  {/* <th className="px-4 py-3 text-sm font-medium text-black-500">Complaint Date</th> */}
-                  <th className='px-4 py-3 text-sm font-semibold text-black-500 text-center'>
+                  {/* <th className="px-4 py-3 text-sm font-medium">Complaint Date</th> */}
+                  <th className='px-4 py-3 text-sm font-semibold text-center'>
                     Unit Number
                   </th>
-                  <th className='px-7  py-3 text-sm font-semibold text-black-500 text-center'>
+                  <th className='px-7 py-3 text-sm font-semibold text-center'>
                     Priority
                   </th>
-                  <th className='px-8    py-3 text-sm font-semibold text-black-500 text-center'>
+                  <th className='px-8 py-3 text-sm font-semibold text-center'>
                     Status
                   </th>
-                  <th className='px-14 py-3 text-sm font-semibold text-black-500 rounded-tr-[15px] text-center'>
+                  <th className='px-14 py-3 text-sm font-semibold rounded-tr-[15px] text-center'>
                     Action
                   </th>
                 </tr>
@@ -121,7 +121,7 @@ const ComplaintPage = () => {
                   complaints.map(complaint => (
                     <tr
                       key={complaint._id}
-                      className='border-b hover:bg-gray-50 text-[#4F4F4F]'
+                      className='border-b hover:bg-gray-50 text-[#4F4F4F] text-nowrap'
                     >
                       <td className='px-6 py-[14px]'>
                         <div className='flex items-center gap-3'>
@@ -130,15 +130,15 @@ const ComplaintPage = () => {
                             alt=''
                             className='w-8 h-8 rounded-full'
                           />
-                          <span className='text-[14px] font-medium  text-[#4F4F4F]'>
+                          <span className='text-base font-medium text-[#4F4F4F]'>
                             {complaint.complainer}
                           </span>
                         </div>
                       </td>
-                      <td className='px-6 py-6 text-center text-[14px]'>
+                      <td className='px-6 py-6 text-center text-base font-medium '>
                         {complaint.name}
                       </td>
-                      <td className='px-6 py-6 line-clamp-1 max-w-[400px] max-h-[50px] text-center text-[14px]'>
+                      <td className='px-6 py-6 line-clamp-1 max-w-[400px] max-h-[50px] text-center text-base font-medium '>
                         {complaint.description}
                       </td>
 
@@ -146,24 +146,24 @@ const ComplaintPage = () => {
                       <td className='px-6 py-[14px] text-[#4F4F4F] text-center'>
                         <div className='flex items-center justify-center gap-2'>
                           <span
-                            className={`bg-blue-50 text-blue-600 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold`}
+                            className="bg-blue-50 text-blue-600 w-6 h-6 rounded-full flex items-center justify-center text-base font-medium"
                           >
                             {complaint.wing}
                           </span>
-                          <span className='text-sm font-medium text-gray-600'>
+                          <span className='text-base font-medium text-gray-600'>
                             {complaint.unit}
                           </span>
                         </div>
                       </td>
                       <td className='px-6 py-[14px] text-[#4F4F4F]  text-center'>
-                      <div className='flex items-center justify-center'>
-                      <PriorityBadge priority={complaint.priority} />
-                      </div>
+                        <div className='flex items-center justify-center'>
+                          <PriorityBadge priority={complaint.priority} />
+                        </div>
                       </td>
                       <td className='text-[#4F4F4F] text-center'>
-                       <div className='flex items-center justify-center'> 
-                       <StatusBadge status={complaint.status} />
-                       </div>
+                        <div className='flex items-center justify-center'>
+                          <StatusBadge status={complaint.status} />
+                        </div>
                       </td>
                       <td className='px-6 py-[14px] text-center'>
                         <div className='flex gap-2 justify-center'>

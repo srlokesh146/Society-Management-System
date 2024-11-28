@@ -30,7 +30,7 @@ exports.addTenante = async (req, res) => {
       UnitStatus,
     } = req.body;
     const password = generatePassword();
-    console.log(password);
+   
 
     const hashpassword = await hash(password);
 
@@ -47,7 +47,7 @@ exports.addTenante = async (req, res) => {
           });
           return result.secure_url;
         } catch (error) {
-          console.error("Error uploading to Cloudinary:", error);
+          
           throw error;
         }
       }
@@ -115,11 +115,7 @@ exports.addTenante = async (req, res) => {
 
     await newOwner.save();
 
-    // await senData(
-    //   newOwner.Email_address,
-    //   "Tenante Registration Successful - Login Details",
-    //   `Dear ${newOwner.Full_name},\n\nYou have successfully registered as a Tenante. Your login details are as follows:\n\nUsername: ${newOwner.Email_address}\nPassword: <b> ${password}</b>\n\nPlease keep this information secure.\n\nBest Regards,\nManagement`
-    // );
+   
     await senData(newOwner.Email_address, "Registration Successfully" ,ForgotFormatResident(newOwner.Full_name,newOwner.Email_address,password));
 
     // Handle Member Counting
@@ -146,7 +142,7 @@ exports.addTenante = async (req, res) => {
       message: "Tenante data added successfully",
     });
   } catch (error) {
-    console.error("Error adding owner data:", error);
+    
     return res.status(500).json({
       success: false,
       message: "Failed to add Tenant data",
@@ -155,7 +151,7 @@ exports.addTenante = async (req, res) => {
 };
 exports.GetAllTenante = async (req, res) => {
   try {
-    // Fetch all owners sorted by Wing and Unit
+    
     const owners = await Tenante.find().sort({ Wing: 1, Unit: 1 });
 
     if (!owners || owners.length === 0) {
@@ -180,13 +176,13 @@ exports.GetAllTenante = async (req, res) => {
         : 0,
     }));
 
-    // Respond with only the counts
+  
     return res.json({
       success: true,
       Owner: ownerCounts,
     });
   } catch (error) {
-    console.error("Error fetching owner Tenante:", error);
+    
     return res.status(500).json({
       success: false,
       message: "Failed to retrieve Tenante data",
@@ -233,7 +229,7 @@ exports.updateTenantData = async (req, res) => {
       return "";
     };
 
-    // Upload images to Cloudinary and delete local files (only if new files are uploaded)
+   
     const profileImage = req.files?.profileImage
       ? await uploadAndDeleteLocal(req.files?.profileImage)
       : null;
@@ -303,7 +299,7 @@ exports.updateTenantData = async (req, res) => {
       message: "Tenant data updated successfully",
     });
   } catch (error) {
-    console.error("Error updating tenant data:", error);
+    
     return res.status(500).json({
       success: false,
       message: "Failed to update tenant data",

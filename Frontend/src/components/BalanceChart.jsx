@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Line } from 'react-chartjs-2'
 import { FaChevronDown } from 'react-icons/fa'
+import downicon from '../assets/images/downicon.svg'
 import {
   Chart as ChartJS,
   LinearScale,
@@ -23,7 +24,7 @@ ChartJS.register(
 )
 
 const BalanceChart = () => {
-  const [selectedPeriod, setSelectedPeriod] = useState('Last week')
+  const [selectedPeriod, setSelectedPeriod] = useState('Month')
   const [isOpen, setIsOpen] = useState(false)
   const [chartData, setChartData] = useState({
     labels: ['January', 'February', 'March', 'April'],
@@ -35,8 +36,8 @@ const BalanceChart = () => {
         backgroundColor: '#9CABFF',
         fill: true,
         borderWidth: 2,
-        borderJoinStyle: 'round', 
-        tension: 0.4, 
+        borderJoinStyle: 'round',
+        tension: 0.4,
         pointStyle: 'circle',
         pointRadius: 6,
         pointHoverRadius: 8
@@ -159,20 +160,21 @@ const BalanceChart = () => {
   }
 
   return (
-    <div className='p-[20px] bg-white rounded-[15px] shadow-lg h-full'>
+    <div className='p-[20px] bg-white rounded-[15px]  h-full'>
       <div className='flex justify-between items-center mb-4'>
         <h3 className='text-lg font-semibold'>Total Balance</h3>
         <div className='relative'>
           <button
             onClick={handleToggleDropdown}
-            className='border border-gray-300 rounded-lg px-2 py-1 text-gray-700 flex items-center w-[116px] text-[15px]'
+            className='border border-gray-300 rounded-lg ps-[14px] py-1 text-[] flex items-center w-[120px] text-[15px] h-[44px] capitalize font-semibold'
           >
-            {selectedPeriod} <FaChevronDown className='ml-2 text-[10px]' />
+            {selectedPeriod}{' '}
+            <img src={downicon} className='ml-[9px] text-[12px] text-[#202224] ' />
           </button>
           {isOpen && (
-            <div className='absolute z-10 left-[-39px] bg-white border border-gray-300 rounded-lg shadow-lg mt-1 w-[149px]'>
-              {['Select Month', 'Last week', 'month', 'Last year'].map(
-                (option, index) => (
+            <div className='absolute z-10 left-[-39px] bg-white rounded-lg shadow-[0px_0px_40px_0px_#0000000D] mt-1 w-[160px] py-[15px]'>
+              {['Select Month', 'Last week', 'Month', 'Last year'].map(
+                (option) => (
                   <div
                     key={option}
                     onClick={
@@ -180,10 +182,12 @@ const BalanceChart = () => {
                         ? null
                         : () => handleOptionClick(option)
                     }
-                    className={`flex items-center px-2 py-[3px] cursor-pointer hover:bg-gray-100 ${
+                    className={`flex items-center bg-white cursor-pointer mb-[10px] ps-[15px] ${
                       option === 'Select Month'
-                        ? 'text-gray-400 cursor-default'
-                        : ''
+                        ? 'text-gray-400 cursor-not-allowed'
+                        : selectedPeriod === option
+                        ? 'font-semibold text-black'
+                        : 'text-gray-600'
                     }`}
                   >
                     <input
@@ -191,7 +195,8 @@ const BalanceChart = () => {
                       name='period'
                       checked={selectedPeriod === option}
                       onChange={() => handleOptionClick(option)}
-                      className='mr-2 border-custom-gradient'
+                      className='custom-radio mr-2'
+                      disabled={option === 'Select Month'}
                     />
                     {option}
                   </div>

@@ -94,7 +94,7 @@ function Note () {
   }, [])
 
   return (
-    <div className='container mx-auto p-4 sm:p-6  bg-white rounded-lg'>
+    <div className='container mx-auto p-4 sm:p-6  bg-white rounded-[10px]'>
       <div className='flex justify-between   items-center  mb-6'>
         <h1 className='text-[20px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px]'>
           Note
@@ -112,7 +112,7 @@ function Note () {
           notes.map(note => (
             <div
               key={note._id}
-              className='bg-white rounded-lg border border-grey-800 hover:shadow-sm transition-shadow'
+              className='bg-white rounded-[10px] border border-grey-800 hover:shadow-sm transition-shadow'
             >
               <div className='bg-[#5678E9] text-white p-4 rounded-t-lg flex justify-between items-center'>
                 <h3 className='font-medium'>{note.title}</h3>
@@ -156,7 +156,7 @@ function Note () {
       {/* Create/Edit Modal */}
       {isModalOpen && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4'>
-          <div className='bg-white rounded-lg w-[400px] max-w-md'>
+          <div className='bg-white rounded-[10px] w-[400px] max-w-md'>
             <div className='p-6'>
               <h2 className='text-xl font-semibold mb-3'>
                 {modalType === 'create' ? 'Add Note' : 'Edit Note'}
@@ -172,7 +172,7 @@ function Note () {
                     type='text'
                     value={currentNote?.title || ''}
                     onChange={e => handleNoteChange('title', e.target.value)}
-                    className='w-full p-3 border border-gray-200 rounded-lg'
+                    className='w-full p-3 border border-gray-200 rounded-[10px] text-sm'
                     placeholder='Enter title'
                   />
                 </div>
@@ -187,7 +187,7 @@ function Note () {
                     onChange={e =>
                       handleNoteChange('description', e.target.value)
                     }
-                    className='w-full p-3 border border-gray-200 rounded-lg h-24'
+                    className='w-full p-3 border border-gray-200 rounded-[10px] h-24 text-sm'
                     placeholder='Enter description'
                   />
                 </div>
@@ -205,7 +205,7 @@ function Note () {
                         : ''
                     }
                     onChange={e => handleNoteChange('date', e.target.value)}
-                    className='w-full p-3 border border-gray-200 rounded-lg'
+                    className='w-full p-3 border border-gray-200 rounded-[10px] text-sm'
                   />
                 </div>
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { FaEdit, FaEllipsisV, FaTimes } from 'react-icons/fa'
+import { FaEllipsisV } from 'react-icons/fa'
+import { IoMdClose } from "react-icons/io";
 import { toast } from 'react-hot-toast'
 import {
   CreateFacility,
@@ -113,7 +114,7 @@ function FacilityManagement () {
           type='text'
           value={currentFacility?.name || ''}
           onChange={e => handleFacilityChange('name', e.target.value)}
-          className='w-full p-3 border border-gray-200 rounded-lg'
+          className='w-full p-3 border border-gray-200 rounded-[10px]'
           placeholder='Enter facility title'
         />
       </div>
@@ -126,7 +127,7 @@ function FacilityManagement () {
           name='description'
           value={currentFacility?.description || ''}
           onChange={e => handleFacilityChange('description', e.target.value)}
-          className='w-full p-3 border border-gray-200 rounded-lg h-24'
+          className='w-full p-3 border border-gray-200 rounded-[10px] h-24'
           placeholder='Enter description'
         />
       </div>
@@ -145,7 +146,7 @@ function FacilityManagement () {
                 : ''
             }
             onChange={e => handleFacilityChange('date', e.target.value)}
-            className='w-full p-3 border border-gray-200 rounded-lg'
+            className='w-full p-3 border border-gray-200 rounded-[10px]'
           />
         </div>
         <div>
@@ -157,7 +158,7 @@ function FacilityManagement () {
             type='number'
             value={currentFacility?.remind || ''}
             onChange={e => handleFacilityChange('remind', e.target.value)}
-            className='w-full p-3 border border-gray-200 rounded-lg'
+            className='w-full p-3 border border-gray-200 rounded-[10px]'
             placeholder='Enter days'
             min='1'
           />
@@ -169,14 +170,14 @@ function FacilityManagement () {
         <button
           type='button'
           onClick={handleCloseModal}
-          className='w-full h-[51px]  text-gray-700 bg-white border border-gray-200 rounded-lg text-sm font-medium'
+          className='w-full h-[51px]  text-gray-700 bg-white border border-gray-200 rounded-[10px] text-sm font-medium'
         >
           Cancel
         </button>
         <button
           type='submit'
           disabled={!isFormFilled}
-          className={`w-full h-[51px] text-sm font-medium rounded-lg transition-all duration-300
+          className={`w-full h-[51px] text-sm font-medium rounded-[10px] transition-all duration-300
             ${
               isFormFilled
                 ? 'bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90'
@@ -203,25 +204,25 @@ function FacilityManagement () {
   }, [])
 
   return (
-    <div className='container mx-auto p-4 sm:p-6 bg-white rounded-lg '>
+    <div className='container mx-auto p-4 sm:p-6 bg-white rounded-[10px] '>
       <div className='flex justify-between  items-center mb-6 max-sm:flex-col'>
         <h1 className='text-[20px] font-semibold text-gray-800 max-xl:mb-0 max-sm:mb-[15px]'>
           Facility Management
         </h1>
         <button
           onClick={handleCreateFacility}
-          className='px-4 py-3 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white rounded-lg hover:opacity-90 flex items-center gap-2'
+          className='px-4 py-3 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white rounded-[10px] hover:opacity-90 flex items-center gap-2'
         >
           Create Facility
         </button>
       </div>
 
-      <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+      <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4  gap-4'>
         {facilities.length > 0 ? (
           facilities.map(facility => (
             <div
               key={facility._id}
-              className='bg-white rounded-lg shadow-sm  bordre border border-grey-800 hover:shadow-sm transition-shadow'
+              className='bg-white rounded-[10px] shadow-sm  bordre border border-grey-800 hover:shadow-sm transition-shadow'
             >
               <div className='bg-[#5678E9] text-white p-4 rounded-t-lg flex justify-between items-center'>
                 <h3 className='font-medium'>{facility.name}</h3>
@@ -282,9 +283,10 @@ function FacilityManagement () {
                 </h2>
                 <button
                   onClick={handleCloseModal}
-                  className='text-gray-400 hover:text-gray-600 p-1'
+                  className='text-black hover:text-gray-600 p-1'
                 >
-                  <FaTimes size={18} />
+                  <IoMdClose size={18} />
+
                 </button>
               </div>
 
@@ -300,7 +302,7 @@ function FacilityManagement () {
                     type='text'
                     value={currentFacility?.name || ''}
                     onChange={e => handleFacilityChange('name', e.target.value)}
-                    className='w-full p-2 sm:p-3 border border-gray-200 rounded-lg text-sm'
+                    className='w-full p-2 sm:p-3 border border-gray-200 rounded-[10px] text-sm'
                     placeholder='Enter facility title'
                   />
                 </div>
@@ -315,7 +317,7 @@ function FacilityManagement () {
                     onChange={e =>
                       handleFacilityChange('description', e.target.value)
                     }
-                    className='w-full p-2 sm:p-3 border border-gray-200 rounded-lg h-16 sm:h-24 text-sm'
+                    className='w-full p-2 sm:p-3 border border-gray-200 rounded-[10px] h-16 sm:h-24 text-sm'
                     placeholder='Enter description'
                   />
                 </div>
@@ -338,7 +340,7 @@ function FacilityManagement () {
                       onChange={e =>
                         handleFacilityChange('date', e.target.value)
                       }
-                      className='w-full p-2 sm:p-3 border border-gray-200 rounded-lg text-sm'
+                      className='w-full p-2 sm:p-3 border border-gray-200 rounded-[10px] text-sm'
                     />
                   </div>
                   <div>
@@ -352,7 +354,7 @@ function FacilityManagement () {
                       onChange={e =>
                         handleFacilityChange('remind', e.target.value)
                       }
-                      className='w-full p-2 sm:p-3 border border-gray-200 rounded-lg text-sm'
+                      className='w-full p-2 sm:p-3 border border-gray-200 rounded-[10px] text-sm'
                       placeholder='Enter days'
                       min='1'
                     />
