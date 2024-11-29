@@ -111,7 +111,7 @@ const ServiceAndComplaint = () => {
   }, [])
 
   return (
-    <div className='p-6 rounded-lg'>
+    <div className='rounded-lg'>
       {/* Tabs */}
       <div className='flex'>
         <button

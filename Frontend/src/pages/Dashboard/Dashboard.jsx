@@ -125,8 +125,8 @@ const Dashboard = () => {
 
   const fetchPendingMaintenance = async () => {
     try {
-      const response = await GetMaintenances();
-      setPendingMaintenance(response.data.Maintenance);
+      const response = await GetMaintenances()
+      setPendingMaintenance(response.data.Maintenance)
     } catch (error) {
       toast.error(error.response.data.message)
     }
@@ -174,10 +174,10 @@ const Dashboard = () => {
   ]
 
   return (
-    <div className="flex max-h-screen bg-gray-100">
-      <main className="flex-1">
+    <div className='flex max-h-screen bg-gray-100'>
+      <main className='flex-1'>
         <div>
-          <div className="grid grid-cols-4 col-span-2 gap-4 mb-6 max-xl:grid-cols-2 max-sm:grid-cols-2 max-2xl:grid-cols-2 relative z-[9] mt-[-10px]">
+          <div className='grid grid-cols-4 col-span-2 gap-4 mb-6 max-xl:grid-cols-2 max-sm:grid-cols-2 max-2xl:grid-cols-2 relative z-[9] mt-[-10px]'>
             {cardData.map((card, index) => (
               <div
                 key={index}
@@ -224,16 +224,15 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <div
-                      className='rounded-[15px]'
+                      className='rounded-[15px] transform translate-x-[23%] translate-y-[-5%] max-md:translate-y-[-4%] max-sm:translate-y-[-15%] max-sm:translate-x-[22.5%] max-sm:h-[95px] max-md:h-[80px] h-[95px] max-2xl:h-[88px] max-2xl:translate-y-[-5%] max-2xl:translate-x-[22%]'
                       style={{
                         position: 'absolute',
                         top: 0,
                         left: 0,
-                        right: '-31.2%',
-                        bottom: 10,
+                        right: 0,
+                        bottom: 0,
                         margin: 'auto',
                         width: '70%',
-                        height: '95px',
                         background: card.gradient,
                         zIndex: -1
                       }}
@@ -250,11 +249,10 @@ const Dashboard = () => {
               <BalanceChart />
             </div>
 
-
-            <div className="col-span-12 max-md:col-span-12 lg:col-span-3 max-xl:col-span-3 mt-[-13px]">
-              <div className="bg-white p-[20px] rounded-[15px] h-[360px] w-full">
-                <div className="flex justify-between items-center mb-5">
-                  <h3 className="text-lg font-semibold max-sm:text-[16px] max-mb:text-[18px]">
+            <div className='col-span-12 max-md:col-span-12 lg:col-span-3 max-xl:col-span-3 mt-[-13px]'>
+              <div className='bg-white p-[20px] rounded-[15px] h-[360px] w-full'>
+                <div className='flex justify-between items-center mb-5'>
+                  <h3 className='text-lg font-semibold max-sm:text-[16px] max-mb:text-[18px]'>
                     Important Numbers
                   </h3>
                   {role === 'admin' && (
@@ -348,10 +346,10 @@ const Dashboard = () => {
               )}
             </div>
 
-            <div className="max-md:col-span-12 lg:col-span-3 max-xl:col-span-3 mt-[-14px]">
-              <div className="bg-white p-[20px] rounded-[15px] h-full">
-                <div className="flex justify-between items-center mb-5">
-                  <h3 className="text-lg font-semibold max-sm:text-[16px] max-mb:text-[18px]">
+            <div className='max-md:col-span-12 lg:col-span-3 max-xl:col-span-3 mt-[-14px]'>
+              <div className='bg-white p-[20px] rounded-[15px] h-full'>
+                <div className='flex justify-between items-center mb-5'>
+                  <h3 className='text-lg font-semibold max-sm:text-[16px] max-mb:text-[18px]'>
                     Pending Maintenances
                   </h3>
                   <button className='py-[8px] px-[10px] rounded-[10px] text-[#5678E9] font-semibold text-[14px] leading-[14px]'>
@@ -408,12 +406,10 @@ const Dashboard = () => {
 
           {/* chart section end */}
 
-          <div className='grid grid-cols-8 w-full gap-4 h-full max-xl:grid-cols-6 max-2xl:grid-cols-6 mt-[20px]'>
-            <div className='col-span-12 max-md:col-span-12 max-lg:col-span-6 md:col-span-6 rounded-lg '>
+          <div className='grid grid-cols-8 w-full gap-4 h-full max-xl:grid-cols-6 max-2xl:grid-cols-6 mt-[20px] max-4xl:grid-cols-8'>
+            <div className='col-span-6 max-md:col-span-12 max-lg:col-span-12 rounded-lg max-xl:col-span-12 max-2xl:col-span-4'>
               <DashboardTable />
             </div>
-
-
             <div className="bg-[#fff] rounded-lg w-[380px] p-[20px] max-h-[330px] overflow-hidden  mt-[-5px]" >
               <div className="flex justify-between items-center mb-[27px] ps-[20px] pr-[20px] max-sm:ps-[10px] max-sm:pr-0">
                 <div className="flex items-center">
@@ -469,17 +465,25 @@ const Dashboard = () => {
                   )}
                 </div>
               </div>
-
-              <ul className='space-y-3 max-h-[300px] overflow-y-auto overflow-x-auto custom-scrollbar'>
-                {activities.length > 0 ? (
-                  activities.map((activity, index) => (
-                    <li
-                      key={activity._id}
-                      className='flex items-center justify-between bg-white py-[12px] px-[15px] rounded-lg  max-sm:px-[5px]'
-                    >
-                      <div className='flex items-center space-x-2'>
-                        <div className='w-[40px] h-[40px] bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-bold acvtivity'>
-                          {activity.title[0].toUpperCase()}
+                <ul className='space-y-3 max-h-[300px] overflow-y-auto overflow-x-auto custom-scrollbar text-nowrap'>
+                  {activities.length > 0 ? (
+                    activities.map((activity, index) => (
+                      <li
+                        key={activity._id}
+                        className='flex items-center justify-between bg-white py-[12px] px-[15px] rounded-lg  max-sm:px-[5px]'
+                      >
+                        <div className='flex items-center space-x-2'>
+                          <div className='w-[40px] h-[40px] bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-bold acvtivity'>
+                            {activity.title[0].toUpperCase()}
+                          </div>
+                          <div>
+                            <p className='text-sm font-medium  mb-1'>
+                              {activity.title}
+                            </p>
+                            <p className='text-[14px] text-[#A7A7A7]  leading-[19.5px]'>
+                              8:00 PM To 10:00 PM
+                            </p>
+                          </div>
                         </div>
                         <div>
                           <p className='text-sm font-medium  mb-1'>

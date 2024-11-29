@@ -25,6 +25,7 @@ import Addimage from "../assets/images/Addimage.svg";
 import { convert24hrTo12hr } from "../utils/ConvertTime";
 import { useDispatch } from 'react-redux'
 import { setLoading } from "../redux/features/LoaderSlice";
+import { IoMdClose } from "react-icons/io";
 
 function SecurityGuardDetails() {
   const [guards, setGuards] = useState([]);
@@ -637,7 +638,7 @@ function SecurityGuardDetails() {
       )}
 
       {isModalOpen && modalMode === "view" && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-[9999] p-4">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
@@ -650,7 +651,7 @@ function SecurityGuardDetails() {
                   }}
                   className="text-gray-400 hover:text-gray-600"
                 >
-                  <FaTimes size={20} />
+                  <IoMdClose  size={20} />
                 </button>
               </div>
               <div className="border-b border-[#F4F4F4] mb-[10px]"></div>

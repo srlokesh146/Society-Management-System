@@ -73,7 +73,7 @@ function DueMaintence () {
         <div>
           <h1 className='font-semibold font-md'>Due Maintence</h1>
         </div>
-        <div className='grid grid-cols-1  mt-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+        <div className='grid grid-cols-1  mt-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 relative'>
           {dueMaintenance.length > 0 ? (
             dueMaintenance.map(Duemaintence => (
               <div

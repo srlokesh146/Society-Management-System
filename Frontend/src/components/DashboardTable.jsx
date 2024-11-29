@@ -136,9 +136,9 @@ const DashboardTable = () => {
   }, [])
 
   return (
+
     <div className='bg-white pt-[10px] rounded-[15px] mt-[-5px] col-span-2 max-2xl:col-span-4 h-[330px] overflow-hidden'>
       <div className='flex justify-between items-center mb-[10px] ps-[20px] pr-[20px] '>
-
         <div>
           <h2 className='text-[20px] font-semibold leading-4 max-sm:text-[16px] max-mb:text-[18px] '>
             Complaint List
@@ -150,7 +150,10 @@ const DashboardTable = () => {
             className='border border-gray-300 rounded-lg ps-[14px] py-1 text-[] flex items-center w-[120px] text-[15px] h-[44px] capitalize font-semibold'
           >
             {selectedPeriod}{' '}
-            <img src={downicon} className='ml-[9px] text-[12px] text-[#202224] ' />
+            <img
+              src={downicon}
+              className='ml-[9px] text-[12px] text-[#202224] '
+            />
           </button>
           {isOpen && (
             <div className='absolute z-10 left-[-39px] bg-white rounded-lg shadow-[0px_0px_40px_0px_#0000000D] mt-1 w-[160px] py-[15px]'>
@@ -191,35 +194,38 @@ const DashboardTable = () => {
       <div className='overflow-y-auto pr-[8px] ps-[20px] max-h-[18rem] custom-scrollbar'>
         <table className='w-full table-auto border-collapse'>
           <thead>
-            <tr className='text-start text-black bg-opacity-custom rounded-tl-[15px] rounded-tr-[15px] bg-gray-100 h-[61px] #F4F4F4'>
-              <th className='text-[14px] leading-[21px] font-semibold rounded-tl-[15px] text-start ps-[20px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]'>
+            <tr className='text-start text-black bg-opacity-custom rounded-tl-[15px] rounded-tr-[15px] bg-gray-100 h-[61px] #F4F4F4 text-nowrap'>
+              <th className='text-[14px] leading-[21px] font-semibold rounded-tl-[15px] text-start ps-[20px] max-sm:min-w-[180px] max-md:min-w-[180px] max-lg:min-w-[180px]'>
                 Complainer Name
               </th>
-              <th className='text-[14px] leading-[21px] font-semibold text-start max-sm:min-w-[180px] md:min-w-[166px] max-md:min-w-[180px]'>
+              <th className='text-[14px] leading-[21px] font-semibold text-start max-sm:min-w-[180px] max-md:min-w-[180px] max-lg:min-w-[180px]'>
                 Complaint Name
               </th>
-              <th className='text-[14px] leading-[21px] font-semibold text-center max-sm:min-w-[180px] md:min-w-[166px] max-md:min-w-[180px]'>
+              <th className='text-[14px] leading-[21px] font-semibold text-center max-sm:min-w-[180px] max-md:min-w-[180px] max-lg:min-w-[180px]'>
                 Date
               </th>
-              <th className='text-[14px] leading-[21px] font-semibold text-center max-sm:min-w-[180px] md:min-w-[166px] max-md:min-w-[180px]'>
+              <th className='text-[14px] leading-[21px] font-semibold text-center max-sm:min-w-[180px] max-md:min-w-[180px] max-lg:min-w-[180px]'>
                 Priority
               </th>
-              <th className='text-[14px] leading-[21px] font-semibold text-center max-sm:min-w-[180px] md:min-w-[166px] max-md:min-w-[180px]'>
+              <th className='text-[14px] leading-[21px] font-semibold text-center max-sm:min-w-[180px] max-md:min-w-[180px] max-lg:min-w-[180px]'>
                 Complain Status
               </th>
               {role === 'admin' && (
-                <th className='text-[14px] leading-[21px] font-semibold rounded-tr-[15px] text-center max-sm:min-w-[180px] md:min-w-[166px] max-md:min-w-[180px]'>
+                <th className='text-[14px] leading-[21px] font-semibold rounded-tr-[15px] text-center max-sm:min-w-[180px] max-md:min-w-[180px] max-lg:min-w-[180px]'>
                   Action
                 </th>
               )}
             </tr>
           </thead>
-          <tbody className='custom-scrollbar max-h-64 overflow-y-auto'>
+          <tbody className='overflow-y-auto pr-[8px] ps-[20px] max-h-[18rem] custom-scrollbar'>
             {complaintList.length > 0 ? (
               complaintList.map(complaint => (
-                <tr key={complaint._id} className='border-b border-[#F4F4F4] '>
+                <tr
+                  key={complaint._id}
+                  className='border-b border-[#F4F4F4] text-nowrap'
+                >
                   <td>
-                    <div className='flex items-center justify-start ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]'>
+                    <div className='flex items-center justify-start ps-4 py-[16px]'>
                       <img
                         src={avatar}
                         alt='Profile'
