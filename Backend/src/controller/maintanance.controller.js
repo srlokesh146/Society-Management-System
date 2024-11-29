@@ -7,6 +7,8 @@ const Maintenance = require("../models/maintenance.model");
 const Owner = require("../models/Owener.model");
 const Tenante = require("../models/Tenent.model");
 const Notification = require("../models/notification.schema");
+const PDFDocument = require('pdfkit');
+const path = require('path');
 //check password correction in maintenance
 exports.CheckMaintenancePassword = async (req, res) => {
     try {
@@ -311,3 +313,118 @@ exports.CheckMaintenancePassword = async (req, res) => {
       });
     }
   };
+  
+
+exports.GeneratePdf = async (req, res) => {
+  try {
+  
+    const {
+      invoiceId,
+      ownerName,
+      billDate,
+      paymentDate,
+     
+      phoneNumber,
+      email,
+      Wing,
+      Unit,
+      maintenanceAmount,
+      penaltyAmount,
+      grandTotal,
+      note,
+    } = req.body;
+
+    const doc = new PDFDocument({ margin: 40 });
+
+   
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=maintenance_invoice.pdf');
+
+    
+    doc.pipe(res);
+
+   
+    doc
+      .fontSize(18)
+      .text('Maintenance Invoice', { align: 'center' })
+      .moveDown();
+
+   
+    doc
+      .fontSize(12)
+      .text(`Invoice ID: ${invoiceId}`)
+      .text(`Owner Name: ${ownerName}`)
+      .text(`Bill Date: ${billDate}`)
+      .text(`Payment Date: ${paymentDate || '--'}`)
+      
+      .text(`Phone Number: ${phoneNumber}`)
+      .text(`Email: ${email}`)
+      .text(`Address: ${Wing || 'N/A'}-${Unit || 'N/A'}`)
+      .moveDown();
+
+   
+    doc
+      .fontSize(14)
+      .text('Invoice Summary', { align: 'center' })
+      .moveDown(0.5);
+
+    const tableTop = doc.y;
+    const tableLeft = 50;
+
+   
+    doc
+      .fontSize(10)
+      .text('Details', tableLeft, tableTop)
+      .text('Amount (₹)', 400, tableTop, { width: 90, align: 'right' });
+
+    
+    doc
+      .moveTo(tableLeft, tableTop + 15)
+      .lineTo(500, tableTop + 15)
+      .stroke();
+
+    let yPosition = tableTop + 25;
+
+    
+    const addTableRow = (label, value) => {
+      doc
+        .fontSize(10)
+        .text(label, tableLeft, yPosition)
+        .text(`₹${value.toLocaleString()}`, 400, yPosition, { width: 90, align: 'right' });
+      yPosition += 20; 
+    };
+
+  
+    addTableRow('Maintenance Amount', maintenanceAmount);
+    addTableRow('Penalty Amount', penaltyAmount);
+    addTableRow('Grand Total', grandTotal);
+
+    
+    doc
+      .moveTo(tableLeft, yPosition)
+      .lineTo(500, yPosition)
+      .stroke();
+
+    yPosition += 20;
+
+    
+    doc
+      .fontSize(12)
+      .text('Note:', tableLeft, yPosition)
+      .fontSize(10)
+      .text(note || '--', tableLeft + 50, yPosition);
+
+    
+    doc
+      .moveDown(2)
+      .fontSize(10)
+      .text('Thank you for your payment!', { align: 'center' });
+
+    
+    doc.end();
+
+  } catch (error) {
+    console.error('Error generating maintenance invoice:', error);
+    res.status(500).json({ error: 'Internal server error.' });
+  }
+};
