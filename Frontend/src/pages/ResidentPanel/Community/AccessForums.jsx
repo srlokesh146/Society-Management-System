@@ -93,7 +93,6 @@ export default function AccessForums() {
     }
   };
 
-  // 896693
   const fetchChatHistory = async () => {
     try {
       const receiverId = receiver._id;

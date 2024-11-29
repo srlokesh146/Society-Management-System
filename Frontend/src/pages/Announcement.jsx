@@ -256,8 +256,8 @@ function Announcement() {
                     onChange={(e) =>
                       handleAnnouncementChange("title", e.target.value)
                     }
-                    className='w-full p-3 border border-gray-200 rounded-lg text-sm sm:text-base focus:outline-none focus:border-black'
-                    placeholder='Enter title'
+                    className="w-full p-3 border border-gray-200 rounded-lg text-sm sm:text-base focus:outline-none focus:border-black"
+                    placeholder="Enter title"
                   />
                 </div>
                 <div>
@@ -269,8 +269,8 @@ function Announcement() {
                     onChange={(e) =>
                       handleAnnouncementChange("description", e.target.value)
                     }
-                    className='w-full p-3 border border-gray-200 rounded-lg text-sm sm:text-base focus:outline-none focus:border-black h-20 sm:h-24'
-                    placeholder='Enter description'
+                    className="w-full p-3 border border-gray-200 rounded-lg text-sm sm:text-base focus:outline-none focus:border-black h-20 sm:h-24"
+                    placeholder="Enter description"
                   ></textarea>
                 </div>
 
@@ -291,7 +291,7 @@ function Announcement() {
                       onChange={(e) =>
                         handleAnnouncementChange("date", e.target.value)
                       }
-                      className='w-full p-3 border border-gray-200 rounded-lg text-sm sm:text-base focus:outline-none focus:border-black'
+                      className="w-full p-3 border border-gray-200 rounded-lg text-sm sm:text-base focus:outline-none focus:border-black"
                     />
                   </div>
                   <div>
@@ -304,7 +304,7 @@ function Announcement() {
                       onChange={(e) =>
                         handleAnnouncementChange("time", e.target.value)
                       }
-                      className='w-full p-3 border border-gray-200 rounded-lg text-sm sm:text-base focus:outline-none focus:border-black'
+                      className="w-full p-3 border border-gray-200 rounded-lg text-sm sm:text-base focus:outline-none focus:border-black"
                     />
                   </div>
                 </div>
@@ -400,7 +400,7 @@ function Announcement() {
                       Time
                     </label>
                     <p className="text-sm sm:text-base">
-                      {currentAnnouncement.time}
+                      {convert24hrTo12hr(currentAnnouncement.time)}
                     </p>
                   </div>
                 </div>

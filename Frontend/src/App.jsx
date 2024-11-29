@@ -48,6 +48,7 @@ import AdminIncome from "./components/modal/AdminIncome.jsx";
 import { io } from "socket.io-client";
 import Constant from "./config/Constant.jsx";
 import OtherInvoices from "./pages/ResidentPanel/OtherInvoices.jsx";
+import AdminRoutes from "./routes/AdminRoutes.jsx";
 
 function App() {
   const [isSidebaropen, setSidebaropen] = useState(false);
@@ -122,13 +123,19 @@ function App() {
                   path="/editprofile"
                   element={
                     <PrivateRoutes>
-                      <EditProfileForm />
+                      <AdminRoutes>
+                        <EditProfileForm />
+                      </AdminRoutes>
                     </PrivateRoutes>
                   }
                 />
                 <Route
                   path="/residentmanagement"
-                  element={<Residentmanagement />}
+                  element={
+                    <PrivateRoutes>
+                      <AdminRoutes></AdminRoutes>
+                    </PrivateRoutes>
+                  }
                 />
                 <Route
                   path="/complainttable"

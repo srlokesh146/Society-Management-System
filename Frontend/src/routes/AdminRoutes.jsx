@@ -5,8 +5,10 @@ import { Navigate } from "react-router-dom";
 const AdminRoutes = ({ children }) => {
   const { role } = useSelector((store) => store.auth.user);
 
-  if (role !== "admin") {
+  if (role === "security") {
     return <Navigate to="/visitortracking" />;
+  } else if (role === "resident") {
+    return <Navigate to="/dashboard" />;
   }
 
   return <>{children}</>;

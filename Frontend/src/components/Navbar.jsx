@@ -8,7 +8,7 @@ import NotificationImage from "../assets/images/notificationimage.png";
 import search from "../assets/images/search.svg";
 import useCurrentPath from "./useCurrentPath";
 import { FaChevronRight } from "react-icons/fa6";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PayNowModal from "./modal/PayNowModal";
 import PayPersonModal from "./modal/PayPersonModal";
 import PayMentMathodModal from "./modal/PayMentMathodModal";
@@ -19,8 +19,13 @@ import {
   GetNotifications,
 } from "../services/notificationService";
 import { toast } from "react-hot-toast";
+import { allNotification } from "../redux/features/notificationSlice";
 
 const Navbar = () => {
+  const notifications = useSelector(
+    (store) => store.notification.notificationList
+  );
+  const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
   const [showSearch, setShowSearch] = useState(true);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -31,7 +36,7 @@ const Navbar = () => {
   const [selectedMembers, setSelectedMembers] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAccepted, setIsAccepted] = useState(false);
-  const [notificationList, setIsNotificationList] = useState([]);
+  const [notificationList, setIsNotificationList] = useState(notifications);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -60,8 +65,11 @@ const Navbar = () => {
   };
 
   const handleOpenModal = () => {
-    setIsModalOpen(true);
-    setIsAccepted(true);
+    if (user.role === "admin") {
+      navigate("/income");
+    } else if (user.role === "resident") {
+      navigate("/maintenceinvoices");
+    }
   };
 
   const handleChange = (e) => {
@@ -120,6 +128,7 @@ const Navbar = () => {
   const fetchNotifications = async () => {
     try {
       const response = await GetNotifications();
+      dispatch(allNotification(response.data.notifications));
       setIsNotificationList(response.data.notifications);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -133,17 +142,15 @@ const Navbar = () => {
     }
   }, []);
 
+  useEffect(() => {
+    setIsNotificationList(notifications);
+  }, [notifications]);
+
   return (
     <div className=" flex justify-between items-center p-4 bg-white sticky top-0 left-0 w-full z-[99] max-md:justify-start max-md:flex max-md:items-start max-sm:flex-col max-sm:justify-start max-sm:items-start max-lg:pl-[50px]">
       {showSearch ? (
         <div className="search-icon relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-[35px] max-sm:hidden ">
           <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-0 max-sm:hidden">
-            {/* <input
-              type="text"
-              placeholder="Search..."
-              className="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 bg-[#F6F8FB] max-sm:mb-[15px] max-xl:ml-[15px]"
-            /> */}
-
             <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-0 max-sm:hidden">
               <input
                 type="text"
@@ -199,6 +206,10 @@ const Navbar = () => {
             className="text-black cursor-pointer border border-[#D3D3D3] rounded-[10px] p-[8px] md:block max-sm:rounded-full max-sm:bg-[#F6F8FB] max-sm:border-none max-sm:w-[50px] max-sm:h-[50px] max-sm:p-[10px]"
             onClick={handleNotificationClick}
           />
+
+          <span className="absolute text-xs -top-1 -right-1 bg-red-500 px-1 rounded-full text-white">
+            {notificationList.length}
+          </span>
 
           {/* Notification Dropdown */}
           {isNotificationOpen && (
@@ -266,7 +277,7 @@ const Navbar = () => {
                                 : "bg-[#5678E9] text-white border border-gray-300"
                             }`}
                           >
-                            Accept
+                            View
                           </button>
                           <button
                             onClick={() =>
