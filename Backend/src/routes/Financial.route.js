@@ -67,6 +67,8 @@ router.get(
 router.post("/applypenlty", MaintenanceController.applyPenalty);
 //get done maintannace
 router.get("/donemaintannace", MaintenanceController.GetMaintananceDone);
+//generate pdf maintanance
+router.post("/main/generate-pdf",MaintenanceController.GeneratePdf)
 //add income
 router.post("/addincome", FinancialController.CreateIncome);
 //get income
@@ -93,5 +95,7 @@ router.get(
   auth,
   FinancialController.FindByIdUserAndIncome
 );
+//generate pdf income
+router.post("/generate-pdf",FinancialController.GeneratePdf)
 
 module.exports = router;
