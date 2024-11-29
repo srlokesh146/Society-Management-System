@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { FaCamera, FaImage, FaUpload, FaCheckCircle } from 'react-icons/fa'
-import { IoIosArrowDown } from 'react-icons/io'
-import TenantForm from './TenantForm'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-hot-toast'
-import { CreateOwner, UpdateOwner } from '../services/ownerTenantService'
-import { useLocation } from 'react-router-dom'
+
+import React, { useState, useEffect } from "react";
+import { FaCamera, FaImage, FaUpload, FaCheckCircle } from "react-icons/fa";
+import { IoIosArrowDown } from "react-icons/io";
+import TenantForm from "./TenantForm";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { CreateOwner, UpdateOwner } from "../services/ownerTenantService";
+import { useLocation } from "react-router-dom";
+import { useDispatch } from 'react-redux'
+import { setLoading } from "../redux/features/LoaderSlice";
 
 export default function OwnerForm () {
   const location = useLocation()
@@ -26,19 +29,21 @@ export default function OwnerForm () {
     Adhar_front: null,
     Adhar_back: null,
     Address_proof: null,
-    Rent_Agreement: null
-  })
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [activeTab, setActiveTab] = useState('owner')
-  const [memberCount, setMemberCount] = useState(1)
-  const [vehicleCount, setVehicleCount] = useState(1)
-  const [isFormValid, setIsFormValid] = useState(false)
-  const [profilePhoto, setProfilePhoto] = useState(null)
-  const [profilePhotoPreview, setProfilePhotoPreview] = useState(null)
-  const navigate = useNavigate()
-  const [errors, setErrors] = useState({})
-  const [submitted, setSubmitted] = useState(false)
-  const [edit, setEdit] = useState(false)
+    Rent_Agreement: null,
+  });
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("owner");
+  const [memberCount, setMemberCount] = useState(1);
+  const [vehicleCount, setVehicleCount] = useState(1);
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState(null);
+  const [profilePhotoPreview, setProfilePhotoPreview] = useState(null);
+  const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (resident) {
@@ -115,12 +120,14 @@ export default function OwnerForm () {
 
     if (Object.keys(newErrors).length === 0) {
       try {
-        const response = await CreateOwner(formData)
-        toast.success(response.data.message)
-        navigate('/residentmanagement')
+        setIsLoading(true)
+        const response = await CreateOwner(formData);
+        toast.success(response.data.message);
+        navigate("/residentmanagement");
       } catch (error) {
         toast.error(error.response.data.message)
       } finally {
+        setIsLoading(false)
         setFormData({
           Member_Counting: [],
           Vehicle_Counting: [],
@@ -237,9 +244,9 @@ export default function OwnerForm () {
   }
 
   return (
-    <div className='min-h-[100vh] p-4 bg-gray-100'>
-      {/* Tab Buttons */}
-      <div className='flex'>
+    <div className="min-h-screen p-4 bg-gray-100 " >
+      {/* Tab Buttons */} 
+      <div className="flex">
         <button
           className={`px-6 py-[14px] rounded-t-[10px] w-[135px] font-semibold text-[#202224] ${
             activeTab === 'owner'
@@ -262,9 +269,15 @@ export default function OwnerForm () {
         </button>
       </div>
 
+
+      {isLoading && (
+  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+    <div className="loader w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+)}
       {/* Form Container */}
-      <div className='bg-white rounded-lg p-6 shadow-md'>
-        <div className='grid grid-cols-1 md:grid-cols-12 gap-4'>
+      <div className="bg-white rounded-lg p-6 shadow-md ">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
           {/* Profile Photo Section */}
           <div className='md:col-span-2 flex flex-col items-center'>
             <div className='relative w-24 h-24'>
@@ -1004,9 +1017,12 @@ export default function OwnerForm () {
 
                 {/* Vehicle Form Fields */}
                 {formData?.Vehicle_Counting.map((vehicle, index) => (
-                  <div key={index} className='grid grid-cols-2 gap-4 mt-4'>
-                    <div className='relative'>
-                      <label className='block text-sm text-black-500 font-lighter mb-1'>
+                  <div
+                    key={index}
+                    className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4"
+                  >
+                    <div className="relative">
+                      <label className="block text-xs text-black-500 font-lighter mb-1">
                         Vehicle Type*
                       </label>
                       <select

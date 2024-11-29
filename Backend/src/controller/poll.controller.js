@@ -36,6 +36,7 @@ exports.createPoll = async (req, res) => {
         await poll.save();
         return res.status(201).json({ success: true, message:"Poll created Successfully" });
     } catch (error) {
+      console.log(error);
       
         return res.status(500).json({ success: false, message: 'Error creating poll' });
     }

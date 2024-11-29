@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import { FaCamera, FaImage, FaUpload, FaCheckCircle } from 'react-icons/fa'
-import { IoIosArrowDown } from 'react-icons/io'
-import OwnerForm from './OwnerForm'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { CreateTenant, UpdateTenant } from '../services/ownerTenantService'
-import toast from 'react-hot-toast'
+
+import React, { useState, useEffect } from "react";
+import { FaCamera, FaImage, FaUpload, FaCheckCircle } from "react-icons/fa";
+import { IoIosArrowDown } from "react-icons/io";
+import OwnerForm from "./OwnerForm";
+import { useLocation, useNavigate } from "react-router-dom";
+import { CreateTenant, UpdateTenant } from "../services/ownerTenantService";
+import toast from "react-hot-toast";
+import { useDispatch } from 'react-redux'
+import { setLoading } from "../redux/features/LoaderSlice";
 
 export default function TeantForm () {
   const location = useLocation()
@@ -30,17 +33,20 @@ export default function TeantForm () {
     Rent_Agreement: null
   })
 
-  const [errors, setErrors] = useState({})
-  const [submitted, setSubmitted] = useState(false) // Track submission attempts
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [activeTab, setActiveTab] = useState('tenant')
-  const [memberCount, setMemberCount] = useState(1)
-  const [vehicleCount, setVehicleCount] = useState(1)
-  const [isFormValid, setIsFormValid] = useState(false)
-  const [profilePhoto, setProfilePhoto] = useState(null)
-  const [profilePhotoPreview, setProfilePhotoPreview] = useState(null)
-  const [edit, setEdit] = useState(false)
-  const navigate = useNavigate()
+
+  const [errors, setErrors] = useState({});
+  const [submitted, setSubmitted] = useState(false); // Track submission attempts
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("tenant");
+  const [memberCount, setMemberCount] = useState(1);
+  const [vehicleCount, setVehicleCount] = useState(1);
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState(null);
+  const [profilePhotoPreview, setProfilePhotoPreview] = useState(null);
+  const [edit, setEdit] = useState(false);
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (resident) {
@@ -117,12 +123,15 @@ export default function TeantForm () {
 
     if (Object.keys(newErrors).length === 0) {
       try {
-        const response = await CreateTenant(formData)
-        toast.success(response.data.message)
-        navigate('/residentmanagement')
+
+        setIsLoading(true)
+        const response = await CreateTenant(formData);
+        toast.success(response.data.message);
+        navigate("/residentmanagement");
       } catch (error) {
         toast.error(error.response.data.message)
       } finally {
+        setIsLoading(false)
         setFormData({
           Owner_Full_name: '',
           Owner_Phone: '',
@@ -259,7 +268,12 @@ export default function TeantForm () {
         </button>
       </div>
 
-      <div className='grid grid-cols-1 bg-white rounded-lg p-6 shadow-md md:grid-cols-3 gap-4 mb-6'>
+      {isLoading && (
+  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+    <div className="loader w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+)}
+      <div className="grid grid-cols-1 bg-white rounded-lg p-6 shadow-md md:grid-cols-3 gap-4 mb-6">
         <div>
           <label className='block text-sm font-lighter text-black-500'>
             Owner Full Name*

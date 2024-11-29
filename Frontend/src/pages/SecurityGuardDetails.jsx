@@ -23,6 +23,8 @@ import trash from "../assets/images/trash.svg";
 import plus from "../assets/images/plus.svg";
 import Addimage from "../assets/images/Addimage.svg";
 import { convert24hrTo12hr } from "../utils/ConvertTime";
+import { useDispatch } from 'react-redux'
+import { setLoading } from "../redux/features/LoaderSlice";
 
 function SecurityGuardDetails() {
   const [guards, setGuards] = useState([]);
@@ -46,6 +48,8 @@ function SecurityGuardDetails() {
   const [aadharPreview, setAadharPreview] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isFormFilled, setIsFormFilled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const checkFormFilled = (guard) => {
     return (
@@ -174,9 +178,11 @@ function SecurityGuardDetails() {
   const handleSave = async () => {
     setIsModalOpen(false);
     try {
+       setIsLoading(true)
       let response;
       if (modalMode === "add") {
         response = await CreateSecurityGuard(newGuard);
+        setIsLoading(false);
       } else if (modalMode === "edit") {
         response = await UpdateSecurityGuard(newGuard._id, newGuard);
       }
@@ -184,7 +190,9 @@ function SecurityGuardDetails() {
       toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response.data.message);
+      setIsLoading(false);
     } finally {
+    setIsLoading(false)
       setPhotoPreview(null);
       setAadharPreview(null);
       setNewGuard({
@@ -385,11 +393,21 @@ function SecurityGuardDetails() {
           </table>
         </div>
       </div>
-
+      {isLoading && (
+  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+    <div className="loader w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+)}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] overflow-y-auto custom-scrollbar p-4">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm relative">
             <div className="">
+            {/* Loading Spinner */}
+      {isLoading && (
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[10000]">
+          <div className="loader w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
               {modalMode !== "view" && (
                 <form className="space-y-4 p-6">
                   {/* Photo Upload */}
@@ -607,7 +625,7 @@ function SecurityGuardDetails() {
                             : "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
                         }`}
                     >
-                      Create
+                     {isLoading ? "Processing..." : "Create"}
                     </button>
                   </div>
                 </form>
