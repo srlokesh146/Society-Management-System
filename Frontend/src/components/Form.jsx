@@ -17,7 +17,7 @@ function Form ({ user }) {
           />
         </div>
         <div className='bg-white p-6 rounded-lg max-w-7xl form-resident'>
-          <div className='grid xl:grid-cols-5 max-2xl:grid-cols-2 max-md:grid-cols-2 max-sm:grid-cols-1 gap-2 max-3xl:grid-cols-2 lg:grid-cols-2'>
+          <div className='grid xl:grid-cols-5   max-2xl:grid-cols-2 max-md:grid-cols-2 max-sm:grid-cols-1 gap-2 max-3xl:grid-cols-2 lg:grid-cols-2'>
             {/* Full Name */}
             <div>
               <label className='block text-[18px] font-medium text-black'>
@@ -37,7 +37,7 @@ function Form ({ user }) {
               <label className='block text-[18px] font-medium text-black'>
                 Email Address
               </label>
-              <p className='text-gray-400 font-lighter'>{user.Email_address}</p>
+              <p className='text-gray-400 font-lighter '>{user.Email_address}</p>
             </div>
             <div>
               <label className='block text-[18px] font-medium text-black'>
@@ -47,7 +47,7 @@ function Form ({ user }) {
             </div>
             <button
               onClick={() => handleViewFile(user?.Address_proof)}
-              className='flex flex-col items-start w-[300px] max-md:w-[250px] max-xl:mr-[30px] max-2xl:w-[220px] max-2xl:mt-[10px] max py-3 px-4 bg-white border border-gray-300 rounded-lg mb-[15px]'
+              className='flex flex-col items-start w-[250px] max-md:w-[200px] max-xl:mr-[30px] max-2xl:w-[200px] max-3xl:w-[200px] max-2xl:mt-[10px] max py-3 px-4 bg-white border border-gray-300 rounded-lg mb-[15px]'
             >
               <div className='flex items-center gap-3'>
                 <div>
@@ -89,7 +89,7 @@ function Form ({ user }) {
             </div>
             <button
               onClick={() => handleViewFile(user?.Address_proof)}
-              className='flex flex-col items-start w-[300px] max-2xl:w-[220px] py-3 px-4 bg-white border border-gray-300 rounded-lg'
+              className='flex flex-col items-start w-[250px] max-2xl:w-[200px] max-3xl:w-[200px]  py-3 px-4 bg-white border border-gray-300 rounded-lg'
             >
               <div className='flex items-center gap-3 max-md:w-[150px]'>
                 <div>

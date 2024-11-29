@@ -243,8 +243,8 @@ export default function OwnerForm() {
   };
 
   return (
-    <div className="min-h-screen p-4 bg-gray-100">
-      {/* Tab Buttons */}
+    <div className="min-h-screen p-4 bg-gray-100 " >
+      {/* Tab Buttons */} 
       <div className="flex">
         <button
           className={`px-6 py-2 rounded-t-lg ${
@@ -275,7 +275,7 @@ export default function OwnerForm() {
   </div>
 )}
       {/* Form Container */}
-      <div className="bg-white rounded-lg p-6 shadow-md">
+      <div className="bg-white rounded-lg p-6 shadow-md ">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
           {/* Profile Photo Section */}
           <div className="md:col-span-2 flex flex-col items-center">
@@ -980,7 +980,7 @@ export default function OwnerForm() {
                 {formData?.Vehicle_Counting.map((vehicle, index) => (
                   <div
                     key={index}
-                    className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4"
+                    className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4"
                   >
                     <div className="relative">
                       <label className="block text-xs text-black-500 font-lighter mb-1">
@@ -1083,7 +1083,7 @@ export default function OwnerForm() {
                 {[...Array(vehicleCount)].map((_, index) => (
                   <div
                     key={index}
-                    className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4"
+                    className="grid grid-cols-1 md:grid-cols-6  gap-4 mt-4"
                   >
                     <div className="relative">
                       <label className="block text-xs text-black-500 font-lighter mb-1">
