@@ -16,33 +16,33 @@ const Member = ({ member }) => {
             </div>
             <div className="p-4">
               <div className="space-y-2">
-                <div className="flex items-center text-sm sm:text-base text-gray-500">
-                  <span className="font-sm w-24">E-Mail</span>
-                  <p className="text-black text-[15px] ml-12">
+                <div className="flex items-center justify-between text-sm sm:text-base text-gray-500">
+                  <span className="font-sm ">E-Mail</span>
+                  <p className="text-black text-[15px] ">
                     <span>{member.Email_address}</span>
                   </p>
                 </div>
-                <div className="flex items-center text-sm sm:text-base text-gray-500">
-                  <span className="font-sm w-32">Phone Number</span>
-                  <p className="text-black ml-auto">
+                <div className="flex items-center text-sm sm:text-base text-gray-500 justify-between ">
+                  <span className="font-sm ">Phone Number</span>
+                  <p className="text-black ">
                     <span>+91 {member.Phone_number}</span>
                   </p>
                 </div>
-                <div className="flex items-center text-sm sm:text-base text-gray-500">
-                  <span className="font-sm w-32">Age</span>
-                  <p className="text-black ml-auto">
+                <div className="flex items-center text-sm sm:text-base text-gray-500 justify-between ">
+                  <span className="font-sm ">Age</span>
+                  <p className="text-black ">
                     <span>{member.Age}</span>
                   </p>
                 </div>
-                <div className="flex items-center text-sm sm:text-base text-gray-500">
-                  <span className="font-sm w-24">Gender</span>
-                  <p className="text-black ml-52">
+                <div className="flex items-center text-sm sm:text-base text-gray-500 justify-between ">
+                  <span className="font-sm ">Gender</span>
+                  <p className="text-black ">
                     <span>{member.Gender}</span>
                   </p>
                 </div>
-                <div className="flex items-center text-sm sm:text-base text-gray-500">
-                  <span className="font-sm w-24">Relation</span>
-                  <p className="text-black ml-52">
+                <div className="flex items-center text-sm sm:text-base text-gray-500 justify-between ">
+                  <span className="font-sm ">Relation</span>
+                  <p className="text-black ">
                     <span>{member.Relation}</span>
                   </p>
                 </div>

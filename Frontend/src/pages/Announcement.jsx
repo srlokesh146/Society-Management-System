@@ -195,8 +195,8 @@ function Announcement() {
               <div className="p-4">
                 <div className="space-y-2">
                   <div className="flex items-center text-sm sm:text-base text-gray-600">
-                    <span className="font-medium w-24">Date:</span>
-                    <p className="text-black">
+                    <span className="font-medium w-64">Date:</span>
+                    <p className="text-black ">
                       <span>
                         {new Date(announcement.date).toLocaleDateString(
                           "en-GB",
@@ -210,14 +210,14 @@ function Announcement() {
                     </p>
                   </div>
                   <div className="flex items-center text-sm sm:text-base text-gray-600">
-                    <span className="font-medium w-24">Time:</span>
-                    <p className="text-black">
+                    <span className="font-medium w-64">Time:</span>
+                    <p className="text-black  ">
                       <span>{convert24hrTo12hr(announcement.time)}</span>
                     </p>
                   </div>
                   <div className="text-sm sm:text-base text-gray-600">
                     <p className="font-medium mb-1">Description:</p>
-                    <p className="line-clamp-3 text-black">
+                    <p className="line-clamp-3  text-black">
                       {announcement.description}
                     </p>
                   </div>

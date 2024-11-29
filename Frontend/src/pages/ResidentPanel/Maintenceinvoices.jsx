@@ -156,8 +156,8 @@ function MaintenceInvoices () {
                         Grand Total
                       </span>
 
-                      <span className='text-[15px] ml-40 text-green-600 '>{` ₹`}</span>
-                      <p className=' text-green-600'>
+                      {/* <span className='text-[15px] ml-40 text-green-600 '>{` `}</span> */}
+                      <p className=' text-green-600'> ₹
                         {maintence.maintenanceAmount + maintence.penaltyAmount}
                       </p>
                     </div>

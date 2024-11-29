@@ -51,8 +51,8 @@ const ResidentOwner = () => {
       <div>
         {user.Resident_status === "Tenante" && activeTab === "tenant" && (
           <div>
-            <div className="bg-white p-6 rounded-lg rounded-tl-none mb-6">
-              <div className="flex gap-20 grid-cols-1 md:grid-cols-">
+            <div className="bg-white p-6 rounded-lg">
+              <div className="grid xl:grid-cols-5 max-2xl:grid-cols-2 max-md:grid-cols-2 max-sm:grid-cols-1 gap-2 max-3xl:grid-cols-2 lg:grid-cols-2">
                 <div>
                   <label className="block text-md font-medium text-black">
                     Owner Name

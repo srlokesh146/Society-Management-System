@@ -134,7 +134,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className=" flex justify-between items-center p-4 bg-white shadow-md sticky top-0 left-0 w-full z-[99] max-md:justify-start max-md:flex max-md:items-start max-sm:flex-col max-sm:justify-start max-sm:items-start max-lg:pl-[50px]">
+    <div className=" flex justify-between items-center p-4 bg-white sticky top-0 left-0 w-full z-[99] max-md:justify-start max-md:flex max-md:items-start max-sm:flex-col max-sm:justify-start max-sm:items-start max-lg:pl-[50px]">
       {showSearch ? (
         <div className="search-icon relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-[35px] max-sm:hidden ">
           <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-0 max-sm:hidden">
