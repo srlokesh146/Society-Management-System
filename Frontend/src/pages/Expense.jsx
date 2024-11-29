@@ -14,6 +14,8 @@ import {
 import toast from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
 import { setLoading } from "../redux/features/LoaderSlice";
+import { IoMdClose } from "react-icons/io";
+
 
 function Expense () {
   const [expenses, setExpenses] = useState([])
@@ -593,7 +595,7 @@ function Expense () {
               onClick={() => setViewModalOpen(false)}
               className='absolute top-4 right-4 text-gray-600 hover:text-gray-800'
             >
-              <FaTimes size={20} /> {/* Cancel icon */}
+              <IoMdClose size={20} /> {/* Cancel icon */}
             </button>
             <h2 className='text-xl font-semibold mb-4'>View Expense Details</h2>
             <div className='border-b border-[#F4F4F4] mb-[20px]'></div>

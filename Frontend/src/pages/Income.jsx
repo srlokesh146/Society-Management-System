@@ -13,7 +13,6 @@ import {
   CreateMaintenance,
   GetMaintenances
 } from '../services/maintenanceService'
-import { data } from '../constantdata'
 
 const maintenanceData = [
   {
@@ -143,10 +142,29 @@ const Income = () => {
     setIsViewModalOpen(true)
   }
 
+  const data = [
+    {
+      title: 'Maintenance Amount',
+      amount: '0',
+      bgColor: 'rgba(57, 151, 61, 0.5)',
+      gradient:
+        'linear-gradient(220.5deg, #39973D 7.71%, rgba(255, 255, 255, 0) 30.54%)',
+      textColor: 'text-green-500'
+    },
+    {
+      title: 'Penalty Amount',
+      amount: '0',
+      bgColor: 'rgba(255, 106, 0, 0.5)',
+      gradient:
+        'linear-gradient(220.5deg, #FF6A00 7.71%, rgba(255, 255, 255, 0) 30.54%)',
+      textColor: 'text-red-500'
+    }
+  ]
+
   const ViewDetailsModal = ({ user, onClose }) => {
     return (
       <>
-        <div className='fixed inset-0 bg-[#00000021] flex items-center justify-center z-[9999]'>
+        <div className='fixed inset-0 bg-[#0000000d] flex items-center justify-center z-[9999]'>
           <div className='bg-white rounded-xl w-[450px] overflow-hidden'>
             {/* Header */}
             <div className='flex justify-between items-center px-6 py-4'>

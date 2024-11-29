@@ -125,8 +125,8 @@ const Dashboard = () => {
 
   const fetchPendingMaintenance = async () => {
     try {
-      const response = await GetMaintenances();
-      setPendingMaintenance(response.data.Maintenance);
+      const response = await GetMaintenances()
+      setPendingMaintenance(response.data.Maintenance)
     } catch (error) {
       toast.error(error.response.data.message)
     }
@@ -174,10 +174,10 @@ const Dashboard = () => {
   ]
 
   return (
-    <div className="flex max-h-screen bg-gray-100">
-      <main className="flex-1">
+    <div className='flex max-h-screen bg-gray-100'>
+      <main className='flex-1'>
         <div>
-          <div className="grid grid-cols-4 col-span-2 gap-4 mb-6 max-xl:grid-cols-2 max-sm:grid-cols-2 max-2xl:grid-cols-2 relative z-[9] mt-[-10px]">
+          <div className='grid grid-cols-4 col-span-2 gap-4 mb-6 max-xl:grid-cols-2 max-sm:grid-cols-2 max-2xl:grid-cols-2 relative z-[9] mt-[-10px]'>
             {cardData.map((card, index) => (
               <div
                 key={index}
@@ -224,16 +224,15 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <div
-                      className='rounded-[15px]'
+                      className='rounded-[15px] transform translate-x-[23%] translate-y-[-5%] max-md:translate-y-[-4%] max-sm:translate-y-[-15%] max-sm:translate-x-[22.5%] max-sm:h-[95px] max-md:h-[80px] h-[95px] max-2xl:h-[88px] max-2xl:translate-y-[-5%] max-2xl:translate-x-[22%]'
                       style={{
                         position: 'absolute',
                         top: 0,
                         left: 0,
-                        right: '-31.2%',
-                        bottom: 10,
+                        right: 0,
+                        bottom: 0,
                         margin: 'auto',
                         width: '70%',
-                        height: '95px',
                         background: card.gradient,
                         zIndex: -1
                       }}
@@ -250,11 +249,10 @@ const Dashboard = () => {
               <BalanceChart />
             </div>
 
-
-            <div className="col-span-12 max-md:col-span-12 lg:col-span-3 max-xl:col-span-3 mt-[-13px]">
-              <div className="bg-white p-[20px] rounded-[15px]   w-full">
-                <div className="flex justify-between items-center mb-5">
-                  <h3 className="text-lg font-semibold max-sm:text-[16px] max-mb:text-[18px]">
+            <div className='col-span-12 max-md:col-span-12 lg:col-span-3 max-xl:col-span-3 mt-[-13px]'>
+              <div className='bg-white p-[20px] rounded-[15px] h-[360px] w-full'>
+                <div className='flex justify-between items-center mb-5'>
+                  <h3 className='text-lg font-semibold max-sm:text-[16px] max-mb:text-[18px]'>
                     Important Numbers
                   </h3>
                   {role === 'admin' && (
@@ -348,10 +346,10 @@ const Dashboard = () => {
               )}
             </div>
 
-            <div className="max-md:col-span-12 lg:col-span-3 max-xl:col-span-3 mt-[-14px]">
-              <div className="bg-white p-[20px] rounded-[15px] h-full">
-                <div className="flex justify-between items-center mb-5">
-                  <h3 className="text-lg font-semibold max-sm:text-[16px] max-mb:text-[18px]">
+            <div className='max-md:col-span-12 lg:col-span-3 max-xl:col-span-3 mt-[-14px]'>
+              <div className='bg-white p-[20px] rounded-[15px] h-full'>
+                <div className='flex justify-between items-center mb-5'>
+                  <h3 className='text-lg font-semibold max-sm:text-[16px] max-mb:text-[18px]'>
                     Pending Maintenances
                   </h3>
                   <button className='py-[8px] px-[10px] rounded-[10px] text-[#5678E9] font-semibold text-[14px] leading-[14px]'>
@@ -408,33 +406,39 @@ const Dashboard = () => {
 
           {/* chart section end */}
 
-          <div className='grid grid-cols-8 w-full gap-4 h-full max-xl:grid-cols-6 max-2xl:grid-cols-6 mt-[20px]'>
-            <div className='col-span-12 max-md:col-span-12 max-lg:col-span-6 md:col-span-6 rounded-lg '>
+          <div className='grid grid-cols-8 w-full gap-4 h-full max-xl:grid-cols-6 max-2xl:grid-cols-6 mt-[20px] max-4xl:grid-cols-8'>
+            <div className='col-span-6 max-md:col-span-12 max-lg:col-span-12 rounded-lg max-xl:col-span-12 max-2xl:col-span-4'>
               <DashboardTable />
             </div>
 
-            <div className="bg-[#fff] rounded-lg w-full p-[20px] max-h-[350px] overflow-hidden  mt-[-10px]" >
-              <div className="flex justify-between items-center mb-[27px] ps-[20px] pr-[20px] max-sm:ps-[10px] max-sm:pr-0">
-                <div>
-                  <h2 className="text-[20px] font-semibold leading-[27px] max-sm:text-[16px] max-md:text-[18px] max-2xl:text-[18px]">
-                    Upcoming Activity
-                  </h2>
-                </div>
-                <div className="relative">
-                  <button
-                    onClick={handleToggleDropdown}
-                    className="border border-gray-300 rounded-lg ps-[14px] py-1 text-[] flex items-center w-[120px] text-[15px] h-[44px] capitalize font-semibold"
-                  >
-                    {selectedPeriod}{" "}
-                    <img
-                      src={downicon}
-                      className="ml-[9px] text-[12px] text-[#202224]"
-                    />
-                  </button>
-                  {isOpen && (
-                    <div className="absolute z-10 left-[-39px] bg-white rounded-lg shadow-[0px_0px_40px_0px_#0000000D] mt-1 w-[160px] py-[15px]">
-                      {["Select Month", "Last week", "Month", "Last year"].map(
-                        (option, index) => (
+            <div className='col-span-2 max-sm:col-span-12 max-md:col-span-12 max-xl:col-span-12'>
+              <div className='bg-[#fff] rounded-lg p-[20px] max-h-[350px] overflow-hidden  mt-[-10px] max-sm:w-full'>
+                <div className='flex justify-between items-center mb-[27px] ps-[20px] pr-[20px] max-sm:ps-[10px] max-sm:pr-0'>
+                  <div className='flex items-center'>
+                    <h2 className='text-[18px] font-semibold leading-[27px] max-sm:text-[16px] max-md:text-[18px] max-2xl:text-[18px] whitespace-nowrap'>
+                      Upcoming Activity
+                    </h2>
+                  </div>
+
+                  <div className='relative'>
+                    <button
+                      onClick={handleToggleDropdown}
+                      className='border border-gray-300 rounded-lg ps-[14px] ml-10  flex items-center w-[120px] text-[15px] h-[44px] capitalize font-semibold'
+                    >
+                      {selectedPeriod}{' '}
+                      <img
+                        src={downicon}
+                        className='ml-[9px] text-[12px] text-[#202224]'
+                      />
+                    </button>
+                    {isOpen && (
+                      <div className='absolute z-10 left-[-39px] bg-white rounded-lg shadow-[0px_0px_40px_0px_#0000000D] mt-1 w-[160px] py-[15px]'>
+                        {[
+                          'Select Month',
+                          'Last week',
+                          'Month',
+                          'Last year'
+                        ].map((option, index) => (
                           <div
                             key={option}
                             onClick={
@@ -466,7 +470,7 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                <ul className='space-y-3 max-h-[300px] overflow-y-auto overflow-x-auto custom-scrollbar'>
+                <ul className='space-y-3 max-h-[300px] overflow-y-auto overflow-x-auto custom-scrollbar text-nowrap'>
                   {activities.length > 0 ? (
                     activities.map((activity, index) => (
                       <li

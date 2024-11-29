@@ -13,6 +13,7 @@ import { toast } from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { logoutUser } from '../../services/authService'
 import sidebaricon from '../../assets/images/sidebarmenuicon.png'
+import downangle from '../../assets/images/downangle.svg'
 import { LogoutUser } from '../../redux/features/AuthSlice'
 const tabs = securityBar
 
@@ -138,7 +139,7 @@ export default function Sidebar () {
                       <span className='mr-[10px]'>{item.icon}</span>
                       <span className='lg:inline'>{item.label}</span>
                       {item.subItems && (
-                        <IoChevronDownOutline
+                        <img src={downangle}
                           className={`ml-auto transition-transform duration-300 ${
                             openSubItems[item.id] ? 'rotate-180' : ''
                           }`}

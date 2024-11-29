@@ -45,7 +45,7 @@ export default function EventsParticipate () {
                   <th className='px-4 py-4 text-center text-[14px] font-semibold text-black-500'>
                     Events Date
                   </th>
-                  <th className='px-4 py-4 text-start text-[14px] font-semibold text-black-500 rounded-tr-[15px]'>
+                  <th className='px-4 py-4 text-[14px] font-semibold text-black-500 rounded-tr-[15px] text-start'>
                     Events Name
                   </th>
                 </tr>
@@ -95,7 +95,7 @@ export default function EventsParticipate () {
                   )
                 ) : (
                   <tr>
-                    <td colSpan='5' className='text-center py-4 text-gray-500'>
+                    <td colSpan='5' className='py-4 text-end text-gray-500'>
                       No data found
                     </td>
                   </tr>
