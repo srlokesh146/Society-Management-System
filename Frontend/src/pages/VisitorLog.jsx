@@ -7,10 +7,10 @@ import { convert24hrTo12hr } from "../utils/ConvertTime";
 const VisitorLogs = () => {
   const [visitorLog, setVisitorLog] = useState([]);
 
+  // fetch visitor list
   const fetchVisitors = async () => {
     try {
       const response = await GetVisitors();
-      console.log(response.data.data);
       setVisitorLog(response.data.data);
     } catch (error) {
       toast.error(error.response.data.message);

@@ -39,8 +39,7 @@ const AlertRoutes = require("./src/routes/alert.route.js");
 const chatRoute = require("./src/routes/chat.route.js");
 const PenaltyController = require("./src/controller/income.controller.js");
 const PollRoutes = require("./src/routes/poll.route.js");
-const NotificationRoute=require("./src/routes/notification.route.js")
-
+const NotificationRoute = require("./src/routes/notification.route.js");
 
 cron.schedule("0 0 * * * *", async () => {
   try {
@@ -78,8 +77,8 @@ app.use("/api/v2/alert", AlertRoutes);
 app.use("/api/v2/chat", chatRoute);
 //poll apis
 app.use("/api/v2/poll", PollRoutes);
-//notification apis 
-app.use("/api/v2/notication",NotificationRoute)
+//notification apis
+app.use("/api/v2/notication", NotificationRoute);
 
 app.get("/", (req, res) => res.send("Hello World!"));
 
@@ -104,15 +103,17 @@ io.on("connection", (socket) => {
   });
 
   // send message
-  socket.on("sendMessage", ({ userId, receiverId, message , media}) => {
+  socket.on("sendMessage", ({ userId, receiverId, message, media }) => {
     // add media
-    const newMessage = { userId, receiverId, message , media };
+    const newMessage = { userId, receiverId, message, media };
+    console.log(newMessage);
     io.to(socket.id).emit("sendMessage", newMessage);
     const receiverSocket = Array.from(io.sockets.sockets.values()).find(
       (s) => s.userId === receiverId
     );
 
     if (receiverSocket) {
+      console.log(newMessage);
       receiverSocket.emit("sendMessage", newMessage);
     }
   });

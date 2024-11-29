@@ -4,24 +4,27 @@ import eyeicon from "../../../assets/images/eyeicon.png";
 import circleimg from "../../../assets/images/circleimg.svg";
 import { toast } from "react-hot-toast";
 import CreatePollModal from "../../../components/modal/CreatePollModal";
-import { CreateNewPoll, GetPolls } from "../../../services/pollService";
+import {
+  CreateNewPoll,
+  GetPolls,
+  PollVoting,
+} from "../../../services/pollService";
 
 const Polls = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [polls, setPolls] = useState([]);
   const [answer, setAnswer] = useState("");
 
-
   // useEffect(() => {
   //   localStorage.setItem('pollDefaultSelected', JSON.stringify(defaultSelected))
   // }, [defaultSelected])
 
-  const handleCheckboxChange = index => {
-    setDefaultSelected(prev => ({
+  const handleCheckboxChange = (index) => {
+    setDefaultSelected((prev) => ({
       ...prev,
-      [index]: !prev[index]
-    }))
-  }
+      [index]: !prev[index],
+    }));
+  };
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -29,6 +32,16 @@ const Polls = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleVote = async (pollId, optionId) => {
+    try {
+      const response = await PollVoting({ pollId, optionId });
+      toast.success(response.data.message);
+      fetchPolls();
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
   const handleCreate = async (data) => {
@@ -49,8 +62,6 @@ const Polls = () => {
       toast.error(error.response.data.message);
     }
   };
-
-  console.log(answer);
 
   useEffect(() => {
     fetchPolls();
@@ -113,26 +124,28 @@ const Polls = () => {
                   {poll.question}
                 </h2>
               </div>
-              <div className='mb-[20px] text-[#202224] text-[14px] leading-[21px]'>
-                <div className='flex items-center'>
-                  <label className='radio'>
-                    <img src={circleimg} alt='' className='mr-[8px]' />
-                    <span className='ml-0 text-[14px] leading-[21px] text-[#4F4F4F]'>
+              <div className="mb-[20px] text-[#202224] text-[14px] leading-[21px]">
+                <div className="flex items-center">
+                  <label className="radio">
+                    <img src={circleimg} alt="" className="mr-[8px]" />
+                    <span className="ml-0 text-[14px] leading-[21px] text-[#4F4F4F]">
                       Select one or more
                     </span>
                   </label>
                 </div>
               </div>
-              <div className='mb-4'>
-                <div className='mb-4'>
-                  <div className='flex justify-between items-center'>
-                    <div className='flex items-center'>
-                      <label className='radio'>
+              <div className="mb-4">
+                <div className="mb-4">
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center">
+                      <label className="radio">
                         <input
                           type="radio"
                           name={`poll-${index}`}
                           value={poll.options[0]._id}
-                          onChange={(e) => setAnswer(e.target.value)}
+                          onChange={() =>
+                            handleVote(poll._id, poll.options[0]._id)
+                          }
                           className="w-4 h-4 rounded-full bg-gray-200"
                         />
                         <span className="ml-0 text-[14px] leading-[21px] text-[#4F4F4F]">
@@ -140,17 +153,22 @@ const Polls = () => {
                         </span>
                       </label>
                     </div>
-                    <span className='flex items-center text-sm font-normal text-[#4F4F4F]'>
+                    <span className="flex items-center text-sm font-normal text-[#4F4F4F]">
                       <div>
-                        <img src={avatar} alt='' className='mr-[5px]'pconstant/>
+                        <img
+                          src={avatar}
+                          alt=""
+                          className="mr-[5px]"
+                          pconstant
+                        />
                       </div>
                       {poll.options[0].votes}
                     </span>
                   </div>
 
                   <div
-                    className='mt-[5px] h-[5px] rounded-lg overflow-hidden bg-gray-200'
-                    style={{ width: '94%', marginLeft: '20px' }}
+                    className="mt-[5px] h-[5px] rounded-lg overflow-hidden bg-gray-200"
+                    style={{ width: "94%", marginLeft: "20px" }}
                   >
                     <div
                       className="bg-green-500 h-2"
@@ -161,15 +179,17 @@ const Polls = () => {
                   </div>
                 </div>
 
-                <div className='mb-[10px]'>
-                  <div className='flex justify-between items-center'>
-                    <div className='flex items-center'>
-                      <label className='radio'>
+                <div className="mb-[10px]">
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center">
+                      <label className="radio">
                         <input
                           type="radio"
                           name={`poll-${index}`}
                           value={poll.options[1]._id}
-                          onChange={(e) => setAnswer(e.target.value)}
+                          onChange={() =>
+                            handleVote(poll._id, poll.options[1]._id)
+                          }
                           className="w-4 h-4 rounded-full bg-gray-200"
                         />
                         <span className="ml-0 text-[14px] leading-[21px] text-[#4F4F4F]">
@@ -177,16 +197,16 @@ const Polls = () => {
                         </span>
                       </label>
                     </div>
-                    <span className='flex items-center text-sm font-normal text-[#4F4F4F]'>
+                    <span className="flex items-center text-sm font-normal text-[#4F4F4F]">
                       <div>
-                        <img src={avatar} alt='' className='mr-[5px]'/>
+                        <img src={avatar} alt="" className="mr-[5px]" />
                       </div>
                       {poll.options[1].votes}
                     </span>
                   </div>
                   <div
-                    className='mt-[5px] h-[5px] rounded-lg overflow-hidden bg-gray-200'
-                    style={{ width: '94%', marginLeft: '20px' }}
+                    className="mt-[5px] h-[5px] rounded-lg overflow-hidden bg-gray-200"
+                    style={{ width: "94%", marginLeft: "20px" }}
                   >
                     <div
                       className="bg-red-500 h-2"

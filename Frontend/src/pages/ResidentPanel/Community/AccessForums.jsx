@@ -24,25 +24,33 @@ export default function AccessForums() {
   const senderModel = useSelector((store) => store.auth.user.Resident_status);
   const [userList, setUserList] = useState([]);
   const [message, setMessage] = useState("");
-  const [selectedChatId, setSelectedChatId] = useState(3); 
+  const [selectedChatId, setSelectedChatId] = useState(3);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [discussions, setDiscussions] = useState([]);
   const [receiver, setReceiver] = useState(null);
+  const [media, setMedia] = useState(null);
 
   const handleSendMessage = async () => {
     try {
       const receiverId = receiver._id;
       const receiverModel = receiver.Resident_status;
-      socket.emit("sendMessage", { userId, receiverId, message });
+
       const response = await SendMessage({
         userId,
         receiverId,
         message,
         senderModel,
         receiverModel,
+        media,
       });
+
+      const image = response.data.data.media;
+      socket.emit("sendMessage", { userId, receiverId, message, media: image });
+
       fetchChatHistory();
-      setDiscussions((prev) => [...prev, response.data.message]);
+      setDiscussions((prev) => [...prev, response.data.data.message]);
+      setMedia(null);
+      toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
@@ -54,9 +62,26 @@ export default function AccessForums() {
     setIsDropdownVisible((prev) => !prev);
   };
 
+  function format12HourTimeShort(timestamp) {
+    const date = new Date(timestamp);
+
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+
+    const amPm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12;
+
+    return `${hours}:${minutes.toString().padStart(2, "0")} ${amPm}`;
+  }
+
   const handleChatClick = (user) => {
     setReceiver(user);
     socket.emit("join", { userId, receiverId: user._id });
+  };
+
+  const handleFileChange = (e) => {
+    e.preventDefault();
+    setMedia(e.target.files[0]);
   };
 
   const fetchUsers = async () => {
@@ -94,7 +119,9 @@ export default function AccessForums() {
   }, [receiver]);
 
   useEffect(() => {
-    fetchChatHistory();
+    if (receiver) {
+      fetchChatHistory();
+    }
   }, [receiver]);
 
   return (
@@ -111,13 +138,16 @@ export default function AccessForums() {
               placeholder="Search Here"
               className="py-2 w-full pl-10 bg-[#F6F8FB] h-[48px] rounded-lg"
             />
-            <img src={search} className="absolute left-3 top-[14px] text-gray-400 text-[20px] mr-[20px]" />
+            <img
+              src={search}
+              className="absolute left-3 top-[14px] text-gray-400 text-[20px] mr-[20px]"
+            />
           </div>
 
           <div className="overflow-x-auto custom-scrollbar h-[70vh]">
-            {userList.map((user) => (
+            {userList.map((user, i) => (
               <div
-                key={user._id}
+                key={i}
                 className={`flex justify-between items-center p-2 transition-all duration-300 py-[12px] cursor-pointer rounded-[10px] ${
                   selectedChatId === user._id
                     ? "bg-gray-200"
@@ -204,16 +234,21 @@ export default function AccessForums() {
               } mb-4`}
             >
               <div
-                className={`max-w-[70%] p-3 rounded-lg ${
+                className={`max-w-[70%] p-1 rounded-lg ${
                   chat.senderId !== userId
                     ? "bg-gray-200 text-right"
                     : "bg-blue-500 text-white text-left"
                 }`}
               >
-                <p className="text-sm">{chat.message}</p>
-                <span className="text-xs text-gray-400 block mt-2">
-                  {chat.time}
-                </span>
+                <div className="">
+                  {chat.media && (
+                    <img src={chat.media} width={"100px"} height="auto" />
+                  )}
+                  <p className="text-sm">{chat.message}</p>
+                  <span className="text-xs text-gray-400 block">
+                    {format12HourTimeShort(chat.timestamp)}
+                  </span>
+                </div>
               </div>
             </div>
           ))}
@@ -221,7 +256,7 @@ export default function AccessForums() {
 
         {/* Message Input Section */}
         {receiver && (
-          <div className="flex items-center p-[20px] bg-white border-t relative">
+          <div className="flex items-center p-[20px] bg-white border-t relative ">
             <input
               type="text"
               className="w-[94%] p-2 rounded-full shadow-[0px_7px_15px_0px_#0000000D] py-[9px] ps-[40px] pl-[40px] relative"
@@ -246,7 +281,12 @@ export default function AccessForums() {
             >
               <img src={Paperclip} alt="Attachment Icon" />
             </label>
-            <input id="file-upload" type="file" className="hidden" />
+            <input
+              id="file-upload"
+              onChange={handleFileChange}
+              type="file"
+              className="hidden"
+            />
             <img
               src={speaker}
               alt="Speaker Icon"

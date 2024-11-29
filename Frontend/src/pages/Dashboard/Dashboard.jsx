@@ -130,7 +130,6 @@ const Dashboard = () => {
   const fetchPendingMaintenance = async () => {
     try {
       const response = await GetMaintenances();
-      console.log(response.data.Maintenance);
       setPendingMaintenance(response.data.Maintenance);
     } catch (error) {
       toast.error(error.response.data.message);
