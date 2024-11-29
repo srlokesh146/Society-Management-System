@@ -34,3 +34,14 @@ export const GetEventsParticipants = async () =>
 // get event participants list by other income id
 export const GetEventParticipantById = async (id) =>
   await api.get(`/v2/financial/income/${id}`);
+
+export const DownloadInvoice = async (data) => {
+  try {
+    const response = await api.post("/v2/financial/generate-pdf", data, {
+      responseType: "blob", // Ensure that we receive the response as a file
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response ? error.response.data.message : "Error generating invoice.");
+  }
+};

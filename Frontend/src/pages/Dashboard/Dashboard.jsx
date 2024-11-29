@@ -413,15 +413,19 @@ const Dashboard = () => {
               <DashboardTable />
             </div>
 
+
             <div className="bg-[#fff] rounded-lg w-[380px] p-[20px] max-h-[330px] overflow-hidden  mt-[-5px]" >
               <div className="flex justify-between items-center mb-[27px] ps-[20px] pr-[20px] max-sm:ps-[10px] max-sm:pr-0">
                 <div className="flex items-center">
                   <h2 className="text-[18px] mt-[-15px] font-semibold leading-[27px] max-sm:text-[16px] max-md:text-[18px] max-2xl:text-[18px] whitespace-nowrap">
+
                     Upcoming Activity
                   </h2>
                 </div>
 
+
                 <div className="relative  mt-[-10px]  ">
+
                   <button
                     onClick={handleToggleDropdown}
                     className="border border-gray-300 rounded-lg ps-[14px] ml-10  flex items-center w-[120px] text-[15px] h-[44px] capitalize font-semibold"
@@ -498,11 +502,13 @@ const Dashboard = () => {
                     </li>
                   ))
                 ) : (
-                  <div>
+
+                  <tr>
                     <td colSpan='6' className='text-center py-4'>
                       No data found.
                     </td>
-                  </div>
+                  </tr>
+
                 )}
               </ul>
             </div>
