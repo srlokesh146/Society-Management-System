@@ -13,6 +13,12 @@ import PayNowModal from "./modal/PayNowModal";
 import PayPersonModal from "./modal/PayPersonModal";
 import PayMentMathodModal from "./modal/PayMentMathodModal";
 import PayMenCard from "./modal/PayMenCard";
+import {
+  ClearNotification,
+  DeleteNotification,
+  GetNotifications,
+} from "../services/notificationService";
+import { toast } from "react-hot-toast";
 
 const Navbar = () => {
   const { user } = useSelector((store) => store.auth);
@@ -25,6 +31,7 @@ const Navbar = () => {
   const [selectedMembers, setSelectedMembers] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAccepted, setIsAccepted] = useState(false);
+  const [notificationList, setIsNotificationList] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -67,8 +74,17 @@ const Navbar = () => {
     setClearedNotifications(false);
   };
 
-  const handleClearNotifications = () => {
-    setClearedNotifications(true);
+  const handleClearNotifications = async () => {
+    try {
+      setIsNotificationList([]);
+      const response = await ClearNotification();
+      console.log(response);
+      toast.success(response.data.message);
+      setClearedNotifications(true);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
   };
 
   useEffect(() => {
@@ -89,6 +105,33 @@ const Navbar = () => {
     isAnnouncement,
     isIncome,
   ]);
+
+  const declineNotification = async (id) => {
+    try {
+      setIsNotificationList((prev) => prev.filter((n) => n._id !== id));
+      const response = await DeleteNotification(id);
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  // fetch notification
+  const fetchNotifications = async () => {
+    try {
+      const response = await GetNotifications();
+      setIsNotificationList(response.data.notifications);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchNotifications();
+    if (notificationList.length === 0) {
+      setClearedNotifications(true);
+    }
+  }, []);
 
   return (
     <div className=" flex justify-between items-center p-4 bg-white sticky top-0 left-0 w-full z-[99] max-md:justify-start max-md:flex max-md:items-start max-sm:flex-col max-sm:justify-start max-sm:items-start max-lg:pl-[50px]">
@@ -192,50 +235,28 @@ const Navbar = () => {
                   </h4>
                 </div>
               ) : (
-                notifications.map((notification, index) => (
+                notificationList.map((notification, index) => (
                   <div
                     key={index}
                     className="border-b border-gray-200 pb-5 mb-[14px]"
                   >
-                    <div className="flex items-center">
-                      {notification.icon}
-                      <h6 className="font-bold text-sm">
-                        {notification.title}
-                      </h6>
-                    </div>
-                    <p className="text-[12px] text-[#A7A7A7] font-normal mt-1 ml-[50px] mb-[4px]">
-                      {notification.time}
-                    </p>
-                    <p className="text-sm text-gray-600 ml-[50px]">
-                      {notification.description}
-                    </p>
-                    {notification.title === "Update Maintenance" && (
-                      <div className="flex flex-col">
-                        <div className="bg-[#F6F8FB] flex justify-between leading-[21px] ml-[50px] pt-[10px] pb-[10px] px-[15px]">
-                          <p className="text-sm text-[#4F4F4F]">
-                            Maintenance Amount:
-                          </p>
-                          <p className="text-[#E74C3C]">$ 1500</p>
-                        </div>
-                        <div className="border border-[#FFFFFF]"></div>
-                        <div className="flex justify-between bg-[#F6F8FB] leading-[21px] ml-[50px] pt-[10px] pb-[10px] px-[15px]">
-                          <p className="text-sm text-[#4F4F4F]">Penalty:</p>
-                          <p className="text-[#39973D]">$ 350</p>
-                        </div>
-                      </div>
-                    )}
-                    <div className="flex space-x-3 mt-2 ml-[50px] max-md:justify-start max-sm:space-x-0">
-                      {notification.options &&
-                        notification.options.map((option, i) => (
-                          <button
-                            key={i}
-                            className="px-[28px] py-[8px] text-xs rounded-[10px] border border-gray-300 max-sm:mr-[15px]"
-                          >
-                            {option}
-                          </button>
-                        ))}
+                    <div className="">
+                      <h6 className="font-bold ">{notification.name}</h6>
+                      <p className="text-[12px] text-[#A7A7A7] font-normal mt-1] mb-[4px]">
+                        {new Date(notification.date).toLocaleDateString(
+                          "en-GB",
+                          {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                          }
+                        )}
+                      </p>
+                      <p className="text-sm text-gray-600 ">
+                        {notification.message}
+                      </p>
 
-                      {notification.title === "Ganesh Chaturthi (A- 101)" && (
+                      <div className="flex space-x-3 mt-2  max-md:justify-start max-sm:space-x-0">
                         <div className="space-x-3">
                           <button
                             onClick={handleOpenModal}
@@ -248,7 +269,9 @@ const Navbar = () => {
                             Accept
                           </button>
                           <button
-                            onClick={() => setIsModalOpen(false)}
+                            onClick={() =>
+                              declineNotification(notification._id)
+                            }
                             className={`px-[28px] py-[8px] text-xs rounded-[10px] ${
                               isAccepted
                                 ? "bg-[#5678E9] text-white border border-gray-300"
@@ -258,17 +281,7 @@ const Navbar = () => {
                             Decline
                           </button>
                         </div>
-                      )}
-
-                      {notification.options2 &&
-                        notification.options2.map((option, i) => (
-                          <button
-                            key={i}
-                            className="px-[28px] py-[8px] text-xs rounded-[10px] bg-[#5678E9] text-white"
-                          >
-                            {option}
-                          </button>
-                        ))}
+                      </div>
                     </div>
                   </div>
                 ))

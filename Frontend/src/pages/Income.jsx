@@ -271,7 +271,6 @@ const Income = () => {
     try {
       const response = await GetMaintenances()
       setMaintenanceList(response.data.Maintenance)
-      console.log(response)
     } catch (error) {}
   }
 

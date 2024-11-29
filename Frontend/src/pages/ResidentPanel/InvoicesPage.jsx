@@ -88,7 +88,7 @@ function InvoicesPage() {
     setSelectedInvoice(null);
   };
 
-  const fetchNotes = async () => {
+  const fetchPaidMaintenances = async () => {
     try {
       const response = await GetPaidMaintenances();
       setInvoices(response.data.Maintenance);
@@ -98,7 +98,7 @@ function InvoicesPage() {
   };
 
   useEffect(() => {
-    fetchNotes();
+    fetchPaidMaintenances();
   }, []);
 
   return (
@@ -111,12 +111,8 @@ function InvoicesPage() {
               <th className="px-4 py-3 font-medium text-left">Invoice ID</th>
               <th className="px-4 py-2 font-medium text-left">Owner Name</th>
               <th className="px-4 py-2 font-medium text-left">Bill Date</th>
-              <th className="px-4 py-2 font-medium text-left">
-                Payment Date
-              </th>
-              <th className="px-4 py-2 font-medium text-left">
-                Phone Number
-              </th>
+              <th className="px-4 py-2 font-medium text-left">Payment Date</th>
+              <th className="px-4 py-2 font-medium text-left">Phone Number</th>
               <th className="px-4 py-2 font-medium">Email</th>
               <th className="px-4 py-2 font-medium text-right">
                 Maintenance Amount
