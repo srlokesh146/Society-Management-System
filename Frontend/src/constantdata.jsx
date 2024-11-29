@@ -23,7 +23,6 @@ import cashpayment from './assets/images/cashpayment.png'
 import moneys from './assets/images/moneys.png'
 import { MdEvent } from 'react-icons/md'
 
-
 export const sidebarItems = [
   {
     id: 1,
@@ -124,13 +123,13 @@ export const residentItems = [
   },
   {
     id: 5,
-    label: "Community",
+    label: 'Community',
     icon: <AiFillSecurityScan />,
     subItems: [
-      { id: 6, path: "/accessforums", label: "Access Forums" },
-      { id: 7, path: "/polls", label: "Polls" },
-      { id: 8, path: "/communitiesdiscusion", label: "Communities Discussion" },
-    ],
+      { id: 6, path: '/accessforums', label: 'Access Forums' },
+      { id: 7, path: '/polls', label: 'Polls' },
+      { id: 8, path: '/communitiesdiscusion', label: 'Communities Discussion' }
+    ]
   },
   {
     id: 9,
@@ -146,7 +145,7 @@ export const residentItems = [
     path: '/residentsecurityprotocol',
     label: 'Security Protocols',
     icon: <FaAddressCard />
-  },
+  }
 ]
 
 export const Navigationbar = [
@@ -177,49 +176,9 @@ export const Navigationbar = [
   { path: '/otherinvoices', label: 'OtherInvoices' },
   { path: '/otherincomeinvoices', label: 'otherincomeinvoices' },
   { path: '/polls', label: 'polls' },
-  { path: "/communitiesdiscusion", label: "CommunitiesDiscussion" },
-  { path: "/accessforums", label: "AccessForums" },
-  { path: "/adminincome", label: "MaintenceDetails" },
-];
-
-
-export const cardData = [
-  {
-    title: 'Total Balance',
-    amount: '2,22,520',
-    bgColor: 'rgba(255, 106, 0, 0.5)',
-    gradient:
-      'linear-gradient(255.6deg, #FF6A00 7.71%, rgba(255, 255, 255, 0) 18.54%)',
-    iconBg: '#FF6A00',
-    icon: icon1
-  },
-  {
-    title: 'Total Income',
-    amount: '55,000',
-    bgColor: 'rgba(57, 151, 61, 0.5)',
-    gradient:
-      'linear-gradient(255.6deg, #39973D 7.71%, rgba(255, 255, 255, 0) 18.54%)',
-    iconBg: '#39973D',
-    icon: moneyrecive
-  },
-  {
-    title: 'Total Expense',
-    amount: '20,550',
-    bgColor: 'rgba(134, 159, 243, 0.5)',
-    gradient:
-      'linear-gradient(255.6deg, #869FF3 7.71%, rgba(255, 255, 255, 0) 18.54%)',
-    iconBg: '#869FF3',
-    icon: moneysend
-  },
-  {
-    title: 'Total Unit',
-    amount: '20,550',
-    bgColor: 'rgba(235, 55, 195, 0.5)',
-    gradient:
-      'linear-gradient(255.6deg, #EB37C3 7.71%, rgba(255, 255, 255, 0) 18.54%)',
-    iconBg: '#EB37C3',
-    icon: vacate
-  }
+  { path: '/communitiesdiscusion', label: 'CommunitiesDiscussion' },
+  { path: '/accessforums', label: 'AccessForums' },
+  { path: '/adminincome', label: 'MaintenceDetails' }
 ]
 
 export const importantNumbers = [
@@ -588,8 +547,7 @@ export const data = [
     amount: '0',
     bgColor: 'rgba(57, 151, 61, 0.5)',
     gradient:
-      'linear-gradient(255.6deg, #39973D 7.71%, rgba(255, 255, 255, 0) 18.54%)',
-    iconBg: '#E6F7E6',
+      'linear-gradient(220.5deg, #39973D 7.71%, rgba(255, 255, 255, 0) 30.54%)',
     textColor: 'text-green-500'
   },
   {
@@ -597,8 +555,7 @@ export const data = [
     amount: '0',
     bgColor: 'rgba(255, 106, 0, 0.5)',
     gradient:
-      'linear-gradient(255.6deg, #FF6A00 7.71%, rgba(255, 255, 255, 0) 40.54%)',
-    iconBg: '#FFE6E6',
+      'linear-gradient(220.5deg, #FF6A00 7.71%, rgba(255, 255, 255, 0) 30.54%)',
     textColor: 'text-red-500'
   }
 ]
@@ -756,5 +713,3 @@ export const activityData = [
 ]
 
 // polls modal image
-
-

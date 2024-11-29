@@ -1,56 +1,56 @@
-import React, { useState, useEffect } from "react";
-import { FaCamera, FaImage, FaUpload, FaCheckCircle } from "react-icons/fa";
-import { IoIosArrowDown } from "react-icons/io";
-import OwnerForm from "./OwnerForm";
-import { useLocation, useNavigate } from "react-router-dom";
-import { CreateTenant, UpdateTenant } from "../services/ownerTenantService";
-import toast from "react-hot-toast";
+import React, { useState, useEffect } from 'react'
+import { FaCamera, FaImage, FaUpload, FaCheckCircle } from 'react-icons/fa'
+import { IoIosArrowDown } from 'react-icons/io'
+import OwnerForm from './OwnerForm'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { CreateTenant, UpdateTenant } from '../services/ownerTenantService'
+import toast from 'react-hot-toast'
 
-export default function TeantForm() {
-  const location = useLocation();
-  const { resident } = location.state || {};
+export default function TeantForm () {
+  const location = useLocation()
+  const { resident } = location.state || {}
   const [formData, setFormData] = useState({
-    Owner_Full_name: resident?.Owner_Full_name || "",
-    Owner_Phone: resident?.Owner_Phone || "",
-    Owner_Address: resident?.Owner_Address || "",
+    Owner_Full_name: resident?.Owner_Full_name || '',
+    Owner_Phone: resident?.Owner_Phone || '',
+    Owner_Address: resident?.Owner_Address || '',
     Member_Counting: resident?.Member_Counting || [],
     Vehicle_Counting: resident?.Vehicle_Counting || [],
-    Full_name: resident?.Full_name || "",
-    Phone_number: resident?.Phone_number || "",
-    Email_address: resident?.Email_address || "",
-    Age: resident?.Age || "",
-    Gender: resident?.Gender || "",
-    Wing: resident?.Wing || "",
-    Unit: resident?.Unit || "",
-    Relation: resident?.Relation || "",
+    Full_name: resident?.Full_name || '',
+    Phone_number: resident?.Phone_number || '',
+    Email_address: resident?.Email_address || '',
+    Age: resident?.Age || '',
+    Gender: resident?.Gender || '',
+    Wing: resident?.Wing || '',
+    Unit: resident?.Unit || '',
+    Relation: resident?.Relation || '',
     profileImage: null,
     Adhar_front: null,
     Adhar_back: null,
     Address_proof: null,
-    Rent_Agreement: null,
-  });
+    Rent_Agreement: null
+  })
 
-  const [errors, setErrors] = useState({});
-  const [submitted, setSubmitted] = useState(false); // Track submission attempts
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("tenant");
-  const [memberCount, setMemberCount] = useState(1);
-  const [vehicleCount, setVehicleCount] = useState(1);
-  const [isFormValid, setIsFormValid] = useState(false);
-  const [profilePhoto, setProfilePhoto] = useState(null);
-  const [profilePhotoPreview, setProfilePhotoPreview] = useState(null);
-  const [edit, setEdit] = useState(false);
-  const navigate = useNavigate();
+  const [errors, setErrors] = useState({})
+  const [submitted, setSubmitted] = useState(false) // Track submission attempts
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState('tenant')
+  const [memberCount, setMemberCount] = useState(1)
+  const [vehicleCount, setVehicleCount] = useState(1)
+  const [isFormValid, setIsFormValid] = useState(false)
+  const [profilePhoto, setProfilePhoto] = useState(null)
+  const [profilePhotoPreview, setProfilePhotoPreview] = useState(null)
+  const [edit, setEdit] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (resident) {
-      setProfilePhotoPreview(resident?.profileImage || null);
-      setEdit(true);
-      setIsFormValid(true);
+      setProfilePhotoPreview(resident?.profileImage || null)
+      setEdit(true)
+      setIsFormValid(true)
     } else {
-      validateForm();
+      validateForm()
     }
-  }, [formData]);
+  }, [formData])
 
   const validateForm = () => {
     const requiredFields = {
@@ -68,489 +68,512 @@ export default function TeantForm() {
       aadharFront: formData.Adhar_front,
       aadharBack: formData.Adhar_back,
       addressProof: formData.Address_proof,
-      Rent_Agreement: formData.Rent_Agreement,
-    };
+      Rent_Agreement: formData.Rent_Agreement
+    }
 
     const isValid = Object.values(requiredFields).every(
-      (value) => value !== null && value !== undefined && value !== ""
-    );
+      value => value !== null && value !== undefined && value !== ''
+    )
 
-    setIsFormValid(isValid);
-  };
+    setIsFormValid(isValid)
+  }
 
   const handleTenantClick = () => {
-    setActiveTab("owner");
-    navigate("/ownerform");
-  };
+    setActiveTab('owner')
+    navigate('/ownerform')
+  }
   const handleCreate = async () => {
-    setSubmitted(true); // Set submitted to true on button click
-    let newErrors = {};
+    setSubmitted(true) // Set submitted to true on button click
+    let newErrors = {}
 
     // Validate form data
     if (!formData.Owner_Full_name)
-      newErrors.Owner_Full_name = "Owner Full name is required.";
+      newErrors.Owner_Full_name = 'Owner Full name is required.'
     if (!formData.Owner_Phone)
-      newErrors.Owner_Phone = "Owner Phone number is required.";
+      newErrors.Owner_Phone = 'Owner Phone number is required.'
     if (!formData.Owner_Address)
-      newErrors.Owner_Address = "Owner Address is required.";
+      newErrors.Owner_Address = 'Owner Address is required.'
     if (!formData.profileImage)
-      newErrors.profileImage = "profileImage is required.";
-    if (!formData.Full_name) newErrors.Full_name = "Full Name is required.";
+      newErrors.profileImage = 'profileImage is required.'
+    if (!formData.Full_name) newErrors.Full_name = 'Full Name is required.'
     if (!formData.Phone_number)
-      newErrors.Phone_number = "Phone Number is required.";
+      newErrors.Phone_number = 'Phone Number is required.'
     if (!formData.Email_address)
-      newErrors.Email_address = "Email Address is required.";
-    if (!formData.Age) newErrors.Age = "Age is required.";
-    if (!formData.Gender) newErrors.Gender = "Gender is required.";
-    if (!formData.Wing) newErrors.Wing = "Wing is required.";
-    if (!formData.Unit) newErrors.Unit = "Unit is required.";
-    if (!formData.Relation) newErrors.Relation = "Relation is required.";
+      newErrors.Email_address = 'Email Address is required.'
+    if (!formData.Age) newErrors.Age = 'Age is required.'
+    if (!formData.Gender) newErrors.Gender = 'Gender is required.'
+    if (!formData.Wing) newErrors.Wing = 'Wing is required.'
+    if (!formData.Unit) newErrors.Unit = 'Unit is required.'
+    if (!formData.Relation) newErrors.Relation = 'Relation is required.'
     if (!formData.Adhar_front)
-      newErrors.Adhar_front = "Aadhar Front is required.";
-    if (!formData.Adhar_back) newErrors.Adhar_back = "Aadhar Back is required.";
+      newErrors.Adhar_front = 'Aadhar Front is required.'
+    if (!formData.Adhar_back) newErrors.Adhar_back = 'Aadhar Back is required.'
     if (!formData.Address_proof)
-      newErrors.Address_proof = "Address Proof is required.";
+      newErrors.Address_proof = 'Address Proof is required.'
     if (!formData.Rent_Agreement)
-      newErrors.Rent_Agreement = "Rent Agreement is required.";
+      newErrors.Rent_Agreement = 'Rent Agreement is required.'
 
-    setErrors(newErrors);
+    setErrors(newErrors)
 
     if (Object.keys(newErrors).length === 0) {
       try {
-        const response = await CreateTenant(formData);
-        toast.success(response.data.message);
-        navigate("/residentmanagement");
+        const response = await CreateTenant(formData)
+        toast.success(response.data.message)
+        navigate('/residentmanagement')
       } catch (error) {
-        toast.error(error.response.data.message);
+        toast.error(error.response.data.message)
       } finally {
         setFormData({
-          Owner_Full_name: "",
-          Owner_Phone: "",
-          Owner_Address: "",
+          Owner_Full_name: '',
+          Owner_Phone: '',
+          Owner_Address: '',
           Member_Counting: [],
           Vehicle_Counting: [],
           profileImage: null,
-          Full_name: "",
-          Phone_number: "",
-          Email_address: "",
-          Age: "",
-          Gender: "",
-          Wing: "",
-          Unit: "",
-          Relation: "",
+          Full_name: '',
+          Phone_number: '',
+          Email_address: '',
+          Age: '',
+          Gender: '',
+          Wing: '',
+          Unit: '',
+          Relation: '',
           Adhar_front: null,
           Adhar_back: null,
           Address_proof: null,
-          Rent_Agreement: null,
-        });
-        setMemberCount(0);
-        setVehicleCount(0);
-        setProfilePhotoPreview(null);
+          Rent_Agreement: null
+        })
+        setMemberCount(0)
+        setVehicleCount(0)
+        setProfilePhotoPreview(null)
       }
     }
-  };
+  }
   const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
+    setIsDropdownOpen(!isDropdownOpen)
+  }
 
   // Handle input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
+  const handleInputChange = e => {
+    const { name, value } = e.target
+    setFormData(prev => ({
       ...prev,
-      [name]: value,
-    }));
-  };
+      [name]: value
+    }))
+  }
 
   // Handle file uploads
   const handleFileUpload = (e, fieldName) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0]
     if (file) {
-      setFormData((prev) => ({
+      setFormData(prev => ({
         ...prev,
-        [fieldName]: file,
-      }));
+        [fieldName]: file
+      }))
     }
-  };
+  }
 
-  const handleProfilePhotoChange = (e) => {
-    const file = e.target.files[0];
+  const handleProfilePhotoChange = e => {
+    const file = e.target.files[0]
     if (file) {
-      setProfilePhoto(file);
-      const reader = new FileReader();
+      setProfilePhoto(file)
+      const reader = new FileReader()
       reader.onloadend = () => {
-        setProfilePhotoPreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-      setFormData({ ...formData, [e.target.name]: file });
+        setProfilePhotoPreview(reader.result)
+      }
+      reader.readAsDataURL(file)
+      setFormData({ ...formData, [e.target.name]: file })
     }
-  };
+  }
 
   const handleMemberChange = (index, field, value) => {
-    const updatedMembers = [...formData.Member_Counting];
+    const updatedMembers = [...formData.Member_Counting]
     if (!updatedMembers[index]) {
-      updatedMembers[index] = {};
+      updatedMembers[index] = {}
     }
-    updatedMembers[index][field] = value;
-    setFormData({ ...formData, Member_Counting: updatedMembers });
-  };
+    updatedMembers[index][field] = value
+    setFormData({ ...formData, Member_Counting: updatedMembers })
+  }
 
   const handleVehicleChange = (index, field, value) => {
-    const updatedVehicles = [...formData.Vehicle_Counting];
+    const updatedVehicles = [...formData.Vehicle_Counting]
     if (!updatedVehicles[index]) {
-      updatedVehicles[index] = {};
+      updatedVehicles[index] = {}
     }
-    updatedVehicles[index][field] = value;
-    setFormData({ ...formData, Vehicle_Counting: updatedVehicles });
-  };
+    updatedVehicles[index][field] = value
+    setFormData({ ...formData, Vehicle_Counting: updatedVehicles })
+  }
 
   const handleMemberChangeEdit = (index, name, value) => {
-    setFormData((prevState) => {
-      const updatedMembers = [...prevState.Member_Counting];
+    setFormData(prevState => {
+      const updatedMembers = [...prevState.Member_Counting]
 
       updatedMembers[index] = {
         ...updatedMembers[index],
-        [name]: value,
-      };
+        [name]: value
+      }
 
       return {
         ...prevState,
-        Member_Counting: updatedMembers,
-      };
-    });
-  };
+        Member_Counting: updatedMembers
+      }
+    })
+  }
 
   const handleUpdateTenant = async () => {
     try {
-      const response = await UpdateTenant(resident._id, formData);
-      toast.success(response.data.message);
-      navigate("/residentmanagement");
+      const response = await UpdateTenant(resident._id, formData)
+      toast.success(response.data.message)
+      navigate('/residentmanagement')
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message);
+      console.log(error)
+      toast.error(error.response.data.message)
     }
-  };
+  }
 
   return (
-    <div className="min-h-screen p-4 bg-gray-100">
+    <div className='min-h-screen p-4 bg-gray-100'>
       {/* Tab Buttons */}
-      <div className="flex ">
+      <div className='flex '>
         <button
-          className={`px-6 py-2 rounded-t-lg ${
-            activeTab === "owner"
-              ? "bg-[#FF6B07] text-white"
-              : "bg-white text-gray-600  border-b-4 border-orange-500"
+          className={`px-6 py-[14px] rounded-t-[10px] w-[135px] font-semibold text-[#202224] ${
+            activeTab === 'owner'
+              ? 'bg-[#FF6B07] text-white'
+              : 'bg-white text-gray-600  border-b-2 border-orange-500'
           }`}
-          onClick={() => handleTenantClick("owner")}
+          onClick={() => handleTenantClick('owner')}
         >
           Owner
         </button>
         <button
-          className={`px-6 py-2 rounded-t-lg ${
-            activeTab === "tenant"
-              ? "bg-[#FF6B07] text-white"
-              : "bg-white text-gray-600  border-b-4 border-orange-500"
+          className={`px-6 py-[14px] rounded-t-[10px] w-[135px] font-semibold text-[#202224] ${
+            activeTab === 'tenant'
+              ? 'bg-[#FF6B07] text-white'
+              : 'bg-white text-gray-600  border-b-2 border-orange-500'
           }`}
           onClick={() => {
-            setActiveTab("tenant");
+            setActiveTab('tenant')
           }}
         >
           Tenant
         </button>
       </div>
 
-      <div className="grid grid-cols-1 bg-white rounded-lg p-6 shadow-md md:grid-cols-3 gap-4 mb-6">
+      <div className='grid grid-cols-1 bg-white rounded-lg p-6 shadow-md md:grid-cols-3 gap-4 mb-6'>
         <div>
-          <label className="block text-sm font-lighter text-black-500">
+          <label className='block text-sm font-lighter text-black-500'>
             Owner Full Name*
           </label>
           <input
-            type="text"
-            name="Owner_Full_name"
+            type='text'
+            name='Owner_Full_name'
             value={formData.Owner_Full_name}
             onChange={handleInputChange}
-            placeholder="Enter Full Name"
-            className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
+            placeholder='Enter Full Name'
+            className='w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200'
           />
         </div>
         <div>
-          <label className="block text-sm font-lighter text-black-500">
+          <label className='block text-sm font-lighter text-black-500'>
             Owner Phone*
           </label>
           <input
-            type="tel"
-            name="Owner_Phone"
+            type='tel'
+            name='Owner_Phone'
             value={formData.Owner_Phone}
             onChange={handleInputChange}
-            placeholder="+91"
-            className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
+            placeholder='+91'
+            className='w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200'
           />
         </div>
         <div>
-          <label className="block text-sm font-lighter text-black-500">
+          <label className='block text-sm font-lighter text-black-500'>
             Owner Address*
           </label>
           <input
-            type="text"
-            name="Owner_Address"
+            type='text'
+            name='Owner_Address'
             value={formData.Owner_Address}
             onChange={handleInputChange}
-            placeholder="Enter Address"
-            className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
+            placeholder='Enter Address'
+            className='w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200'
           />
         </div>
       </div>
       {/* Form Container */}
-      <div className="bg-white rounded-lg p-6 shadow-md">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+      <div className='bg-white rounded-lg p-6 shadow-md'>
+        <div className='grid grid-cols-1 md:grid-cols-12 gap-4'>
           {/* Profile Photo Section */}
-          <div className="md:col-span-2 flex flex-col items-center">
-            <div className="relative w-24 h-24">
+          <div className='md:col-span-2 flex flex-col items-center'>
+            <div className='relative w-24 h-24'>
               <input
-                type="file"
-                name="profileImage"
-                accept="image/*"
+                type='file'
+                name='profileImage'
+                accept='image/*'
                 onChange={handleProfilePhotoChange}
-                className="hidden"
-                id="profilePhotoInput"
+                className='hidden'
+                id='profilePhotoInput'
               />
               <label
-                htmlFor="profilePhotoInput"
-                className="cursor-pointer w-full h-full rounded-full flex items-center justify-center overflow-hidden border-2 border-gray-300"
+                htmlFor='profilePhotoInput'
+                className='cursor-pointer w-full h-full rounded-full flex items-center justify-center overflow-hidden border-2 border-gray-300'
               >
                 {profilePhotoPreview ? (
                   <img
                     src={profilePhotoPreview}
-                    alt="Profile"
-                    className="w-full h-full object-cover"
+                    alt='Profile'
+                    className='w-full h-full object-cover'
                   />
                 ) : (
-                  <div className="w-full h-full bg-gray-200 rounded-full flex items-center justify-center">
-                    <FaCamera size={24} className="text-gray-400" />
+                  <div className='w-full h-full bg-gray-200 rounded-full flex items-center justify-center'>
+                    <FaCamera size={24} className='text-gray-400' />
                   </div>
                 )}
               </label>
             </div>
             <label
-              htmlFor="profilePhotoInput"
-              className="text-blue-500 font-semibold text-sm mt-2 cursor-pointer"
+              htmlFor='profilePhotoInput'
+              className='text-blue-500 font-semibold text-sm mt-2 cursor-pointer'
             >
               Add Photo
             </label>
           </div>
 
           {/* Form Fields */}
-          <div className="md:col-span-10">
+          <div className='md:col-span-10'>
             {/* First Row - 3 inputs */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className='grid grid-cols-3 gap-4 max-lg:grid-cols-2 max-xl:grid-cols-2 max-2xl:grid-cols-2 max-sm:grid-cols-1'>
               <div>
-                <label className="block text-sm font-lighter text-black-500">
+                <label className='block text-sm font-lighter text-black-500'>
                   Full Name*
                 </label>
                 <input
-                  type="text"
-                  name="Full_name"
+                  type='text'
+                  name='Full_name'
                   value={formData.Full_name}
                   onChange={handleInputChange}
-                  placeholder="Enter Full Name"
-                  className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
+                  placeholder='Enter Full Name'
+                  className='w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200'
                 />
                 {submitted && errors.Full_name && (
-                  <p className="text-red-500">{errors.Full_name}</p>
+                  <p className='text-red-500'>{errors.Full_name}</p>
                 )}
               </div>
               <div>
-                <label className="block text-sm font-lighter text-black-500">
+                <label className='block text-sm font-lighter text-black-500'>
                   Phone Number*
                 </label>
                 <input
-                  type="tel"
-                  name="Phone_number"
+                  type='tel'
+                  name='Phone_number'
                   value={formData.Phone_number}
                   onChange={handleInputChange}
-                  placeholder="+91"
-                  className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
+                  placeholder='+91'
+                  className='w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200'
                 />
                 {submitted && errors.Phone_number && (
-                  <p className="text-red-500">{errors.Phone_number}</p>
+                  <p className='text-red-500'>{errors.Phone_number}</p>
                 )}
               </div>
               <div>
-                <label className="block text-sm font-lighter text-black-500">
+                <label className='block text-sm font-lighter text-black-500'>
                   Email Address
                 </label>
                 <input
-                  type="email"
-                  name="Email_address"
+                  type='email'
+                  name='Email_address'
                   value={formData.Email_address}
                   onChange={handleInputChange}
-                  placeholder="Enter Email Address"
-                  className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
+                  placeholder='Enter Email Address'
+                  className='w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200'
                 />
                 {submitted && errors.Email_address && (
-                  <p className="text-red-500">{errors.Email_address}</p>
+                  <p className='text-red-500'>{errors.Email_address}</p>
                 )}
               </div>
             </div>
 
             {/* Second Row - 5 inputs */}
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mt-4">
+            <div className='grid grid-cols-5 gap-4 mt-4 max-lg:grid-cols-2 max-sm:grid-cols-1 max-xl:grid-cols-3 max-2xl:grid-cols-3'>
               <div>
-                <label className="block text-sm font-lighter text-black-500">
+                <label className='block text-sm font-lighter text-black-500'>
                   Age*
                 </label>
                 <input
-                  type="number"
-                  name="Age"
+                  type='number'
+                  name='Age'
                   value={formData.Age}
                   onChange={handleInputChange}
-                  placeholder="Enter Age"
-                  className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
+                  placeholder='Enter Age'
+                  className='w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200'
                 />
                 {submitted && errors.Age && (
-                  <p className="text-red-500">{errors.Age}</p>
+                  <p className='text-red-500'>{errors.Age}</p>
                 )}
               </div>
-              <div className="relative">
-                <label className="block text-sm font-lighter text-black-500">
+              <div className='relative'>
+                <label className='block text-sm font-lighter text-black-500'>
                   Gender*
                 </label>
-                <div onClick={toggleDropdown} className="cursor-pointer">
-                  <div className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200 bg-white flex justify-between items-center">
-                    <span>{formData.Gender || "Select Gender"}</span>
+                <div onClick={toggleDropdown} className='cursor-pointer'>
+                  <div className='w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200 bg-white flex justify-between items-center'>
+                    <span>{formData.Gender || 'Select Gender'}</span>
                     <IoIosArrowDown
-                      className="text-bold mt-1 text-black pointer-events-none"
+                      className='text-bold mt-1 text-black pointer-events-none'
                       size={16}
                     />
                   </div>
                 </div>
 
                 {isDropdownOpen && (
-                  <div className="absolute mt-1 bg-white border border-[#E8E8E8] rounded p-2 w-full z-10">
-                    <label className="flex items-center">
+                  <div className='absolute mt-1 bg-white p-2 w-full z-10 shadow-[0px_0px_40px_0px_#00000014] ps-[20px] py-[20px] rounded-[10px]'>
+                    <label
+                      className={`flex items-center ${
+                        formData.Gender === 'male'
+                          ? 'font-semibold'
+                          : 'font-normal text-[#A7A7A7]'
+                      }`}
+                    >
                       <input
-                        type="radio"
-                        name="Gender"
-                        value="male"
-                        checked={formData.Gender === "male"}
+                        type='radio'
+                        name='Gender'
+                        value='male'
+                        checked={formData.Gender === 'male'}
                         onChange={handleInputChange}
-                        className="mr-2 appearance-none checked:bg-orange-400 checked:border-transparent rounded-full border border-gray-400 w-4 h-4 "
+                        className='mr-2 custom-radio'
                       />
                       Male
                     </label>
-                    <label className="flex items-center mt-1">
+                    <label
+                      className={`flex items-center mt-1 ${
+                        formData.Gender === 'female'
+                          ? 'font-semibold'
+                          : 'font-normal text-[#A7A7A7]'
+                      }`}
+                    >
                       <input
-                        type="radio"
-                        name="Gender"
-                        value="female"
-                        checked={formData.Gender === "female"}
+                        type='radio'
+                        name='Gender'
+                        value='female'
+                        checked={formData.Gender === 'female'}
                         onChange={handleInputChange}
-                        className="mr-2 appearance-none checked:bg-orange-400 checked:border-transparent rounded-full border border-gray-400 w-4 h-4"
+                        className='mr-2 custom-radio'
                       />
                       Female
                     </label>
-                    <label className="flex items-center mt-1">
+                    <label
+                      className={`flex items-center mt-1 ${
+                        formData.Gender === 'other'
+                          ? 'font-semibold'
+                          : 'font-normal text-[#A7A7A7]'
+                      }`}
+                    >
                       <input
-                        type="radio"
-                        name="Gender"
-                        value="other"
-                        checked={formData.Gender === "other"}
+                        type='radio'
+                        name='Gender'
+                        value='other'
+                        checked={formData.Gender === 'other'}
                         onChange={handleInputChange}
-                        className="mr-2 appearance-none checked:bg-orange-400 checked:border-transparent rounded-full border border-gray-400 w-4 h-4"
+                        className='mr-2 custom-radio'
                       />
                       other
                     </label>
                   </div>
                 )}
                 {submitted && errors.Gender && (
-                  <p className="text-red-500">{errors.Gender}</p>
+                  <p className='text-red-500'>{errors.Gender}</p>
                 )}
               </div>
               <div>
-                <label className="block text-sm font-lighter text-black-500">
+                <label className='block text-sm font-lighter text-black-500'>
                   Wing*
                 </label>
                 <input
-                  type="text"
-                  name="Wing"
+                  type='text'
+                  name='Wing'
                   value={formData.Wing}
                   onChange={handleInputChange}
-                  placeholder="Enter Wing"
-                  className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
+                  placeholder='Enter Wing'
+                  className='w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200'
                 />
                 {submitted && errors.Wing && (
-                  <p className="text-red-500">{errors.Wing}</p>
+                  <p className='text-red-500'>{errors.Wing}</p>
                 )}
               </div>
               <div>
-                <label className="block text-sm font-lighter text-black-500">
+                <label className='block text-sm font-lighter text-black-500'>
                   Unit*
                 </label>
                 <input
-                  type="text"
-                  name="Unit"
+                  type='text'
+                  name='Unit'
                   value={formData.Unit}
                   onChange={handleInputChange}
-                  placeholder="Enter Unit"
-                  className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
+                  placeholder='Enter Unit'
+                  className='w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200'
                 />
                 {submitted && errors.Unit && (
-                  <p className="text-red-500">{errors.Unit}</p>
+                  <p className='text-red-500'>{errors.Unit}</p>
                 )}
               </div>
               <div>
-                <label className="block text-sm font-lighter text-black-500">
+                <label className='block text-sm font-lighter text-black-500'>
                   Relation*
                 </label>
                 <input
-                  type="text"
-                  name="Relation"
+                  type='text'
+                  name='Relation'
                   value={formData.Relation}
                   onChange={handleInputChange}
-                  placeholder="Enter Relation"
-                  className="w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200"
+                  placeholder='Enter Relation'
+                  className='w-full h-10 px-3 border border-[#E8E8E8] rounded text-sm placeholder:text-[#ADADAD] focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors duration-200'
                 />
                 {submitted && errors.Relation && (
-                  <p className="text-red-500">{errors.Relation}</p>
+                  <p className='text-red-500'>{errors.Relation}</p>
                 )}
               </div>
             </div>
 
             {/* Document Upload Section */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
+            <div className='grid grid-cols-4 gap-3 mt-8 max-lg:grid-cols-2 max-sm:grid-cols-1 max-xl:grid-cols-2 max-2xl:grid-cols-2'>
               {/* Aadhar Front */}
               <div>
-                <label className="block text-sm font-lighter text-black-700 mb-2">
+                <label className='block text-sm font-lighter text-black-700 mb-2 text-nowrap'>
                   Upload Aadhar Card (Front Side)
                 </label>
-                <div className="relative">
+                <div className='relative'>
                   <input
-                    type="file"
-                    name="Adhar_front"
-                    accept=".pdf,.jpg,.jpeg,.png"
-                    onChange={(e) => handleFileUpload(e, "Adhar_front")}
-                    className="hidden"
-                    id="aadharFrontInput"
+                    type='file'
+                    name='Adhar_front'
+                    accept='.pdf,.jpg,.jpeg,.png'
+                    onChange={e => handleFileUpload(e, 'Adhar_front')}
+                    className='hidden'
+                    id='aadharFrontInput'
                   />
                   <label
-                    htmlFor="aadharFrontInput"
-                    className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
+                    htmlFor='aadharFrontInput'
+                    className='border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors'
                   >
                     {formData.Adhar_front ? (
-                      <div className="text-sm text-green-600">
-                        <FaCheckCircle className="mx-auto mb-2" size={20} />
+                      <div className='text-sm text-green-600'>
+                        <FaCheckCircle className='mx-auto mb-2' size={20} />
                         {formData.Adhar_front.name}
                       </div>
                     ) : (
                       <>
                         <FaImage
-                          className="mx-auto text-gray-400 mb-2"
+                          className='mx-auto text-gray-400 mb-2'
                           size={20}
                         />
-                        <p className="text-sm text-blue-500">
-                          Upload a file or drag and drop
-                        </p>
-                        <p className="text-xs text-gray-400">
+                        <div className='flex justify-center mb-[4px] text-nowrap'>
+                          <span className='text-[#5678E9] text-sm leading-[21px] font-bold mr-[4px]'>
+                            Upload a file
+                          </span>
+                          <span className='text-[#4F4F4F] text-sm leading-[21px] font-bold'>
+                            or drag and drop
+                          </span>
+                        </div>
+                        <p className='text-xs text-gray-400'>
                           PDF, JPG, PNG up to 10MB
                         </p>
                       </>
@@ -561,37 +584,42 @@ export default function TeantForm() {
 
               {/* Aadhar Back */}
               <div>
-                <label className="block text-sm font-lighter text-black-700 mb-2">
+                <label className='block text-sm font-lighter text-black-700 mb-2 text-nowrap'>
                   Upload Aadhar Card (Back Side)
                 </label>
-                <div className="relative">
+                <div className='relative'>
                   <input
-                    type="file"
-                    name="Adhar_back"
-                    accept=".pdf,.jpg,.jpeg,.png"
-                    onChange={(e) => handleFileUpload(e, "Adhar_back")}
-                    className="hidden"
-                    id="aadharBackInput"
+                    type='file'
+                    name='Adhar_back'
+                    accept='.pdf,.jpg,.jpeg,.png'
+                    onChange={e => handleFileUpload(e, 'Adhar_back')}
+                    className='hidden'
+                    id='aadharBackInput'
                   />
                   <label
-                    htmlFor="aadharBackInput"
-                    className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
+                    htmlFor='aadharBackInput'
+                    className='border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors'
                   >
                     {formData.Adhar_back ? (
-                      <div className="text-sm text-green-600">
-                        <FaCheckCircle className="mx-auto mb-2" size={20} />
+                      <div className='text-sm text-green-600'>
+                        <FaCheckCircle className='mx-auto mb-2' size={20} />
                         {formData.Adhar_back.name}
                       </div>
                     ) : (
                       <>
                         <FaImage
-                          className="mx-auto text-gray-400 mb-2"
+                          className='mx-auto text-gray-400 mb-2'
                           size={20}
                         />
-                        <p className="text-sm text-blue-500">
-                          Upload a file or drag and drop
-                        </p>
-                        <p className="text-xs text-gray-400">
+                        <div className='flex justify-center mb-[4px] text-nowrap'>
+                          <span className='text-[#5678E9] text-sm leading-[21px] font-bold mr-[4px]'>
+                            Upload a file
+                          </span>
+                          <span className='text-[#4F4F4F] text-sm leading-[21px] font-bold'>
+                            or drag and drop
+                          </span>
+                        </div>
+                        <p className='text-xs text-gray-400'>
                           PDF, JPG, PNG up to 10MB
                         </p>
                       </>
@@ -602,37 +630,42 @@ export default function TeantForm() {
 
               {/* Address Proof */}
               <div>
-                <label className="block text-sm font-lighter text-black-700 mb-2">
+                <label className='block text-sm font-lighter text-black-700 mb-2 text-nowrap'>
                   Address Proof (With Bill Light Bill)
                 </label>
-                <div className="relative">
+                <div className='relative'>
                   <input
-                    type="file"
-                    name="Address_proof"
-                    accept=".pdf,.jpg,.jpeg,.png"
-                    onChange={(e) => handleFileUpload(e, "Address_proof")}
-                    className="hidden"
-                    id="addressProofInput"
+                    type='file'
+                    name='Address_proof'
+                    accept='.pdf,.jpg,.jpeg,.png'
+                    onChange={e => handleFileUpload(e, 'Address_proof')}
+                    className='hidden'
+                    id='addressProofInput'
                   />
                   <label
-                    htmlFor="addressProofInput"
-                    className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
+                    htmlFor='addressProofInput'
+                    className='border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors'
                   >
                     {formData.Address_proof ? (
-                      <div className="text-sm text-green-600">
-                        <FaCheckCircle className="mx-auto mb-2" size={20} />
+                      <div className='text-sm text-green-600'>
+                        <FaCheckCircle className='mx-auto mb-2' size={20} />
                         {formData.Address_proof.name}
                       </div>
                     ) : (
                       <>
                         <FaImage
-                          className="mx-auto text-gray-400 mb-2"
+                          className='mx-auto text-gray-400 mb-2'
                           size={20}
                         />
-                        <p className="text-sm text-blue-500">
-                          Upload a file or drag and drop
-                        </p>
-                        <p className="text-xs text-gray-400">
+                        <div className='flex justify-center mb-[4px] text-nowrap'>
+                          <span className='text-[#5678E9] text-sm leading-[21px] font-bold mr-[4px]'>
+                            Upload a file
+                          </span>
+                          <span className='text-[#4F4F4F] text-sm leading-[21px] font-bold'>
+                            or drag and drop
+                          </span>
+                        </div>
+                        <p className='text-xs text-gray-400'>
                           PDF, JPG, PNG up to 10MB
                         </p>
                       </>
@@ -643,37 +676,42 @@ export default function TeantForm() {
 
               {/* Rent Agreement */}
               <div>
-                <label className="block text-sm font-lighter text-black-700 mb-2">
+                <label className='block text-sm font-lighter text-black-700 mb-1'>
                   Rent Agreement
                 </label>
-                <div className="relative">
+                <div className='relative'>
                   <input
-                    type="file"
-                    name="Rent_Agreement"
-                    accept=".pdf,.jpg,.jpeg,.png"
-                    onChange={(e) => handleFileUpload(e, "Rent_Agreement")}
-                    className="hidden"
-                    id="rentAgreementInput"
+                    type='file'
+                    name='Rent_Agreement'
+                    accept='.pdf,.jpg,.jpeg,.png'
+                    onChange={e => handleFileUpload(e, 'Rent_Agreement')}
+                    className='hidden'
+                    id='rentAgreementInput'
                   />
                   <label
-                    htmlFor="rentAgreementInput"
-                    className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors"
+                    htmlFor='rentAgreementInput'
+                    className='border-2 border-dashed border-gray-200 rounded-lg p-4 text-center block cursor-pointer hover:border-gray-300 transition-colors'
                   >
                     {formData.Rent_Agreement ? (
-                      <div className="text-sm text-green-600">
-                        <FaCheckCircle className="mx-auto mb-2" size={20} />
+                      <div className='text-sm text-green-600'>
+                        <FaCheckCircle className='mx-auto mb-2' size={20} />
                         {formData.Rent_Agreement.name}
                       </div>
                     ) : (
                       <>
                         <FaImage
-                          className="mx-auto text-gray-400 mb-2"
+                          className='mx-auto text-gray-400 mb-2'
                           size={20}
                         />
-                        <p className="text-sm text-blue-500">
-                          Upload a file or drag and drop
-                        </p>
-                        <p className="text-xs text-gray-400">
+                        <div className='flex justify-center mb-[4px] text-nowrap'>
+                          <span className='text-[#5678E9] text-sm leading-[21px] font-bold mr-[4px]'>
+                            Upload a file
+                          </span>
+                          <span className='text-[#4F4F4F] text-sm leading-[21px] font-bold'>
+                            or drag and drop
+                          </span>
+                        </div>
+                        <p className='text-xs text-gray-400'>
                           PDF, JPG, PNG up to 10MB
                         </p>
                       </>
@@ -687,28 +725,28 @@ export default function TeantForm() {
       </div>
       <div>
         {/* Member and Vehicle Section */}
-        <div className="flex flex-col gap-6 mt-8">
+        <div className='flex flex-col gap-6 mt-8'>
           {/* Member Section */}
-          <div className="bg-white rounded-lg p-4">
-            <div className="flex justify-between items-center mb-4">
-              <label className="text-sm text-black-700 font-medium">
-                Member Counting{" "}
-                <span className="text-gray-500"> : (Other Members)</span>
+          <div className='bg-white rounded-lg p-4'>
+            <div className='flex justify-between items-center mb-4'>
+              <label className='text-sm text-black-700 font-medium'>
+                Member Counting{' '}
+                <span className='text-gray-500'> : (Other Members)</span>
               </label>
-              <div className="relative">
+              <div className='relative'>
                 <select
-                  className="w-32 h-10 px-3 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-black-600 focus:outline-none appearance-none bg-white cursor-pointer"
-                  onChange={(e) => setMemberCount(Number(e.target.value))}
+                  className='w-32 h-10 px-3 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-black-600 focus:outline-none appearance-none bg-white cursor-pointer'
+                  onChange={e => setMemberCount(Number(e.target.value))}
                 >
-                  <option value="0">Select Member</option>
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                  <option value='0'>Select Member</option>
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
                     <option key={num} value={num}>
                       {num}
                     </option>
                   ))}
                 </select>
                 <IoIosArrowDown
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                  className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none'
                   size={16}
                 />
               </div>
@@ -719,93 +757,93 @@ export default function TeantForm() {
                 {formData.Member_Counting.map((member, index) => (
                   <div
                     key={index}
-                    className="grid grid-cols-1 md:grid-cols-6 gap-4 mt-4 items-start"
+                    className='grid grid-cols-1 md:grid-cols-6 gap-4 mt-4 items-start'
                   >
                     <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                      <label className='block text-xs text-black-500 font-lighter mb-1'>
                         Full Name*
                       </label>
                       <input
-                        name="Full_name"
-                        type="text"
+                        name='Full_name'
+                        type='text'
                         value={member.Full_name}
-                        placeholder="Enter Full Name"
-                        onChange={(e) =>
+                        placeholder='Enter Full Name'
+                        onChange={e =>
                           handleMemberChangeEdit(
                             index,
                             e.target.name,
                             e.target.value
                           )
                         }
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                        className='w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none'
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                      <label className='block text-xs text-black-500 font-lighter mb-1'>
                         Phone No*
                       </label>
                       <input
-                        name="Phone_number"
-                        type="tel"
+                        name='Phone_number'
+                        type='tel'
                         value={member.Phone_number}
-                        placeholder="+91"
-                        onChange={(e) =>
+                        placeholder='+91'
+                        onChange={e =>
                           handleMemberChangeEdit(
                             index,
                             e.target.name,
                             e.target.value
                           )
                         }
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                        className='w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none'
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                      <label className='block text-xs text-black-500 font-lighter mb-1'>
                         Email
                       </label>
                       <input
-                        name="Email_address"
-                        type="email"
+                        name='Email_address'
+                        type='email'
                         value={member.Email_address}
-                        placeholder="Enter Email Address"
-                        onChange={(e) =>
+                        placeholder='Enter Email Address'
+                        onChange={e =>
                           handleMemberChangeEdit(
                             index,
                             e.target.name,
                             e.target.value
                           )
                         }
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                        className='w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none'
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                      <label className='block text-xs text-black-500 font-lighter mb-1'>
                         Age*
                       </label>
                       <input
-                        name="Age"
-                        type="number"
+                        name='Age'
+                        type='number'
                         value={member.Age}
-                        placeholder="Enter Age"
-                        onChange={(e) =>
+                        placeholder='Enter Age'
+                        onChange={e =>
                           handleMemberChangeEdit(
                             index,
                             e.target.name,
                             e.target.value
                           )
                         }
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                        className='w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none'
                       />
                     </div>
-                    <div className="relative">
-                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                    <div className='relative'>
+                      <label className='block text-xs text-black-500 font-lighter mb-1'>
                         Gender*
                       </label>
                       <select
-                        name="Gender"
+                        name='Gender'
                         defaultValue={member.Gender}
-                        className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
-                        onChange={(e) =>
+                        className='w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer'
+                        onChange={e =>
                           handleMemberChangeEdit(
                             index,
                             e.target.name,
@@ -813,32 +851,32 @@ export default function TeantForm() {
                           )
                         }
                       >
-                        <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
+                        <option value=''>Select Gender</option>
+                        <option value='male'>Male</option>
+                        <option value='female'>Female</option>
                       </select>
                       <IoIosArrowDown
-                        className="absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none"
+                        className='absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none'
                         size={16}
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                      <label className='block text-xs text-black-500 font-lighter mb-1'>
                         Relation*
                       </label>
                       <input
-                        name="Relation"
-                        type="text"
+                        name='Relation'
+                        type='text'
                         value={member.Relation}
-                        placeholder="Enter Relation"
-                        onChange={(e) =>
+                        placeholder='Enter Relation'
+                        onChange={e =>
                           handleMemberChangeEdit(
                             index,
                             e.target.name,
                             e.target.value
                           )
                         }
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                        className='w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none'
                       />
                     </div>
                   </div>
@@ -846,93 +884,93 @@ export default function TeantForm() {
               </>
             ) : (
               <>
-                {" "}
+                {' '}
                 {/* Member Form Fields */}
                 {[...Array(memberCount)].map((_, index) => (
                   <div
                     key={index}
-                    className="grid grid-cols-1 md:grid-cols-6 gap-4 mt-4 items-start"
+                    className='grid grid-cols-1 md:grid-cols-6 gap-4 mt-4 items-start'
                   >
                     <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                      <label className='block text-xs text-black-500 font-lighter mb-1'>
                         Full Name*
                       </label>
                       <input
-                        name="Full_name"
-                        type="text"
-                        placeholder="Enter Full Name"
-                        onChange={(e) =>
+                        name='Full_name'
+                        type='text'
+                        placeholder='Enter Full Name'
+                        onChange={e =>
                           handleMemberChange(
                             index,
                             e.target.name,
                             e.target.value
                           )
                         }
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                        className='w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none'
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                      <label className='block text-xs text-black-500 font-lighter mb-1'>
                         Phone No*
                       </label>
                       <input
-                        name="Phone_number"
-                        type="tel"
-                        placeholder="+91"
-                        onChange={(e) =>
+                        name='Phone_number'
+                        type='tel'
+                        placeholder='+91'
+                        onChange={e =>
                           handleMemberChange(
                             index,
                             e.target.name,
                             e.target.value
                           )
                         }
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                        className='w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none'
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                      <label className='block text-xs text-black-500 font-lighter mb-1'>
                         Email
                       </label>
                       <input
-                        name="Email_address"
-                        type="email"
-                        placeholder="Enter Email Address"
-                        onChange={(e) =>
+                        name='Email_address'
+                        type='email'
+                        placeholder='Enter Email Address'
+                        onChange={e =>
                           handleMemberChange(
                             index,
                             e.target.name,
                             e.target.value
                           )
                         }
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                        className='w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none'
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                      <label className='block text-xs text-black-500 font-lighter mb-1'>
                         Age*
                       </label>
                       <input
-                        name="Age"
-                        type="number"
-                        placeholder="Enter Age"
-                        onChange={(e) =>
+                        name='Age'
+                        type='number'
+                        placeholder='Enter Age'
+                        onChange={e =>
                           handleMemberChange(
                             index,
                             e.target.name,
                             e.target.value
                           )
                         }
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                        className='w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none'
                       />
                     </div>
-                    <div className="relative">
-                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                    <div className='relative'>
+                      <label className='block text-xs text-black-500 font-lighter mb-1'>
                         Gender*
                       </label>
                       <select
-                        name="Gender"
-                        className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
-                        onChange={(e) =>
+                        name='Gender'
+                        className='w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer'
+                        onChange={e =>
                           handleMemberChange(
                             index,
                             e.target.name,
@@ -940,31 +978,31 @@ export default function TeantForm() {
                           )
                         }
                       >
-                        <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
+                        <option value=''>Select Gender</option>
+                        <option value='male'>Male</option>
+                        <option value='female'>Female</option>
                       </select>
                       <IoIosArrowDown
-                        className="absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none"
+                        className='absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none'
                         size={16}
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                      <label className='block text-xs text-black-500 font-lighter mb-1'>
                         Relation*
                       </label>
                       <input
-                        name="Relation"
-                        type="text"
-                        placeholder="Enter Relation"
-                        onChange={(e) =>
+                        name='Relation'
+                        type='text'
+                        placeholder='Enter Relation'
+                        onChange={e =>
                           handleMemberChange(
                             index,
                             e.target.name,
                             e.target.value
                           )
                         }
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                        className='w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none'
                       />
                     </div>
                   </div>
@@ -974,25 +1012,25 @@ export default function TeantForm() {
           </div>
 
           {/* Vehicle Section */}
-          <div className="bg-white rounded-lg p-4">
-            <div className="flex justify-between items-center mb-4">
-              <label className="text-sm text-black font-medium">
+          <div className='bg-white rounded-lg p-4'>
+            <div className='flex justify-between items-center mb-4'>
+              <label className='text-sm text-black font-medium'>
                 Vehicle Counting :
               </label>
-              <div className="relative">
+              <div className='relative'>
                 <select
-                  className="w-32 h-10 px-3 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-black-600 focus:outline-none appearance-none bg-white cursor-pointer"
-                  onChange={(e) => setVehicleCount(Number(e.target.value))}
+                  className='w-32 h-10 px-3 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-black-600 focus:outline-none appearance-none bg-white cursor-pointer'
+                  onChange={e => setVehicleCount(Number(e.target.value))}
                 >
-                  <option value="0">Select Vehicle</option>
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                  <option value='0'>Select Vehicle</option>
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
                     <option key={num} value={num}>
                       {num}
                     </option>
                   ))}
                 </select>
                 <IoIosArrowDown
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                  className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none'
                   size={16}
                 />
               </div>
@@ -1004,17 +1042,17 @@ export default function TeantForm() {
                 {formData?.Vehicle_Counting.map((vehicle, index) => (
                   <div
                     key={index}
-                    className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4"
+                    className='grid grid-cols-1 md:grid-cols-3 gap-4 mt-4'
                   >
-                    <div className="relative">
-                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                    <div className='relative'>
+                      <label className='block text-xs text-black-500 font-lighter mb-1'>
                         Vehicle Type*
                       </label>
                       <select
-                        name="vehicle_type"
+                        name='vehicle_type'
                         defaultValue={vehicle.vehicle_type}
-                        className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
-                        onChange={(e) =>
+                        className='w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer'
+                        onChange={e =>
                           handleVehicleChange(
                             index,
                             e.target.name,
@@ -1025,70 +1063,67 @@ export default function TeantForm() {
                         <option selected disabled>
                           Select Vehicle Type
                         </option>
-                        <option value="Two Wheelers">Two Wheelers</option>
-                        <option value="Four Wheelers">Four Wheelers</option>
+                        <option value='Two Wheelers'>Two Wheelers</option>
+                        <option value='Four Wheelers'>Four Wheelers</option>
                       </select>
                       <IoIosArrowDown
-                        className="absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none"
+                        className='absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none'
                         size={16}
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                      <label className='block text-xs text-black-500 font-lighter mb-1'>
                         Vehicle Name
                       </label>
                       <input
-                        name="vehicle_name"
-                        type="text"
+                        name='vehicle_name'
+                        type='text'
                         value={vehicle.vehicle_name}
-                        placeholder="Enter Name"
-                        onChange={(e) =>
+                        placeholder='Enter Name'
+                        onChange={e =>
                           handleVehicleChange(
                             index,
                             e.target.name,
                             e.target.value
                           )
                         }
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                        className='w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none'
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                      <label className='block text-xs text-black-500 font-lighter mb-1'>
                         Vehicle Number
                       </label>
                       <input
-                        name="vehicle_number"
-                        type="text"
+                        name='vehicle_number'
+                        type='text'
                         value={vehicle.vehicle_number}
-                        placeholder="Enter Number"
-                        onChange={(e) =>
+                        placeholder='Enter Number'
+                        onChange={e =>
                           handleVehicleChange(
                             index,
                             e.target.name,
                             e.target.value
                           )
                         }
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                        className='w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none'
                       />
                     </div>
                   </div>
                 ))}
               </>
             ) : (
-              <>
+              <div className='grid grid-cols-2 gap-4 mt-4 items-start max-lg:grid-cols-1 max-xl:grid-cols-1 max-sm:grid-cols-1'>
                 {[...Array(vehicleCount)].map((_, index) => (
-                  <div
-                    key={index}
-                    className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4"
-                  >
-                    <div className="relative">
-                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                  <div key={index} className='flex gap-4 mt-4 max-sm:flex-col'>
+                    <div className='relative w-full'>
+                      <label className='block text-xs text-black-500 font-lighter mb-1'>
                         Vehicle Type*
                       </label>
                       <select
-                        name="vehicle_type"
-                        className="w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer"
-                        onChange={(e) =>
+                        name='vehicle_type'
+                        className='w-full h-[42px] px-4 pr-8 border border-[#E8E8E8] rounded-[4px] text-sm text-gray-600 focus:outline-none appearance-none bg-white cursor-pointer'
+                        onChange={e =>
                           handleVehicleChange(
                             index,
                             e.target.name,
@@ -1099,74 +1134,74 @@ export default function TeantForm() {
                         <option selected disabled>
                           Select Vehicle Type
                         </option>
-                        <option value="Two Wheelers">Two Wheelers</option>
-                        <option value="Four Wheelers">Four Wheelers</option>
+                        <option value='Two Wheelers'>Two Wheelers</option>
+                        <option value='Four Wheelers'>Four Wheelers</option>
                       </select>
                       <IoIosArrowDown
-                        className="absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none"
+                        className='absolute right-3 top-[60%] -translate-y-1/2 text-gray-400 pointer-events-none'
                         size={16}
                       />
                     </div>
-                    <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                    <div className='w-full'>
+                      <label className='block text-xs text-black-500 font-lighter mb-1'>
                         Vehicle Name
                       </label>
                       <input
-                        name="vehicle_name"
-                        type="text"
-                        placeholder="Enter Name"
-                        onChange={(e) =>
+                        name='vehicle_name'
+                        type='text'
+                        placeholder='Enter Name'
+                        onChange={e =>
                           handleVehicleChange(
                             index,
                             e.target.name,
                             e.target.value
                           )
                         }
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                        className='w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none'
                       />
                     </div>
-                    <div>
-                      <label className="block text-xs text-black-500 font-lighter mb-1">
+                    <div className='w-full'>
+                      <label className='block text-xs text-black-500 font-lighter mb-1'>
                         Vehicle Number
                       </label>
                       <input
-                        name="vehicle_number"
-                        type="text"
-                        placeholder="Enter Number"
-                        onChange={(e) =>
+                        name='vehicle_number'
+                        type='text'
+                        placeholder='Enter Number'
+                        onChange={e =>
                           handleVehicleChange(
                             index,
                             e.target.name,
                             e.target.value
                           )
                         }
-                        className="w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none"
+                        className='w-full h-[42px] px-4 border border-[#E8E8E8] rounded-[4px] text-sm placeholder:text-[#ADADAD] focus:outline-none'
                       />
                     </div>
                   </div>
                 ))}
-              </>
+              </div>
             )}
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex justify-end gap-4 mt-8">
-          <button className="px-6 py-2 border border-gray-200 rounded-lg text-gray-700 bg-white">
+        <div className='flex justify-end gap-4 mt-8'>
+          <button className='px-6 py-2 border border-gray-200 rounded-lg text-gray-700 bg-white'>
             Cancel
           </button>
           <button
             className={`px-6 py-2 rounded-lg transition-colors duration-200 ${
               isFormValid
-                ? "bg-[#FF6B07] text-white hover:bg-[#FF5500]"
-                : "bg-[#F6F8FB] text-gray-400 cursor-not-allowed"
+                ? 'bg-[#FF6B07] text-white hover:bg-[#FF5500]'
+                : 'bg-[#F6F8FB] text-gray-400 cursor-not-allowed'
             }`}
             onClick={edit ? handleUpdateTenant : handleCreate}
           >
-            {edit ? "Save" : "Create"}
+            {edit ? 'Save' : 'Create'}
           </button>
         </div>
       </div>
     </div>
-  );
+  )
 }
