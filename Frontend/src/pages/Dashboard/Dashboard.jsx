@@ -410,35 +410,32 @@ const Dashboard = () => {
             <div className='col-span-6 max-md:col-span-12 max-lg:col-span-12 rounded-lg max-xl:col-span-12 max-2xl:col-span-4'>
               <DashboardTable />
             </div>
+            <div className="bg-[#fff] rounded-lg w-[380px] p-[20px] max-h-[330px] overflow-hidden  mt-[-5px]" >
+              <div className="flex justify-between items-center mb-[27px] ps-[20px] pr-[20px] max-sm:ps-[10px] max-sm:pr-0">
+                <div className="flex items-center">
+                  <h2 className="text-[18px] mt-[-15px] font-semibold leading-[27px] max-sm:text-[16px] max-md:text-[18px] max-2xl:text-[18px] whitespace-nowrap">
 
-            <div className='col-span-2 max-sm:col-span-12 max-md:col-span-12 max-xl:col-span-12'>
-              <div className='bg-[#fff] rounded-lg p-[20px] max-h-[350px] overflow-hidden  mt-[-10px] max-sm:w-full'>
-                <div className='flex justify-between items-center mb-[27px] ps-[20px] pr-[20px] max-sm:ps-[10px] max-sm:pr-0'>
-                  <div className='flex items-center'>
-                    <h2 className='text-[18px] font-semibold leading-[27px] max-sm:text-[16px] max-md:text-[18px] max-2xl:text-[18px] whitespace-nowrap'>
-                      Upcoming Activity
-                    </h2>
-                  </div>
+                    Upcoming Activity
+                  </h2>
+                </div>
 
-                  <div className='relative'>
-                    <button
-                      onClick={handleToggleDropdown}
-                      className='border border-gray-300 rounded-lg ps-[14px] ml-10  flex items-center w-[120px] text-[15px] h-[44px] capitalize font-semibold'
-                    >
-                      {selectedPeriod}{' '}
-                      <img
-                        src={downicon}
-                        className='ml-[9px] text-[12px] text-[#202224]'
-                      />
-                    </button>
-                    {isOpen && (
-                      <div className='absolute z-10 left-[-39px] bg-white rounded-lg shadow-[0px_0px_40px_0px_#0000000D] mt-1 w-[160px] py-[15px]'>
-                        {[
-                          'Select Month',
-                          'Last week',
-                          'Month',
-                          'Last year'
-                        ].map((option, index) => (
+
+                <div className="relative  mt-[-10px]  ">
+
+                  <button
+                    onClick={handleToggleDropdown}
+                    className="border border-gray-300 rounded-lg ps-[14px] ml-10  flex items-center w-[120px] text-[15px] h-[44px] capitalize font-semibold"
+                  >
+                    {selectedPeriod}{" "}
+                    <img
+                      src={downicon}
+                      className="ml-[9px] text-[12px] text-[#202224]"
+                    />
+                  </button>
+                  {isOpen && (
+                    <div className="absolute z-10 left-[-39px] bg-white rounded-lg shadow-[0px_0px_40px_0px_#0000000D] mt-1 w-[160px] py-[15px]">
+                      {["Select Month", "Last week", "Month", "Last year"].map(
+                        (option, index) => (
                           <div
                             key={option}
                             onClick={
@@ -446,13 +443,12 @@ const Dashboard = () => {
                                 ? null
                                 : () => handleOptionClick(option)
                             }
-                            className={`flex items-center bg-white cursor-pointer mb-[10px] ps-[15px] ${
-                              option === 'Select Month'
-                                ? 'text-gray-400 cursor-not-allowed'
-                                : selectedPeriod === option
+                            className={`flex items-center bg-white cursor-pointer mb-[10px] ps-[15px] ${option === 'Select Month'
+                              ? 'text-gray-400 cursor-not-allowed'
+                              : selectedPeriod === option
                                 ? 'font-semibold text-black'
                                 : 'text-gray-600'
-                            }`}
+                              }`}
                           >
                             <input
                               type='radio'
@@ -465,11 +461,10 @@ const Dashboard = () => {
                             {option}
                           </div>
                         ))}
-                      </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
-
+              </div>
                 <ul className='space-y-3 max-h-[300px] overflow-y-auto overflow-x-auto custom-scrollbar text-nowrap'>
                   {activities.length > 0 ? (
                     activities.map((activity, index) => (
@@ -490,29 +485,40 @@ const Dashboard = () => {
                             </p>
                           </div>
                         </div>
-                        <p className='text-[14px] text-[#4F4F4F] leading-4'>
-                          {new Date(activity.date)
-                            .toLocaleDateString('en-GB', {
-                              day: '2-digit',
-                              month: '2-digit',
-                              year: 'numeric'
-                            })
-                            .replace(/\//g, '-')}
-                        </p>
-                      </li>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan='6' className='text-center py-4'>
-                        No data found.
-                      </td>
-                    </tr>
-                  )}
-                </ul>
-              </div>
+                        <div>
+                          <p className='text-sm font-medium  mb-1'>
+                            {activity.title}
+                          </p>
+                          <p className='text-[14px] text-[#A7A7A7]  leading-[19.5px]'>
+                            8:00 PM To 10:00 PM
+                          </p>
+                        </div>
+                      </div>
+                      <p className='text-[14px] text-[#4F4F4F] leading-4'>
+                        {new Date(activity.date)
+                          .toLocaleDateString('en-GB', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric'
+                          })
+                          .replace(/\//g, '-')}
+                      </p>
+                    </li>
+                  ))
+                ) : (
+
+                  <tr>
+                    <td colSpan='6' className='text-center py-4'>
+                      No data found.
+                    </td>
+                  </tr>
+
+                )}
+              </ul>
             </div>
           </div>
         </div>
+
       </main>
     </div>
   )

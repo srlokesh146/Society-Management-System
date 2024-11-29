@@ -68,7 +68,7 @@ function PendingMaintence () {
         <div>
           <h1 className='font-semibold font-md'>Pending Maintenance</h1>
         </div>
-        <div className='grid grid-cols-1  mt-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+        <div className='grid max-sm:grid-cols-1  max-2xl:grid-cols-2  max-xl:grid-cols-2  max-lg:grid-cols-2 grid-cols-4  gap-4'>
           {maintenance.length > 0 ? (
             maintenance.map(maintence => (
               <div
