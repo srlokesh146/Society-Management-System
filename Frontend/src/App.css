@@ -419,6 +419,7 @@ ul::-webkit-scrollbar-thumb {
   animation: spin 0.8s linear infinite;
 }
 
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);

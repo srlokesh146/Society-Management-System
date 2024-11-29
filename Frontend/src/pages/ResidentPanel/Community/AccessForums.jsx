@@ -170,7 +170,6 @@ export default function AccessForums() {
               />
               <img
                 src={callicon}
-                onClick={toggleDropdown}
                 className="text-gray-500 text-2xl cursor-pointer hover:text-blue-500"
               />
               {isDropdownVisible && (
@@ -188,6 +187,7 @@ export default function AccessForums() {
               <img
                 src={dottedicon}
                 alt="dottedicon"
+                onClick={toggleDropdown}
                 className="text-gray-500 text-2xl cursor-pointer hover:text-blue-500"
               />
             </div>

@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FaEye, FaEyeSlash, FaUser } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
-import { MdEmail, MdSecurity } from 'react-icons/md'
 import { BsClockFill } from 'react-icons/bs'
-import { BsCheckCircleFill } from 'react-icons/bs'
-import { BsBank } from 'react-icons/bs'
-import { BiMoney } from 'react-icons/bi'
 import { toast } from 'react-hot-toast'
 import ownerImage from '../assets/images/owner.png'
 import verify from '../assets/images/verify.png'
@@ -17,7 +13,7 @@ import {
   CreateMaintenance,
   GetMaintenances
 } from '../services/maintenanceService'
-import { cardData, data } from '../constantdata'
+import { data } from '../constantdata'
 
 const maintenanceData = [
   {
@@ -286,7 +282,7 @@ const Income = () => {
   return (
     <div>
       {/* Top Section */}
-      <div className='bg-white rounded-lg shadow-md p-6'>
+      <div className='bg-white p-6'>
         <div className='flex items-center justify-between space-x-4 max-sm:flex-col '>
           <div className='grid grid-cols-2 col-span-2 gap-4 max-xl:grid-cols-2 max-sm:grid-cols-1 max-2xl:grid-cols-2 relative z-[9]'>
             {data.map((card, index) => (
@@ -297,43 +293,43 @@ const Income = () => {
                   borderRadius: '15px'
                 }}
               >
-                <div
-                  style={{
-                    borderRight: '1px solid transparent',
-                    borderTop: '2px solid transparent',
-                    borderRadius: '8px'
-                  }}
-                  className='relative flex flex-col justify-start items-start w-full max-md:flex-col max-md:justify-start max-md:flex max-md:items-start max-sm:flex-col max-sm:justify-start max-sm:flex max-sm:items-start'
-                >
-                  <div
-                    className='w-[7px] h-[52px] mr-[10px] absolute z-[99] top-[50%] rounded-tr-[10px] rounded-br-[10px]'
-                    style={{
-                      backgroundColor: card.bgColor,
-                      transform: 'translateY(-50%)'
-                    }}
-                  />
-                  <div
-                    className='relative flex flex-col justify-between items-start py-[19px] px-[30px] flex-grow bg-white shadow-lg border-2 border-gray-200 w-full max-sm:pt-[12px] max-sm:pb-[12px] max-md:pt-[12px] max-md:pb-[12px] sm:max-w-full max-sm:max-w-full max-md:col-span-2'
-                    style={{
-                      borderImageSource: card.gradient,
-                      borderImageSlice: 1,
-                      borderRadius: 10
-                    }}
-                  >
-                    <div className='flex justify-between items-center w-full'>
-                      <div className='flex flex-col items-start'>
-                        <h6 className='text-[#202224] font-semibold text-[16px] leading-2 max-sm:text-[14px] max-md:text-[18px] mb-[5px]'>
-                          {card.title}
-                        </h6>
-                        <h3
-                          className={`font-bold text-[26px] max-sm:text-[20px] max-sm:font-medium max-md:text-[20px] max-lg:text-[20px] max-xl:text-[20px] max-2xl:text-[20px] ${card.textColor}`}
-                        >
-                          <span className='text-[26px] mr-[5px]'>{` ₹`}</span>
-                          <span className='text-[26px]'>{card.amount}</span>
-                        </h3>
-                      </div>
+                <div className='relative flex flex-col justify-between items-start py-[19px] px-[30px] rounded-[15px] flex-grow bg-white w-full max-sm:pt-[12px] max-sm:pb-[12px] max-md:pt-[12px] max-md:pb-[12px] sm:max-w-full max-sm:max-w-full max-md:col-span-2 shadow-[0px_0px_40px_0px_#0000000F]'>
+                  <div className='flex justify-between items-center w-full max-sm:flex-col-reverse max-sm:items-start'>
+                    <div className='flex flex-col items-start max-sm:mt-[15px]'>
+                      <h6 className='text-gray-700 font-medium text-[16px] leading-2 max-sm:text-[14px] max-md:text-[18px] max-sm:text-nowrap'>
+                        {card.title}
+                      </h6>
+                      <h3
+                        className={`font-bold text-[26px] max-sm:text-[20px] max-sm:font-medium max-md:text-[20px] max-lg:text-[20px] max-xl:text-[20px] max-2xl:text-[20px] ${card.textColor}`}
+                      >
+                        <span className='text-[26px] mr-[5px]'>{` ₹`}</span>
+                        <span className='text-[26px]'>{card.amount}</span>
+                      </h3>
+                    </div>
+                    <div className='relative'>
+                      <div
+                        className='rounded-[10px] p-2 opacity-[10%] w-[50px] h-[50px] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] max-sm:w-[40px] max-sm:h-[42px] max-sm:bg-iconColor max-md:w-[40px] max-md:h-[42px] bg-iconColor'
+                        style={{
+                          backgroundColor: card.iconBg
+                        }}
+                      ></div>
                     </div>
                   </div>
+                  <div
+                    className='rounded-[15px]'
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: '-31.2%',
+                      bottom: 10,
+                      margin: 'auto',
+                      width: '70%',
+                      height: '95px',
+                      background: card.gradient,
+                      zIndex: -1
+                    }}
+                  />
                 </div>
               </div>
             ))}
@@ -374,171 +370,196 @@ const Income = () => {
           </button>
         </div>
         {/* Table Section */}
-        <div className='bg-white rounded-lg shadow-md p-6 mb-4'>
+        <div className='bg-white p-6 mb-4'>
           <div className='mb-4'>
             <h1 className='text-2xl font-semibold text-black-500'>
               Maintenace Details
             </h1>
           </div>
           <div className='overflow-y-auto pr-[8px] max-h-[30rem] custom-scrollbar overflow-x-auto'>
-          <table className='min-w-full'>
-            <thead>
-              <tr className='text-left  font-bold text-sm bg-indigo-50 rounded-lg text-[#202224] h-[61px] text-nowrap'>
-                <th className='text-sm py-3 px-4 font-semibold rounded-tl-[15px]'>Name</th>
-                <th className='text-sm py-3 px-4 font-semibold text-center'>Unit Number</th>
-                <th className='text-sm py-3 px-4 font-semibold text-center'>Date</th>
-                <th className='text-sm py-3 px-4 font-semibold text-center'>Status</th>
-                <th className='text-sm py-3 px-4 font-semibold text-center'>Phone Number</th>
-                <th className='text-sm py-3 px-4 font-semibold text-center'>Amount</th>
-                <th className='text-sm py-3 px-4 font-semibold text-center'>Penalty</th>
-                <th className='text-sm py-3 px-4 font-semibold text-center'>Status</th>
-                <th className='text-sm py-3 px-4 font-semibold text-center'>Payment</th>
-                <th className='text-sm py-3 px-4 font-semibold text-center rounded-tr-[15px]'>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {maintenanceList.length > 0 &&
-              maintenanceList.some(m => m.residentList.length > 0) ? (
-                maintenanceList.map(m =>
-                  m.residentList.map(r => (
-                    <tr key={r._id} className='border-t border-gray-100 text-[#4F4F4F]'>
-                      <td className='py-3 px-4'>
-                        <div className='flex items-center'>
-                          <img
-                            src={r?.resident?.profileImage}
-                            alt={''}
-                            className='w-8 h-8 rounded-full mr-2'
-                          />
-                          <span className='font-medium'>
-                            {r.resident.Full_name}
-                          </span>
-                        </div>
-                      </td>
-                      <td className='py-3 px-4 text-center'>
-                        <span className='text-black-600 font-medium'>
-                          {r.resident.Unit}
-                        </span>
-                      </td>
-                      <td className='py-3 px-4 text-center font-medium'>
-                        {new Date(m.createdAt).toLocaleDateString('en-GB', {
-                          day: '2-digit',
-                          month: '2-digit',
-                          year: 'numeric'
-                        })}
-                      </td>
-                      <td className='py-3 px-4 text-center'>
-                        <span
-                          className={`px-3 py-1 rounded-full inline-flex items-center gap-1.5 w-[113px] h-[31px] justify-center text-[14px] font-medium ${
-                            r.resident.Resident_status === 'Tenante'
-                              ? 'bg-pink-50 text-pink-500'
-                              : 'bg-purple-50 text-purple-500'
-                          }`}
-                        >
-                          {r.resident.Resident_status === 'Tenante' ? (
-                            <FaUser size={12} />
-                          ) : (
-                            <img
-                              src={ownerImage}
-                              className='mr-[4px]'
-                              alt='Owner Icon'
-                            />
-                          )}
-                          {r.resident.Resident_status}
-                        </span>
-                      </td>
-                      <td className='py-3 px-4 text-center font-medium'>{r.resident.Phone_number}</td>
-                      <td className='py-3 px-4 text-center font-medium'>
-                        <span className='text-green-600'>
-                          ₹ {m.maintenanceAmount}
-                        </span>
-                      </td>
-                      <td className='py-3 px-4 text-center font-medium'>
-                        {r.penalty === '--' ? (
-                          <span className='text-black-600 px-4 py-1 rounded-full bg-blue-50 font-medium'>
-                            --
-                          </span>
-                        ) : (
-                          <span className='bg-[#E74C3C] text-white px-4 py-1 rounded-full font-medium'>
-                            {r.penalty}
-                          </span>
-                        )}
-                      </td>
-                      <td className='py-3 px-4 text-center'>
-                        <span
-                          className={`py-1 px-2.5 rounded-full inline-flex items-center justify-center text-[14px] gap-1.5 font-medium w-[113px] h-[31px] capitalize ${
-                            r.paymentStatus === 'pending'
-                              ? 'bg-yellow-50 text-yellow-500 '
-                              : 'bg-green-50 text-green-500'
-                          }`}
-                        >
-                          {r.paymentStatus === 'pending' ? (
-                            <BsClockFill size={12} />
-                          ) : (
-                            <img
-                              src={verify}
-                              className='mr-[4px]'
-                              alt='verify'
-                            />
-                          )}
-                          {r.paymentStatus}
-                        </span>
-                      </td>
-                      <td className='py-3 px-4 text-center'>
-                        <div className='flex items-center justify-center'>
-                          <span
-                            className={`inline-flex items-center justify-center w-[113px] h-[31px] text-[14px] font-medium capitalize ${
-                              r.paymentMode === 'online'
-                                ? 'text-blue-600 font-medium bg-blue-50'
-                                : 'text-[#202224] font-medium bg-gray-50'
-                            } px-2 py-1 rounded-full`}
-                          >
-                            {r.paymentMode === 'online' ? (
-                              <img src={wallet} className='pr-[5px]' />
-                            ) : (
-                              <img src={moneys} className='pr-[5px]' />
-                            )}
-                            {r.paymentMode}
-                          </span>
-                        </div>
-                      </td>
-                      <td className='py-3 px-4 text-center'>
-                        <button
-                          onClick={() =>
-                            handleViewClick({
-                              ...m,
-                              ...r
-                            })
-                          }
-                          className='cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]'
-                        >
-                          <img src={eye} />
-                        </button>
-
-                        {/* Render Modal */}
-                        {isViewModalOpen && (
-                          <ViewDetailsModal
-                            user={selectedUser}
-                            onClose={() => {
-                              setIsViewModalOpen(false)
-                              setSelectedUser(null)
-                            }}
-                          />
-                        )}
-                      </td>
-                    </tr>
-                  ))
-                )
-              ) : (
-                <tr>
-                  <td colSpan='9' className='text-center py-4 text-gray-500'>
-                    No data found
-                  </td>
+            <table className='min-w-full'>
+              <thead>
+                <tr className='text-left  font-bold text-sm bg-indigo-50 rounded-lg text-[#202224] h-[61px] text-nowrap'>
+                  <th className='text-sm py-3 px-4 font-semibold rounded-tl-[15px]'>
+                    Name
+                  </th>
+                  <th className='text-sm py-3 px-4 font-semibold text-center'>
+                    Unit Number
+                  </th>
+                  <th className='text-sm py-3 px-4 font-semibold text-center'>
+                    Date
+                  </th>
+                  <th className='text-sm py-3 px-4 font-semibold text-center'>
+                    Status
+                  </th>
+                  <th className='text-sm py-3 px-4 font-semibold text-center'>
+                    Phone Number
+                  </th>
+                  <th className='text-sm py-3 px-4 font-semibold text-center'>
+                    Amount
+                  </th>
+                  <th className='text-sm py-3 px-4 font-semibold text-center'>
+                    Penalty
+                  </th>
+                  <th className='text-sm py-3 px-4 font-semibold text-center'>
+                    Status
+                  </th>
+                  <th className='text-sm py-3 px-4 font-semibold text-center'>
+                    Payment
+                  </th>
+                  <th className='text-sm py-3 px-4 font-semibold text-center rounded-tr-[15px]'>
+                    Action
+                  </th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {maintenanceList.length > 0 &&
+                maintenanceList.some(m => m.residentList.length > 0) ? (
+                  maintenanceList.map(m =>
+                    m.residentList.map(r => (
+                      <tr
+                        key={r._id}
+                        className='border-t border-gray-100 text-[#4F4F4F]'
+                      >
+                        <td className='py-3 px-4'>
+                          <div className='flex items-center'>
+                            <img
+                              src={r?.resident?.profileImage}
+                              alt={''}
+                              className='w-8 h-8 rounded-full mr-2'
+                            />
+                            <span className='font-medium'>
+                              {r.resident.Full_name}
+                            </span>
+                          </div>
+                        </td>
+                        <td className='py-3 px-4 text-center'>
+                          <span className='text-black-600 font-medium'>
+                            {r.resident.Unit}
+                          </span>
+                        </td>
+                        <td className='py-3 px-4 text-center font-medium'>
+                          {new Date(m.createdAt).toLocaleDateString('en-GB', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric'
+                          })}
+                        </td>
+                        <td className='py-3 px-4 text-center'>
+                          <span
+                            className={`px-3 py-1 rounded-full inline-flex items-center gap-1.5 w-[113px] h-[31px] justify-center text-[14px] font-medium ${
+                              r.resident.Resident_status === 'Tenante'
+                                ? 'bg-pink-50 text-pink-500'
+                                : 'bg-purple-50 text-purple-500'
+                            }`}
+                          >
+                            {r.resident.Resident_status === 'Tenante' ? (
+                              <FaUser size={12} />
+                            ) : (
+                              <img
+                                src={ownerImage}
+                                className='mr-[4px]'
+                                alt='Owner Icon'
+                              />
+                            )}
+                            {r.resident.Resident_status}
+                          </span>
+                        </td>
+                        <td className='py-3 px-4 text-center font-medium'>
+                          {r.resident.Phone_number}
+                        </td>
+                        <td className='py-3 px-4 text-center font-medium'>
+                          <span className='text-green-600'>
+                            ₹ {m.maintenanceAmount}
+                          </span>
+                        </td>
+                        <td className='py-3 px-4 text-center font-medium'>
+                          {r.penalty === '--' ? (
+                            <span className='text-black-600 px-4 py-1 rounded-full bg-blue-50 font-medium'>
+                              --
+                            </span>
+                          ) : (
+                            <span className='bg-[#E74C3C] text-white px-4 py-1 rounded-full font-medium'>
+                              {r.penalty}
+                            </span>
+                          )}
+                        </td>
+                        <td className='py-3 px-4 text-center'>
+                          <span
+                            className={`py-1 px-2.5 rounded-full inline-flex items-center justify-center text-[14px] gap-1.5 font-medium w-[113px] h-[31px] capitalize ${
+                              r.paymentStatus === 'pending'
+                                ? 'bg-yellow-50 text-yellow-500 '
+                                : 'bg-green-50 text-green-500'
+                            }`}
+                          >
+                            {r.paymentStatus === 'pending' ? (
+                              <BsClockFill size={12} />
+                            ) : (
+                              <img
+                                src={verify}
+                                className='mr-[4px]'
+                                alt='verify'
+                              />
+                            )}
+                            {r.paymentStatus}
+                          </span>
+                        </td>
+                        <td className='py-3 px-4 text-center'>
+                          <div className='flex items-center justify-center'>
+                            <span
+                              className={`inline-flex items-center justify-center w-[113px] h-[31px] text-[14px] font-medium capitalize ${
+                                r.paymentMode === 'online'
+                                  ? 'text-blue-600 font-medium bg-blue-50'
+                                  : 'text-[#202224] font-medium bg-gray-50'
+                              } px-2 py-1 rounded-full`}
+                            >
+                              {r.paymentMode === 'online' ? (
+                                <img src={wallet} className='pr-[5px]' />
+                              ) : (
+                                <img src={moneys} className='pr-[5px]' />
+                              )}
+                              {r.paymentMode}
+                            </span>
+                          </div>
+                        </td>
+                        <td className='py-3 px-4 text-center'>
+                          <button
+                            onClick={() =>
+                              handleViewClick({
+                                ...m,
+                                ...r
+                              })
+                            }
+                            className='cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]'
+                          >
+                            <img src={eye} />
+                          </button>
+
+                          {/* Render Modal */}
+                          {isViewModalOpen && (
+                            <ViewDetailsModal
+                              user={selectedUser}
+                              onClose={() => {
+                                setIsViewModalOpen(false)
+                                setSelectedUser(null)
+                              }}
+                            />
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  )
+                ) : (
+                  <tr>
+                    <td colSpan='9' className='text-center py-4 text-gray-500'>
+                      No data found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
       </div>
       {/* Modal */}
       {isModalOpen && (

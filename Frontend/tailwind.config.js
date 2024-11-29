@@ -29,7 +29,9 @@ module.exports = {
         'sm': '840px',
 
       },
-
+      borderImageSource: {
+        'custom-gradient': 'linear-gradient(255.6deg, #FF6A00 7.71%, rgba(255, 255, 255, 0) 18.54%)',
+      },
     },
   },
   plugins: [],
