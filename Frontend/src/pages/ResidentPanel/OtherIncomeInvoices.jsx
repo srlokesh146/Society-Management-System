@@ -115,12 +115,12 @@ function OtherIncomeInvoices () {
             View Invoice
           </button>
         </div>
-        <div className='grid grid-cols-1 mt-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+        <div className='grid grid-cols-1 mt-4 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {events.length > 0 ? (
             events.map(event => (
               <div
                 key={event._id}
-                className='border border-grey-800 rounded-lg'
+                className='border border-grey-800 rounded-lg '
               >
                 <div className='bg-[#5678E9] text-white p-4 flex justify-between items-center rounded-t-lg'>
                   <h2 className='text-sm sm:text-base font-semibold'>

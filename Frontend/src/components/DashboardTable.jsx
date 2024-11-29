@@ -136,7 +136,7 @@ const DashboardTable = () => {
   }, [])
 
   return (
-    <div className='bg-white pt-[20px] rounded-[15px] col-span-2 max-2xl:col-span-4'>
+    <div className='bg-white pt-[20px] rounded-[15px] mt-[-10px] col-span-2 max-2xl:col-span-4'>
       <div className='flex justify-between items-center mb-[27px] ps-[20px] pr-[20px]'>
 
         <div>

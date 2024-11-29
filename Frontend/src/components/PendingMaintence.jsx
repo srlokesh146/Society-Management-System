@@ -86,7 +86,7 @@ function PendingMaintence () {
                 <div className='p-4'>
                   <div className='space-y-2'>
                     <div className='flex justify-between items-center text-sm sm:text-base text-gray-500'>
-                      <span className='font-sm w-24'>Bill Date</span>
+                      <span className='font-sm '>Bill Date</span>
                       <p className='text-grey-400 text-[15px]'>
                         {new Date(maintence.dueDate).toLocaleDateString(
                           'en-GB',
@@ -99,7 +99,7 @@ function PendingMaintence () {
                       </p>
                     </div>
                     <div className='flex justify-between items-center text-sm sm:text-base text-gray-500'>
-                      <span className='font-sm w-32'>Pending Date</span>
+                      <span className='font-sm '>Pending Date</span>
                       <p className='text-grey-400 text-[15px]'>
                         {new Date(maintence.penaltyDay).toLocaleDateString(
                           'en-GB',
@@ -130,8 +130,8 @@ function PendingMaintence () {
                         Grand Total
                       </span>
 
-                      <span className='text-[15px] ml-40 text-green-600 '>{` ₹`}</span>
-                      <p className=' text-green-600'>
+                      {/* <span className='text-[15px]  text-green-600 '>{` `}</span> */}
+                      <p className=' text-green-600'> ₹ 
                         {maintence.maintenanceAmount + maintence.penaltyAmount}
                       </p>
                     </div>
