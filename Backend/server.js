@@ -106,7 +106,7 @@ io.on("connection", (socket) => {
   socket.on("sendMessage", ({ userId, receiverId, message, media }) => {
     // add media
     const newMessage = { userId, receiverId, message, media };
-    console.log(newMessage);
+   
     io.to(socket.id).emit("sendMessage", newMessage);
     const receiverSocket = Array.from(io.sockets.sockets.values()).find(
       (s) => s.userId === receiverId

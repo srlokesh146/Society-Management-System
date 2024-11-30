@@ -231,12 +231,15 @@ export default function TeantForm () {
 
   const handleUpdateTenant = async () => {
     try {
+      setIsLoading(true)
       const response = await UpdateTenant(resident._id, formData)
       toast.success(response.data.message)
       navigate('/residentmanagement')
     } catch (error) {
       console.log(error)
       toast.error(error.response.data.message)
+    }finally{
+      setIsLoading(false)
     }
   }
 

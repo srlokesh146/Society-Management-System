@@ -373,14 +373,7 @@ exports.updateOwnerData = async (req, res) => {
       req.files?.Rent_Agreement
     );
 
-    const existingOwner = await Owner.findOne({ Wing, Unit });
-    if (existingOwner && existingOwner._id.toString() !== id) {
-      return res.status(400).json({
-        success: false,
-        message: "Wing and Unit already exists for another owner.",
-      });
-    }
-
+  
     
     const owner = await Owner.findById(id);
     if (!owner) {
