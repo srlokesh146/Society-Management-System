@@ -57,44 +57,44 @@ export default function Sidebar () {
   }
 
   useEffect(() => {
-    const currentPath = location.pathname;
+    const currentPath = location.pathname
     if (isSidebarOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden'
     } else {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = 'auto'
     }
-    const savedSubItems = localStorage.getItem('openSubItems');
+    const savedSubItems = localStorage.getItem('openSubItems')
     if (savedSubItems) {
-      setOpenSubItems(JSON.parse(savedSubItems));
+      setOpenSubItems(JSON.parse(savedSubItems))
     }
-    const activeParentItem = tabs.find((item) =>
-      item.subItems?.some((subItem) => subItem.path === currentPath) || item.path === currentPath
-    );
-  
+    const activeParentItem = tabs.find(
+      item =>
+        item.subItems?.some(subItem => subItem.path === currentPath) ||
+        item.path === currentPath
+    )
+
     if (activeParentItem) {
-      setActiveItem(activeParentItem.id);
+      setActiveItem(activeParentItem.id)
       if (activeParentItem.subItems) {
-        setOpenSubItems((prev) => ({
+        setOpenSubItems(prev => ({
           ...prev,
-          [activeParentItem.id]: true,
-        }));
+          [activeParentItem.id]: true
+        }))
       }
     }
-  
+
     if (role === 'admin') {
-      setTabs(sidebarItems);
+      setTabs(sidebarItems)
     } else if (role === 'security') {
-      setTabs(securityBar);
+      setTabs(securityBar)
     } else if (role === 'resident') {
-      setTabs(residentItems);
+      setTabs(residentItems)
     }
-  
+
     return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [isSidebarOpen, location.pathname, role, tabs]);
-  
-  
+      document.body.style.overflow = 'auto'
+    }
+  }, [isSidebarOpen, location.pathname, role, tabs])
 
   return (
     <>
@@ -132,51 +132,61 @@ export default function Sidebar () {
                       className={`flex items-center mb-[10px] text-sm font-medium rounded-lg p-[14px] ${
                         activeItem === 'dashboard' || activeItem === item.id
                           ? 'bg-custom-gradient text-white border'
-                          : 'hover:bg-custom-gradient hover:text-white bg-red'
+                          : 'hover:bg-custom-gradient hover:text-white '
                       }`}
                       onClick={() => handleItemClick(item)}
                     >
-                      <span className='mr-[10px]'>{item.icon}</span>
+                      <div className='mr-[10px]'>
+                        <img
+                          src={item.icon}
+                          alt=''
+                          className={`transition duration-300 group-hover:brightness-0 group-hover:invert ${
+                            activeItem === item.id
+                              ? 'filter brightness-0 invert'
+                              : ''
+                          }`}
+                        />
+                      </div>
                       <span className='lg:inline'>{item.label}</span>
                       {item.subItems && (
-                        <img src={downangle}
+                        <img
+                          src={downangle}
                           className={`ml-auto transition-transform duration-300 ${
                             openSubItems[item.id] ? 'rotate-180' : ''
                           }`}
                         />
                       )}
                     </NavLink>
-                    {activeItem === 'dashboard' ||
-                      (activeItem === item.id && (
-                        <div className='sidebar-border sidebar-border-active'></div>
-                      ))}
+                    {(activeItem === 'dashboard' || activeItem === item.id) && (
+                      <div className='sidebar-border sidebar-border-active'></div>
+                    )}
                   </div>
                 )}
                 {item.subItems && openSubItems[item.id] && (
-                  <ul className="ml-4 mt-2 mb-2">
-                    {item.subItems.map((subItem) => (
+                  <ul className='ml-4 mt-2 mb-2'>
+                    {item.subItems.map(subItem => (
                       <li
                         key={subItem.id}
                         className={`border-l-2 pl-2 ${
                           location.pathname === subItem.path && subItem.id
-                            ? "border-black"
-                            : "border-gray-300 hover:border-black"
+                            ? 'border-black'
+                            : 'border-gray-300 hover:border-black'
                         }`}
                       >
                         <NavLink
                           to={subItem.path}
                           className={`flex items-center text-sm rounded-lg pt-[6px] pb-[5px] ${
                             location.pathname === subItem.path && subItem.id
-                              ? "text-black font-medium"
-                              : "hover:text-[#202224] font-medium"
+                              ? 'text-black font-medium'
+                              : 'hover:text-[#202224] font-medium'
                           }`}
                           onClick={() => setActiveItem(subItem.id)}
                         >
                           <span
                             className={`ml-2 ${
                               location.pathname === subItem.path
-                                ? "text-black"
-                                : "text-[#4F4F4F] hover:text-black"
+                                ? 'text-black'
+                                : 'text-[#4F4F4F] hover:text-black'
                             }`}
                           >
                             {subItem.label}

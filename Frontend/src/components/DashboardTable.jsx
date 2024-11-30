@@ -137,7 +137,7 @@ const DashboardTable = () => {
 
   return (
 
-    <div className='bg-white pt-[10px] rounded-[15px] mt-[-5px] col-span-2 max-2xl:col-span-4 h-[330px] overflow-hidden'>
+    <div className='bg-white pt-[10px] rounded-[15px] mt-[-5px] col-span-2 max-2xl:col-span-4 h-[345px] overflow-hidden'>
       <div className='flex justify-between items-center mb-[10px] ps-[20px] pr-[20px] '>
         <div>
           <h2 className='text-[20px] font-semibold leading-4 max-sm:text-[16px] max-mb:text-[18px] '>

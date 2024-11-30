@@ -226,7 +226,7 @@ export default function OwnerForm () {
   }
 
   return (
-    <div className="min-h-screen p-4 bg-gray-100 " >
+    <div className="min-h-screen bg-gray-100 " >
       {/* Tab Buttons */} 
       <div className="flex">
         <button
