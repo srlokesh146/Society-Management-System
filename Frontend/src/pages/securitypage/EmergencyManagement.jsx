@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
 import { CreateAlert } from "../../services/alertService";
 import { toast } from "react-hot-toast";
+import { addNewNotification } from "../../redux/features/notificationSlice";
+import { useDispatch } from "react-redux";
 
 export default function EmergencyManagement() {
+  const dispatch = useDispatch();
   const [description, setDescription] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [alert_type, setAlert_type] = useState("");
@@ -27,6 +30,14 @@ export default function EmergencyManagement() {
       try {
         const data = { alert_type, description };
         const response = await CreateAlert(data);
+        const notification = {
+          _id: response.data.notification._id,
+          title: response.data.notification.title,
+          name: response.data.notification.name,
+          message: response.data.notification.message,
+          date: response.data.notification.date,
+        };
+        dispatch(addNewNotification(notification));
         toast.success(response.data.message);
       } catch (error) {
         toast.error(error.response.data.message);
@@ -95,10 +106,10 @@ export default function EmergencyManagement() {
                     Fire Alarm
                   </li>
                   <li
-                    onClick={() => handleOptionSelect("Earthquake")}
+                    onClick={() => handleOptionSelect("Earth Quack")}
                     className="p-2 cursor-pointer text-[14px] leading-[21px] text-[#A7A7A7] hover:text-black"
                   >
-                    Earthquake
+                    Earth Quake
                   </li>
                   <li
                     onClick={() => handleOptionSelect("High Winds")}

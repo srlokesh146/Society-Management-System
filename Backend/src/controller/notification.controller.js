@@ -28,9 +28,10 @@ exports.getAllNotifications = async (req, res) => {
     });
   }
 };
+
 exports.DeleteSingleNotification = async (req, res) => {
   const { notificationId } = req.params;
-  const loggedInUserId = req.user._id;
+  const loggedInUserId = req.user.id;
 
   try {
     const notification = await Notification.findOne({
@@ -41,8 +42,7 @@ exports.DeleteSingleNotification = async (req, res) => {
     if (!notification) {
       return res.status(404).json({
         success: false,
-        message:
-          "Notification not found or you are not authorized to delete it.",
+        message: "Notification not found or access denied.",
       });
     }
 
@@ -51,7 +51,7 @@ exports.DeleteSingleNotification = async (req, res) => {
     );
 
     if (notification.users.length === 0) {
-      await notification.remove();
+      await notification.deleteOne();
       return res.status(200).json({
         success: true,
         message: "Notification deleted successfully.",
@@ -62,16 +62,18 @@ exports.DeleteSingleNotification = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Notification  successfully deleted",
+      message: "Notification deleted for the user successfully.",
     });
+
   } catch (error) {
-    console.log(error);
+    console.error("Error deleting notification:", error); // More descriptive logging
     return res.status(500).json({
       success: false,
-      message: "Error deleting notification.",
+      message: "An error occurred while deleting the notification.",
     });
   }
 };
+
 exports.DeleteAllNotification = async (req, res) => {
   const loggedInUserId = req.user._id;
 
@@ -80,33 +82,37 @@ exports.DeleteAllNotification = async (req, res) => {
       "users._id": loggedInUserId,
     });
 
-    if (!notifications.length) {
+    if (notifications.length === 0) {
       return res.status(404).json({
         success: false,
         message: "No notifications found for the logged-in user.",
       });
     }
 
-    for (const notification of notifications) {
+    // Filter users and prepare bulk operations
+    const bulkOperations = notifications.map((notification) => {
       notification.users = notification.users.filter(
         (user) => user._id.toString() !== loggedInUserId.toString()
       );
 
-      if (notification.users.length === 0) {
-        await notification.remove();
-      } else {
-        await notification.save();
-      }
-    }
+      return notification.users.length === 0
+        ? { deleteOne: { filter: { _id: notification._id } } }
+        : { updateOne: { filter: { _id: notification._id }, update: { users: notification.users } } };
+    });
+
+    // Execute bulk operations
+    await Notification.bulkWrite(bulkOperations);
 
     return res.status(200).json({
       success: true,
-      message: "All notifications  deleted.",
+      message: "All notifications deleted successfully.",
     });
   } catch (error) {
+    console.error("Error deleting notifications:", error);
     return res.status(500).json({
       success: false,
-      message: "Error deleting notifications.",
+      message: "An error occurred while deleting notifications.",
     });
   }
 };
+

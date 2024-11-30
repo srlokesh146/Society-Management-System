@@ -58,7 +58,8 @@ exports.CreateFacility= async(req,res)=>{
         
         return res.status(200).json({
             success:true,
-            message:"Facility successfully added"
+            message:"Facility successfully added",
+            notification
         })
     } catch (error) {
        

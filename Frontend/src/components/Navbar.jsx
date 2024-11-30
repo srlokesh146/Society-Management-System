@@ -19,7 +19,11 @@ import {
   GetNotifications,
 } from "../services/notificationService";
 import { toast } from "react-hot-toast";
-import { allNotification } from "../redux/features/notificationSlice";
+import {
+  allNotification,
+  clearNotifications,
+  deleteNotification,
+} from "../redux/features/notificationSlice";
 
 const Navbar = () => {
   const notifications = useSelector(
@@ -29,7 +33,7 @@ const Navbar = () => {
   const { user } = useSelector((store) => store.auth);
   const [showSearch, setShowSearch] = useState(true);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const [clearedNotifications, setClearedNotifications] = useState(false);
+  const [clearedNotifications, setClearedNotifications] = useState(true);
   const [isPayNowOpen, setIsPayNowOpen] = useState(false);
   const [isPaymentNowOpen, setIsPaymantNowOpen] = useState(false);
   const [isPaymenCardOpen, setisPaymenCardOpen] = useState(false);
@@ -65,11 +69,11 @@ const Navbar = () => {
   };
 
   const handleOpenModal = () => {
-    if (user.role === "admin") {
-      navigate("/income");
-    } else if (user.role === "resident") {
-      navigate("/maintenceinvoices");
-    }
+    // if (user.role === "admin") {
+    //   navigate("/income");
+    // } else if (user.role === "resident") {
+    //   navigate("/maintenceinvoices");
+    // }
   };
 
   const handleChange = (e) => {
@@ -78,16 +82,18 @@ const Navbar = () => {
   };
 
   const handleNotificationClick = () => {
-    setIsNotificationOpen(!isNotificationOpen);
-    setClearedNotifications(false);
+    if (user.role !== "security") {
+      setIsNotificationOpen(!isNotificationOpen);
+      setClearedNotifications(false);
+    }
   };
 
   const handleClearNotifications = async () => {
     try {
       setIsNotificationList([]);
       const response = await ClearNotification();
-      console.log(response);
       toast.success(response.data.message);
+      dispatch(clearNotifications());
       setClearedNotifications(true);
     } catch (error) {
       console.log(error);
@@ -118,6 +124,7 @@ const Navbar = () => {
     try {
       setIsNotificationList((prev) => prev.filter((n) => n._id !== id));
       const response = await DeleteNotification(id);
+      dispatch(deleteNotification(id));
       toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -152,17 +159,17 @@ const Navbar = () => {
         <div className="search-icon relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-[35px] max-sm:hidden ">
           <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-0 max-sm:hidden">
             {/* <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-0 max-sm:hidden"> */}
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 bg-[#F6F8FB] max-sm:mb-[15px] max-xl:ml-[15px]"
-              />
+            <input
+              type="text"
+              placeholder="Search..."
+              className="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 bg-[#F6F8FB] max-sm:mb-[15px] max-xl:ml-[15px]"
+            />
 
-              <span className="absolute left-3 top-[10px] text-gray-400 max-lg:left-[24px] max-xl:left-[24px]">
-                <img className="h-[20px] w-[20px]" src={search} alt="" />
-              </span>
-            </div>
+            <span className="absolute left-3 top-[10px] text-gray-400 max-lg:left-[24px] max-xl:left-[24px]">
+              <img className="h-[20px] w-[20px]" src={search} alt="" />
+            </span>
           </div>
+        </div>
       ) : (
         <div className="flex items-center max-sm:hidden max-md:hidden">
           <span
@@ -213,7 +220,6 @@ const Navbar = () => {
           {/* Notification Dropdown */}
           {isNotificationOpen && (
             <div className="absolute right-0 mt-2 max-w-[540px] bg-white rounded-lg shadow-lg p-4 z-[9999] max-h-[540px] max-sm:max-h-[700px] max-sm:p-[30px] overflow-y-auto max-sm:min-w-[355px] max-md:min-w-[500px] max-md:left-0 max-md:translate-x-[-100%] max-sm:translate-x-[-55%] sm:min-w-[30rem] custom-scrollbar">
-
               <div className="flex justify-between items-center mb-2 max-sm:ps-[15px] max-sm:pr-[15px]">
                 <span className="text-[20px] font-normal leading-[30px] max-md:justify-start max-sm:mb-[10px]">
                   Notifications
@@ -234,7 +240,7 @@ const Navbar = () => {
                 )}
               </div>
 
-              {clearedNotifications ? (
+              {notificationList?.length === 0 ? (
                 <div className="text-center py-10">
                   <img
                     src={NotificationImage}
@@ -252,7 +258,10 @@ const Navbar = () => {
                     className="border-b border-gray-200 pb-5 mb-[14px]"
                   >
                     <div className="">
-                      <h6 className="font-bold ">{notification.name}</h6>
+                      <h6 className="font-bold ">{notification.name} </h6>
+                      <span className="text-sm font-light text-gray-800">
+                        {notification.title}
+                      </span>
                       <p className="text-[12px] text-[#A7A7A7] font-normal mt-1] mb-[4px]">
                         {new Date(notification.date).toLocaleDateString(
                           "en-GB",
