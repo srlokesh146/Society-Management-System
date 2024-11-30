@@ -247,14 +247,7 @@ exports.updateTenantData = async (req, res) => {
       : null;
 
 
-    const existingTenant = await Tenante.findOne({ Wing, Unit });
-    if (existingTenant && existingTenant._id.toString() !== id) {
-      return res.status(400).json({
-        success: false,
-        message: "An tenant already exists with this Wing and Unit.",
-      });
-    }
-
+    
 
     const tenant = await Tenante.findById(id);
     if (!tenant) {
