@@ -487,16 +487,8 @@ const Dashboard = () => {
                             </p>
                           </div>
                         </div>
-                        <div>
-                          <p className='text-sm font-medium  mb-1'>
-                            {activity.title}
-                          </p>
-                          <p className='text-[14px] text-[#A7A7A7]  leading-[19.5px]'>
-                            8:00 PM To 10:00 PM
-                          </p>
-                        </div>
-                      </div>
-
+                      
+                     
                       <p className='text-[14px] text-[#4F4F4F] leading-4'>
                         {new Date(activity.date)
                           .toLocaleDateString('en-GB', {
