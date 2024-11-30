@@ -8,8 +8,11 @@ import {
   UpdateIncome,
 } from "../services/incomeService";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { addNewNotification } from "../redux/features/notificationSlice";
 
 const OtherIncome = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
@@ -38,7 +41,6 @@ const OtherIncome = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    checkFormValidity();
   };
 
   const handleApply = async (e) => {
@@ -46,6 +48,16 @@ const OtherIncome = () => {
     try {
       const response = await CreateIncome(formData);
       fetchIncome();
+
+      const notification = {
+        _id: response.data.notification._id,
+        title: response.data.notification.title,
+        name: response.data.notification.name,
+        message: response.data.notification.message,
+        date: response.data.notification.date,
+      };
+
+      dispatch(addNewNotification(notification));
       toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -259,7 +271,7 @@ const OtherIncome = () => {
                     })}
                   </p>
                 </p>
-          
+
                 <p className="text-gray-600 flex justify-between items-center p-2">
                   Due Date:{" "}
                   <p className="text-black font-semibold">
