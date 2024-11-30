@@ -23,6 +23,7 @@ import cashpayment from './assets/images/cashpayment.png'
 import moneys from './assets/images/moneys.png'
 import { MdEvent } from 'react-icons/md'
 
+
 export const sidebarItems = [
   {
     id: 1,
@@ -101,13 +102,14 @@ export const residentItems = [
     id: 1,
     path: '/dashboard',
     label: 'Dashboard',
-    icon: <TbLayoutDashboardFilled />
+    icon: <FaAddressCard />
+  
   },
   {
     id: 2,
     path: '/residentowner',
     label: 'Personal Details',
-    icon: <TbLayoutDashboardFilled />
+    icon: <FaAddressCard />
   },
   {
     id: 3,
