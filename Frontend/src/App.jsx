@@ -12,44 +12,43 @@ import VisitorLog from './pages/VisitorLog'
 import SecurityProtocols from './pages/SecurityProtocols'
 import './App.css'
 
-import Residentmanagement from "./pages/Residentmanagement";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import Navbar from "./components/Navbar";
-import Sidebar from "./components/sidebar/Sidebar";
-import EditProfileForm from "./components/EditProfileForm";
-import SecurityGuardDetails from "./pages/SecurityGuardDetails.jsx";
-import Announcement from "./pages/Announcement.jsx";
-import Facilitymanagement from "./pages/Facilitymanagement.jsx";
-import Note from "./pages/Note.jsx";
-import Expense from "./pages/Expense.jsx";
-import Income from "./pages/Income";
-import OtherIncome from "./pages/OtherIncome";
-import ResidentManagement from "./pages/Residentmanagement";
-import TenantForm from "./pages/TenantForm.jsx";
-import OwnerForm from "./pages/OwnerForm.jsx";
-import VisitorTracking from "./pages/securitypage/VisitorTracking.jsx";
-import EmergencyManagement from "./pages/securitypage/EmergencyManagement.jsx";
-import PrivateRoutes from "./routes/PrivateRoutes.jsx";
-import EventsParticipate from "./pages/residentpanel/EventsParticipation/Activityparticipate.jsx";
-import ActivityParticipate from "./pages/residentpanel/EventsParticipation/Activityparticipate.jsx";
-import Eventtab from "./pages/residentpanel/EventsParticipation/EventTab/Eventtab.jsx";
-import ResidentOwner from "./pages/ResidentPanel/ResidentOwner.jsx";
-import ServiceAndComplaint from "./pages/ResidentPanel/ServiceAndComplaint.jsx";
-import ResidentSecurityProtocol from "./pages/ResidentPanel/ResidentSecurityProtocol.jsx";
-import Maintenceinvoices from "./pages/ResidentPanel/Maintenceinvoices.jsx";
-import InvoicesPage from "./pages/ResidentPanel/InvoicesPage.jsx";
-import OtherIncomeInvoices from "./pages/ResidentPanel/OtherIncomeInvoices.jsx";
-import AccessForums from "./pages/residentpanel/Community/AccessForums.jsx";
-import Polls from "./pages/residentpanel/Community/OwnPolls.jsx";
-import CommunityTab from "./pages/residentpanel/Community/communitytab/CommunityTab.jsx";
-import Discusion from "./pages/ResidentPanel/Community/communitytab/Discusion.jsx";
-import ViewIncome from "./components/modal/AdminIncome.jsx";
-import AdminIncome from "./components/modal/AdminIncome.jsx";
-import { io } from "socket.io-client";
-import Constant from "./config/Constant.jsx";
-import OtherInvoices from "./pages/ResidentPanel/OtherInvoices.jsx";
-import AdminRoutes from "./routes/AdminRoutes.jsx";
-
+import Residentmanagement from './pages/Residentmanagement'
+import Dashboard from './pages/Dashboard/Dashboard'
+import Navbar from './components/Navbar'
+import Sidebar from './components/sidebar/Sidebar'
+import EditProfileForm from './components/EditProfileForm'
+import SecurityGuardDetails from './pages/SecurityGuardDetails.jsx'
+import Announcement from './pages/Announcement.jsx'
+import Facilitymanagement from './pages/Facilitymanagement.jsx'
+import Note from './pages/Note.jsx'
+import Expense from './pages/Expense.jsx'
+import Income from './pages/Income'
+import OtherIncome from './pages/OtherIncome'
+import ResidentManagement from './pages/Residentmanagement'
+import TenantForm from './pages/TenantForm.jsx'
+import OwnerForm from './pages/OwnerForm.jsx'
+import VisitorTracking from './pages/securitypage/VisitorTracking.jsx'
+import EmergencyManagement from './pages/securitypage/EmergencyManagement.jsx'
+import PrivateRoutes from './routes/PrivateRoutes.jsx'
+import EventsParticipate from './pages/residentpanel/EventsParticipation/Activityparticipate.jsx'
+import ActivityParticipate from './pages/residentpanel/EventsParticipation/Activityparticipate.jsx'
+import Eventtab from './pages/residentpanel/EventsParticipation/EventTab/Eventtab.jsx'
+import ResidentOwner from './pages/ResidentPanel/ResidentOwner.jsx'
+import ServiceAndComplaint from './pages/ResidentPanel/ServiceAndComplaint.jsx'
+import ResidentSecurityProtocol from './pages/ResidentPanel/ResidentSecurityProtocol.jsx'
+import Maintenceinvoices from './pages/ResidentPanel/Maintenceinvoices.jsx'
+import InvoicesPage from './pages/ResidentPanel/InvoicesPage.jsx'
+import OtherIncomeInvoices from './pages/ResidentPanel/OtherIncomeInvoices.jsx'
+import AccessForums from './pages/residentpanel/Community/AccessForums.jsx'
+import Polls from './pages/residentpanel/Community/OwnPolls.jsx'
+import CommunityTab from './pages/residentpanel/Community/communitytab/CommunityTab.jsx'
+import Discusion from './pages/ResidentPanel/Community/communitytab/Discusion.jsx'
+import ViewIncome from './components/modal/AdminIncome.jsx'
+import AdminIncome from './components/modal/AdminIncome.jsx'
+import { io } from 'socket.io-client'
+import Constant from './config/Constant.jsx'
+import OtherInvoices from './pages/ResidentPanel/OtherInvoices.jsx'
+import AdminRoutes from './routes/AdminRoutes.jsx'
 
 function App () {
   const [isSidebaropen, setSidebaropen] = useState(false)
@@ -94,10 +93,12 @@ function App () {
 
         <div
           className={`flex-1 ${
-            location.pathname === '/accessforums'
+            location.pathname === '/dashboard'
+              ? 'overflow-hidden max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-y-auto p-6'
+              : location.pathname === '/accessforums'
               ? 'overflow-auto overflow-x-hidden'
               : shouldRenderSidebarAndNavbar
-              ? 'p-6 max-sm:p-4 overflow-auto max-md:overflow-auto'
+              ? 'p-6 max-sm:p-4 overflow-auto'
               : 'lg:overflow-hidden max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-y-auto'
           } bg-[#F0F5FB]`}
         >

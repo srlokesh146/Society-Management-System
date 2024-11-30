@@ -233,10 +233,10 @@ const Dashboard = () => {
                         position: "absolute",
                         top: 0,
                         left: 0,
-                        right: 0,
+                        right: "-2px",
                         bottom: 0,
                         margin: 'auto',
-                        width: '70%',
+                        width: '69%',
                         background: card.gradient,
                         zIndex: -1,
                       }}
@@ -367,7 +367,7 @@ const Dashboard = () => {
                         return (
                           <li
                             key={r._id}
-                            className="border-b border-gray-200 py-2 flex items-center"
+                            className="border-b border-[#F6F8FB] py-2 flex items-center"
                           >
                             <img
                               src={r.resident.profileImage}
@@ -414,7 +414,8 @@ const Dashboard = () => {
             <div className='col-span-6 max-md:col-span-12 max-lg:col-span-12 rounded-lg max-xl:col-span-12 max-2xl:col-span-4'>
               <DashboardTable />
             </div>
-            <div className="bg-[#fff] rounded-lg w-[380px] p-[20px] max-h-[330px] overflow-hidden  mt-[-5px]" >
+            <div className='col-span-2 max-sm:col-span-12 max-md:col-span-12 max-xl:col-span-12'>
+            <div className="bg-[#fff] rounded-[15px] w-[380px] p-[20px] h-[345px] overflow-hidden  mt-[-5px]" >
               <div className="flex justify-between items-center mb-[27px] ps-[20px] pr-[20px] max-sm:ps-[10px] max-sm:pr-0">
                 <div className="flex items-center">
                   <h2 className="text-[18px] mt-[-15px] font-semibold leading-[27px] max-sm:text-[16px] max-md:text-[18px] max-2xl:text-[18px] whitespace-nowrap">
@@ -508,6 +509,7 @@ const Dashboard = () => {
                   </tr>
                 )}
               </ul>
+            </div>
             </div>
           </div>
         </div>

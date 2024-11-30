@@ -22,24 +22,39 @@ import visacard from './assets/images/visacard.png'
 import cashpayment from './assets/images/cashpayment.png'
 import moneys from './assets/images/moneys.png'
 import { MdEvent } from 'react-icons/md'
+import dashboardicon from './assets/images/dashboardicon.svg'
+import personalcard from './assets/images/personalcard.svg'
+import money from './assets/images/money.svg'
+import dollarsquare from './assets/images/dollar-square.svg'
+import building from './assets/images/building.svg'
+import servicesimg from './assets/images/servicesimg.svg'
+import eventicon from './assets/images/eventicon.svg'
+import smstracking from './assets/images/sms-tracking.svg'
+import shieldsecurity from './assets/images/shield-security.svg'
+import securityuser from './assets/images/security-user.svg'
+import communitiesicon from './assets/images/communitiesicon.svg'
+import paymenticon from './assets/images/paymenticon.svg'
+import securityprotocolicon from './assets/images/securityprotocolicon.svg'
+import securityicon from './assets/images/securityicon.svg'
+import announcement from './assets/images/announcement.svg'
 
 export const sidebarItems = [
   {
     id: 1,
     path: '/dashboard',
     label: 'Dashboard',
-    icon: <TbLayoutDashboardFilled />
+    icon: dashboardicon
   },
   {
     id: 2,
     path: '/residentmanagement',
     label: 'Resident Management',
-    icon: <FaMoneyBill />
+    icon: money
   },
   {
     id: 3,
     label: 'Financial Management',
-    icon: <RiMoneyDollarBoxFill />,
+    icon: dollarsquare,
     subItems: [
       { id: 4, path: '/income', label: 'Income' },
       { id: 5, path: '/expense', label: 'Expanse' },
@@ -50,12 +65,12 @@ export const sidebarItems = [
     id: 7,
     path: '/facilitymanagement',
     label: 'Facility Management',
-    icon: <HiMiniBuildingOffice2 />
+    icon: building
   },
   {
     id: 8,
     label: 'Complaint Tracking',
-    icon: <RiMessageFill />,
+    icon: smstracking,
     subItems: [
       { id: 9, path: '/complainttable', label: 'Create Complaint' },
       { id: 10, path: '/reqtracking', label: 'Request Tracking' }
@@ -64,7 +79,7 @@ export const sidebarItems = [
   {
     id: 11,
     label: 'Security Management',
-    icon: <AiFillSecurityScan />,
+    icon: shieldsecurity,
     subItems: [
       { id: 12, path: '/visitorlog', label: 'Visitor Logs' },
       { id: 13, path: '/SecurityProtocols', label: 'Security Protocols' }
@@ -74,13 +89,13 @@ export const sidebarItems = [
     id: 14,
     path: '/securityguard',
     label: 'Security Guard',
-    icon: <FaUserShield />
+    icon: securityuser
   },
   {
     id: 15,
     path: '/announcement',
     label: 'Announcement',
-    icon: <FaBullhorn />
+    icon: announcement
   }
 ]
 
@@ -88,7 +103,7 @@ export const securityBar = [
   {
     id: 1,
     label: 'Security',
-    icon: <FaUserShield />,
+    icon: securityicon,
     subItems: [
       { id: 2, path: '/visitortracking', label: 'Visitor Tracking' },
       { id: 3, path: '/emergencymanagement', label: 'Emergency Management' }
@@ -101,30 +116,30 @@ export const residentItems = [
     id: 1,
     path: '/dashboard',
     label: 'Dashboard',
-    icon: <TbLayoutDashboardFilled />
+    icon: dashboardicon
   },
   {
     id: 2,
     path: '/residentowner',
     label: 'Personal Details',
-    icon: <TbLayoutDashboardFilled />
+    icon: personalcard
   },
   {
     id: 3,
     path: '/serviceandcomplaint',
     label: 'Service And Complaint',
-    icon: <FaAddressCard />
+    icon: servicesimg
   },
   {
     id: 4,
     path: '/eventsparticipate',
     label: 'Events Participation',
-    icon: <MdEvent />
+    icon: eventicon
   },
   {
     id: 5,
     label: 'Community',
-    icon: <AiFillSecurityScan />,
+    icon: communitiesicon,
     subItems: [
       { id: 6, path: '/accessforums', label: 'Access Forums' },
       { id: 7, path: '/polls', label: 'Polls' },
@@ -134,7 +149,7 @@ export const residentItems = [
   {
     id: 9,
     label: 'Payment Portol',
-    icon: <FaMoneyCheck />,
+    icon: paymenticon,
     subItems: [
       { id: 10, path: '/maintenceinvoices', label: 'Maintence Invoices' },
       { id: 11, path: '/otherincomeinvoices', label: 'Other Income Invoices' }
@@ -144,7 +159,7 @@ export const residentItems = [
     id: 30,
     path: '/residentsecurityprotocol',
     label: 'Security Protocols',
-    icon: <FaAddressCard />
+    icon: securityprotocolicon
   }
 ]
 
@@ -181,8 +196,6 @@ export const Navigationbar = [
   { path: '/adminincome', label: 'MaintenceDetails' }
 ]
 
-
-
 export const pendingMaintenances = [
   { name: 'Roger Lubin', amount: '5,000', duration: '2 Month Pending' },
   { name: 'Roger Lubin', amount: '5,000', duration: '2 Month Pending' },
@@ -193,7 +206,6 @@ export const pendingMaintenances = [
   { name: 'Roger Lubin', amount: '5,000', duration: '2 Month Pending' },
   { name: 'Roger Lubin', amount: '5,000', duration: '2 Month Pending' }
 ]
-
 
 export const notifications = [
   {
@@ -463,7 +475,6 @@ export const visitors = [
     time: '7:00 PM'
   }
 ]
-
 
 export const data = [
   {
