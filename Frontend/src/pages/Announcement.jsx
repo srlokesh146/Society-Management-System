@@ -15,6 +15,7 @@ import {
 } from "../services/announcementService";
 import { toast } from "react-hot-toast";
 import { convert24hrTo12hr } from "../utils/ConvertTime";
+import { IoMdClose } from "react-icons/io";
 
 function Announcement() {
   const [announcements, setAnnouncements] = useState([]);
@@ -351,7 +352,7 @@ function Announcement() {
                   onClick={handleCloseModal}
                   className="text-gray-400 hover:text-gray-600"
                 >
-                  <FaTimes size={18} />
+                  <IoMdClose size={18} />
                 </button>
               </div>
               <div className="border-b border-[#F4F4F4] mb-[10px]"></div>

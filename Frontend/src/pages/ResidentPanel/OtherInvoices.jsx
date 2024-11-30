@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FaArrowAltCircleDown, FaArrowLeft, FaEye } from "react-icons/fa";
 import toast from "react-hot-toast";
-import { GetEventsParticipants } from "../../services/incomeService";
+import { DownloadInvoice, GetEventsParticipants } from "../../services/incomeService";
+import axios from "axios";
 
 function OtherInvoices() {
   const [selectedInvoice, setSelectedInvoice] = useState(null);
@@ -28,6 +29,52 @@ function OtherInvoices() {
   useEffect(() => {
     fetchPaidEvents();
   }, []);
+ 
+
+  const handleDownloadInvoice = async (invoice) => {
+    try {
+      
+      const invoiceData = {
+        invoiceId: 1232, 
+        ownerName: invoice.resident.Full_name,
+        billDate: new Date(invoice.dueDate).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }),
+        paymentDate: "11/11/2024", 
+        eventDate: new Date(invoice.date).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }),
+        phoneNumber: invoice.resident.Phone_number,
+        email: invoice.resident.Email_address,
+        eventName: invoice.title,
+        description: invoice.description,
+        maintenanceAmount: invoice.amount,
+        grandTotal: invoice.amount,
+      };
+  
+     
+      const pdfData = await DownloadInvoice(invoiceData);
+  
+      
+      const blob = new Blob([pdfData], { type: "application/pdf" });
+      const url = window.URL.createObjectURL(blob);
+  
+     
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `Invoice_${invoice.resident.Full_name}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      toast.error("Error downloading invoice: " + error.message); 
+    }
+  };
+
 
   return (
     <div className="p-6 bg-white rounded-lg min-h-screen">
@@ -216,7 +263,7 @@ function OtherInvoices() {
             </div>
 
             {/* Download Button */}
-            <button className="mt-6 bg-custom-gradient w-full py-3 text-white font-semibold rounded-md flex items-center justify-center gap-2">
+            <button className="mt-6 bg-custom-gradient w-full py-3 text-white font-semibold rounded-md flex items-center justify-center gap-2"  onClick={() => handleDownloadInvoice(selectedInvoice)}>
               <FaArrowAltCircleDown size={18} />
               <span>Download Invoice</span>
             </button>

@@ -13,12 +13,20 @@ import { io } from "socket.io-client";
 import Constant from "../../../config/Constant";
 import { useSelector } from "react-redux";
 import { GetChatHistory, SendMessage } from "../../../services/chatService";
+import MobileViewAccessForums from "../MobileViewAccessForums";
 
 const socket = io(Constant.SOCKET_URL, {
   transports: ["websocket"],
   withCredentials: true,
 });
-
+const format12HourTimeShort = (dateString) => {
+  const date = new Date(dateString);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  const formattedHours = hours % 12 || 12; // Convert 0 hours to 12
+  return `${formattedHours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+};
 export default function AccessForums() {
   const userId = useSelector((store) => store.auth.user._id);
   const senderModel = useSelector((store) => store.auth.user.Resident_status);
@@ -28,8 +36,8 @@ export default function AccessForums() {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [discussions, setDiscussions] = useState([]);
   const [receiver, setReceiver] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
   const [media, setMedia] = useState(null);
-
   const handleSendMessage = async () => {
     try {
       const receiverId = receiver._id;
@@ -57,28 +65,7 @@ export default function AccessForums() {
       setMessage("");
     }
   };
-
-  const toggleDropdown = () => {
-    setIsDropdownVisible((prev) => !prev);
-  };
-
-  function format12HourTimeShort(timestamp) {
-    const date = new Date(timestamp);
-
-    let hours = date.getHours();
-    const minutes = date.getMinutes();
-
-    const amPm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12 || 12;
-
-    return `${hours}:${minutes.toString().padStart(2, "0")} ${amPm}`;
-  }
-
-  const handleChatClick = (user) => {
-    setReceiver(user);
-    socket.emit("join", { userId, receiverId: user._id });
-  };
-
+  
   const handleFileChange = (e) => {
     e.preventDefault();
     setMedia(e.target.files[0]);
@@ -92,6 +79,16 @@ export default function AccessForums() {
       toast.error(error.response.data.message);
     }
   };
+  const toggleDropdown = () => {
+    setIsDropdownVisible((prev) => !prev);
+  };
+
+  const handleChatClick = (user) => {
+    setReceiver(user);
+    socket.emit("join", { userId, receiverId: user._id });
+  };
+
+
 
   const fetchChatHistory = async () => {
     try {
@@ -104,8 +101,15 @@ export default function AccessForums() {
     }
   };
 
+  const updateView = () => {
+    setIsMobile(window.innerWidth < 768);
+  };
+
   useEffect(() => {
     fetchUsers();
+    updateView();
+    window.addEventListener("resize", updateView);
+    return () => window.removeEventListener("resize", updateView);
   }, []);
 
   useEffect(() => {
@@ -118,16 +122,25 @@ export default function AccessForums() {
   }, [receiver]);
 
   useEffect(() => {
-    if (receiver) {
-      fetchChatHistory();
-    }
+    fetchChatHistory();
   }, [receiver]);
 
-  return (
+  return isMobile ? (
+    <MobileViewAccessForums
+      userList={userList}
+      discussions={discussions}
+      receiver={receiver}
+      setReceiver={setReceiver}
+      handleSendMessage={handleSendMessage}
+      message={message}
+      setMessage={setMessage}
+      handleChatClick={handleChatClick}
+    />
+  ) : (
     <div className="flex bg-gray-100">
       {/* Chats Section */}
       <div className="w-1/4 flex flex-col space-y-4 max-md:w-full max-xl:w-1/2 max-2xl:w-1/2 max-sm:w-full">
-        <div className="bg-white h-[91vh] shadow-lg rounded-tl-[15px] p-6 max-sm:p-4">
+        <div className="bg-white w-[400px] h-[840px] shadow-lg rounded-tl-[15px] p-6 max-sm:p-4">
           <h1 className="mb-[12px] text-[#202224] text-[20px] font-semibold">
             Chat
           </h1>
@@ -135,11 +148,11 @@ export default function AccessForums() {
             <input
               type="text"
               placeholder="Search Here"
-              className="py-2 w-full pl-10 bg-[#F6F8FB] h-[48px] rounded-lg"
+              className="py-2 w-full outline-none pl-10 bg-[#F6F8FB] h-[48px] rounded-lg"
             />
             <img
               src={search}
-              className="absolute left-3 top-[14px] text-gray-400 text-[20px] mr-[20px]"
+              className="absolute  left-3 top-[14px] text-gray-400 text-[20px] mr-[20px]"
             />
           </div>
 
@@ -175,7 +188,7 @@ export default function AccessForums() {
       </div>
 
       {/* Discussions Section */}
-      <div className="flex-1 flex flex-col max-sm:hidden max-md:hidden">
+      <div className="flex-1  flex flex-col max-sm:hidden max-md:hidden">
         {/* Header Section */}
         {receiver && (
           <div className="flex justify-between items-center bg-white py-[18px] px-6 rounded-tr-[15px]">
@@ -224,7 +237,7 @@ export default function AccessForums() {
         )}
 
         {/* Chat Messages */}
-        <div className="overflow-x-auto p-[20px] custom-scrollbar h-[73.2vh] bg-[#F4F4F4]">
+        <div className="overflow-x-hidden  p-[20px] custom-scrollbar h-[73.2vh] bg-[#F4F4F4]">
           {discussions.map((chat) => (
             <div
               key={chat._id}
@@ -233,7 +246,7 @@ export default function AccessForums() {
               } mb-4`}
             >
               <div
-                className={`max-w-[70%] p-1 rounded-lg ${
+                className={`max-w-[70%] break-words p-1 rounded-lg ${
                   chat.senderId !== userId
                     ? "bg-gray-200 text-right"
                     : "bg-blue-500 text-white text-left"
@@ -243,7 +256,7 @@ export default function AccessForums() {
                   {chat.media && (
                     <img src={chat.media} width={"100px"} height="auto" />
                   )}
-                  <p className="text-sm">{chat.message}</p>
+                  <p className="text-sm  break-words break-all">{chat.message}</p>
                   <span className="text-xs text-gray-400 block">
                     {format12HourTimeShort(chat.timestamp)}
                   </span>
@@ -255,10 +268,10 @@ export default function AccessForums() {
 
         {/* Message Input Section */}
         {receiver && (
-          <div className="flex items-center p-[20px] bg-white border-t relative ">
+          <div className="flex items-center p-[10px] bg-white border-t relative ">
             <input
               type="text"
-              className="w-[94%] p-2 rounded-full shadow-[0px_7px_15px_0px_#0000000D] py-[9px] ps-[40px] pl-[40px] relative"
+              className="w-[94%] border p-2 rounded-full shadow-[0px_7px_15px_0px_#0000000D] py-[9px] ps-[40px] pl-[40px] relative"
               placeholder="Type a message..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
@@ -267,7 +280,7 @@ export default function AccessForums() {
             <img
               src={Smiley}
               alt="Smiley"
-              className="absolute left-[40px] translate-x-[-20px] cursor-pointer"
+              className="absolute left-[35px] translate-x-[-20px] cursor-pointer"
             />
             <img
               src={camera}
@@ -289,11 +302,11 @@ export default function AccessForums() {
             <img
               src={speaker}
               alt="Speaker Icon"
-              className="absolute right-[15px] cursor-pointer"
+              className="absolute w-16 right-[15px] p-1 cursor-pointer"
             />
           </div>
         )}
       </div>
     </div>
-  );
+  )
 }

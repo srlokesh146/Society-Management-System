@@ -158,12 +158,11 @@ const Navbar = () => {
                 className="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 bg-[#F6F8FB] max-sm:mb-[15px] max-xl:ml-[15px]"
               />
 
-              <span className="absolute left-3 top-[10px] text-gray-400">
-                <img className="h-[20px]  w-[20px]" src={search} alt="" />
+              <span className="absolute left-3 top-[10px] text-gray-400 max-lg:left-[24px] max-xl:left-[24px]">
+                <img className="h-[20px] w-[20px]" src={search} alt="" />
               </span>
             </div>
           </div>
-        </div>
       ) : (
         <div className="flex items-center max-sm:hidden max-md:hidden">
           <span
@@ -213,7 +212,8 @@ const Navbar = () => {
 
           {/* Notification Dropdown */}
           {isNotificationOpen && (
-            <div className="absolute right-0 mt-2 max-w-[540px] bg-white rounded-lg shadow-lg p-4 z-[9999] max-sm:max-h-[750px] max-sm:p-[30px] max-sm:overflow-y-auto max-sm:min-w-[355px] max-md:min-w-[500px] max-md:left-0 max-md:translate-x-[-100%] max-sm:translate-x-[-55%] sm:min-w-[30rem]">
+            <div className="absolute right-0 mt-2 max-w-[540px] bg-white rounded-lg shadow-lg p-4 z-[9999] max-h-[540px] max-sm:max-h-[700px] max-sm:p-[30px] overflow-y-auto max-sm:min-w-[355px] max-md:min-w-[500px] max-md:left-0 max-md:translate-x-[-100%] max-sm:translate-x-[-55%] sm:min-w-[30rem] custom-scrollbar">
+
               <div className="flex justify-between items-center mb-2 max-sm:ps-[15px] max-sm:pr-[15px]">
                 <span className="text-[20px] font-normal leading-[30px] max-md:justify-start max-sm:mb-[10px]">
                   Notifications

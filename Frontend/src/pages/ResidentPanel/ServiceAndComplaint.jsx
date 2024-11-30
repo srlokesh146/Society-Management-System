@@ -111,7 +111,7 @@ const ServiceAndComplaint = () => {
   }, [])
 
   return (
-    <div className='p-6 rounded-lg'>
+    <div className='rounded-lg'>
       {/* Tabs */}
       <div className='flex'>
         <button
@@ -151,7 +151,7 @@ const ServiceAndComplaint = () => {
               Create Complaint
             </button>
           </div>
-          <div className='grid grid-cols-1 mt-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+          <div className='grid  mt-4 max-sm:grid-cols-1  max-2xl:grid-cols-2  max-lg:grid-cols-2 grid-cols-4 gap-4'>
             {complaints.length > 0 ? (
               complaints.map(item => (
                 <div
@@ -256,7 +256,7 @@ const ServiceAndComplaint = () => {
               Create Request
             </button>
           </div>
-          <div className='grid grid-cols-1 mt-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+          <div className='grid max-sm:grid-cols-1  max-2xl:grid-cols-2  max-lg:grid-cols-2 grid-cols-4 gap-4'>
             {requests.length > 0 ? (
               requests.map(item => (
                 <div

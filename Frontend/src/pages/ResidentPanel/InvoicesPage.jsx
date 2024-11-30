@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaArrowAltCircleDown, FaArrowLeft, FaEye } from "react-icons/fa";
-import { GetPaidMaintenances } from "../../services/maintenanceService";
+import { DownloadMaintanance, GetPaidMaintenances } from "../../services/maintenanceService";
 import toast from "react-hot-toast";
 
 const invoices = [
@@ -97,6 +97,45 @@ function InvoicesPage() {
     }
   };
 
+  // Function to handle invoice download
+  const handleDownloadInvoice = async (invoice) => {
+    try {
+      
+      const payload = {
+        invoiceId: invoice.invoiceId || 123,
+        ownerName: invoice.resident.Full_name,
+        billDate: new Date(invoice.dueDate).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }),
+        phoneNumber: invoice.resident.Phone_number,
+        email: invoice.resident.Email_address,
+        maintenanceAmount: invoice.maintenanceAmount,
+        penaltyAmount: invoice.penaltyAmount,
+        grandTotal: invoice.maintenanceAmount + invoice.penaltyAmount,
+        Wing: invoice.resident.Wing,
+        Unit: invoice.resident.Unit, 
+      };
+  
+     
+      const blob = await DownloadMaintanance(payload);
+  
+      
+      const url = window.URL.createObjectURL(new Blob([blob]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `Invoice-${invoice.invoiceId}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+  
+      
+      toast.success('Invoice downloaded successfully!');
+    } catch (error) {
+      toast.error(error.message || 'Failed to download the invoice.');
+    }
+  };
   useEffect(() => {
     fetchPaidMaintenances();
   }, []);
@@ -240,7 +279,7 @@ function InvoicesPage() {
                     <strong className="text-gray-400 font-normal">
                       Address:
                     </strong>
-                    <p>{selectedInvoice.penaltyAmount}</p>
+                    <p>`{selectedInvoice.resident.Wing}-{selectedInvoice.resident.Unit}`</p>
                   </p>
                 </div>
               </div>
@@ -286,7 +325,7 @@ function InvoicesPage() {
             </div>
 
             {/* Download Button */}
-            <button className="mt-6 bg-custom-gradient w-full py-3 text-white font-semibold rounded-lg flex items-center justify-center gap-2">
+            <button className="mt-6 bg-custom-gradient w-full py-3 text-white font-semibold rounded-lg flex items-center justify-center gap-2" onClick={() => handleDownloadInvoice(selectedInvoice)}>
               <FaArrowAltCircleDown size={18} />
               <span>Download Invoice</span>
             </button>
