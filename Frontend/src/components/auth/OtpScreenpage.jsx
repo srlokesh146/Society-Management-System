@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import passwordimage from "../../assets/images/passwordimage.png";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import Logo from "../Logo";
@@ -9,6 +9,14 @@ import { useNavigate } from "react-router-dom";
 const OtpScreenpage = () => {
   const navigate = useNavigate();
   const [otp, setOtp] = useState(Array(6).fill(""));
+  const [counter, setCounter] = useState(30);
+
+  useEffect(() => {
+    if (counter > 0) {
+      const timer = setTimeout(() => setCounter(counter - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [counter]);
 
   const handleChange = (index, value) => {
     if (/^[0-9]*$/.test(value) && value.length <= 1) {
@@ -53,6 +61,7 @@ const OtpScreenpage = () => {
       const EmailOrPhone = localStorage.getItem("EmailOrPhone");
       const response = await sendOtp({ EmailOrPhone });
       toast.success(response.data.message);
+      setCounter(30);
     } catch (error) {
       console.log(error);
       toast.error(error.response?.data?.message || "Error sending OTP");
@@ -60,10 +69,8 @@ const OtpScreenpage = () => {
   };
 
   return (
-
     <div className="flex lg:flex-row h-screen overflow-hidden bg-cover bg-center bg-image relative max-md:flex-col">
       <div className="flex flex-col bg-[#F6F8FB] w-full lg:w-1/2 z-10   max-lg:hidden ">
-
         <div className="pt-[60px] flex justify-start max-sm:pt-[30px]">
           <Logo logocss />
         </div>
@@ -107,11 +114,16 @@ const OtpScreenpage = () => {
             <div className="flex items-center justify-between mb-[20px]">
               <div className="flex items-center">
                 <AiOutlineClockCircle className="text-[#202224] text-base mr-1" />
-                <span className="text-[#202224] text-base">00:30</span>
+                <span className="text-[#202224] text-base">
+                  {`00:${String(counter).padStart(2, "0")} sec`}
+                </span>
               </div>
               <button
                 onClick={resendOtp}
-                className="text-[#A7A7A7] hover:text-[#000] text-sm"
+                disabled={counter > 0}
+                className={`text-sm ${
+                  counter > 0 ? "text-[#A7A7A7]" : "text-black"
+                }`}
               >
                 Resend OTP
               </button>
@@ -120,9 +132,10 @@ const OtpScreenpage = () => {
             <button
               onClick={handleOtp}
               className={`w-full py-[12px] rounded-[10px] leading-7 
-                ${otp.every((digit) => digit !== "")
-                  ? "bg-custom-gradient text-white"
-                  : "bg-[#F6F8FB] text-[#A7A7A7]"
+                ${
+                  otp.every((digit) => digit !== "")
+                    ? "bg-custom-gradient text-white"
+                    : "bg-[#F6F8FB] text-[#A7A7A7]"
                 }`}
               disabled={!otp.every((digit) => digit !== "")}
             >

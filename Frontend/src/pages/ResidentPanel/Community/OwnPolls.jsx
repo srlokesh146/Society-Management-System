@@ -173,7 +173,11 @@ const Polls = () => {
                     <div
                       className="bg-green-500 h-2"
                       style={{
-                        width: `${(poll.options[0].votes / totalVotes) * 100}%`,
+                        width: `${
+                          totalVotes > 0
+                            ? ((poll.options[0]?.votes || 0) / totalVotes) * 100
+                            : 0
+                        }%`,
                       }}
                     />
                   </div>
@@ -211,7 +215,11 @@ const Polls = () => {
                     <div
                       className="bg-red-500 h-2"
                       style={{
-                        width: `${(poll.options[1].votes / totalVotes) * 100}%`,
+                        width: `${
+                          totalVotes > 0
+                            ? ((poll.options[1]?.votes || 0) / totalVotes) * 100
+                            : 0
+                        }%`,
                       }}
                     />
                   </div>
