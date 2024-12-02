@@ -6,6 +6,7 @@ import rankingPollsImage from "../../assets/images/rankingpolls.svg";
 import ratingPollsImage from "../../assets/images/ratingpolls.svg";
 import textPollImage from "../../assets/images/textpoll.svg";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { Loader } from "../../utils/Loader";
 
 const pollImages = {
   "Multichoice polls": multichoicepollsimage,
@@ -15,7 +16,7 @@ const pollImages = {
   "Text poll": textPollImage,
 };
 
-export default function CreatePollModal({ closeModal, handleCreate }) {
+export default function CreatePollModal({ closeModal, handleCreate , isLoading}) {
   const [pollType, setPollType] = useState("");
   const [question, setQuestion] = useState("");
   const [option1, setOption1] = useState("");
@@ -226,7 +227,7 @@ export default function CreatePollModal({ closeModal, handleCreate }) {
                   : "bg-[#F6F8FB] text-black"
               }`}
           >
-            Create
+           {isLoading ? <Loader /> : "Create"}
           </button>
         </div>
       </div>

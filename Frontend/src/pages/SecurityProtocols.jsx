@@ -13,6 +13,7 @@ import trash from '../assets/images/trash.svg'
 import { IoMdClose } from "react-icons/io";
 import calendar from '../assets/images/calendar.svg'
 import clock from '../assets/images/clock.svg'
+import { Loader } from '../utils/Loader'
 
 function SecurityProtocols () {
   const [protocols, setProtocols] = useState([])
@@ -21,6 +22,7 @@ function SecurityProtocols () {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
   const [isViewOpen, setIsViewOpen] = useState(false)
   const [currentProtocol, setCurrentProtocol] = useState(null)
+  const [isLoading, setIsLoading] = useState(false);
   const [newProtocol, setNewProtocol] = useState({
     title: '',
     description: '',
@@ -56,6 +58,7 @@ function SecurityProtocols () {
         title: newProtocol.title,
         description: newProtocol.description
       }
+      setIsLoading(true)
       const response = await CreateProtocol(data)
       setIsCreateOpen(false)
       fetchProtocols()
@@ -63,6 +66,7 @@ function SecurityProtocols () {
     } catch (error) {
       toast.error(error.response.data.message)
     } finally {
+      setIsLoading(false)
       setNewProtocol({
         title: '',
         description: '',
@@ -108,10 +112,13 @@ function SecurityProtocols () {
   // get all security protocols
   const fetchProtocols = async () => {
     try {
+      setIsLoading(true)
       const response = await GetProtocols()
       setProtocols(response.data.Protocol)
     } catch (error) {
       toast.error(error.response.data.message)
+    }finally{
+      setIsLoading(false)
     }
   }
 
@@ -122,6 +129,7 @@ function SecurityProtocols () {
   const handleUpdate = async () => {
     console.log(newProtocol)
     try {
+      setIsLoading(true)
       const id = newProtocol._id
       const response = await UpdateProtocol(id, newProtocol)
       setIsEditOpen(false)
@@ -130,6 +138,7 @@ function SecurityProtocols () {
     } catch (error) {
       toast.error(error.response.data.message)
     } finally {
+      setIsLoading(false)
       setNewProtocol({
         title: '',
         description: '',
@@ -140,18 +149,18 @@ function SecurityProtocols () {
   }
 
   const convertTo24HourFormat = timeString => {
-    const [time, modifier] = timeString.split(' ') // Split time and AM/PM
-    let [hours, minutes] = time.split(':') // Split hours and minutes
+    const [time, modifier] = timeString.split(' ') 
+    let [hours, minutes] = time.split(':') 
 
-    hours = parseInt(hours) // Convert hours to a number
+    hours = parseInt(hours) 
 
     if (modifier === 'AM' && hours === 12) {
-      hours = 0 // Midnight case
+      hours = 0 
     } else if (modifier === 'PM' && hours !== 12) {
-      hours += 12 // Convert PM to 24-hour format
+      hours += 12 
     }
 
-    // Pad hours and minutes to always show two digits (e.g., "04:05")
+   
     return `${hours.toString().padStart(2, '0')}:${minutes}`
   }
 
@@ -173,88 +182,85 @@ function SecurityProtocols () {
         </button>
       </div>
 
-      <div className='bg-white rounded-lg shadow-sm'>
-        <div className='overflow-y-auto pr-[8px] max-h-[45rem] custom-scrollbar overflow-x-auto'>
-          <table className='min-w-full table-auto border-collapse'>
-            <thead className='bg-indigo-50 border-b border-gray-200 h-[61px]'>
-              <tr>
-                <th className='px-6 py-4 text-left text-[14px] font-semibold text-[#202224] rounded-tl-[15px]'>
-                  Title
-                </th>
-                <th className='px-6 py-4 text-left text-[14px] font-semibold text-[#202224]'>
-                  Description
-                </th>
-                <th className='px-12 py-4 text-right text-[14px] font-semibold text-[#202224]'>
-                  Date
-                </th>
-                <th className='px-12 py-4 text-right text-[14px] font-semibold text-[#202224]'>
-                  Time
-                </th>
-                <th className='px-16 py-4 text-right text-[14px] font-semibold text-[#202224] rounded-tr-[15px]'>
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody className='bg-white divide-y divide-gray-100'>
-              {protocols.length > 0 ? (
-                protocols.map(protocol => (
-                  <tr
-                    key={protocol._id}
-                    className='hover:bg-gray-50 transition-colors duration-200 text-[#4F4F4F]'
-                  >
-                    <td className='px-6 py-4 text-md font-medium'>
-                      {protocol.title}
-                    </td>
-                    <td className='px-6 py-6 line-clamp-1 max-w-[400px] max-h-[50px] text-md font-medium'>
-                      {protocol.description}
-                    </td>
-                    <td className='px-4 py-4 text-md text-right font-medium'>
-                      {new Date(protocol.date).toLocaleDateString('en-GB', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric'
-                      })}
-                    </td>
-                    <td className='px-4 py-4 text-sm text-right'>
-                      <span className='inline-flex justify-center items-center px-2 py-1 bg-gray-100 rounded-full w-[92px] h-[34px] font-medium'>
-                        {protocol.time}
-                      </span>
-                    </td>
-                    <td className='px-4 py-4 text-right'>
-                      <div className='flex items-center justify-end gap-3'>
-                        <button
-                          onClick={() => handleEdit(protocol)}
-                          className='flex items-center ml-[10px] justify-center w-10 h-10 text-blue-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md'
-                        >
-                          <img src={edit} alt='Edit' />
-                        </button>
-                        <button
-                          onClick={() => handleView(protocol)}
-                          className='flex items-center justify-center w-10 h-10 text-green-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md'
-                        >
-                          <img src={eye} alt='View' />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(protocol)}
-                          className='flex items-center justify-center w-10 h-10 text-red-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md'
-                        >
-                          <img src={trash} alt='Delete' />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan='5' className='text-center py-4 text-gray-500'>
-                    No data found
+      
+    <div className='relative bg-white rounded-lg shadow-sm'>
+      {/* Loader */}
+      {isLoading && (
+        <div className='absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center z-10'>
+          <Loader/>
+        </div>
+      )}
+
+      {/* Table */}
+      <div className='overflow-y-auto pr-[8px] max-h-[45rem] custom-scrollbar overflow-x-auto'>
+        <table className='min-w-full table-auto border-collapse'>
+          <thead className='bg-indigo-50 border-b border-gray-200 h-[61px]'>
+            <tr>
+              <th className='px-6 py-4 text-left text-[14px] font-semibold text-[#202224] rounded-tl-[15px]'>
+                Title
+              </th>
+              <th className='px-6 py-4 text-left text-[14px] font-semibold text-[#202224]'>
+                Description
+              </th>
+              <th className='px-12 py-4 text-right text-[14px] font-semibold text-[#202224]'>
+                Date
+              </th>
+              <th className='px-12 py-4 text-right text-[14px] font-semibold text-[#202224]'>
+                Time
+              </th>
+              <th className='px-16 py-4 text-right text-[14px] font-semibold text-[#202224] rounded-tr-[15px]'>
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody className='bg-white divide-y divide-gray-100'>
+            {protocols.length > 0 ? (
+              protocols.map(protocol => (
+                <tr key={protocol._id} className='hover:bg-gray-50 transition-colors duration-200 text-[#4F4F4F]'>
+                  <td className='px-6 py-4 text-md font-medium'>
+                    {protocol.title}
+                  </td>
+                  <td className='px-6 py-6 line-clamp-1 max-w-[400px] max-h-[50px] text-md font-medium'>
+                    {protocol.description}
+                  </td>
+                  <td className='px-4 py-4 text-md text-right font-medium'>
+                    {new Date(protocol.date).toLocaleDateString('en-GB', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric'
+                    })}
+                  </td>
+                  <td className='px-4 py-4 text-sm text-right'>
+                    <span className='inline-flex justify-center items-center px-2 py-1 bg-gray-100 rounded-full w-[92px] h-[34px] font-medium'>
+                      {protocol.time}
+                    </span>
+                  </td>
+                  <td className='px-4 py-4 text-right'>
+                    <div className='flex items-center justify-end gap-3'>
+                      <button onClick={() => handleEdit(protocol)} className='flex items-center ml-[10px] justify-center w-10 h-10 text-blue-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md'>
+                        <img src={edit} alt='Edit' />
+                      </button>
+                      <button onClick={() => handleView(protocol)} className='flex items-center justify-center w-10 h-10 text-green-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md'>
+                        <img src={eye} alt='View' />
+                      </button>
+                      <button onClick={() => handleDelete(protocol)} className='flex items-center justify-center w-10 h-10 text-red-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md'>
+                        <img src={trash} alt='Delete' />
+                      </button>
+                    </div>
                   </td>
                 </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+              ))
+            ) : (
+              <tr>
+                <td colSpan='5' className='text-center py-4 text-gray-500'>
+                  No data found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
+    </div>
 
       {/* Create/Edit Modal */}
       {(isCreateOpen || isEditOpen) && (
@@ -372,7 +378,7 @@ function SecurityProtocols () {
                   onClick={isEditOpen ? handleUpdate : handleSave}
                   className='w-full px-4 py-3 text-md font-medium text-white bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-lg hover:opacity-90'
                 >
-                  {isCreateOpen ? 'Create' : 'Save'}
+                  {isLoading ? <Loader /> : isCreateOpen ? "Create" : "Save"}
                 </button>
               </div>
             </form>

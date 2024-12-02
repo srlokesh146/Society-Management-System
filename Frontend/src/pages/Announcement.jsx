@@ -16,6 +16,7 @@ import {
 import { toast } from "react-hot-toast";
 import { convert24hrTo12hr } from "../utils/ConvertTime";
 import { IoMdClose } from "react-icons/io";
+import { Loader } from "../utils/Loader";
 
 function Announcement() {
   const [announcements, setAnnouncements] = useState([]);
@@ -24,6 +25,7 @@ function Announcement() {
   const [currentAnnouncement, setCurrentAnnouncement] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(null); // Track which dropdown is open
   const [isFormFilled, setIsFormFilled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const checkFormFilled = (announcement) => {
     return (
@@ -77,15 +79,18 @@ function Announcement() {
     event.preventDefault();
     if (modalType === "create") {
       try {
-        setIsModalOpen(false);
+        setIsModalOpen(true);
         const response = await CreateAnnouncement(currentAnnouncement);
         fetchAnnouncement();
         toast.success(response.data.message);
       } catch (error) {
         toast.error(error.response.data.message);
+      } finally {
+        setIsModalOpen(false);
       }
     } else if (modalType === "edit") {
       try {
+        setIsModalOpen(true);
         const response = await UpdateAnnouncement(
           currentAnnouncement._id,
           currentAnnouncement
@@ -94,10 +99,24 @@ function Announcement() {
         toast.success(response.data.message);
       } catch (error) {
         toast.error(error.response.data.message);
+      } finally {
+        setIsModalOpen(false);
       }
     }
     handleCloseModal();
     setDropdownOpen(false);
+  };
+  const handleAction = async () => {
+    setIsLoading(true);
+    try {
+
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      console.log(modalType === "save" ? "Saved successfully!" : "Created successfully!");
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleDelete = async () => {
@@ -120,10 +139,14 @@ function Announcement() {
 
   const fetchAnnouncement = async () => {
     try {
+      setIsLoading(true);
       const response = await GetAnnouncements();
       setAnnouncements(response.data.Announcement);
     } catch (error) {
       toast.error(error.response.data.message);
+    }
+    finally {
+      setIsLoading(false);
     }
   };
 
@@ -151,11 +174,15 @@ function Announcement() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {announcements.length > 0 ? (
+        {isLoading ? (
+          <div className="col-span-full flex justify-center py-6">
+            <Loader /> 
+          </div>
+        ) : announcements.length > 0 ? (
           announcements.map((announcement) => (
             <div
               key={announcement._id}
-              className="bg-white shadow-sm border border-grey-800 rounded-lg "
+              className="bg-white shadow-sm border border-grey-800 rounded-lg"
             >
               <div className="bg-[#5678E9] text-white p-4 flex justify-between items-center rounded-t-lg">
                 <h2 className="text-sm sm:text-base font-medium">
@@ -164,7 +191,7 @@ function Announcement() {
                 <div className="relative">
                   <button
                     onClick={() => toggleDropdown(announcement._id)}
-                    className="hover:opacity-80  text-blue-500 rounded-md p-1 bg-white h-5 w-5"
+                    className="hover:opacity-80 text-blue-500 rounded-md p-1 bg-white h-5 w-5"
                   >
                     <FaEllipsisV size={12} />
                   </button>
@@ -197,28 +224,25 @@ function Announcement() {
                 <div className="space-y-2">
                   <div className="flex items-center text-sm sm:text-base text-gray-600">
                     <span className="font-medium w-64">Date:</span>
-                    <p className="text-black ">
+                    <p className="text-black">
                       <span>
-                        {new Date(announcement.date).toLocaleDateString(
-                          "en-GB",
-                          {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                          }
-                        )}
+                        {new Date(announcement.date).toLocaleDateString("en-GB", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })}
                       </span>
                     </p>
                   </div>
                   <div className="flex items-center text-sm sm:text-base text-gray-600">
                     <span className="font-medium w-64">Time:</span>
-                    <p className="text-black  ">
+                    <p className="text-black">
                       <span>{convert24hrTo12hr(announcement.time)}</span>
                     </p>
                   </div>
                   <div className="text-sm sm:text-base text-gray-600">
                     <p className="font-medium mb-1">Description:</p>
-                    <p className="line-clamp-3  text-black">
+                    <p className="line-clamp-3 text-black">
                       {announcement.description}
                     </p>
                   </div>
@@ -227,11 +251,9 @@ function Announcement() {
             </div>
           ))
         ) : (
-          <tr>
-            <td colSpan="6" className="text-center py-4">
-              No data found.
-            </td>
-          </tr>
+          <div className="col-span-full text-center py-4">
+            No data found.
+          </div>
         )}
       </div>
 
@@ -285,8 +307,8 @@ function Announcement() {
                       defaultValue={
                         currentAnnouncement?.date
                           ? new Date(currentAnnouncement.date)
-                              .toISOString()
-                              .split("T")[0]
+                            .toISOString()
+                            .split("T")[0]
                           : ""
                       }
                       onChange={(e) =>
@@ -320,15 +342,21 @@ function Announcement() {
                   </button>
                   <button
                     type="submit"
+                    onClick={handleAction}
                     disabled={!isFormFilled}
                     className={`w-full py-3 text-sm sm:text-base font-medium rounded-lg transition-all duration-300
-                ${
-                  isFormFilled
-                    ? "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
-                    : "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
-                }`}
+                ${isFormFilled
+                        ? "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
+                        : "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
+                      }`}
                   >
-                    {modalType === "create" ? "Create" : "Save"}
+                    {isLoading ? (
+                      <Loader /> // Loader component
+                    ) : modalType === "save" ? (
+                      "Create"
+                    ) : (
+                      "Save"
+                    )}
                   </button>
                 </div>
               </form>

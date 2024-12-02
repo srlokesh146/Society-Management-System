@@ -9,11 +9,13 @@ import PendingMaintence from "../../components/PendingMaintence";
 import DueMaintence from "../../components/DueMaintence";
 import AnnouncementDetails from "../../components/AnnouncementDetails";
 import Form from "../../components/Form";
+import { Loader } from "../../utils/Loader";
 
 const ResidentOwner = () => {
   const { user } = useSelector((store) => store.auth);
 
   const [activeTab, setActiveTab] = useState("owner");
+  const [isLoading, setIsLoading] = useState(false);
 
   // 647287
   useEffect(() => {
@@ -49,7 +51,12 @@ const ResidentOwner = () => {
       </div>
 
       <div>
-        {user.Resident_status === "Tenante" && activeTab === "tenant" && (
+      {isLoading ? ( 
+              <div className='flex justify-center items-center col-span-4 py-12'>
+                <Loader /> 
+              </div>
+            ) :
+        user.Resident_status === "Tenante" && activeTab === "tenant" && (
           <div>
             <div className="bg-white p-6 rounded-lg">
               <div className="grid xl:grid-cols-5 max-2xl:grid-cols-2 max-md:grid-cols-2 max-sm:grid-cols-1 gap-2 max-3xl:grid-cols-2 lg:grid-cols-2">

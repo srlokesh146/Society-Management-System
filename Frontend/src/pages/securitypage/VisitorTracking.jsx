@@ -11,6 +11,7 @@ export default function VisitorTracking() {
   const [isModalOpen, setModalOpen] = useState(false)
   const [selectedOption, setSelectedOption] = React.useState("Month");
   const [isOpenDropdown, setIsOpenDropdown] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const handleOptionChange = (value) => {
@@ -49,15 +50,19 @@ export default function VisitorTracking() {
     return `${hour}:${minute} ${suffix}`
   }
 
-  const addVisitor = async data => {
+  const addVisitor = async (visitorData) => {
+    setIsLoading(true); // Start loading
     try {
-      const response = await createVisitor(data)
-      fetchVisitors()
-      toast.success(response.data.message)
+      // Simulate API call
+      await createVisitor(visitorData); // Your API call
+      toast.success("Visitor added successfully!");
+      closeModal(); // Close modal on success
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error("Failed to add visitor. Please try again.");
+    } finally {
+      setIsLoading(false); // End loading
     }
-  }
+  };
 
   const fetchVisitors = async () => {
     try {
@@ -217,7 +222,9 @@ export default function VisitorTracking() {
         </table>
       </div>
     </div >
+    <button onClick={openModal}>Add Visitor</button>
       <VisitorTrackingModal
+      isLoading={isLoading}
         isOpen={isModalOpen}
         onClose={closeModal}
         onSave={addVisitor}

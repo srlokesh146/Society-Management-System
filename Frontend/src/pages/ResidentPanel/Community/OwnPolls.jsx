@@ -14,6 +14,7 @@ const Polls = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [polls, setPolls] = useState([]);
   const [answer, setAnswer] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   // useEffect(() => {
   //   localStorage.setItem('pollDefaultSelected', JSON.stringify(defaultSelected))
@@ -46,11 +47,15 @@ const Polls = () => {
 
   const handleCreate = async (data) => {
     try {
+      setIsLoading(true); 
       const response = await CreateNewPoll(data);
+      await new Promise((resolve) => setTimeout(resolve, 2000)); 
       toast.success(response.data.message);
       fetchPolls();
     } catch (error) {
       toast.error(error.response.data.message);
+    } finally {
+      setIsLoading(false); 
     }
   };
 
@@ -173,11 +178,10 @@ const Polls = () => {
                     <div
                       className="bg-green-500 h-2"
                       style={{
-                        width: `${
-                          totalVotes > 0
-                            ? ((poll.options[0]?.votes || 0) / totalVotes) * 100
-                            : 0
-                        }%`,
+                        width: `${totalVotes > 0
+                          ? ((poll.options[0]?.votes || 0) / totalVotes) * 100
+                          : 0
+                          }%`,
                       }}
                     />
                   </div>
@@ -215,11 +219,10 @@ const Polls = () => {
                     <div
                       className="bg-red-500 h-2"
                       style={{
-                        width: `${
-                          totalVotes > 0
-                            ? ((poll.options[1]?.votes || 0) / totalVotes) * 100
-                            : 0
-                        }%`,
+                        width: `${totalVotes > 0
+                          ? ((poll.options[1]?.votes || 0) / totalVotes) * 100
+                          : 0
+                          }%`,
                       }}
                     />
                   </div>
@@ -233,6 +236,7 @@ const Polls = () => {
       </div>
       {isModalOpen && (
         <CreatePollModal
+          isLoading={isLoading}
           closeModal={handleCloseModal}
           handleCreate={handleCreate}
         />

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaTimes } from "react-icons/fa";
+import { Loader } from "../../utils/Loader";
 
 const DeleteRequestModal = ({ isOpen, onClose, request, onConfirm }) => {
   if (!isOpen) return null;
@@ -8,6 +9,7 @@ const DeleteRequestModal = ({ isOpen, onClose, request, onConfirm }) => {
     onConfirm(request._id);
     onClose();
   };
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999]">
@@ -39,7 +41,8 @@ const DeleteRequestModal = ({ isOpen, onClose, request, onConfirm }) => {
             onClick={handleDelete}
             className="w-full px-4 py-3 text-md font-medium text-white bg-red-500 rounded-md hover:opacity-90"
           >
-            Delete
+           {isLoading ? <Loader/>
+            : "Delete"}
           </button>
         </div>
       </div>

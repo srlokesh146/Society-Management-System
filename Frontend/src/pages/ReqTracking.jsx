@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import eye from "../assets/images/eye.svg";
 import edit from "../assets/images/edit.svg";
 import trash from "../assets/images/trash.svg";
+import { Loader } from "../utils/Loader";
 
 const ReqTracking = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,18 +22,23 @@ const ReqTracking = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [Requests, setRequests] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   let avatar = "https://mighty.tools/mockmind-api/content/human/65.jpg";
 
   // create new request
   const handleSubmit = async (data) => {
     try {
+      setIsLoading(true)
       const response = await CreateRequest(data);
       toast.success(response.data.message);
       fetchRequests();
       setIsModalOpen(false);
     } catch (error) {
       toast.error(error.response.data.message);
+    }
+    finally{
+      setIsLoading(false)
     }
   };
 
@@ -52,12 +58,14 @@ const ReqTracking = () => {
   // update request by id
   const handleUpdate = async (id, data) => {
     try {
+      setIsLoading(true)
       const response = await UpdateRequest(id, data);
       fetchRequests();
       toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
+      setIsLoading(false)
       setIsEditModalOpen(false);
     }
   };
@@ -65,10 +73,13 @@ const ReqTracking = () => {
   // get all request
   const fetchRequests = async () => {
     try {
+      setIsLoading(true)
       const response = await GetRequests();
       setRequests(response.data.data);
     } catch (error) {
       toast.error(error.response.data.message);
+    }finally{
+      setIsLoading(false)
     }
   };
 
@@ -94,129 +105,111 @@ const ReqTracking = () => {
           </div>
 
           <div className="overflow-y-auto pr-[8px] max-h-[41.5rem] custom-scrollbar overflow-x-auto">
-            <table className="w-full text-center rounded-lg">
-              <thead>
-                <tr className="bg-indigo-50 h-[61px] text-nowrap text-[#202224]">
-                  <th className="px-8 rounded-tl-[10px] py-3 text-sm font-semibold">
-                    Requester Name
-                  </th>
-                  <th className="px-8 py-3 text-sm font-semibold">
-                    Request Name
-                  </th>
-                  <th className="px-8 py-3 text-sm font-semibold">
-                    Description
-                  </th>
-                  <th className="px-8 py-3 text-sm font-semibold">
-                    Request Date
-                  </th>
-                  <th className="px-8 py-3 text-sm font-semibold">
-                    Unit Number
-                  </th>
-                  <th className="px-8 py-3 text-sm font-semibold">
-                    Priority
-                  </th>
-                  <th className="px-8 py-3 text-sm font-semibold">
-                    Status
-                  </th>
-                  <th className="px-8 py-3 text-sm font-semibold rounded-tr-[10px]">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-              {Requests.length > 0 ? (
-                Requests.map((Request) => (
-                  <tr key={Request._id} className="border-b hover:bg-gray-50 text-[#4F4F4F]">
-                    <td className="px-4 md:px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={avatar}
-                          alt=""
-                          className="w-6 h-6 md:w-8 md:h-8 rounded-full"
-                        />
-                        <span className="text-base font-medium">
-                          {Request.requester}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-4 md:px-6 py-4 text-base font-medium">
-                      {Request.name}
-                    </td>
-                    <td className="px-4 md:px-6 py-4 text-base font-medium">
-                      {Request.description}
-                    </td>
-                    <td className="px-4 md:px-6 py-4 text-base font-medium">
-                      {new Date(Request.date).toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })}
-                    </td>
-                    <td className="px-4 flex justify-center items-center  md:px-6 py-4 text-base">
-                      <span className="bg-blue-50 text-blue-600 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">
-                        {Request.wing}
-                      </span>
-                      <span className="ml-4 mt-0 text-sm font-medium text-gray-600">
-                        {Request.unit}
-                      </span>
-                    </td>
-                    <td className="px-4 md:px-6 py-4">
-                      <PriorityBadge priority={Request.priority} />
-                    </td>
-                    <td className="px-4 md:px-6 py-4">
-                <div className="flex justify-center items-center">
-                <StatusBadge status={Request.status} />
-                </div>
-                    </td>
-                    <td className="px-4 md:px-6 py-4">
-                      <div className="flex gap-2 justify-center">
-                        <button
-                          onClick={() => {
-                            setSelectedRequest(Request);
-                            setIsViewModalOpen(true);
-                          }}
-                          className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
-                        >
-                          <img src={eye} alt="" />
-                        </button>
-                        <button
-                          onClick={() => {
-                            setSelectedRequest(Request);
-                            setIsEditModalOpen(true);
-                          }}
-                          className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
-                        >
-                          <img src={edit} alt="" />
-                        </button>
-                        <button
-                          onClick={() => {
-                            setSelectedRequest(Request);
-                            setIsDeleteModalOpen(true);
-                          }}
-                          className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
-                        >
-                          <img src={trash} alt="" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-               ))
-              ) : (
-                <tr>
-                  <td colSpan="8" className="text-center py-6 text-gray-500">
-                    No data found
+      {isLoading ? (
+        // Show a loading spinner when data is being loaded
+        <div className="flex justify-center items-center py-12">
+          <Loader/>
+        </div>
+      ) : (
+        <table className="w-full text-center rounded-lg">
+          <thead>
+            <tr className="bg-indigo-50 h-[61px] text-nowrap text-[#202224]">
+              <th className="px-8 rounded-tl-[10px] py-3 text-sm font-semibold">Requester Name</th>
+              <th className="px-8 py-3 text-sm font-semibold">Request Name</th>
+              <th className="px-8 py-3 text-sm font-semibold">Description</th>
+              <th className="px-8 py-3 text-sm font-semibold">Request Date</th>
+              <th className="px-8 py-3 text-sm font-semibold">Unit Number</th>
+              <th className="px-8 py-3 text-sm font-semibold">Priority</th>
+              <th className="px-8 py-3 text-sm font-semibold">Status</th>
+              <th className="px-8 py-3 text-sm font-semibold rounded-tr-[10px]">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Requests.length > 0 ? (
+              Requests.map((Request) => (
+                <tr key={Request._id} className="border-b hover:bg-gray-50 text-[#4F4F4F]">
+                  <td className="px-4 md:px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      <img src={avatar} alt="" className="w-6 h-6 md:w-8 md:h-8 rounded-full" />
+                      <span className="text-base font-medium">{Request.requester}</span>
+                    </div>
+                  </td>
+                  <td className="px-4 md:px-6 py-4 text-base font-medium">{Request.name}</td>
+                  <td className="px-4 md:px-6 py-4 text-base font-medium">{Request.description}</td>
+                  <td className="px-4 md:px-6 py-4 text-base font-medium">
+                    {new Date(Request.date).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </td>
+                  <td className="px-4 flex justify-center items-center md:px-6 py-4 text-base">
+                    <span className="bg-blue-50 text-blue-600 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">
+                      {Request.wing}
+                    </span>
+                    <span className="ml-4 mt-0 text-sm font-medium text-gray-600">
+                      {Request.unit}
+                    </span>
+                  </td>
+                  <td className="px-4 md:px-6 py-4">
+                    <PriorityBadge priority={Request.priority} />
+                  </td>
+                  <td className="px-4 md:px-6 py-4">
+                    <div className="flex justify-center items-center">
+                      <StatusBadge status={Request.status} />
+                    </div>
+                  </td>
+                  <td className="px-4 md:px-6 py-4">
+                    <div className="flex gap-2 justify-center">
+                      <button
+                        onClick={() => {
+                          setSelectedRequest(Request);
+                          setIsViewModalOpen(true);
+                        }}
+                        className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
+                      >
+                        <img src={eye} alt="" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSelectedRequest(Request);
+                          setIsEditModalOpen(true);
+                        }}
+                        className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
+                      >
+                        <img src={edit} alt="" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSelectedRequest(Request);
+                          setIsDeleteModalOpen(true);
+                        }}
+                        className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
+                      >
+                        <img src={trash} alt="" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
-              )}
-              </tbody>
-            </table>
-          </div>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="8" className="text-center py-6 text-gray-500">
+                  No data found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      )}
+    </div>
 
           {/* Modals */}
           <CreateRequestModal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
             onSubmit={handleSubmit}
+            isLoading={isLoading}
           />
           {selectedRequest && (
             <ViewRequestModal
@@ -226,10 +219,12 @@ const ReqTracking = () => {
                 setSelectedRequest(null);
               }}
               Request={selectedRequest}
+              isLoading={isLoading}
             />
           )}
           {selectedRequest && (
             <EditRequestModal
+            isLoading={isLoading}
               isOpen={isEditModalOpen}
               onClose={() => {
                 setIsEditModalOpen(false);

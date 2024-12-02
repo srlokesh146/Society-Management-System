@@ -10,6 +10,7 @@ import {
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { addNewNotification } from "../redux/features/notificationSlice";
+import { Loader } from "../utils/Loader";
 
 const OtherIncome = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const OtherIncome = () => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [isViewModalOpen, setViewModalOpen] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -46,6 +48,8 @@ const OtherIncome = () => {
   const handleApply = async (e) => {
     e.preventDefault();
     try {
+
+      setIsLoading(true)
       const response = await CreateIncome(formData);
       fetchIncome();
 
@@ -62,6 +66,7 @@ const OtherIncome = () => {
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
+      setIsLoading(false)
       setFormData({
         title: "",
         date: "",
@@ -76,7 +81,7 @@ const OtherIncome = () => {
   const handleEdit = (id) => {
     const entry = incomeEntries.find((entry) => entry._id === id);
     setSelectedEntry(entry);
-    setFormData(entry); // Load entry data into the form
+    setFormData(entry);
     setEditModalOpen(true);
     toggleDropdown(id);
   };
@@ -88,9 +93,9 @@ const OtherIncome = () => {
     toggleDropdown(id);
   };
 
-  // Updated handleView function to navigate to the Admin Icon page
+
   const handleView = (id) => {
-    // Navigate to the "adminIcon" page or wherever you want to go
+
     navigate(`/adminincome/${id}`);
     const entry = incomeEntries.find((entry) => entry._id === id);
     setSelectedEntry(entry);
@@ -116,12 +121,14 @@ const OtherIncome = () => {
   const saveEdit = async (e) => {
     e.preventDefault();
     try {
+      setIsLoading(true)
       const response = await UpdateIncome(selectedEntry._id, formData);
       fetchIncome();
       toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
+      setIsLoading(false)
       setFormData({
         title: "",
         date: "",
@@ -162,10 +169,13 @@ const OtherIncome = () => {
 
   const fetchIncome = async () => {
     try {
+      setIsLoading(true)
       const response = await GetIncomes();
       setIncomeEntries(response.data.Income);
     } catch (error) {
       toast.error(error.response.data.message);
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -177,21 +187,19 @@ const OtherIncome = () => {
     <div className="p-6">
       <div className="">
         <button
-          className={`px-4 py-2 rounded-sm h-14 shadow-md transition duration-200 ${
-            activeTab === "income"
-              ? "bg-orange-500 text-white"
-              : "bg-white-200 text-black"
-          }`}
+          className={`px-4 py-2 rounded-sm h-14 shadow-md transition duration-200 ${activeTab === "income"
+            ? "bg-orange-500 text-white"
+            : "bg-white-200 text-black"
+            }`}
           onClick={() => navigate("/income")}
         >
           Maintenance
         </button>
         <button
-          className={`px-4 py-2 rounded-lg shadow-sm  h-14 transition duration-200 ${
-            activeTab === "otherIncome"
-              ? "bg-custom-gradient text-white"
-              : "bg-gray-200 text-black hover:bg-gray-300"
-          }`}
+          className={`px-4 py-2 rounded-lg shadow-sm  h-14 transition duration-200 ${activeTab === "otherIncome"
+            ? "bg-custom-gradient text-white"
+            : "bg-gray-200 text-black hover:bg-gray-300"
+            }`}
           onClick={() => setActiveTab("otherIncome")}
         >
           Other Income
@@ -212,14 +220,18 @@ const OtherIncome = () => {
         </div>
 
         <div className="grid grid-cols-4 max-xl:grid-cols-2 max-sm:grid-cols-1 max-2xl:grid-cols-2 max-3xl:grid-cols-2 gap-5 mt-4">
-          {incomeEntries.length > 0 ? (
+          {isLoading ? (
+            <div className="col-span-full flex justify-center items-center py-12">
+              <Loader />
+            </div>
+          ) : incomeEntries.length > 0 ? (
             incomeEntries.map((entry) => (
               <div
                 key={entry._id}
                 className="bg-white h-80 shadow-xl rounded-lg border border-blue-300 relative"
               >
                 <div className="bg-[#5678E9] text-white w-full p-2 flex justify-between items-center rounded-t-lg">
-                  <h3 className="text-lg  font-semibold">{entry.title}</h3>
+                  <h3 className="text-lg font-semibold">{entry.title}</h3>
                   <button
                     className="text-blue-500 bg-white p-1 rounded-md h-5 w-5"
                     onClick={() => toggleDropdown(entry._id)}
@@ -293,13 +305,10 @@ const OtherIncome = () => {
               </div>
             ))
           ) : (
-            <tr>
-              <td colSpan="6" className="text-center py-4">
-                No data found.
-              </td>
-            </tr>
+            <div className="col-span-4 text-center py-4 text-gray-500">No data found.</div>
           )}
         </div>
+
       </div>
 
       {/* Add Income Modal */}
@@ -408,14 +417,14 @@ const OtherIncome = () => {
                 </button>
                 <button
                   type="submit"
-                  className={`border px-4 py-3 rounded-lg w-full ${
-                    isFormValid
-                      ? "bg-custom-gradient text-white"
-                      : "bg-[#F6F8FB] text-black"
-                  }`}
+                  className={`border px-4 py-3 rounded-lg w-full ${isFormValid
+                    ? "bg-custom-gradient text-white"
+                    : "bg-[#F6F8FB] text-black"
+                    }`}
                   disabled={!isFormValid}
                 >
-                  Apply
+                  {isLoading ? <Loader />
+                    : "Create"}
                 </button>
               </div>
             </form>
@@ -485,8 +494,8 @@ const OtherIncome = () => {
                       defaultValue={
                         formData?.dueDate
                           ? new Date(formData.dueDate)
-                              .toISOString()
-                              .split("T")[0]
+                            .toISOString()
+                            .split("T")[0]
                           : ""
                       }
                       className="w-full border border-gray-300 rounded-lg p-2 "
@@ -525,14 +534,14 @@ const OtherIncome = () => {
                 </button>
                 <button
                   type="submit"
-                  className={`border px-4 py-3 rounded-lg w-full ${
-                    isFormValid
-                      ? "bg-custom-gradient text-white"
-                      : "bg-[#F6F8FB] text-black"
-                  }`}
+                  className={`border px-4 py-3 rounded-lg w-full ${isFormValid
+                    ? "bg-custom-gradient text-white"
+                    : "bg-[#F6F8FB] text-black"
+                    }`}
                   disabled={!isFormValid}
                 >
-                  Save Changes
+                  {isLoading ? <Loader />
+                    : "Save Changes"}
                 </button>
               </div>
             </form>

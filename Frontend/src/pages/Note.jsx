@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { FaEdit, FaEllipsisV } from 'react-icons/fa'
 import { CreateNote, GetNotes, UpdateNote } from '../services/notesService'
 import { toast } from 'react-hot-toast'
+import { Loader } from '../utils/Loader'
 
-function Note () {
+function Note() {
   const [notes, setNotes] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalType, setModalType] = useState('')
   const [currentNote, setCurrentNote] = useState(null)
   const [dropdownOpen, setDropdownOpen] = useState(null)
   const [isFormFilled, setIsFormFilled] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const checkFormFilled = note => {
     return (
@@ -76,16 +78,32 @@ function Note () {
     handleCloseModal()
   }
 
+  const handleAction = async () => {
+    setIsLoading(true);
+    try {
+
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      console.log(modalType === "save" ? "Saved successfully!" : "Created successfully!");
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const toggleDropdown = id => {
     setDropdownOpen(dropdownOpen === id ? null : id)
   }
 
   const fetchNotes = async () => {
     try {
+      setIsLoading(true)
       const response = await GetNotes()
       setNotes(response.data.Note)
     } catch (error) {
       toast.error(error.response.data.message)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -107,27 +125,31 @@ function Note () {
         </button>
       </div>
 
-      <div className='grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-        {notes.length > 0 ? (
-          notes.map(note => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {isLoading ? (
+          <div className="col-span-4 flex justify-center items-center py-12">
+            <Loader />
+          </div>
+        ) : notes.length > 0 ? (
+          notes.map((note) => (
             <div
               key={note._id}
-              className='bg-white rounded-[10px] border border-grey-800 hover:shadow-sm transition-shadow'
+              className="bg-white rounded-[10px] border border-grey-800 hover:shadow-sm transition-shadow"
             >
-              <div className='bg-[#5678E9] text-white p-4 rounded-t-lg flex justify-between items-center'>
-                <h3 className='font-medium'>{note.title}</h3>
-                <div className='relative'>
+              <div className="bg-[#5678E9] text-white p-4 rounded-t-lg flex justify-between items-center">
+                <h3 className="font-medium">{note.title}</h3>
+                <div className="relative">
                   <button
                     onClick={() => toggleDropdown(note._id)}
-                    className='hover:opacity-80  text-blue-500 rounded-md p-1 bg-white h-5 w-5'
+                    className="hover:opacity-80 text-blue-500 rounded-md p-1 bg-white h-5 w-5"
                   >
                     <FaEllipsisV size={12} />
                   </button>
                   {dropdownOpen === note._id && (
-                    <div className='absolute right-0 mt-2 w-28 bg-white rounded-md hover:bg-gray-50 shadow-lg z-10'>
+                    <div className="absolute right-0 mt-2 w-28 bg-white rounded-md hover:bg-gray-50 shadow-lg z-10">
                       <button
                         onClick={() => handleEditNote(note)}
-                        className='w-full px-3 py-2 text-left text-sm text-gray-700  flex items-center gap-2 font-semibold'
+                        className="w-full px-3 py-2 text-left text-sm text-gray-700 flex items-center gap-2 font-semibold"
                       >
                         Edit
                       </button>
@@ -136,22 +158,21 @@ function Note () {
                 </div>
               </div>
 
-              <div className='p-4'>
-                <div className='space-y-2'>
-                  <p className='text-gray-500 text-sm'>Description</p>
-                  <p className='text-sm text-black-600'>{note.description}</p>
+              <div className="p-4">
+                <div className="space-y-2">
+                  <p className="text-gray-500 text-sm">Description</p>
+                  <p className="text-sm text-black-600">{note.description}</p>
                 </div>
               </div>
             </div>
           ))
         ) : (
-          <tr>
-            <td colSpan='6' className='text-center py-4'>
-              No data found.
-            </td>
-          </tr>
+          <div className="col-span-4 text-center py-4">
+            No data found.
+          </div>
         )}
       </div>
+
 
       {/* Create/Edit Modal */}
       {isModalOpen && (
@@ -219,15 +240,21 @@ function Note () {
                   </button>
                   <button
                     type='submit'
+                    onClick={handleAction}
                     disabled={!isFormFilled}
                     className={`w-full py-3 text-sm font-medium rounded-[10px] transition-all duration-300
-                      ${
-                        isFormFilled
-                          ? ' bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90'
-                          : 'bg-[#F6F8FB] text-black font-bold text-black-400 cursor-not-allowed'
+                      ${isFormFilled
+                        ? ' bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90'
+                        : 'bg-[#F6F8FB] text-black font-bold text-black-400 cursor-not-allowed'
                       }`}
                   >
-                    {modalType === 'save' ? 'save' : 'Save'}
+                    {isLoading ? (
+                      <Loader />
+                    ) : modalType === "save" ? (
+                      "save"
+                    ) : (
+                      "Save"
+                    )}
                   </button>
                 </div>
               </form>

@@ -2,17 +2,22 @@ import React, { useEffect, useState } from 'react'
 import { activityData } from '../../../constantdata'
 import { GetEventsParticipants } from '../../../services/incomeService'
 import toast from 'react-hot-toast'
+import { Loader } from '../../../utils/Loader'
 
 export default function EventsParticipate () {
   const [eventsParticipants, setEventsParticipants] = useState([])
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchNotes = async () => {
     try {
+      setIsLoading(true)
       const response = await GetEventsParticipants()
       console.log(response)
       setEventsParticipants(response.data.Income)
     } catch (error) {
       toast.error(error.response.data.message)
+    }finally{
+      setIsLoading(false)
     }
   }
 
@@ -30,6 +35,11 @@ export default function EventsParticipate () {
             </h1>
           </div>
           <div className='overflow-x-auto pr-[8px] ps-[20px] custom-scrollbar max-h-[40rem]'>
+          {isLoading ? (  
+              <div className='flex justify-center items-center h-[40rem]'>
+                <Loader />
+              </div>
+            ) : (
             <table className='min-w-full table-auto border-collapse'>
               <thead className='bg-indigo-50'>
                 <tr className='rounded-tl-[15px] rounded-tr-[15px] h-[61px]'>
@@ -102,6 +112,7 @@ export default function EventsParticipate () {
                 )}
               </tbody>
             </table>
+          )}
           </div>
         </div>
       </div>

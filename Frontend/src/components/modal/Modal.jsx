@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { AddImpNumber, UpdateImpNumber } from "../../services/impNumberService";
 import toast from "react-hot-toast";
+import { Loader } from "../../utils/Loader";
 
 export default function Modal({ contact, onClose, fetchImportantNumbers }) {
   const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ export default function Modal({ contact, onClose, fetchImportantNumbers }) {
     Phone_Number: "",
     Work: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (contact) {
@@ -48,12 +50,14 @@ export default function Modal({ contact, onClose, fetchImportantNumbers }) {
 
     if (!formErrors.Full_name && !formErrors.Phone_Number && !formErrors.Work) {
       try {
+        setIsLoading(true);
         const response = await AddImpNumber(formData);
         fetchImportantNumbers();
         toast.success(response.data.message);
       } catch (error) {
         toast.error(error.response.data.message);
       } finally {
+        setIsLoading(false);
         setFormData({
           Full_name: "",
           Phone_Number: "",
@@ -86,12 +90,14 @@ export default function Modal({ contact, onClose, fetchImportantNumbers }) {
 
     if (!formErrors.Full_name && !formErrors.Phone_Number && !formErrors.Work) {
       try {
+        setIsLoading(true);
         const response = await UpdateImpNumber(id, formData);
         fetchImportantNumbers();
         toast.success(response.data.message);
       } catch (error) {
         toast.error(error.response.data.message);
       } finally {
+        setIsLoading(false);
         setFormData({
           Full_name: "",
           Phone_Number: "",
@@ -173,7 +179,11 @@ export default function Modal({ contact, onClose, fetchImportantNumbers }) {
             onClick={() => (contact ? handleUpdate(contact._id) : handleSave())}
             className={`py-[13.5px] px-[58.5px] rounded-[10px] border border-[#D3D3D3] w-full leading-6 font-semibold ${isFormComplete ? 'bg-custom-gradient text-white' : 'bg-[#F6F8FB] text-black'}`}
           >
-            Save
+           {isLoading ? (
+              <Loader/> 
+            ) : (
+              "Save"
+            )}
           </button>
         </div>
       </div>
