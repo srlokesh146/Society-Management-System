@@ -1,4 +1,5 @@
 const Chat = require("../models/chat.schema");
+const groupChatModel = require("../models/gruopChat");
 const cloudinary = require("../utils/cloudinary");
 const fs = require("fs");
 
@@ -45,7 +46,7 @@ exports.sendMessage = async (req, res) => {
       message,
       media,
     };
-    const createMessage = await Chat.create(newMessage);;
+    const createMessage = await Chat.create(newMessage);
 
     return res
       .status(200)
@@ -77,6 +78,46 @@ exports.getChatHistory = async (req, res) => {
     return res.status(200).json({
       success: true,
       data: chatHistory,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+
+exports.GroupMessageHistory = async (req, res) => {
+  try {
+    const chat = await groupChatModel.find();
+
+    return res.status(200).json({
+      messages: chat,
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+exports.sendGroupMessage = async (req, res) => {
+  try {
+    const { message, time } = req.body;
+
+    if (!message || !time) {
+      return res
+        .status(400)
+        .json({ message: "All fields are required!", success: false });
+    }
+
+    const chat = await groupChatModel.create(req.body);
+
+    return res.status(200).json({
+      message: "message sent successfully",
+      chat: chat,
+      success: true,
     });
   } catch (error) {
     return res.status(500).json({
