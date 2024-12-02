@@ -16,6 +16,7 @@ import {
   GetRequests,
   GetRequestsForUser
 } from '../../services/requestTrackingService'
+import { Loader } from '../../utils/Loader'
 
 const ServiceAndComplaint = () => {
   const [activeTab, setActiveTab] = useState('complaint')
@@ -24,6 +25,7 @@ const ServiceAndComplaint = () => {
   const [isModalOpen, setIsModalOpen] = useState(false) // State to control the "Create Complaint" modal visibility
   const [complaints, setComplaints] = useState([])
   const [requests, setRequests] = useState([])
+  const [isLoading, setIsLoading] = useState(false);
 
   const toggleDropdown = id => {
     setDropdownOpen(dropdownOpen === id ? null : id)
@@ -49,12 +51,14 @@ const ServiceAndComplaint = () => {
   // Handle adding a new complaint
   const handleCreateRequest = async newRequest => {
     try {
+      setIsLoading(true)
       const response = await CreateRequest(newRequest)
       toast.success(response.data.message)
       fetchRequests()
     } catch (error) {
       toast.error(error.response.data.message)
     } finally {
+      setIsLoading(false)
       setIsModalOpen(false)
     }
   }
@@ -62,10 +66,13 @@ const ServiceAndComplaint = () => {
   // Fetch All Requests
   const fetchRequests = async () => {
     try {
+      setIsLoading(true)
       const response = await GetRequestsForUser()
       setRequests(response.data.data)
     } catch (error) {
       toast.error(error.response.data.message)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -85,12 +92,14 @@ const ServiceAndComplaint = () => {
   // Handle adding a new complaint
   const handleCreateComplaint = async newComplaint => {
     try {
+      setIsLoading(true)
       const response = await CreateComplaint(newComplaint)
       toast.success(response.data.message)
       fetchComplaints()
     } catch (error) {
       toast.error(error.response.data.message)
     } finally {
+      setIsLoading(false)
       setIsModalOpen(false)
     }
   }
@@ -98,10 +107,13 @@ const ServiceAndComplaint = () => {
   // Fetch All Complaints
   const fetchComplaints = async () => {
     try {
+      setIsLoading(true)
       const response = await GetComplaintsForUser()
       setComplaints(response.data.data)
     } catch (error) {
       toast.error(error.response.data.message)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -115,22 +127,20 @@ const ServiceAndComplaint = () => {
       {/* Tabs */}
       <div className='flex'>
         <button
-          className={`px-[10px] py-[14px] w-[183px] rounded-t-lg cursor-pointer text-[14px] text-[#202224] font-semibold max-sm:text-[14px] ${
-            activeTab === 'complaint'
-              ? 'bg-custom-gradient text-white'
-              : 'bg-white text-black  border-b-2 border-orange-500'
-          }`}
+          className={`px-[10px] py-[14px] w-[183px] rounded-t-lg cursor-pointer text-[14px] text-[#202224] font-semibold max-sm:text-[14px] ${activeTab === 'complaint'
+            ? 'bg-custom-gradient text-white'
+            : 'bg-white text-black  border-b-2 border-orange-500'
+            }`}
           onClick={() => setActiveTab('complaint')}
         >
           Complaint Submission
         </button>
 
         <button
-          className={`px-[10px] py-[14px] w-[183px] rounded-t-lg cursor-pointer text-[14px] text-[#202224] font-semibold max-sm:text-[14px] ${
-            activeTab === 'request'
-              ? 'bg-custom-gradient text-white'
-              : 'bg-white text-black  border-b-2 border-orange-500'
-          }`}
+          className={`px-[10px] py-[14px] w-[183px] rounded-t-lg cursor-pointer text-[14px] text-[#202224] font-semibold max-sm:text-[14px] ${activeTab === 'request'
+            ? 'bg-custom-gradient text-white'
+            : 'bg-white text-black  border-b-2 border-orange-500'
+            }`}
           onClick={() => setActiveTab('request')}
         >
           Request Submission
@@ -151,13 +161,14 @@ const ServiceAndComplaint = () => {
               Create Complaint
             </button>
           </div>
-          <div className='grid  mt-4 max-sm:grid-cols-1  max-2xl:grid-cols-2  max-lg:grid-cols-2 grid-cols-4 gap-4'>
-            {complaints.length > 0 ? (
+          <div className='grid mt-4 max-sm:grid-cols-1 max-2xl:grid-cols-2 max-lg:grid-cols-2 grid-cols-4 gap-4'>
+            {isLoading ? (
+              <div className='flex justify-center items-center col-span-4 py-12'>
+                <Loader />
+              </div>
+            ) : complaints.length > 0 ? (
               complaints.map(item => (
-                <div
-                  key={item._id}
-                  className='border border-grey-800 rounded-lg'
-                >
+                <div key={item._id} className='border border-grey-800 rounded-lg'>
                   <div className='bg-[#5678E9] text-white p-4 flex justify-between items-center rounded-t-lg'>
                     <h2 className='text-sm sm:text-base text-[16px] font-semibold'>
                       {item.name}
@@ -187,14 +198,11 @@ const ServiceAndComplaint = () => {
                       <div className='flex items-center text-sm sm:text-base text-gray-500'>
                         <span className='font-sm '>Request Date</span>
                         <p className='text-black text-[15px] ml-auto'>
-                          {new Date(item.createdAt).toLocaleDateString(
-                            'en-GB',
-                            {
-                              day: '2-digit',
-                              month: '2-digit',
-                              year: 'numeric'
-                            }
-                          )}
+                          {new Date(item.createdAt).toLocaleDateString('en-GB', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric'
+                          })}
                         </p>
                       </div>
                       <div className='flex items-center text-sm sm:text-base text-gray-500'>
@@ -221,6 +229,7 @@ const ServiceAndComplaint = () => {
               </tr>
             )}
           </div>
+
           {modalItem && (
             <DeleteConfirmModal
               isOpen={modalItem}
@@ -234,6 +243,7 @@ const ServiceAndComplaint = () => {
           {/* Create Complaint Modal */}
           {isModalOpen && (
             <CreateComplaintModal
+              isLoading={isLoading}
               isOpen={isModalOpen} // Pass the modal visibility state
               onClose={() => setIsModalOpen(false)} // Close the modal
               onSubmit={handleCreateComplaint} // Pass the function to handle new complaint creation
@@ -257,71 +267,78 @@ const ServiceAndComplaint = () => {
             </button>
           </div>
           <div className='grid max-sm:grid-cols-1  max-2xl:grid-cols-2  max-lg:grid-cols-2 grid-cols-4 gap-4'>
-            {requests.length > 0 ? (
-              requests.map(item => (
-                <div
-                  key={item._id}
-                  className='border border-grey-800 rounded-lg'
-                >
-                  <div className='bg-[#5678E9] text-white p-4 flex justify-between items-center rounded-t-lg'>
-                    <h2 className='text-sm sm:text-base font-semibold'>
-                      {item.name}
-                    </h2>
-                    <div className='relative'>
-                      <button
-                        onClick={() => toggleDropdown(item._id)}
-                        className='hover:opacity-80 text-blue-500 rounded-md p-1 bg-white h-5 w-5 flex items-center justify-center'
-                      >
-                        <FaEllipsisV size={12} />
-                      </button>
-
-                      {dropdownOpen === item._id && (
-                        <div className='absolute right-0 mt-2 w-28 bg-white rounded-md shadow-lg z-10 py-1'>
+            {isLoading ? ( 
+              <div className='flex justify-center items-center col-span-4 py-12'>
+                <Loader /> 
+              </div>
+            ) :
+              
+                requests.length > 0 ? (
+                  requests.map(item => (
+                    <div
+                      key={item._id}
+                      className='border border-grey-800 rounded-lg'
+                    >
+                      <div className='bg-[#5678E9] text-white p-4 flex justify-between items-center rounded-t-lg'>
+                        <h2 className='text-sm sm:text-base font-semibold'>
+                          {item.name}
+                        </h2>
+                        <div className='relative'>
                           <button
-                            onClick={() => handleDeleteClick(item)}
-                            className='w-full px-4 py-2 text-sm text-black rounded-lg hover:bg-gray-50 flex items-center'
+                            onClick={() => toggleDropdown(item._id)}
+                            className='hover:opacity-80 text-blue-500 rounded-md p-1 bg-white h-5 w-5 flex items-center justify-center'
                           >
-                            Delete
+                            <FaEllipsisV size={12} />
                           </button>
+
+                          {dropdownOpen === item._id && (
+                            <div className='absolute right-0 mt-2 w-28 bg-white rounded-md shadow-lg z-10 py-1'>
+                              <button
+                                onClick={() => handleDeleteClick(item)}
+                                className='w-full px-4 py-2 text-sm text-black rounded-lg hover:bg-gray-50 flex items-center'
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          )}
                         </div>
-                      )}
+                      </div>
+                      <div className='p-4'>
+                        <div className='space-y-2'>
+                          <div className='flex items-center text-sm sm:text-base text-gray-500'>
+                            <span className='font-sm '>Request Date</span>
+                            <p className='text-black text-[15px] ml-auto'>
+                              {new Date(item.date).toLocaleDateString('en-GB', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric'
+                              })}
+                            </p>
+                          </div>
+                          <div className='flex items-center text-sm sm:text-base text-gray-500'>
+                            <span className='font-sm  '>Status</span>
+                            <p className='text-blue-500  font-semibold p-1 w-24 text-center rounded-full ml-auto'>
+                              <StatusBadge status={item.status} />
+                            </p>
+                          </div>
+                          <div className='justify-between items-center text-sm sm:text-base text-gray-500'>
+                            <span className='font-sm '>Description</span>
+                            <p className='text-black font-[500px] text-[14px] mt-1'>
+                              {item.description}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className='p-4'>
-                    <div className='space-y-2'>
-                      <div className='flex items-center text-sm sm:text-base text-gray-500'>
-                        <span className='font-sm '>Request Date</span>
-                        <p className='text-black text-[15px] ml-auto'>
-                          {new Date(item.date).toLocaleDateString('en-GB', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric'
-                          })}
-                        </p>
-                      </div>
-                      <div className='flex items-center text-sm sm:text-base text-gray-500'>
-                        <span className='font-sm  '>Status</span>
-                        <p className='text-blue-500  font-semibold p-1 w-24 text-center rounded-full ml-auto'>
-                          <StatusBadge status={item.status} />
-                        </p>
-                      </div>
-                      <div className='justify-between items-center text-sm sm:text-base text-gray-500'>
-                        <span className='font-sm '>Description</span>
-                        <p className='text-black font-[500px] text-[14px] mt-1'>
-                          {item.description}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <tr>
-                <td className='text-center py-4 text-gray-500'>
-                  No data found
-                </td>
-              </tr>
-            )}
+                  ))
+                ) : (
+                  <tr>
+                    <td className='text-center py-4 text-gray-500'>
+                      No data found
+                    </td>
+                  </tr>
+                )
+              }
           </div>
           {modalItem && (
             <DeleteRequestModal
@@ -337,6 +354,7 @@ const ServiceAndComplaint = () => {
           {isModalOpen && (
             <CreateRequestModal
               isOpen={isModalOpen}
+              isLoading={isLoading}
               onClose={() => setIsModalOpen(false)}
               onSubmit={handleCreateRequest}
             />

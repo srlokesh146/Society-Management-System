@@ -16,33 +16,9 @@ import {
 import { data } from "../constantdata";
 import { useDispatch } from "react-redux";
 import { addNewNotification } from "../redux/features/notificationSlice";
+import { Loader } from "../utils/Loader";
 
-const maintenanceData = [
-  {
-    id: 1,
-    name: "Cody Fisher",
-    unitNumber: "A 1001",
-    date: "10/02/2024",
-    status: "Tenant",
-    phoneNumber: "92524 34522",
-    amount: "1000",
-    penalty: "--",
-    paymentStatus: "Pending",
-    payment: "Online",
-  },
-  {
-    id: 2,
-    name: "Esther Howard",
-    unitNumber: "B 1002",
-    date: "11/02/2024",
-    status: "Owner",
-    phoneNumber: "92524 12365",
-    amount: "1000",
-    penalty: "250",
-    paymentStatus: "Done",
-    payment: "Cash",
-  },
-];
+
 
 const Income = () => {
   const dispatch = useDispatch();
@@ -63,6 +39,7 @@ const Income = () => {
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSetMaintenance = () => {
     setIsModalOpen(true);
@@ -70,6 +47,7 @@ const Income = () => {
 
   const handleContinue = async () => {
     try {
+      setIsLoading(true)
       const response = await ConfirmPassword({ password: password });
       toast.success(response.data.message);
       setIsModalOpen(false);
@@ -77,6 +55,7 @@ const Income = () => {
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
+      setIsLoading(false)
       setPassword("");
     }
   };
@@ -126,6 +105,7 @@ const Income = () => {
           dueDate,
           penaltyDay: calculateDate(parseInt(penaltyDay)),
         };
+        setIsLoading(true)
         const response = await CreateMaintenance(data);
 
         const notification = {
@@ -142,6 +122,7 @@ const Income = () => {
       } catch (error) {
         toast.error(error.response.data.message);
       } finally {
+        setIsLoading(false)
         setIsMaintenanceModalOpen(false);
         setMaintenanceAmount("");
         setPenaltyAmount("");
@@ -301,9 +282,12 @@ const Income = () => {
 
   const GetMaintenancesList = async () => {
     try {
+      setIsLoading(true)
       const response = await GetMaintenances();
       setMaintenanceList(response.data.Maintenance);
-    } catch (error) {}
+    } catch (error) {}finally{
+      setIsLoading(false)
+    }
   };
 
   useEffect(() => {
@@ -402,195 +386,203 @@ const Income = () => {
         </div>
         {/* Table Section */}
         <div className="bg-white p-6 mb-4">
-          <div className="mb-4">
-            <h1 className="text-2xl font-semibold text-black-500">
-              Maintenace Details
-            </h1>
-          </div>
-          <div className="overflow-y-auto pr-[8px] max-h-[30rem] custom-scrollbar overflow-x-auto">
-            <table className="min-w-full">
-              <thead>
-                <tr className="text-left  font-bold text-sm bg-indigo-50 rounded-lg text-[#202224] h-[61px] text-nowrap">
-                  <th className="text-sm py-3 px-4 font-semibold rounded-tl-[15px]">
-                    Name
-                  </th>
-                  <th className="text-sm py-3 px-4 font-semibold text-center">
-                    Unit Number
-                  </th>
-                  <th className="text-sm py-3 px-4 font-semibold text-center">
-                    Date
-                  </th>
-                  <th className="text-sm py-3 px-4 font-semibold text-center">
-                    Status
-                  </th>
-                  <th className="text-sm py-3 px-4 font-semibold text-center">
-                    Phone Number
-                  </th>
-                  <th className="text-sm py-3 px-4 font-semibold text-center">
-                    Amount
-                  </th>
-                  <th className="text-sm py-3 px-4 font-semibold text-center">
-                    Penalty
-                  </th>
-                  <th className="text-sm py-3 px-4 font-semibold text-center">
-                    Status
-                  </th>
-                  <th className="text-sm py-3 px-4 font-semibold text-center">
-                    Payment
-                  </th>
-                  <th className="text-sm py-3 px-4 font-semibold text-center rounded-tr-[15px]">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {maintenanceList.length > 0 &&
-                maintenanceList.some((m) => m.residentList.length > 0) ? (
-                  maintenanceList.map((m) =>
-                    m.residentList.map((r) => (
-                      <tr
-                        key={r._id}
-                        className="border-t border-gray-100 text-[#4F4F4F]"
+  <div className="mb-4">
+    <h1 className="text-2xl font-semibold text-black-500">
+      Maintenance Details
+    </h1>
+  </div>
+  <div className="overflow-y-auto pr-[8px] max-h-[30rem] custom-scrollbar overflow-x-auto">
+    {isLoading ? (
+      // Loading state
+      <div className="flex justify-center items-center py-12">
+        <Loader/>
+      </div>
+    ) : (
+      <table className="min-w-full">
+        <thead>
+          <tr className="text-left font-bold text-sm bg-indigo-50 rounded-lg text-[#202224] h-[61px] text-nowrap">
+            <th className="text-sm py-3 px-4 font-semibold rounded-tl-[15px]">
+              Name
+            </th>
+            <th className="text-sm py-3 px-4 font-semibold text-center">
+              Unit Number
+            </th>
+            <th className="text-sm py-3 px-4 font-semibold text-center">
+              Date
+            </th>
+            <th className="text-sm py-3 px-4 font-semibold text-center">
+              Status
+            </th>
+            <th className="text-sm py-3 px-4 font-semibold text-center">
+              Phone Number
+            </th>
+            <th className="text-sm py-3 px-4 font-semibold text-center">
+              Amount
+            </th>
+            <th className="text-sm py-3 px-4 font-semibold text-center">
+              Penalty
+            </th>
+            <th className="text-sm py-3 px-4 font-semibold text-center">
+              Status
+            </th>
+            <th className="text-sm py-3 px-4 font-semibold text-center">
+              Payment
+            </th>
+            <th className="text-sm py-3 px-4 font-semibold text-center rounded-tr-[15px]">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {maintenanceList.length > 0 &&
+          maintenanceList.some((m) => m.residentList.length > 0) ? (
+            maintenanceList.map((m) =>
+              m.residentList.map((r) => (
+                <tr
+                  key={r._id}
+                  className="border-t border-gray-100 text-[#4F4F4F]"
+                >
+                  <td className="py-3 px-4">
+                    <div className="flex items-center">
+                      <img
+                        src={r?.resident?.profileImage}
+                        alt={""}
+                        className="w-8 h-8 rounded-full mr-2"
+                      />
+                      <span className="font-medium">
+                        {r.resident.Full_name}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="py-3 px-4 text-center">
+                    <span className="text-black-600 font-medium">
+                      {r.resident.Unit}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4 text-center font-medium">
+                    {new Date(m.createdAt).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </td>
+                  <td className="py-3 px-4 text-center">
+                    <span
+                      className={`px-3 py-1 rounded-full inline-flex items-center gap-1.5 w-[113px] h-[31px] justify-center text-[14px] font-medium ${
+                        r.resident.Resident_status === "Tenante"
+                          ? "bg-pink-50 text-pink-500"
+                          : "bg-purple-50 text-purple-500"
+                      }`}
+                    >
+                      {r.resident.Resident_status === "Tenante" ? (
+                        <FaUser size={12} />
+                      ) : (
+                        <img
+                          src={ownerImage}
+                          className="mr-[4px]"
+                          alt="Owner Icon"
+                        />
+                      )}
+                      {r.resident.Resident_status}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4 text-center font-medium">
+                    {r.resident.Phone_number}
+                  </td>
+                  <td className="py-3 px-4 text-center font-medium">
+                    <span className="text-green-600">
+                      ₹ {m.maintenanceAmount}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4 text-center font-medium">
+                    {r.penalty === "--" ? (
+                      <span className="text-black-600 px-4 py-1 rounded-full bg-blue-50 font-medium">
+                        --
+                      </span>
+                    ) : (
+                      <span className="bg-[#E74C3C] text-white px-4 py-1 rounded-full font-medium">
+                        {r.penalty}
+                      </span>
+                    )}
+                  </td>
+                  <td className="py-3 px-4 text-center">
+                    <span
+                      className={`py-1 px-2.5 rounded-full inline-flex items-center justify-center text-[14px] gap-1.5 font-medium w-[113px] h-[31px] capitalize ${
+                        r.paymentStatus === "pending"
+                          ? "bg-yellow-50 text-yellow-500 "
+                          : "bg-green-50 text-green-500"
+                      }`}
+                    >
+                      {r.paymentStatus === "pending" ? (
+                        <BsClockFill size={12} />
+                      ) : (
+                        <img
+                          src={verify}
+                          className="mr-[4px]"
+                          alt="verify"
+                        />
+                      )}
+                      {r.paymentStatus}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4 text-center">
+                    <div className="flex items-center justify-center">
+                      <span
+                        className={`inline-flex items-center justify-center w-[113px] h-[31px] text-[14px] font-medium capitalize ${
+                          r.paymentMode === "online"
+                            ? "text-blue-600 font-medium bg-blue-50"
+                            : "text-[#202224] font-medium bg-gray-50"
+                        } px-2 py-1 rounded-full`}
                       >
-                        <td className="py-3 px-4">
-                          <div className="flex items-center">
-                            <img
-                              src={r?.resident?.profileImage}
-                              alt={""}
-                              className="w-8 h-8 rounded-full mr-2"
-                            />
-                            <span className="font-medium">
-                              {r.resident.Full_name}
-                            </span>
-                          </div>
-                        </td>
-                        <td className="py-3 px-4 text-center">
-                          <span className="text-black-600 font-medium">
-                            {r.resident.Unit}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4 text-center font-medium">
-                          {new Date(m.createdAt).toLocaleDateString("en-GB", {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                          })}
-                        </td>
-                        <td className="py-3 px-4 text-center">
-                          <span
-                            className={`px-3 py-1 rounded-full inline-flex items-center gap-1.5 w-[113px] h-[31px] justify-center text-[14px] font-medium ${
-                              r.resident.Resident_status === "Tenante"
-                                ? "bg-pink-50 text-pink-500"
-                                : "bg-purple-50 text-purple-500"
-                            }`}
-                          >
-                            {r.resident.Resident_status === "Tenante" ? (
-                              <FaUser size={12} />
-                            ) : (
-                              <img
-                                src={ownerImage}
-                                className="mr-[4px]"
-                                alt="Owner Icon"
-                              />
-                            )}
-                            {r.resident.Resident_status}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4 text-center font-medium">
-                          {r.resident.Phone_number}
-                        </td>
-                        <td className="py-3 px-4 text-center font-medium">
-                          <span className="text-green-600">
-                            ₹ {m.maintenanceAmount}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4 text-center font-medium">
-                          {r.penalty === "--" ? (
-                            <span className="text-black-600 px-4 py-1 rounded-full bg-blue-50 font-medium">
-                              --
-                            </span>
-                          ) : (
-                            <span className="bg-[#E74C3C] text-white px-4 py-1 rounded-full font-medium">
-                              {r.penalty}
-                            </span>
-                          )}
-                        </td>
-                        <td className="py-3 px-4 text-center">
-                          <span
-                            className={`py-1 px-2.5 rounded-full inline-flex items-center justify-center text-[14px] gap-1.5 font-medium w-[113px] h-[31px] capitalize ${
-                              r.paymentStatus === "pending"
-                                ? "bg-yellow-50 text-yellow-500 "
-                                : "bg-green-50 text-green-500"
-                            }`}
-                          >
-                            {r.paymentStatus === "pending" ? (
-                              <BsClockFill size={12} />
-                            ) : (
-                              <img
-                                src={verify}
-                                className="mr-[4px]"
-                                alt="verify"
-                              />
-                            )}
-                            {r.paymentStatus}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4 text-center">
-                          <div className="flex items-center justify-center">
-                            <span
-                              className={`inline-flex items-center justify-center w-[113px] h-[31px] text-[14px] font-medium capitalize ${
-                                r.paymentMode === "online"
-                                  ? "text-blue-600 font-medium bg-blue-50"
-                                  : "text-[#202224] font-medium bg-gray-50"
-                              } px-2 py-1 rounded-full`}
-                            >
-                              {r.paymentMode === "online" ? (
-                                <img src={wallet} className="pr-[5px]" />
-                              ) : (
-                                <img src={moneys} className="pr-[5px]" />
-                              )}
-                              {r.paymentMode}
-                            </span>
-                          </div>
-                        </td>
-                        <td className="py-3 px-4 text-center">
-                          <button
-                            onClick={() =>
-                              handleViewClick({
-                                ...m,
-                                ...r,
-                              })
-                            }
-                            className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
-                          >
-                            <img src={eye} />
-                          </button>
+                        {r.paymentMode === "online" ? (
+                          <img src={wallet} className="pr-[5px]" />
+                        ) : (
+                          <img src={moneys} className="pr-[5px]" />
+                        )}
+                        {r.paymentMode}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="py-3 px-4 text-center">
+                    <button
+                      onClick={() =>
+                        handleViewClick({
+                          ...m,
+                          ...r,
+                        })
+                      }
+                      className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
+                    >
+                      <img src={eye} />
+                    </button>
 
-                          {/* Render Modal */}
-                          {isViewModalOpen && (
-                            <ViewDetailsModal
-                              user={selectedUser}
-                              onClose={() => {
-                                setIsViewModalOpen(false);
-                                setSelectedUser(null);
-                              }}
-                            />
-                          )}
-                        </td>
-                      </tr>
-                    ))
-                  )
-                ) : (
-                  <tr>
-                    <td colSpan="9" className="text-center py-4 text-gray-500">
-                      No data found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
+                    {/* Render Modal */}
+                    {isViewModalOpen && (
+                      <ViewDetailsModal
+                        user={selectedUser}
+                        onClose={() => {
+                          setIsViewModalOpen(false);
+                          setSelectedUser(null);
+                        }}
+                      />
+                    )}
+                  </td>
+                </tr>
+              ))
+            )
+          ) : (
+            <tr>
+              <td colSpan="9" className="text-center py-4 text-gray-500">
+                No data found
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    )}
+  </div>
+</div>
+
       </div>
       {/* Modal */}
       {isModalOpen && (
@@ -638,7 +630,8 @@ const Income = () => {
                 onClick={handleContinue}
                 className="px-4 py-2 bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white rounded-md"
               >
-                Continue
+               {isLoading ? <Loader/>
+                : "Continue"}
               </button>
             </div>
           </div>
@@ -777,7 +770,8 @@ const Income = () => {
                     : "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
                 }`}
               >
-                Apply
+                 {isLoading ? <Loader/>
+                  : "Apply"}
               </button>
             </div>
           </div>

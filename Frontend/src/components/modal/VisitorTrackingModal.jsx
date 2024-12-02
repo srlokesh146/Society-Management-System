@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { createVisitor } from "../../services/securityGuardService";
 import { toast } from "react-hot-toast";
+import { Loader } from "../../utils/Loader";
 
-export default function VisitorTrackingModal({ isOpen, onClose, onSave }) {
+export default function VisitorTrackingModal({ isOpen, onClose, onSave ,isLoading}) {
   const [formData, setFormData] = useState({
     name: "",
     number: "",
@@ -238,7 +239,8 @@ export default function VisitorTrackingModal({ isOpen, onClose, onSave }) {
             : "bg-[#F6F8FB] text-black"
         }`}
             >
-              Save
+            {isLoading ? <Loader/>
+              : "Save"}
             </button>
           </div>
         </form>

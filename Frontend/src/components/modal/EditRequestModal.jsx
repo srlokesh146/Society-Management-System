@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { FaCalendarAlt, FaTimes } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import { Loader } from "../../utils/Loader";
 
-const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
+const EditRequestModal = ({ isOpen, onClose, Request, onSubmit, isLoading }) => {
   if (!isOpen) return null;
 
   const [selectedPriority, setSelectedPriority] = useState(Request?.priority);
   const [selectedStatus, setSelectedStatus] = useState(Request?.status);
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -231,7 +232,8 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit }) => {
               type="submit"
               className="w-full px-4 py-3 text-sm font-medium text-white bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-[10px] hover:opacity-90"
             >
-              Save
+                {isLoading ? <Loader/>
+                  : "Save"}
             </button>
           </div>
         </form>

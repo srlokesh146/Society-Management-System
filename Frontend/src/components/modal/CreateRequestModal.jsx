@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
+import { Loader } from "../../utils/Loader";
 
-const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
+const CreateRequestModal = ({ isOpen, onClose, onSubmit , isLoading }) => {
   if (!isOpen) return null;
 
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
     priority: "",
     status: "",
   });
+
 
   const isFormValid =
     formData.requesterName &&
@@ -264,6 +266,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
             </button>
             <button
               type="submit"
+              disabled={!isFormValid || isLoading}
               className={`w-full px-4 py-3 text-md font-medium rounded-md transition-all duration-300
                 ${
                   isFormValid
@@ -271,7 +274,8 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit }) => {
                     : "bg-[#F6F8FB] text-black"
                 }`}
             >
-              Create
+             {isLoading ? <Loader/>
+              : "Create"}
             </button>
           </div>
         </form>

@@ -4,6 +4,7 @@ import { CreateAlert } from "../../services/alertService";
 import { toast } from "react-hot-toast";
 import { addNewNotification } from "../../redux/features/notificationSlice";
 import { useDispatch } from "react-redux";
+import { Loader } from "../../utils/Loader";
 
 export default function EmergencyManagement() {
   const dispatch = useDispatch();
@@ -11,6 +12,7 @@ export default function EmergencyManagement() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [alert_type, setAlert_type] = useState("");
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,6 +31,7 @@ export default function EmergencyManagement() {
     if (Object.keys(newErrors).length === 0) {
       try {
         const data = { alert_type, description };
+        setIsLoading(true)
         const response = await CreateAlert(data);
         const notification = {
           _id: response.data.notification._id,
@@ -42,6 +45,7 @@ export default function EmergencyManagement() {
       } catch (error) {
         toast.error(error.response.data.message);
       } finally {
+        setIsLoading(false)
         setAlert_type("");
         setDescription("");
       }
@@ -150,7 +154,8 @@ export default function EmergencyManagement() {
               type="submit"
               className="w-full py-[12px] border rounded-[10px] bg-custom-gradient text-white"
             >
-              Send
+              {isLoading ? <Loader/>
+                : "Send"}
             </button>
           </div>
         </form>

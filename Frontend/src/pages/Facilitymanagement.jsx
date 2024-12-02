@@ -9,6 +9,7 @@ import {
 } from "../services/facilityService";
 import { addNewNotification } from "../redux/features/notificationSlice";
 import { useDispatch } from "react-redux";
+import { Loader } from "../utils/Loader";
 
 function FacilityManagement() {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ function FacilityManagement() {
   const [currentFacility, setCurrentFacility] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [isFormFilled, setIsFormFilled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const checkFormFilled = (facility) => {
     return (
@@ -64,6 +66,7 @@ function FacilityManagement() {
     event.preventDefault();
     if (modalType === "create") {
       try {
+        setIsLoading(true)
         const response = await CreateFacility(currentFacility);
         fetchFacilities();
 
@@ -81,6 +84,9 @@ function FacilityManagement() {
         console.log(error);
         toast.error(error.response.data.message);
       }
+      finally {
+        setIsLoading(false)
+      }
     } else if (modalType === "edit") {
       const updateData = {
         name: currentFacility.name,
@@ -89,16 +95,31 @@ function FacilityManagement() {
         remind: currentFacility.remind,
       };
       try {
+        setIsLoading(true)
         const response = await UpdateFacility(currentFacility._id, updateData);
         fetchFacilities();
         toast.success(response.data.message);
       } catch (error) {
         toast.error(error.response.data.message);
       } finally {
+        setIsLoading(false)
         setDropdownOpen(false);
       }
     }
     handleCloseModal();
+  };
+
+  const handleAction = async () => {
+    setIsLoading(true);
+    try {
+
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      console.log(`${modalType === "save" ? "Saved" : "Created"} successfully!`);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const toggleDropdown = (id) => {
@@ -191,10 +212,9 @@ function FacilityManagement() {
           type="submit"
           disabled={!isFormFilled}
           className={`w-full h-[51px] text-sm font-medium rounded-[10px] transition-all duration-300
-            ${
-              isFormFilled
-                ? "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
-                : "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
+            ${isFormFilled
+              ? "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
+              : "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
             }`}
         >
           {modalType === "save" ? "save" : "Save"}
@@ -205,10 +225,13 @@ function FacilityManagement() {
 
   const fetchFacilities = async () => {
     try {
+      setIsLoading(true)
       const response = await GetFacilities();
       setFacilities(response.data.data);
     } catch (error) {
       toast.error(error.response.data.message);
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -230,31 +253,35 @@ function FacilityManagement() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4  gap-4">
-        {facilities.length > 0 ? (
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {isLoading ? (
+          // Show a loading spinner or placeholder when loading
+          <div className="col-span-full flex justify-center items-center py-12">
+          <Loader/>
+          </div>
+        ) : facilities.length > 0 ? (
           facilities.map((facility) => (
             <div
               key={facility._id}
-              className="bg-white rounded-[10px] shadow-sm  bordre border border-grey-800 hover:shadow-sm transition-shadow"
+              className="bg-white rounded-[10px] shadow-sm border border-grey-800 hover:shadow-sm transition-shadow"
             >
               <div className="bg-[#5678E9] text-white p-4 rounded-t-lg flex justify-between items-center">
                 <h3 className="font-medium">{facility.name}</h3>
                 <div className="relative">
                   <button
                     onClick={() => toggleDropdown(facility._id)}
-                    className="hover:opacity-80  text-blue-500 rounded-md p-1 bg-white h-5 w-5"
+                    className="hover:opacity-80 text-blue-500 rounded-md p-1 bg-white h-5 w-5"
                   >
                     <FaEllipsisV size={12} />
                   </button>
-                  {dropdownOpen === facility._id &&
-                    renderDropdownMenu(facility)}
+                  {dropdownOpen === facility._id && renderDropdownMenu(facility)}
                 </div>
               </div>
 
               <div className="p-4">
                 <div className="space-y-3">
                   <div className="flex items-center text-sm justify-between">
-                    <span className="text-gray-500 ">
+                    <span className="text-gray-500">
                       Upcoming Schedule Service Date
                     </span>
                     <span className="text-black font-semibold">
@@ -276,11 +303,9 @@ function FacilityManagement() {
             </div>
           ))
         ) : (
-          <tr>
-            <td colSpan="6" className="text-center py-4">
-              No data found.
-            </td>
-          </tr>
+          <div className="col-span-full text-center py-4 text-gray-500">
+            No data found.
+          </div>
         )}
       </div>
 
@@ -347,8 +372,8 @@ function FacilityManagement() {
                       defaultValue={
                         currentFacility?.date
                           ? new Date(currentFacility.date)
-                              .toISOString()
-                              .split("T")[0]
+                            .toISOString()
+                            .split("T")[0]
                           : ""
                       }
                       onChange={(e) =>
@@ -387,14 +412,20 @@ function FacilityManagement() {
                   <button
                     type="submit"
                     disabled={!isFormFilled}
+                    onClick={handleAction}
                     className={`w-full py-2 sm:py-3 text-sm font-medium rounded-[10px] transition-all duration-300
-                      ${
-                        isFormFilled
-                          ? "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
-                          : "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
+                      ${isFormFilled
+                        ? "bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90"
+                        : "bg-[#F6F8FB] text-black-400 cursor-not-allowed"
                       }`}
                   >
-                    {modalType === "save" ? "Save" : "Save"}
+                    {isLoading ? (
+                      <Loader /> // Show loader if isLoading is true
+                    ) : modalType === "save" ? (
+                      "Save"
+                    ) : (
+                      "Create"
+                    )}
                   </button>
                 </div>
               </form>

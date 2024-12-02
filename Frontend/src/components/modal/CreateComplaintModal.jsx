@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { IoMdClose } from "react-icons/io";
+import { Loader } from '../../utils/Loader';
 
-const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
+const CreateComplaintModal = ({ isOpen, onClose, onSubmit , isLoading }) => {
   if (!isOpen) return null
 
   const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
     status: ''
   })
   const [formErrors, setFormErrors] = useState({})
+ 
 
   const isFormValid = () => {
     return (
@@ -278,7 +280,8 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit }) => {
                     : 'bg-slate-100 border  text-black'
                 }`}
             >
-              Create
+              {isLoading ? <Loader/>
+                : "Create"}
             </button>
           </div>
         </form>

@@ -15,6 +15,7 @@ import toast from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
 import { setLoading } from "../redux/features/LoaderSlice";
 import { IoMdClose } from "react-icons/io";
+import { Loader } from '../utils/Loader'
 
 
 function Expense() {
@@ -95,10 +96,13 @@ function Expense() {
   // fetch expenses
   const fetchExpenses = async () => {
     try {
+      setIsLoading(true)
       const response = await GetExpenses()
       setExpenses(response.data.Expense)
     } catch (error) {
       toast.error(error.response.data.message)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -181,76 +185,84 @@ function Expense() {
         </button>
       </div>
 
-      <div className='overflow-y-auto pr-[8px] max-h-[30rem] custom-scrollbar overflow-x-auto'>
-        <table className='w-full rounded-lg text-nowrap'>
+      <div className="overflow-y-auto pr-[8px] max-h-[30rem] custom-scrollbar overflow-x-auto">
+        <table className="w-full rounded-lg text-nowrap">
           <thead>
-            <tr className='bg-indigo-50 h-[61px] rounded-lg text-[#202224]'>
-              <th className='text-left px-6 py-3 text-sm font-semibold rounded-tl-[15px]'>
+            <tr className="bg-indigo-50 h-[61px] rounded-lg text-[#202224]">
+              <th className="text-left px-6 py-3 text-sm font-semibold rounded-tl-[15px]">
                 Title
               </th>
-              <th className='text-left px-6 py-3 text-sm font-semibold'>
+              <th className="text-left px-6 py-3 text-sm font-semibold">
                 Description
               </th>
-              <th className='text-center px-6 py-3 text-sm font-semibold'>
+              <th className="text-center px-6 py-3 text-sm font-semibold">
                 Date
               </th>
-              <th className='text-center px-6 py-3 text-sm font-semibold'>
+              <th className="text-center px-6 py-3 text-sm font-semibold">
                 Amount
               </th>
-              <th className='text-center px-6 py-3 text-sm font-semibold'>
+              <th className="text-center px-12 py-4 text-sm font-semibold rounded-tr-[15px]">
                 Bill Format
               </th>
-              <th className='text-center px-12 py-4 text-sm font-semibold rounded-tr-[15px]'>
+              <th className="text-center px-12 py-4 text-sm font-semibold rounded-tr-[15px]">
                 Action
               </th>
             </tr>
           </thead>
           <tbody>
-            {expenses.length > 0 ? (
-              expenses.map(expense => (
+            {isLoading ? (  
+              <tr>
+                <td colSpan="6" className="text-center py-4">
+                  <div className="flex justify-center items-center">
+                    <Loader />  
+                  </div>
+                </td>
+              </tr>
+            ) : expenses.length > 0 ? (
+              expenses.map((expense) => (
                 <tr
                   key={expense._id}
-                  className='border-b border-grey-300 text-[#4F4F4F] font-medium'
+                  className="border-b border-grey-300 text-[#4F4F4F] font-medium"
                 >
-                  <td className='px-6 py-4 text-base'>{expense.title}</td>
-                  <td className='px-6 py-6 line-clamp-1 max-w-[400px] max-h-[50px] text-base'>
+                  <td className="px-6 py-4 text-base">{expense.title}</td>
+                  <td className="px-6 py-6 line-clamp-1 max-w-[400px] max-h-[50px] text-base">
                     {expense.description}
                   </td>
-                  <td className='px-6 py-4 text-center text-base text-[16px]'>
-                    {new Date(expense.date).toLocaleDateString('en-GB', {
-                      day: '2-digit',
-                      month: '2-digit',
-                      year: 'numeric'
+                  <td className="px-6 py-4 text-center text-base text-[16px]">
+                    {new Date(expense.date).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
                     })}
                   </td>
-                  <td className='px-6 py-6 text-green-600 text-center text-base'>
+                  <td className="px-6 py-6 text-green-600 text-center text-base">
                     ₹ {expense.amount}
                   </td>
-                  <td className='px-6 py-6 flex items-center justify-center text-base'>
+                  <td className="px-6 py-6 flex items-center justify-center text-base">
                     <FileTypeIcon
                       fileName={getFileExtension(expense.bill)?.toUpperCase()}
                     />
-                    <span className='ml-2 text-base'>
+                    <span className="ml-2 text-base">
                       {getFileExtension(expense.bill)?.toUpperCase()}
                     </span>
                   </td>
-                  <td className='py-4'>
-                    <div className='flex gap-2 justify-center'>
+                  <td className="py-4">
+                    <div className="flex gap-2 justify-center">
                       <button
                         onClick={() => handleEditClick(expense)} // Open edit modal
-                        className='cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px] text-base'
+                        className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px] text-base"
                       >
                         <img src={edit} />
                       </button>
                       <button
                         onClick={() => handleViewClick(expense)} // Open view modal
-                        className='cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]'
+                        className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                       >
                         <img src={eye} />
                       </button>
                       <button
                         onClick={() => handleDeleteClick(expense)} // Open delete modal
-                        className='cursor-pointer text-red-500 hover:text-red-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]'
+                        className="cursor-pointer text-red-500 hover:text-red-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                       >
                         <img src={trash} />
                       </button>
@@ -260,7 +272,7 @@ function Expense() {
               ))
             ) : (
               <tr>
-                <td colSpan='6' className='text-center py-4 text-gray-500'>
+                <td colSpan="6" className="text-center py-4 text-gray-500">
                   No data found
                 </td>
               </tr>
@@ -268,6 +280,7 @@ function Expense() {
           </tbody>
         </table>
       </div>
+
 
       {isModalOpen && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]'>
@@ -421,15 +434,7 @@ function Expense() {
                       }`}
                     disabled={!isFormValid} // Disable button if form is not valid
                   >
-                    {isLoading ? <div className="text-center">
-                      <div role="status">
-                        <svg aria-hidden="true" className="inline w-5 h-5 text-gray-200 animate-spin dark:text-black-900 fill-black" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
-                          <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
-                        </svg>
-                        <span className="sr-only">Loading...</span>
-                      </div>
-                    </div>
+                    {isLoading ? <Loader />
                       : "Save"}
                   </button>
                 </div>

@@ -15,6 +15,7 @@ import {
 import toast from "react-hot-toast";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { UpdateUser } from "../redux/features/AuthSlice";
+import { Loader } from "../utils/Loader";
 
 function EditProfileForm() {
   const location = useLocation();
@@ -38,6 +39,7 @@ function EditProfileForm() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [society, setSociety] = useState({
     Society_name: "",
     Society_address: "",
@@ -114,12 +116,14 @@ function EditProfileForm() {
   // Update user profile
   const handleProfileUpdate = async () => {
     try {
+      setIsLoading(true)
       const response = await UpdateUserProfile(user._id, profile);
       dispatch(UpdateUser(response.data.user));
       toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
+      setIsLoading(true)
       setIsEditing(false);
     }
   };
@@ -343,10 +347,11 @@ function EditProfileForm() {
             {isEditing && (
               <div className="flex justify-end mt-4">
                 <button
-                  onClick={handleProfileUpdate}
+                  onClick={handleProfileUpdate}  
                   className="bg-custom-gradient text-white py-2 px-4 rounded-lg"
+                  disabled={isLoading}  
                 >
-                  Update Profile
+                  {isLoading ? <Loader /> : "Update Profile"}  
                 </button>
               </div>
             )}

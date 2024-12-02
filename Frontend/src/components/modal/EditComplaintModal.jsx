@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
+import { Loader } from "../../utils/Loader";
 
-const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
+const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit , isLoading  }) => {
   if (!isOpen) return null;
 
   const [selectedPriority, setSelectedPriority] = useState(complaint?.priority);
   const [selectedStatus, setSelectedStatus] = useState(complaint?.status);
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -212,7 +214,8 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit }) => {
               type="submit"
               className="w-[180px] px-4 py-3 text-[18px] font-medium text-white bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-lg hover:opacity-90"
             >
-              Save
+                {isLoading ? <Loader/>
+                  : "Save"}
             </button>
           </div>
         </form>

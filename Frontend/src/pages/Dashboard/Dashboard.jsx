@@ -38,6 +38,7 @@ const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState("Month");
   const [pendingMaintenance, setPendingMaintenance] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { role } = useSelector((store) => store.auth.user);
 
   const handleOpenModal = () => {
