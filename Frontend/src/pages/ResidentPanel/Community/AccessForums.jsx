@@ -9,28 +9,25 @@ import camera from "../../../assets/images/camera.svg";
 import speaker from "../../../assets/images/speaker.svg";
 import { GetResidents } from "../../../services/ownerTenantService";
 import toast from "react-hot-toast";
-import { io } from "socket.io-client";
-import Constant from "../../../config/Constant";
 import { useSelector } from "react-redux";
 import { GetChatHistory, SendMessage } from "../../../services/chatService";
 import MobileViewAccessForums from "../MobileViewAccessForums";
+import { socket } from "../../../components/Socket";
 
-const socket = io(Constant.SOCKET_URL, {
-  transports: ["websocket"],
-  withCredentials: true,
-});
 const format12HourTimeShort = (dateString) => {
   const date = new Date(dateString);
   const hours = date.getHours();
   const minutes = date.getMinutes();
-  const ampm = hours >= 12 ? 'PM' : 'AM';
+  const ampm = hours >= 12 ? "PM" : "AM";
   const formattedHours = hours % 12 || 12; // Convert 0 hours to 12
-  return `${formattedHours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+  return `${formattedHours}:${minutes.toString().padStart(2, "0")} ${ampm}`;
 };
+
 export default function AccessForums() {
   const userId = useSelector((store) => store.auth.user._id);
   const senderModel = useSelector((store) => store.auth.user.Resident_status);
   const [userList, setUserList] = useState([]);
+  const [originalUserList, setOriginalUserList] = useState([]);
   const [message, setMessage] = useState("");
   const [selectedChatId, setSelectedChatId] = useState(3);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -38,6 +35,8 @@ export default function AccessForums() {
   const [receiver, setReceiver] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const [media, setMedia] = useState(null);
+  const [searching, setSearching] = useState("");
+
   const handleSendMessage = async () => {
     try {
       const receiverId = receiver._id;
@@ -58,6 +57,7 @@ export default function AccessForums() {
       fetchChatHistory();
       setDiscussions((prev) => [...prev, response.data.data.message]);
       setMedia(null);
+      setImage(null);
       toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -65,7 +65,7 @@ export default function AccessForums() {
       setMessage("");
     }
   };
-  
+
   const handleFileChange = (e) => {
     e.preventDefault();
     setMedia(e.target.files[0]);
@@ -75,10 +75,12 @@ export default function AccessForums() {
     try {
       const response = await GetResidents();
       setUserList(response.data.Residents);
+      setOriginalUserList(response.data.Residents);
     } catch (error) {
       toast.error(error.response.data.message);
     }
   };
+
   const toggleDropdown = () => {
     setIsDropdownVisible((prev) => !prev);
   };
@@ -87,8 +89,6 @@ export default function AccessForums() {
     setReceiver(user);
     socket.emit("join", { userId, receiverId: user._id });
   };
-
-
 
   const fetchChatHistory = async () => {
     try {
@@ -122,8 +122,17 @@ export default function AccessForums() {
   }, [receiver]);
 
   useEffect(() => {
-    fetchChatHistory();
+    receiver && fetchChatHistory();
   }, [receiver]);
+
+  //search users
+  useEffect(() => {
+    setUserList(
+      originalUserList.filter((user) =>
+        user.Full_name.toLowerCase().includes(searching.toLowerCase())
+      )
+    );
+  }, [searching]);
 
   return isMobile ? (
     <MobileViewAccessForums
@@ -148,6 +157,7 @@ export default function AccessForums() {
             <input
               type="text"
               placeholder="Search Here"
+              onChange={(e) => setSearching(e.target.value)}
               className="py-2 w-full outline-none pl-10 bg-[#F6F8FB] h-[48px] rounded-lg"
             />
             <img
@@ -201,7 +211,9 @@ export default function AccessForums() {
               <div>
                 <h4 className="font-semibold">{receiver?.Full_name}</h4>
                 {/* Header shows the selected chat's name */}
-                <span className="text-xs text-gray-400">9:00</span>
+                <span className="text-xs text-gray-400">
+                  {receiver?.Email_address}
+                </span>
               </div>
             </div>
             <div className="relative flex items-center space-x-4">
@@ -246,29 +258,34 @@ export default function AccessForums() {
               } mb-4`}
             >
               <div
-                className={`max-w-[70%] break-words p-1 rounded-lg ${
-                  chat.senderId !== userId
-                    ? "bg-gray-200 text-right"
-                    : "bg-blue-500 text-white text-left"
-                }`}
+                className={`flex ${
+                  chat.senderId !== userId ? "justify-end" : "justify-start"
+                } my-2`}
               >
-                <div className="">
-                  {chat.media && (
-                    <img src={chat.media} width={"100px"} height="auto" />
+                <div
+                  className={`max-w-xs p-4 rounded-lg text-sm relative ${
+                    chat.senderId !== userId
+                      ? "bg-gray-200 text-black"
+                      : "bg-blue-500 text-white"
+                  }`}
+                >
+                  {chat?.media && (
+                    <img src={chat.media} width={"300px"} height={"300px"} />
                   )}
-                  <p className="text-sm  break-words break-all">{chat.message}</p>
-                  <span className="text-xs text-gray-400 block">
-                    {format12HourTimeShort(chat.timestamp)}
+                  <p>{chat?.message}</p>
+                  <span className="text-xs text-gray-500 block absolute -bottom-[16px] right-2">
+                    {format12HourTimeShort(chat?.timestamp)}
                   </span>
                 </div>
               </div>
             </div>
+            // </div>
           ))}
         </div>
 
         {/* Message Input Section */}
         {receiver && (
-          <div className="flex items-center p-[10px] bg-white border-t relative ">
+          <div className="flex items-center p-[10px] bg-white border-t relative sticky bottom-0 left-0 ">
             <input
               type="text"
               className="w-[94%] border p-2 rounded-full shadow-[0px_7px_15px_0px_#0000000D] py-[9px] ps-[40px] pl-[40px] relative"
@@ -277,6 +294,13 @@ export default function AccessForums() {
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
             />
+            {media && (
+              <img
+                src={URL.createObjectURL(media)}
+                alt=""
+                className="w-[100px] h-[70px] absolute bottom-16 p-2 bg-gray-200 rounded-md"
+              />
+            )}
             <img
               src={Smiley}
               alt="Smiley"
@@ -287,6 +311,7 @@ export default function AccessForums() {
               alt="Camera Icon"
               className="absolute right-[40px] translate-x-[-65px] cursor-pointer"
             />
+
             <label
               htmlFor="file-upload"
               className="cursor-pointer absolute right-[15px] translate-x-[-130px]"
@@ -308,5 +333,5 @@ export default function AccessForums() {
         )}
       </div>
     </div>
-  )
+  );
 }
