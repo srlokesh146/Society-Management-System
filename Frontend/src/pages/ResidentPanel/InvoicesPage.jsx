@@ -2,84 +2,14 @@ import React, { useEffect, useState } from "react";
 import { FaArrowAltCircleDown, FaArrowLeft, FaEye } from "react-icons/fa";
 import { DownloadMaintanance, GetPaidMaintenances } from "../../services/maintenanceService";
 import toast from "react-hot-toast";
+import { Loader } from "../../utils/Loader";
 
-const invoices = [
-  {
-    invoiceId: "152563",
-    ownerName: "Terry Rhiel Madsen",
-    billDate: "10/02/2024",
-    paymentDate: "10/02/2024",
-    phoneNumber: "9764816457",
-    email: "FrancesLHarris@rhyta.com",
-    maintenanceAmount: 1500,
-    pendingAmount: 2500,
-    penalty: 350, // Added penalty for modal
-    total: 4000, // Added total for modal
-    note: "Please ensure payment is completed before the due date.", // Added note for modal
-    address: "123 Main Street, New York, NY", // Added address for modal
-  },
-  {
-    invoiceId: "152563",
-    ownerName: "Terry Rhiel Madsen",
-    billDate: "10/02/2024",
-    paymentDate: "10/02/2024",
-    phoneNumber: "9764816457",
-    email: "FrancesLHarris@rhyta.com",
-    maintenanceAmount: 1500,
-    pendingAmount: 2500,
-    penalty: 350, // Added penalty for modal
-    total: 4000, // Added total for modal
-    note: "Please ensure payment is completed before the due date.", // Added note for modal
-    address: "123 Main Street, New York, NY", // Added address for modal
-  },
-  {
-    invoiceId: "152563",
-    ownerName: "Terry Rhiel Madsen",
-    billDate: "10/02/2024",
-    paymentDate: "10/02/2024",
-    phoneNumber: "9764816457",
-    email: "FrancesLHarris@rhyta.com",
-    maintenanceAmount: 1500,
-    pendingAmount: 2500,
-    penalty: 350, // Added penalty for modal
-    total: 4000, // Added total for modal
-    note: "Please ensure payment is completed before the due date.", // Added note for modal
-    address: "123 Main Street, New York, NY", // Added address for modal
-  },
-  {
-    invoiceId: "152563",
-    ownerName: "Terry Rhiel Madsen",
-    billDate: "10/02/2024",
-    paymentDate: "10/02/2024",
-    phoneNumber: "9764816457",
-    email: "FrancesLHarris@rhyta.com",
-    maintenanceAmount: 1500,
-    pendingAmount: 2500,
-    penalty: 350, // Added penalty for modal
-    total: 4000, // Added total for modal
-    note: "Please ensure payment is completed before the due date.", // Added note for modal
-    address: "123 Main Street, New York, NY", // Added address for modal
-  },
-  {
-    invoiceId: "152563",
-    ownerName: "Terry Rhiel Madsen",
-    billDate: "10/02/2024",
-    paymentDate: "10/02/2024",
-    phoneNumber: "9764816457",
-    email: "FrancesLHarris@rhyta.com",
-    maintenanceAmount: 1500,
-    pendingAmount: 2500,
-    penalty: 350, // Added penalty for modal
-    total: 4000, // Added total for modal
-    note: "Please ensure payment is completed before the due date.", // Added note for modal
-    address: "123 Main Street, New York, NY", // Added address for modal
-  },
-  // Add more invoices here
-];
+
 
 function InvoicesPage() {
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [invoices, setInvoices] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const openModal = (invoice) => {
     setSelectedInvoice(invoice);
   };
@@ -90,17 +20,20 @@ function InvoicesPage() {
 
   const fetchPaidMaintenances = async () => {
     try {
+      setIsLoading(true)
       const response = await GetPaidMaintenances();
       setInvoices(response.data.Maintenance);
     } catch (error) {
       toast.error(error.response.data.message);
+    } finally {
+      setIsLoading(false)
     }
   };
 
   // Function to handle invoice download
   const handleDownloadInvoice = async (invoice) => {
     try {
-      
+
       const payload = {
         invoiceId: invoice.invoiceId || 123,
         ownerName: invoice.resident.Full_name,
@@ -115,13 +48,13 @@ function InvoicesPage() {
         penaltyAmount: invoice.penaltyAmount,
         grandTotal: invoice.maintenanceAmount + invoice.penaltyAmount,
         Wing: invoice.resident.Wing,
-        Unit: invoice.resident.Unit, 
+        Unit: invoice.resident.Unit,
       };
-  
-     
+
+
       const blob = await DownloadMaintanance(payload);
-  
-      
+
+
       const url = window.URL.createObjectURL(new Blob([blob]));
       const link = document.createElement('a');
       link.href = url;
@@ -129,8 +62,8 @@ function InvoicesPage() {
       document.body.appendChild(link);
       link.click();
       link.remove();
-  
-      
+
+
       toast.success('Invoice downloaded successfully!');
     } catch (error) {
       toast.error(error.message || 'Failed to download the invoice.');
@@ -163,45 +96,56 @@ function InvoicesPage() {
             </tr>
           </thead>
           <tbody>
-            {invoices.map((v, index) =>
-              v.residentList.map((r) => (
-                <tr key={index} className="border-b bg-white">
-                  <td className="px-6 py-6 text-center">{1232}</td>
-                  <td className="px-4 py-2 text-center">
-                    {r.resident.Full_name}
-                  </td>
-                  <td className="px-4 py-2 text-center">
-                    {new Date(v.dueDate).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}
-                  </td>
-                  <td className="px-4 py-2 text-center">11/11/2024</td>
-                  <td className="px-4 py-2 text-center">
-                    {r.resident.Phone_number}
-                  </td>
-                  <td className="px-4 py-2 text-center">
-                    {r.resident.Email_address}
-                  </td>
-                  <td className="px-4 py-2 text-green-600 text-center">
-                    ₹ {v.maintenanceAmount}
-                  </td>
-                  <td className="px-4 py-2 text-red-500 text-center">
-                    ₹ {v.penaltyAmount}
-                  </td>
-                  <td className="px-4 py-2 text-center">
-                    <button
-                      onClick={() => openModal({ ...v, ...r })}
-                      className="text-[#5678E9] bg-gray-200 p-2 rounded-lg hover:underline"
-                    >
-                      <FaEye />
-                    </button>
-                  </td>
-                </tr>
-              ))
+            {isLoading ? (
+              <tr>
+                <td colSpan="9" className="px-6 py-6 text-center">
+                  <div className="flex justify-center items-center">
+                 <Loader/>
+                  </div>
+                </td>
+              </tr>
+            ) : invoices.length > 0 ? (
+              invoices.map((v, index) =>
+                v.residentList.map((r) => (
+                  <tr key={index} className="border-b bg-white">
+                    <td className="px-6 py-6 text-center">{1232}</td>
+                    <td className="px-4 py-2 text-center">{r.resident.Full_name}</td>
+                    <td className="px-4 py-2 text-center">
+                      {new Date(v.dueDate).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                    </td>
+                    <td className="px-4 py-2 text-center">11/11/2024</td>
+                    <td className="px-4 py-2 text-center">{r.resident.Phone_number}</td>
+                    <td className="px-4 py-2 text-center">{r.resident.Email_address}</td>
+                    <td className="px-4 py-2 text-green-600 text-center">
+                      ₹ {v.maintenanceAmount}
+                    </td>
+                    <td className="px-4 py-2 text-red-500 text-center">
+                      ₹ {v.penaltyAmount}
+                    </td>
+                    <td className="px-4 py-2 text-center">
+                      <button
+                        onClick={() => openModal({ ...v, ...r })}
+                        className="text-[#5678E9] bg-gray-200 p-2 rounded-lg hover:underline"
+                      >
+                        <FaEye />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )
+            ) : (
+              <tr>
+                <td colSpan="9" className="px-6 py-6 text-center text-gray-500">
+                  No data found
+                </td>
+              </tr>
             )}
           </tbody>
+
         </table>
       </div>
 
