@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import passwordimage from "../../assets/images/passwordimage.png";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import Logo from "../Logo";
@@ -24,7 +24,7 @@ const OtpScreenpage = () => {
       newOtp[index] = value;
       setOtp(newOtp);
 
-      // Focus the next input if the current input is filled
+    
       if (value && index < otp.length - 1) {
         document.getElementById(`otp-input-${index + 1}`).focus();
       }
@@ -32,7 +32,7 @@ const OtpScreenpage = () => {
   };
 
   const handleKeyDown = (index, event) => {
-    // Move to the previous input on backspace
+
     if (event.key === "Backspace" && !otp[index] && index > 0) {
       document.getElementById(`otp-input-${index - 1}`).focus();
     }

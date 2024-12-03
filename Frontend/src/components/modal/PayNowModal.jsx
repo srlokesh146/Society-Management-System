@@ -1,4 +1,3 @@
-import React from 'react';
 
 const PayNowModal = ({ isOpen, onClose, selectedMembers, totalAmount, perPersonAmount, setIsPaymanNowOpen }) => {
 

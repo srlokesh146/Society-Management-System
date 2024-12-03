@@ -13,8 +13,8 @@ exports.CreateExpense = async (req, res) => {
             const result = await cloudinary.uploader.upload(filePath);
             // Delete from local server
             fs.unlink(filePath, (err) => {
-              if (err) console.error("Error deleting file from server:", err);
-              else console.log("File deleted from server:", filePath);
+              if (err) err;
+              else  filePath;
             });
             return result.secure_url;
           } catch (error) {
@@ -158,12 +158,12 @@ exports.CreateExpense = async (req, res) => {
             const result = await cloudinary.uploader.upload(filePath);
             // Delete from local server
             fs.unlink(filePath, (err) => {
-              if (err) console.error("Error deleting file from server:", err);
-              else console.log("File deleted from server:", filePath);
+              if (err) err;
+              else filePath;
             });
             return result.secure_url;
           } catch (error) {
-            console.error("Error uploading to Cloudinary:", error);
+            
             throw error;
           }
         }

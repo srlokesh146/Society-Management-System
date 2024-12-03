@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import { FaCalendarAlt, FaTimes } from "react-icons/fa";
+
+import  { useState } from "react";
+
+import { FaCalendarAlt } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { Loader } from "../../utils/Loader";
 

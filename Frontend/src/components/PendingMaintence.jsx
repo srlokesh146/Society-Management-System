@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import PayMentMathodModal from './modal/PayMentMathodModal'
 import PayMenCard from './modal/PayMenCard'
 import { toast } from 'react-hot-toast'
@@ -39,7 +39,7 @@ function PendingMaintence () {
       const data = response.data.Maintenance
       const currentMonthData = filterDate(data)
       setMaintenance(currentMonthData)
-    } catch (error) {}
+    } catch (error) {error}
   }
 
   useEffect(() => {

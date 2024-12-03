@@ -405,7 +405,7 @@ exports.GeneratePdf = async (req, res) => {
     doc.end();
 
   } catch (error) {
-    console.error('Error generating maintenance invoice:', error);
+   
     res.status(500).json({ error: 'Internal server error.' });
   }
 };

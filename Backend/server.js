@@ -122,7 +122,44 @@ io.on("connection", (socket) => {
   socket.on("group-message", (data) => {
     io.emit("receive_message", data);
   });
+
+  socket.on("video-offer", ({ senderId, receiverId, sdp }) => {
+    if (senderId === receiverId) {
+      socket.emit("error", { message: "You cannot call yourself!" });
+      return;
+    }
   
+    const receiverSocket = Array.from(io.sockets.sockets.values()).find(
+      (s) => s.userId === receiverId
+    );
+  
+    if (receiverSocket) {
+      receiverSocket.emit("video-offer", { senderId, sdp });
+    }
+  });
+  
+  // Video Call - Answer
+  socket.on("video-answer", ({ senderId, sdp }) => {
+    const senderSocket = Array.from(io.sockets.sockets.values()).find(
+      (s) => s.userId === senderId
+    );
+  
+    if (senderSocket) {
+      senderSocket.emit("video-answer", { sdp });
+    }
+  });
+  
+  // Video Call - ICE Candidate
+  socket.on("ice-candidate", ({ targetId, candidate }) => {
+    const targetSocket = Array.from(io.sockets.sockets.values()).find(
+      (s) => s.userId === targetId
+    );
+  
+    if (targetSocket) {
+      targetSocket.emit("ice-candidate", { candidate });
+    }
+  });
+
   io.on("disconnect", () => {
     console.log("user disconnect!");
   });

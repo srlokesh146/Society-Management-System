@@ -7,7 +7,7 @@ const { hash } = require("../utils/hashpassword");
 const Tenante = require("../models/Tenent.model");
 const { ForgotFormatResident } = require("../utils/residentcrediUi");
 exports.addOwnerData = async (req, res) => {
- 
+
   try {
     function generatePassword(length = 6) {
       const password = crypto.randomInt(0, Math.pow(10, length)).toString();
@@ -37,16 +37,16 @@ exports.addOwnerData = async (req, res) => {
       if (fileArray && fileArray[0]) {
         const filePath = fileArray[0].path;
         try {
-          
+
           const result = await cloudinary.uploader.upload(filePath);
-         
+
           fs.unlink(filePath, (err) => {
             if (err) console.error("Error deleting file from server:", err);
             else console.log("File deleted from server:", filePath);
           });
           return result.secure_url;
         } catch (error) {
-          
+
           throw error;
         }
       }
@@ -83,7 +83,7 @@ exports.addOwnerData = async (req, res) => {
       });
     }
 
-    
+
     const newOwner = new Owner({
       profileImage,
       Full_name,
@@ -111,7 +111,7 @@ exports.addOwnerData = async (req, res) => {
       "Registration Successfully",
       ForgotFormatResident(newOwner.Full_name, newOwner.Email_address, password)
     );
-    
+
     if (Member_Counting) {
       // const members = JSON.parse(Member_Counting);
       await Owner.updateOne(
@@ -120,7 +120,7 @@ exports.addOwnerData = async (req, res) => {
       );
     }
 
-   
+
     if (Vehicle_Counting) {
       // const vehicles = JSON.parse(Vehicle_Counting);
       await Owner.updateOne(
@@ -129,13 +129,13 @@ exports.addOwnerData = async (req, res) => {
       );
     }
 
-    
+
     return res.status(201).json({
       success: true,
       message: "Owner data added successfully",
     });
   } catch (error) {
-  
+
     return res.status(500).json({
       success: false,
       message: "Failed to add owner data",
@@ -175,7 +175,7 @@ exports.GetAllOwner = async (req, res) => {
       Owner: ownerCounts,
     });
   } catch (error) {
-  
+
     return res.status(500).json({
       success: false,
       message: "Failed to retrieve owner data",
@@ -222,20 +222,20 @@ exports.GetByIdResident = async (req, res) => {
 
       ...(resident.Owner_Full_name
         ? {
-            Owner_Full_name: resident.Owner_Full_name,
-            Owner_Phone: resident.Owner_Phone,
-            Owner_Address: resident.Owner_Address,
-          }
+          Owner_Full_name: resident.Owner_Full_name,
+          Owner_Phone: resident.Owner_Phone,
+          Owner_Address: resident.Owner_Address,
+        }
         : {}),
     };
 
-    
+
     return res.status(200).json({
       success: true,
       Resident: residentData,
     });
   } catch (error) {
-  
+
     return res.status(500).json({
       success: false,
       message: "Error fetching resident data",
@@ -262,7 +262,7 @@ exports.DeleteByIdResident = async (req, res) => {
       message: "Resident data deleted successfully",
     });
   } catch (error) {
-  
+
     return res.status(500).json({
       success: false,
       message: "Error deleting resident data",
@@ -318,7 +318,7 @@ exports.GetAllResidents = async (req, res) => {
       Residents: allResidents,
     });
   } catch (error) {
-    
+
     return res.status(500).json({
       success: false,
       message: "Failed to retrieve residents data",
@@ -345,7 +345,7 @@ exports.updateOwnerData = async (req, res) => {
 
     const { id } = req.params;
 
-   
+
     const uploadAndDeleteLocal = async (fileArray) => {
       if (fileArray && fileArray[0]) {
         const filePath = fileArray[0].path;
@@ -357,14 +357,14 @@ exports.updateOwnerData = async (req, res) => {
           });
           return result.secure_url;
         } catch (error) {
-          
+
           throw error;
         }
       }
       return "";
     };
 
-    
+
     const profileImage = await uploadAndDeleteLocal(req.files?.profileImage);
     const Adhar_front = await uploadAndDeleteLocal(req.files?.Adhar_front);
     const Adhar_back = await uploadAndDeleteLocal(req.files?.Adhar_back);
@@ -373,8 +373,8 @@ exports.updateOwnerData = async (req, res) => {
       req.files?.Rent_Agreement
     );
 
-  
-    
+
+
     const owner = await Owner.findById(id);
     if (!owner) {
       return res.status(404).json({
@@ -399,7 +399,7 @@ exports.updateOwnerData = async (req, res) => {
     if (Adhar_back) owner.Adhar_back = Adhar_back;
     if (Address_proof) owner.Address_proof = Address_proof;
     if (Rent_Agreement) owner.Rent_Agreement = Rent_Agreement;
-   
+
 
     if (Member_Counting) {
       owner.Member_Counting = Member_Counting;
@@ -410,7 +410,7 @@ exports.updateOwnerData = async (req, res) => {
       owner.Vehicle_Counting = Vehicle_Counting;
     }
 
-    
+
     await owner.save();
 
     return res.status(200).json({
@@ -418,7 +418,7 @@ exports.updateOwnerData = async (req, res) => {
       message: "Owner data updated successfully",
     });
   } catch (error) {
-    
+
     return res.status(500).json({
       success: false,
       message: "Failed to update owner data",
@@ -432,10 +432,10 @@ exports.updateDataById = async (req, res) => {
     const account = (await Owner.findById(id)) || (await Tenante.findById(id));
 
 
-    account.Email_address=undefined;
-    account.password=undefined;
+    account.Email_address = undefined;
+    account.password = undefined;
     account.UnitStatus = "Vacant";
-    
+
     await account.save();
 
     return res.status(200).json({
@@ -443,7 +443,7 @@ exports.updateDataById = async (req, res) => {
       message: `Resident Vacant successfully`,
     });
   } catch (error) {
-   
+
     return res.status(500).json({
       success: false,
       message: "Failed to update data",
@@ -463,7 +463,10 @@ exports.getTotalOccupiedUnits = async (req, res) => {
 
     // return uniqueOccupiedUnits.size;
   } catch (error) {
-    
+    return res.status(500).json({
+      success: true,
+      message: "Internal server Error"
+    });
     throw error;
   }
 };

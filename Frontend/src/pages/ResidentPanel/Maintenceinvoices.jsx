@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import PendingMaintence from '../../components/PendingMaintence'
 import MaintenceDetails from '../../components/MaintenceDetails'
 import DueMaintence from '../../components/DueMaintence'
 import PayMentMathodModal from '../../components/modal/PayMentMathodModal'
@@ -52,7 +51,7 @@ function MaintenceInvoices() {
       const data = response.data.Maintenance
       const currentMonthData = filterDate(data)
       setMaintenance(currentMonthData)
-    } catch (error) { } finally {
+    } catch (error) { error} finally {
       setIsLoading(false)
     }
   }

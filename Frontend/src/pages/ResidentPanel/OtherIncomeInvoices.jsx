@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { FaArrowAltCircleDown } from 'react-icons/fa'
+import { useEffect, useState } from 'react'
 import PayMentMathodModal from '../../components/modal/PayMentMathodModal'
 import PayMenCard from '../../components/modal/PayMenCard'
 import { GetEventsForUser, paymemtEvent } from '../../services/incomeService'
@@ -10,23 +9,14 @@ import { Loader } from '../../utils/Loader'
 
 
 function OtherIncomeInvoices() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedInvoice, setSelectedInvoice] = useState(null)
+
   const [isPaymentNowOpen, setIsPaymantNowOpen] = useState(false)
   const [isPaymenCardOpen, setisPaymenCardOpen] = useState(false)
   const [payEvent, setPayEvent] = useState(null)
   const [events, setEvents] = useState([])
   const [isLoading, setIsLoading] = useState(false);
 
-  const openModal = invoice => {
-    setSelectedInvoice(invoice)
-    setIsModalOpen(true)
-  }
-
-  const closeModal = () => {
-    setIsModalOpen(false)
-    setSelectedInvoice(null)
-  }
+  
   const handlePedingEvents = event => {
     setPayEvent(event)
     setIsPaymantNowOpen(true)
@@ -52,7 +42,7 @@ function OtherIncomeInvoices() {
       const response = await GetEventsForUser()
       setEvents(response.data.Income)
     } catch (error) {
-      //   toast.error(error.response.data.message);
+      error
     } finally {
       setIsLoading(false)
     }

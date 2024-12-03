@@ -29,7 +29,7 @@ exports.CreateAnnouncement= async (req,res)=>{
             message:"Announcement Successfully Added"
         })
     } catch (error) {
-        console.error(error);
+       
         return res.status(500).json({
              success: false,
              message: "error in Announcement creation"
@@ -51,7 +51,7 @@ exports.GetAnnouncement = async(req,res)=>{
             Announcement:find
         })
     } catch (error) {
-        console.error(error);
+        
         return res.status(500).json({
              success: false,
              message: "error in Announcement fetching"
@@ -97,7 +97,7 @@ exports.FilterAnnouncement = async (req, res) => {
         data: announcements,
       });
     } catch (error) {
-      console.error("Error fetching announcements:", error);
+     
       return res.status(500).json({
         success: false,
         message: "Error fetching announcements",
@@ -119,7 +119,7 @@ exports.GetByIdAnnouncement= async(req,res)=>{
             Announcement:find
         })
     } catch (error) {
-        console.error(error);
+        
         return res.status(500).json({
              success: false,
              message: "error in Announcement fetching"
@@ -141,7 +141,7 @@ exports.DeleteAnnouncement= async(req,res)=>{
             message:"Announcement deleted Successfully.."
         })
     } catch (error) {
-        console.error(error);
+      
         return res.status(500).json({
              success: false,
              message: "error in Announcement deleting"
@@ -173,7 +173,7 @@ exports.UpdateAnnouncement =async(req,res)=>{
             message:"Announcement Successfully updated"
         })
     } catch (error) {
-        console.error(error);
+       
         return res.status(500).json({
              success: false,
              message: "error in Announcement updated"

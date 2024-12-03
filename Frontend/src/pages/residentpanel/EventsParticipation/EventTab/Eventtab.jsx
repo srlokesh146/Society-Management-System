@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import EventsParticipate from '../EventsParticipate'
 import ActivityParticipate from '../Activityparticipate'
 

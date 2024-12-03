@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { GetProtocols } from '../../services/securityProtocol'
 import toast from 'react-hot-toast'
 import { Loader } from '../../utils/Loader';

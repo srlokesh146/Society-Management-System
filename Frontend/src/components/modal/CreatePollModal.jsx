@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import handPollImage from "../../assets/images/handpoll.svg";
 import multichoicepollsimage from "../../assets/images/multichoicepolls.svg";
 import numericpolls from "../../assets/images/numericpolls.svg";

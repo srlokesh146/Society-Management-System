@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { FaArrowAltCircleDown, FaArrowLeft, FaEye } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { FaArrowAltCircleDown, FaEye } from "react-icons/fa";
 import { DownloadMaintanance, GetPaidMaintenances } from "../../services/maintenanceService";
 import toast from "react-hot-toast";
 import { Loader } from "../../utils/Loader";
@@ -30,7 +30,7 @@ function InvoicesPage() {
     }
   };
 
-  // Function to handle invoice download
+ 
   const handleDownloadInvoice = async (invoice) => {
     try {
 

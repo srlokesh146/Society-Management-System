@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { activityData } from '../../../constantdata'
+import  { useEffect, useState } from 'react'
 import { GetEventsParticipants } from '../../../services/incomeService'
 import toast from 'react-hot-toast'
 import { Loader } from '../../../utils/Loader'

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { FaEllipsisV } from 'react-icons/fa'
 import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal' // Import the modal
 import CreateComplaintModal from '../../components/modal/CreateComplaintModal' // Import the Create Complaint modal
@@ -13,7 +13,6 @@ import toast from 'react-hot-toast'
 import {
   CreateRequest,
   DeleteRequest,
-  GetRequests,
   GetRequestsForUser
 } from '../../services/requestTrackingService'
 import { Loader } from '../../utils/Loader'
@@ -21,8 +20,8 @@ import { Loader } from '../../utils/Loader'
 const ServiceAndComplaint = () => {
   const [activeTab, setActiveTab] = useState('complaint')
   const [dropdownOpen, setDropdownOpen] = useState(null)
-  const [modalItem, setModalItem] = useState(null) // Track item to delete
-  const [isModalOpen, setIsModalOpen] = useState(false) // State to control the "Create Complaint" modal visibility
+  const [modalItem, setModalItem] = useState(null) 
+  const [isModalOpen, setIsModalOpen] = useState(false) 
   const [complaints, setComplaints] = useState([])
   const [requests, setRequests] = useState([])
   const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +31,7 @@ const ServiceAndComplaint = () => {
   }
 
   const handleDeleteClick = item => {
-    setModalItem(item) // Set the item to be deleted
+    setModalItem(item) 
   }
 
   // delete request
@@ -233,9 +232,9 @@ const ServiceAndComplaint = () => {
           {modalItem && (
             <DeleteConfirmModal
               isOpen={modalItem}
-              onClose={() => setModalItem(false)} // Close the modal
-              onConfirm={confirmDelete} // Delete the item
-              itemName={modalItem.name} // Pass the item's name to the modal
+              onClose={() => setModalItem(false)} 
+              onConfirm={confirmDelete} 
+              itemName={modalItem.name} 
               complaint={modalItem}
             />
           )}
@@ -244,9 +243,9 @@ const ServiceAndComplaint = () => {
           {isModalOpen && (
             <CreateComplaintModal
               isLoading={isLoading}
-              isOpen={isModalOpen} // Pass the modal visibility state
-              onClose={() => setIsModalOpen(false)} // Close the modal
-              onSubmit={handleCreateComplaint} // Pass the function to handle new complaint creation
+              isOpen={isModalOpen} 
+              onClose={() => setIsModalOpen(false)} 
+              onSubmit={handleCreateComplaint} 
             />
           )}
         </div>
@@ -260,7 +259,7 @@ const ServiceAndComplaint = () => {
               Request
             </h1>
             <button
-              onClick={() => setIsModalOpen(true)} // Open the Create Complaint modal
+              onClick={() => setIsModalOpen(true)}
               className='bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white px-4 py-3 rounded-lg hover:opacity-90 transition-all duration-300'
             >
               Create Request

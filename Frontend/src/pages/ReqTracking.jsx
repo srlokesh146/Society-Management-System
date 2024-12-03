@@ -87,7 +87,7 @@ const ReqTracking = () => {
     fetchRequests();
   }, []);
 
-  // Design
+
   return (
     <div className="bg-gray-100">
       <div className="bg-white rounded-xl shadow-sm p-4 md:p-6 lg:p-8">
@@ -106,7 +106,7 @@ const ReqTracking = () => {
 
           <div className="overflow-y-auto pr-[8px] max-h-[41.5rem] custom-scrollbar overflow-x-auto">
       {isLoading ? (
-        // Show a loading spinner when data is being loaded
+    
         <div className="flex justify-center items-center py-12">
           <Loader/>
         </div>
@@ -204,7 +204,7 @@ const ReqTracking = () => {
       )}
     </div>
 
-          {/* Modals */}
+      
           <CreateRequestModal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}

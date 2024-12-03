@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { FaPencilAlt, FaEye } from 'react-icons/fa'
-import { Residentmanagementdata } from '../constantdata'
-import avatar from '../assets/images/avatar.png'
 import occupiedImage from '../assets/images/Occupied.png'
 import vacateImage from '../assets/images/vacate.png'
 import ownerImage from '../assets/images/owner.png'
@@ -18,7 +15,6 @@ import eye from '../assets/images/eye.svg'
 import plus from '../assets/images/plus.svg'
 import edit from '../assets/images/edit.svg'
 import { useDispatch } from 'react-redux'
-import { ClearResident } from '../redux/features/ResidentSlice'
 import { Loader } from '../utils/Loader'
 
 export default function ResidentManagement() {

@@ -36,8 +36,6 @@ exports.createPoll = async (req, res) => {
         await poll.save();
         return res.status(201).json({ success: true, message:"Poll created Successfully" });
     } catch (error) {
-      console.log(error);
-      
         return res.status(500).json({ success: false, message: 'Error creating poll' });
     }
 };
@@ -63,7 +61,7 @@ exports.getPolls = async (req, res) => {
         
         return res.status(200).json({ success: true, polls: formattedPolls });
     } catch (error) {
-        console.error('Error fetching polls:', error);
+        
         return res.status(500).json({ success: false, message: 'Error fetching polls' });
     }
 };
@@ -106,7 +104,7 @@ exports.voteInPoll = async (req, res) => {
 
         return res.status(200).json({ success: true, message: 'Vote updated successfully', poll });
     } catch (error) {
-        console.error('Error voting in poll:', error);
+      
         return res.status(500).json({ success: false, message: 'Error voting in poll' });
     }
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import ownerImage from "../../assets/images/owner.png";
 import { FaUser } from "react-icons/fa";
 import moneys from "../../assets/images/moneys.svg";
