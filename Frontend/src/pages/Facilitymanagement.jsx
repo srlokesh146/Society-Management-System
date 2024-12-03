@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { toast } from "react-hot-toast";
@@ -255,7 +255,7 @@ function FacilityManagement() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {isLoading ? (
-          // Show a loading spinner or placeholder when loading
+        
           <div className="col-span-full flex justify-center items-center py-12">
           <Loader/>
           </div>
@@ -420,7 +420,7 @@ function FacilityManagement() {
                       }`}
                   >
                     {isLoading ? (
-                      <Loader /> // Show loader if isLoading is true
+                      <Loader /> 
                     ) : modalType === "save" ? (
                       "Save"
                     ) : (

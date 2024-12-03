@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { IoMdClose } from "react-icons/io";
 import { Loader } from '../../utils/Loader';
 
 const CreateComplaintModal = ({ isOpen, onClose, onSubmit , isLoading }) => {

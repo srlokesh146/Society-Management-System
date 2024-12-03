@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 import { Link, useNavigate } from 'react-router-dom'
 import RegisterImage from '../../assets/images/Register.png'
@@ -10,7 +10,6 @@ import {
   registerUser
 } from '../../services/AuthService'
 import { toast } from 'react-hot-toast'
-import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import eyeslash from '../../assets/images/eye-slash.svg'
 import eyeslashblack from '../../assets/images/eye-slash-black.svg'
 
@@ -159,7 +158,7 @@ const Register = () => {
       society.Country &&
       society.State &&
       society.City &&
-      society.ZipCode // Corrected from Zipcode to ZipCode
+      society.ZipCode 
     )
   }
 
@@ -173,7 +172,7 @@ const Register = () => {
           backgroundPosition: 'center'
         }}
       >
-        {/* Left Section - Branding and Illustration */}
+     
         <div className='flex flex-col bg-[#F6F8FB] max-lg:hidden  w-full lg:w-1/2 z-10'>
           <div className='bg-[#F6F8FB] rounded-lg shadow-lg  max-w-[900px] w-full flex flex-col items-start h-auto md:h-[950px] relative'>
             <img className='pt-[60px] ps-[60px]' src={logo} alt='' />
@@ -189,7 +188,6 @@ const Register = () => {
           </div>
         </div>
 
-        {/* Right Section - Form */}
         <div
           className='md:w-3/5  max-lg:1/4 max-lg:mx-auto w-full flex items-center justify-center p-6'
           style={{ overflowY: 'auto', height: '100vh' }}
@@ -229,7 +227,7 @@ const Register = () => {
                 </div>
               </div>
 
-              {/* Email and Phone */}
+            
               <div className='grid grid-cols-2 gap-4 max-sm:grid-cols-1'>
                 <div>
                   <label className='block text-[14px] font-medium text-gray-700 mb-1'>
@@ -259,7 +257,7 @@ const Register = () => {
                 </div>
               </div>
 
-              {/* Country, State, City */}
+           
               <div className='grid grid-cols-3 gap-4 max-sm:grid-cols-1'>
                 <div>
                   <label className='block text-[14px] font-medium text-gray-700 mb-1'>
@@ -341,7 +339,7 @@ const Register = () => {
                 </div>
               </div>
 
-              {/* Password Fields */}
+          
               <div>
                 <label className='block text-[14px] font-medium text-gray-700 mb-1'>
                   Password*
@@ -383,7 +381,7 @@ const Register = () => {
                 />
               </div>
 
-              {/* Terms and Register Button */}
+          
               <div className='space-y-6'>
                 <div className='flex items-center'>
                   <input
@@ -501,7 +499,7 @@ const Register = () => {
                   <input
                     type='text'
                     name='ZipCode'
-                    value={society.ZipCode} // Corrected from Zipcode to ZipCode
+                    value={society.ZipCode} 
                     onChange={handleSocietyChange}
                     className='w-full px-4 py-2.5 border rounded-lg'
                     placeholder='Enter Zip Code'
@@ -524,7 +522,7 @@ const Register = () => {
                       ? 'bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white'
                       : 'bg-[#F6F8FB] text-gray-400'
                   }`}
-                  disabled={!isFormValid()} // Disable button if form is not valid
+                  disabled={!isFormValid()} 
                 >
                   Save
                 </button>

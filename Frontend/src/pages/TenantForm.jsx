@@ -2,12 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { FaCamera, FaImage, FaUpload, FaCheckCircle } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
-import OwnerForm from "./OwnerForm";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CreateTenant, UpdateTenant } from "../services/ownerTenantService";
 import toast from "react-hot-toast";
 import { useDispatch } from 'react-redux'
-import { setLoading } from "../redux/features/LoaderSlice";
 import { Loader } from "../utils/Loader";
 
 export default function TeantForm () {
@@ -36,7 +34,7 @@ export default function TeantForm () {
 
 
   const [errors, setErrors] = useState({});
-  const [submitted, setSubmitted] = useState(false); // Track submission attempts
+  const [submitted, setSubmitted] = useState(false); 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("tenant");
   const [memberCount, setMemberCount] = useState(1);
@@ -65,13 +63,13 @@ export default function TeantForm () {
       Owner_Phone: formData.Owner_Phone,
       Owner_Address: formData.Owner_Address,
       profileImage: formData.profileImage,
-      fullName: formData.Full_name, // Corrected key
-      phone: formData.Phone_number, // Corrected key
-      age: formData.Age, // Corrected key
-      gender: formData.Gender, // Corrected key
-      wing: formData.Wing, // Corrected key
-      unit: formData.Unit, // Corrected key
-      relation: formData.Relation, // Corrected key
+      fullName: formData.Full_name, 
+      phone: formData.Phone_number,
+      age: formData.Age, 
+      gender: formData.Gender, 
+      wing: formData.Wing, 
+      unit: formData.Unit, 
+      relation: formData.Relation, 
       aadharFront: formData.Adhar_front,
       aadharBack: formData.Adhar_back,
       addressProof: formData.Address_proof,
@@ -90,7 +88,7 @@ export default function TeantForm () {
     navigate('/ownerform')
   }
   const handleCreate = async () => {
-    setSubmitted(true) // Set submitted to true on button click
+    setSubmitted(true) 
     let newErrors = {}
 
     // Validate form data
@@ -355,7 +353,7 @@ export default function TeantForm () {
 
           {/* Form Fields */}
           <div className='md:col-span-10'>
-            {/* First Row - 3 inputs */}
+           
             <div className='grid grid-cols-3 gap-4 max-lg:grid-cols-2 max-xl:grid-cols-2 max-2xl:grid-cols-2 max-sm:grid-cols-1'>
               <div>
                 <label className='block text-sm font-lighter text-black-500'>
@@ -407,7 +405,7 @@ export default function TeantForm () {
               </div>
             </div>
 
-            {/* Second Row - 5 inputs */}
+         
             <div className='grid grid-cols-5 gap-4 mt-4 max-lg:grid-cols-2 max-sm:grid-cols-1 max-xl:grid-cols-3 max-2xl:grid-cols-3'>
               <div>
                 <label className='block text-sm font-lighter text-black-500'>

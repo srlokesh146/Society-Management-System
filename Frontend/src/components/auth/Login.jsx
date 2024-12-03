@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import LoginImage from '../../assets/images/login.png' // Importing the login image
-import BackgroundImage from '../../assets/images/bg.png' // Importing the background image
+import LoginImage from '../../assets/images/login.png' 
+import BackgroundImage from '../../assets/images/bg.png' 
 import { loginUser } from '../../services/AuthService'
 import logo from '../../assets/images/BrightWeb.png'
 import toast from 'react-hot-toast'
@@ -28,11 +28,11 @@ const Login = () => {
     password: ''
   })
 
-  const [submitted, setSubmitted] = useState(false) // Track submission attempts
+  const [submitted, setSubmitted] = useState(false) 
 
   const handleLogin = async e => {
     e.preventDefault()
-    setSubmitted(true) // Set submitted to true on form submission
+    setSubmitted(true) 
 
     let formIsValid = true
     let newErrors = { ...errors }
@@ -79,34 +79,33 @@ const Login = () => {
   return (
     <div
       className='flex items-center justify-center  bg-cover bg-center overflow-auto max-md:flex-col max-xl:flex-col'
-      style={{ backgroundImage: `url(${BackgroundImage})` }} // Background image
+      style={{ backgroundImage: `url(${BackgroundImage})` }}
     >
-      {/* Left Section (Image and Title) */}
+      
       <div className='bg-[#F6F8FB] rounded-lg shadow-lg w-full flex flex-col items-start h-auto md:h-[950px] relative max-sm:hidden max-md:hidden max-xl:hidden'>
-        {/* Decorative Background Section */}
+     
         <div className='absolute inset-0 opacity-10 rounded-lg'></div>
 
-        {/* Title Section */}
+     
         <img className='pt-[60px] ps-[60px]' src={logo} alt='' />
 
-        {/* Image Section */}
+     
         <div className='flex-grow flex items-center justify-center w-full'>
           <img
             src={LoginImage}
             alt='Society Management Illustration'
-            className='w-full h-auto max-w-[561px] object-contain max-sm:max-w-[320px] max-md:max-w-[561px] mx-lg:mx-w-[500px]' // Set responsive width and auto height
+            className='w-full h-auto max-w-[561px] object-contain max-sm:max-w-[320px] max-md:max-w-[561px] mx-lg:mx-w-[500px]' 
           />
         </div>
       </div>
 
-      {/* Right Section (Login Form) */}
       <div className='flex items-center  h-[100vh]  justify-center w-full lg:w-10/2 z-20 relative px-[15px]'>
         <div className='p-[50px] px-[5%] w-full max-w-[630px] rounded-lg z-30 relative bg-white'>
           <h2 className='text-2xl font-semibold mb-6 text-gray-800 max-sm:text-[2] max-sm:text-[24px] max-md:text-[28px]'>
             Login
           </h2>
           <form onSubmit={handleLogin} className='space-y-4'>
-            {/* Email or Phone Input */}
+           
             <div>
               <label
                 htmlFor='email'
@@ -131,7 +130,7 @@ const Login = () => {
                 )}
             </div>
 
-            {/* Password Input */}
+         
             <div>
               <label
                 htmlFor='password'
@@ -168,7 +167,6 @@ const Login = () => {
               )}
             </div>
 
-            {/* Remember Me and Forgot Password */}
             <div className='flex items-center justify-between'>
               <label className='flex items-center'>
                 <input
@@ -185,7 +183,7 @@ const Login = () => {
               </Link>
             </div>
 
-            {/* Submit Button */}
+         
             <button
               type='submit'
               className={`w-full py-3 rounded-lg font-medium  ${
@@ -197,7 +195,7 @@ const Login = () => {
               Sign In
             </button>
 
-            {/* Register Link */}
+       
             <div className='mt-4 text-center'>
               <p className='text-gray-600'>
                 Don’t have an account?{' '}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FaCheck,
   FaSun,
@@ -7,7 +7,6 @@ import {
   FaFemale,
   FaTimes,
   FaCamera,
-  FaCloudUploadAlt,
   FaUser,
 } from "react-icons/fa";
 import { toast } from "react-hot-toast";
@@ -24,14 +23,13 @@ import plus from "../assets/images/plus.svg";
 import Addimage from "../assets/images/Addimage.svg";
 import { convert24hrTo12hr } from "../utils/ConvertTime";
 import { useDispatch } from 'react-redux'
-import { setLoading } from "../redux/features/LoaderSlice";
 import { IoMdClose } from "react-icons/io";
 import { Loader } from "../utils/Loader";
 
 function SecurityGuardDetails() {
   const [guards, setGuards] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState("add"); // 'add', 'edit', 'view'
+  const [modalMode, setModalMode] = useState("add"); 
   const [currentGuard, setCurrentGuard] = useState(null);
   const [newGuard, setNewGuard] = useState({
     full_name: "",
@@ -648,7 +646,7 @@ function SecurityGuardDetails() {
                 </h2>
                 <button
                   onClick={() => {
-                    setIsModalOpen(false); // Ensure this function is correctly defined
+                    setIsModalOpen(false);
                   }}
                   className="text-gray-400 hover:text-gray-600"
                 >
