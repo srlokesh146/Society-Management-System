@@ -300,7 +300,7 @@ exports.updateTenantData = async (req, res) => {
   }
 };
 
-//   try {
+
 //     const { Wing, Unit, UnitStatus } = req.body; // Only expect these fields
 //     const { id } = req.params;
 

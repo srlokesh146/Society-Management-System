@@ -1,4 +1,3 @@
-import React from 'react';
 import { IoArrowBack, IoClose } from "react-icons/io5";
 import { FaEye } from 'react-icons/fa';
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import avatar from "../../../assets/images/avatar.png";
 import eyeicon from "../../../assets/images/eyeicon.png";
 import circleimg from "../../../assets/images/circleimg.svg";
@@ -13,7 +13,6 @@ import {
 const Polls = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [polls, setPolls] = useState([]);
-  const [answer, setAnswer] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   // useEffect(() => {

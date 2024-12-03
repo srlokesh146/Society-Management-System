@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { paymentMethods } from "../../constantdata";
 
 export default function PayMentMathodModal({
-  onClose,
-  isOpen,
-  setisPaymenCardOpen,
-  handlePayment,
+  onClose ,
+  isOpen ,
+  setisPaymenCardOpen ,
+  handlePayment ,
 }) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState("Master Card");

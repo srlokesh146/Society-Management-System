@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { GetAnnouncements } from '../services/announcementService'
 
 function AnnouncementDetails () {
@@ -19,7 +19,7 @@ function AnnouncementDetails () {
       const response = await GetAnnouncements()
       setAnnouncements(response.data.Announcement)
     } catch (error) {
-      toast.error(error.response.data.message)
+     error
     }
   }
 

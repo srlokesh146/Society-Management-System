@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import PayMentMathodModal from './modal/PayMentMathodModal'
 import PayMenCard from './modal/PayMenCard'
 import {
@@ -63,7 +63,7 @@ function DueMaintence() {
       const data = response.data.Maintenance
       const filterMaintenances = filterDate(data)
       setDueMaintenance(filterMaintenances)
-    } catch (error) { } finally {
+    } catch (error) { error} finally {
       setIsLoading(false)
     }
   }

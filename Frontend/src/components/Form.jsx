@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { FaImage } from 'react-icons/fa'
 
 function Form ({ user }) {

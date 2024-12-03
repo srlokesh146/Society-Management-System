@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import Smiley from "../../assets/images/Smiley.svg";
 import camera from "../../assets/images/camera.svg";
 import Paperclip from "../../assets/images/Paperclip.svg";

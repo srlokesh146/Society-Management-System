@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import  {useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Login from './components/auth/Login'
@@ -11,7 +11,6 @@ import ReqTracking from './pages/ReqTracking'
 import VisitorLog from './pages/VisitorLog'
 import SecurityProtocols from './pages/SecurityProtocols'
 import './App.css'
-
 import Residentmanagement from './pages/Residentmanagement'
 import Dashboard from './pages/Dashboard/Dashboard'
 import Navbar from './components/Navbar'

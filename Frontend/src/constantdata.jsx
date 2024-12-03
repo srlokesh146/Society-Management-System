@@ -1,17 +1,5 @@
 // dashboard constant
 // sidebar
-import { TbLayoutDashboardFilled } from 'react-icons/tb'
-import { FaMoneyBill } from 'react-icons/fa6'
-import { RiMoneyDollarBoxFill } from 'react-icons/ri'
-import { HiMiniBuildingOffice2 } from 'react-icons/hi2'
-import { AiFillSecurityScan } from 'react-icons/ai'
-import {
-  FaUserShield,
-  FaBullhorn,
-  FaAddressCard,
-  FaMoneyCheck
-} from 'react-icons/fa'
-import { RiMessageFill } from 'react-icons/ri'
 import icon1 from './assets/images/icon-1.png'
 import moneyrecive from './assets/images/money-recive.png'
 import moneysend from './assets/images/money-send.png'

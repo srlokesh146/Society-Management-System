@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import editimage from "../assets/images/editimage.png";
-import { useLocation, useNavigate } from "react-router-dom";
-import avatar from "../assets/images/Avatar.png";
+
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   createSociety,
@@ -15,7 +15,7 @@ import { UpdateUser } from "../redux/features/AuthSlice";
 import { Loader } from "../utils/Loader";
 
 function EditProfileForm() {
-  const location = useLocation();
+ 
   const { user } = useSelector((store) => store.auth);
   const [profile, setProfile] = useState({
     FirstName: user?.FirstName,
@@ -53,7 +53,7 @@ function EditProfileForm() {
       const response = await createSociety(society);
       toast.success(response.data.message);
       fetchSocieties();
-      setShowModal(false); // Close modal after submission
+      setShowModal(false); 
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to create society");
     } finally {
@@ -80,7 +80,7 @@ function EditProfileForm() {
       society.Country &&
       society.State &&
       society.City &&
-      society.ZipCode // Corrected from Zipcode to ZipCode
+      society.ZipCode 
     );
   };
 
@@ -120,7 +120,7 @@ function EditProfileForm() {
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
-      setIsLoading(true)
+      setIsLoading(false)
       setIsEditing(false);
     }
   };
@@ -443,7 +443,7 @@ function EditProfileForm() {
                   <input
                     type="text"
                     name="ZipCode"
-                    value={society.ZipCode} // Corrected from Zipcode to ZipCode
+                    value={society.ZipCode} 
                     onChange={handleSocietyChange}
                     className="w-full px-4 py-2.5 border rounded-lg"
                     required
@@ -466,7 +466,7 @@ function EditProfileForm() {
                     ? "bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white"
                     : "bg-[#F6F8FB] text-gray-400"
                     }`}
-                  disabled={!isFormValid()} // Disable button if form is not valid
+                  disabled={!isFormValid()} 
                 >
                   Save
                 </button>

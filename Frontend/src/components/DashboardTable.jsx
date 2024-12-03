@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { FaEye, FaEdit, FaTrashAlt, FaChevronDown } from 'react-icons/fa'
+import  { useEffect, useState } from 'react'
 import ViewComplaintModal from './modal/ViewComplaintModal'
 import complainimages from '../assets/images/complainimage.png'
 import downicon from '../assets/images/downicon.svg'
@@ -36,14 +35,10 @@ const DashboardTable = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedPeriod, setSelectedPeriod] = useState('Month')
   const [currentComplaint, setCurrentComplaint] = useState(null)
-  const [selectedOption, setSelectedOption] = useState('')
   const [complaintList, setComplaintList] = useState([])
   const { role } = useSelector(store => store.auth.user)
   let avatar = 'https://mighty.tools/mockmind-api/content/human/65.jpg'
 
-  const handleSelectChange = e => {
-    setSelectedOption(e.target.value)
-  }
 
   const onEdit = complaint => {
     setCurrentComplaint(complaint)
@@ -180,7 +175,7 @@ const DashboardTable = () => {
                       checked={selectedPeriod === option}
                       onChange={() => handleOptionClick(option)}
                       className='custom-radio mr-2'
-                      disabled={option === 'Select Month'} // Disable the radio button for "Select Month"
+                      disabled={option === 'Select Month'} 
                     />
                     {option}
                   </div>
@@ -233,7 +228,7 @@ const DashboardTable = () => {
                       />
                       <span>{complaint.complainer}</span>
                     </div>
-                    {/* <span className="truncate">{complaint.complainerName}</span> */}
+                  
                   </td>
                   <td className='text-start'>{complaint.name}</td>
                   <td className='text-center'>

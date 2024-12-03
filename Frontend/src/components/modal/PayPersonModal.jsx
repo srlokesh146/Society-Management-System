@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import PayNowModal from "./PayNowModal";
 
 const PayPersonModal = ({ isOpen, selectedMembers, onClose, setIsPayNowOpen, perPersonAmount, totalAmount, handleChange }) => {
 

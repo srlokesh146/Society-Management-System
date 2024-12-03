@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import search from "../../../assets/images/search.svg";
 import videoicon from "../../../assets/images/videoicon.png";
 import callicon from "../../../assets/images/callicon.png";
@@ -13,6 +13,10 @@ import { useSelector } from "react-redux";
 import { GetChatHistory, SendMessage } from "../../../services/chatService";
 import MobileViewAccessForums from "../MobileViewAccessForums";
 import { socket } from "../../../components/Socket";
+
+const peerConnectionConfig = {
+  iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+};
 
 const format12HourTimeShort = (dateString) => {
   const date = new Date(dateString);
@@ -36,6 +40,174 @@ export default function AccessForums() {
   const [isMobile, setIsMobile] = useState(false);
   const [media, setMedia] = useState(null);
   const [searching, setSearching] = useState("");
+  const [localStream, setLocalStream] = useState(null);
+  const [remoteStream, setRemoteStream] = useState(null);
+  const [isInCall, setIsInCall] = useState(false);
+
+  const localVideoRef = useRef(null);
+  const remoteVideoRef = useRef(null);
+  const peerConnection = useRef(null);
+  // Handle Call Start
+  const handleStartCall = async () => {
+    if (!receiver) {
+      toast.error("Please select a user to call.");
+      return;
+    }
+
+    if (receiver._id === userId) {
+      toast.error("You cannot call yourself!");
+      return;
+    }
+
+    try {
+      // Get user media for local stream
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      });
+      setLocalStream(stream);
+      if (localVideoRef.current) localVideoRef.current.srcObject = stream;
+
+      // Set up peer connection
+      peerConnection.current = new RTCPeerConnection(peerConnectionConfig);
+
+      // Add tracks to peer connection
+      stream.getTracks().forEach((track) => peerConnection.current.addTrack(track, stream));
+
+      peerConnection.current.onicecandidate = (event) => {
+        if (event.candidate) {
+          socket.emit("ice-candidate", {
+            targetId: receiver._id,
+            candidate: event.candidate,
+          });
+        }
+      };
+
+      peerConnection.current.ontrack = (event) => {
+        // Set remote stream when it arrives
+        setRemoteStream(event.streams[0]);
+        if (remoteVideoRef.current) {
+          remoteVideoRef.current.srcObject = event.streams[0];
+        }
+      };
+
+      // Create offer and set local description
+      const offer = await peerConnection.current.createOffer();
+      await peerConnection.current.setLocalDescription(offer);
+
+      // Send offer to receiver
+      socket.emit("video-offer", {
+        senderId: userId,
+        receiverId: receiver._id,
+        sdp: offer,
+      });
+
+      setIsInCall(true);
+    } catch (error) {
+      console.error("Failed to start video call:", error);
+      toast.error("Failed to start video call: " + error.message);
+    }
+  };
+
+  // Handle Incoming Call
+  const handleReceiveCall = async ({ senderId, sdp }) => {
+    try {
+      // Get user media for local stream
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      });
+      setLocalStream(stream);
+      if (localVideoRef.current) localVideoRef.current.srcObject = stream;
+
+      // Set up peer connection
+      peerConnection.current = new RTCPeerConnection(peerConnectionConfig);
+
+      // Add tracks to peer connection
+      stream.getTracks().forEach((track) => peerConnection.current.addTrack(track, stream));
+
+      peerConnection.current.onicecandidate = (event) => {
+        if (event.candidate) {
+          socket.emit("ice-candidate", {
+            targetId: senderId,
+            candidate: event.candidate,
+          });
+        }
+      };
+
+      peerConnection.current.ontrack = (event) => {
+        // Set remote stream when it arrives
+        setRemoteStream(event.streams[0]);
+        if (remoteVideoRef.current) {
+          remoteVideoRef.current.srcObject = event.streams[0];
+        }
+      };
+
+      // Set remote description with incoming SDP
+      await peerConnection.current.setRemoteDescription(new RTCSessionDescription(sdp));
+
+      // Create an answer and send it back to the sender
+      const answer = await peerConnection.current.createAnswer();
+      await peerConnection.current.setLocalDescription(answer);
+
+      socket.emit("video-answer", {
+        senderId,
+        receiverId: userId,
+        sdp: answer,
+      });
+
+      setIsInCall(true);
+    } catch (error) {
+      toast.error("Failed to answer video call: " + error.message);
+    }
+  };
+
+  // Handle ICE Candidate
+  const handleICECandidate = ({ candidate }) => {
+    if (peerConnection.current) {
+      peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate));
+    }
+  };
+
+  // Handle End Call
+  const handleEndCall = () => {
+    if (peerConnection.current) {
+      peerConnection.current.close();
+      peerConnection.current = null;
+    }
+    if (localStream) {
+      localStream.getTracks().forEach((track) => track.stop());
+    }
+    if (remoteStream) {
+      setRemoteStream(null);
+      if (remoteVideoRef.current) {
+        remoteVideoRef.current.srcObject = null;
+      }
+    }
+    if (localVideoRef.current) {
+      localVideoRef.current.srcObject = null;
+    }
+    setLocalStream(null);
+    setRemoteStream(null);
+    setIsInCall(false);
+  };
+
+  // Handle Incoming Socket Events
+  useEffect(() => {
+    socket.on("video-offer", handleReceiveCall);
+    socket.on("video-answer", ({ sdp }) => {
+      if (peerConnection.current) {
+        peerConnection.current.setRemoteDescription(new RTCSessionDescription(sdp));
+      }
+    });
+    socket.on("ice-candidate", handleICECandidate);
+
+    return () => {
+      socket.off("video-offer");
+      socket.off("video-answer");
+      socket.off("ice-candidate");
+    };
+  }, []);
 
   const handleSendMessage = async () => {
     try {
@@ -100,6 +272,7 @@ export default function AccessForums() {
       toast.error(error.response.data.message);
     }
   };
+  //video call
 
   const updateView = () => {
     setIsMobile(window.innerWidth < 768);
@@ -170,11 +343,10 @@ export default function AccessForums() {
             {userList.map((user, i) => (
               <div
                 key={i}
-                className={`flex justify-between items-center p-2 transition-all duration-300 py-[12px] cursor-pointer rounded-[10px] ${
-                  selectedChatId === user._id
-                    ? "bg-gray-200"
-                    : "hover:bg-gray-50 rounded-[10px]"
-                }`}
+                className={`flex justify-between items-center p-2 transition-all duration-300 py-[12px] cursor-pointer rounded-[10px] ${selectedChatId === user._id
+                  ? "bg-gray-200"
+                  : "hover:bg-gray-50 rounded-[10px]"
+                  }`}
                 onClick={() => handleChatClick(user)}
               >
                 <div className="flex items-center">
@@ -217,9 +389,24 @@ export default function AccessForums() {
               </div>
             </div>
             <div className="relative flex items-center space-x-4">
+              {isInCall && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                  <div className="relative w-[90%] max-w-4xl bg-white p-4 rounded-lg shadow-lg">
+                    <video ref={localVideoRef} autoPlay muted className="w-1/2" />
+                    <video ref={remoteVideoRef} autoPlay className="w-1/2" />
+                    <button
+                      className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full"
+                      onClick={handleEndCall}
+                    >
+                      End Call
+                    </button>
+                  </div>
+                </div>
+              )}
               <img
                 src={videoicon}
-                alt="videoicon"
+                alt="Video Call Icon"
+                onClick={handleStartCall}
                 className="text-gray-500 text-2xl cursor-pointer hover:text-blue-500"
               />
               <img
@@ -253,21 +440,18 @@ export default function AccessForums() {
           {discussions.map((chat) => (
             <div
               key={chat._id}
-              className={`flex ${
-                chat.senderId === userId ? "justify-end" : "justify-start"
-              } mb-4`}
+              className={`flex ${chat.senderId === userId ? "justify-end" : "justify-start"
+                } mb-4`}
             >
               <div
-                className={`flex ${
-                  chat.senderId !== userId ? "justify-end" : "justify-start"
-                } my-2`}
+                className={`flex ${chat.senderId !== userId ? "justify-end" : "justify-start"
+                  } my-2`}
               >
                 <div
-                  className={`max-w-xs p-4 rounded-lg text-sm relative ${
-                    chat.senderId !== userId
-                      ? "bg-gray-200 text-black"
-                      : "bg-blue-500 text-white"
-                  }`}
+                  className={`max-w-xs p-4 rounded-lg text-sm relative ${chat.senderId !== userId
+                    ? "bg-gray-200 text-black"
+                    : "bg-blue-500 text-white"
+                    }`}
                 >
                   {chat?.media && (
                     <img src={chat.media} width={"300px"} height={"300px"} />
