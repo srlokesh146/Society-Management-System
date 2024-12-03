@@ -258,25 +258,29 @@ export default function AccessForums() {
               } mb-4`}
             >
               <div
-                className={`flex ${
+                className={`flex flex-col  ${
                   chat.senderId !== userId ? "justify-end" : "justify-start"
                 } my-2`}
               >
                 <div
-                  className={`max-w-xs p-4 rounded-lg text-sm relative ${
+                  className={`max-w-xs p-2 rounded-lg text-sm relative ${
                     chat.senderId !== userId
                       ? "bg-gray-200 text-black"
                       : "bg-blue-500 text-white"
                   }`}
                 >
                   {chat?.media && (
-                    <img src={chat.media} width={"300px"} height={"300px"} />
+                    <img
+                      src={chat.media}
+                      max-width={"390px"}
+                      max-height={"300px"}
+                    />
                   )}
                   <p>{chat?.message}</p>
-                  <span className="text-xs text-gray-500 block absolute -bottom-[16px] right-2">
-                    {format12HourTimeShort(chat?.timestamp)}
-                  </span>
                 </div>
+                <span className="text-xs text-gray-500 block">
+                  {format12HourTimeShort(chat?.timestamp)}
+                </span>
               </div>
             </div>
             // </div>

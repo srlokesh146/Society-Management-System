@@ -78,7 +78,6 @@ export default function ResidentManagement() {
     try {
       setIsLoading(true)
       const response = await GetResidents();
-      console.log(response);
       setResidentList(response.data.Residents);
     } catch (error) { } finally {
       setIsLoading(false)
@@ -145,7 +144,7 @@ export default function ResidentManagement() {
               <tbody>
                 {residentList.length > 0 ? (
                   residentList.map((resident, index) => (
-                    <tr key={index} className="border-b border-[#F4F4F4]">
+                    <tr key={resident._id} className="border-b border-[#F4F4F4]">
                       <td>
                         <div className="flex items-center justify-start ps-4 py-[16px] max-sm:min-w-[180px] md:min-w-[180px] max-md:min-w-[180px]">
                           {resident.UnitStatus !== "Occupied" ? (

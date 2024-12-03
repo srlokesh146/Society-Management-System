@@ -6,8 +6,10 @@ import {
   SendGroupMessage,
 } from "../../../../services/chatService";
 import { toast } from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 export default function Discussion() {
+  const { _id } = useSelector((store) => store.auth.user);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
@@ -16,7 +18,6 @@ export default function Discussion() {
       try {
         const messageData = {
           message: message,
-          time: new Date().toLocaleTimeString(),
         };
         const response = await SendGroupMessage(messageData);
         socket.emit("group-message", response.data.chat);
@@ -40,12 +41,12 @@ export default function Discussion() {
   }, []);
 
   useEffect(() => {
-    socket.on("receive_message", (message) => {
-      setMessages((prev) => [...prev, message]);
+    socket.on("receive_message", (newMessage) => {
+      setMessages((prev) => [...prev, newMessage]);
     });
-  }, []);
 
-  console.log(messages);
+    return () => socket.off("receive_message");
+  }, []);
 
   return (
     <div className="flex h-[87vh] bg-gray-100 r">
@@ -95,8 +96,23 @@ export default function Discussion() {
         {/* Chat messages */}
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
           {messages.map((m, i) => (
-            <div key={i} className="p-4 bg-white rounded-lg shadow">
+            <div
+              key={i}
+              className={`p-4 ${
+                m.senderId == _id ? "bg-gray-200" : "bg-white"
+              } rounded-lg shadow`}
+            >
+              <div className="flex items-center gap-2">
+                <img
+                  src={m.senderProfile}
+                  alt=""
+                  
+                  className="rounded-full w-[30px] h-[30px]"
+                />
+                <p className="text-sm text-gray-500">{m.senderName}</p>
+              </div>
               <p className="font-medium text-lg">{m.message}</p>
+              <p className="text-sm text-gray-500">{m.createdA}</p>
             </div>
           ))}
         </div>

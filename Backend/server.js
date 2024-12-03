@@ -117,18 +117,12 @@ io.on("connection", (socket) => {
       receiverSocket.emit("sendMessage", newMessage);
     }
   });
-
-  // socket.on("join-room", (room) => {
-  //   socket.join(room);
-  //   console.log(`${socket.id} joined room: ${room}`);
-  //   socket.to(room).emit("user-joined", `${socket.id} has joined the room.`);
-  // });
-
-  // Listen for messages
+  
+  // Listen group messages
   socket.on("group-message", (data) => {
     io.emit("receive_message", data);
   });
-
+  
   io.on("disconnect", () => {
     console.log("user disconnect!");
   });

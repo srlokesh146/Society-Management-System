@@ -255,8 +255,9 @@ const Navbar = () => {
                 notificationList.map((notification, index) => (
                   <div
                     key={index}
-                    className="border-b border-gray-200 pb-5 mb-[14px]"
+                    className="border-b flex gap-4 items-start  border-gray-200 pb-5 mb-[14px]"
                   >
+                    <span className="p-5 py-4 rounded-full bg-red-300">S</span>
                     <div className="">
                       <h6 className="font-bold ">{notification.name} </h6>
                       <span className="text-sm font-light text-gray-800">
