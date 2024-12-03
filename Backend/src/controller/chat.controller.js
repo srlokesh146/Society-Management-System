@@ -102,17 +102,26 @@ exports.GroupMessageHistory = async (req, res) => {
     });
   }
 };
+
 exports.sendGroupMessage = async (req, res) => {
   try {
-    const { message, time } = req.body;
+    const { message } = req.body;
 
-    if (!message || !time) {
+    if (!message) {
       return res
         .status(400)
         .json({ message: "All fields are required!", success: false });
     }
 
-    const chat = await groupChatModel.create(req.body);
+    const newChat = {
+      senderId: req.user.id,
+      senderProfile: req.user.profileImage,
+      senderName: req.user.Full_name,
+      senderModel: req.user.Resident_status,
+      message: message,
+    };
+
+    const chat = await groupChatModel.create(newChat);
 
     return res.status(200).json({
       message: "message sent successfully",
