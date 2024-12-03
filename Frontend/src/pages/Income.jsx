@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash, FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { BsClockFill } from "react-icons/bs";
@@ -13,7 +13,6 @@ import {
   CreateMaintenance,
   GetMaintenances,
 } from "../services/maintenanceService";
-import { data } from "../constantdata";
 import { useDispatch } from "react-redux";
 import { addNewNotification } from "../redux/features/notificationSlice";
 import { Loader } from "../utils/Loader";
@@ -23,8 +22,6 @@ import { Loader } from "../utils/Loader";
 const Income = () => {
   const dispatch = useDispatch();
   const [maintenanceList, setMaintenanceList] = useState([]);
-  const [maintenance, setMaintenance] = useState(0);
-  const [penalty, setPenalty] = useState(0);
   const [activeTab, setActiveTab] = useState("maintenance");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [password, setPassword] = useState("");
@@ -161,7 +158,7 @@ const Income = () => {
       <>
         <div className="fixed inset-0 bg-[#00000021] flex items-center justify-center z-[9999]">
           <div className="bg-white rounded-xl w-[450px] overflow-hidden">
-            {/* Header */}
+
             <div className="flex justify-between items-center px-6 py-4">
               <h3 className="text-lg font-semibold">
                 View Maintenance Details
@@ -197,7 +194,6 @@ const Income = () => {
               </div>
             </div>
 
-            {/* Details Grid */}
             <div className="grid grid-cols-4 gap-6 p-6">
               <div>
                 <p className="text-sm text-gray-500 mb-1">Wing</p>

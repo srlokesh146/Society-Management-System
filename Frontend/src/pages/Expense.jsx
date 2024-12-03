@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FaFilePdf, FaImage, FaPlus, FaTimes } from 'react-icons/fa'
+import { FaFilePdf, FaImage} from 'react-icons/fa'
 import eye from '../assets/images/eye.svg'
 import edit from '../assets/images/edit.svg'
 import plus from '../assets/images/plus.svg'
@@ -13,7 +13,6 @@ import {
 } from '../services/expenseService'
 import toast from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
-import { setLoading } from "../redux/features/LoaderSlice";
 import { IoMdClose } from "react-icons/io";
 import { Loader } from '../utils/Loader'
 
@@ -249,19 +248,19 @@ function Expense() {
                   <td className="py-4">
                     <div className="flex gap-2 justify-center">
                       <button
-                        onClick={() => handleEditClick(expense)} // Open edit modal
+                        onClick={() => handleEditClick(expense)} 
                         className="cursor-pointer text-blue-500 hover:text-blue-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px] text-base"
                       >
                         <img src={edit} />
                       </button>
                       <button
-                        onClick={() => handleViewClick(expense)} // Open view modal
+                        onClick={() => handleViewClick(expense)} 
                         className="cursor-pointer text-green-500 hover:text-green-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                       >
                         <img src={eye} />
                       </button>
                       <button
-                        onClick={() => handleDeleteClick(expense)} // Open delete modal
+                        onClick={() => handleDeleteClick(expense)} 
                         className="cursor-pointer text-red-500 hover:text-red-700 bg-[#F6F8FB] w-[40px] h-[40px] p-[10px] rounded-[10px]"
                       >
                         <img src={trash} />
@@ -402,9 +401,9 @@ function Expense() {
                     </p>
                   </div>
                   <input
-                    id='fileInput' // Hidden file input
+                    id='fileInput'
                     type='file'
-                    accept='.png, .jpg, .jpeg, .gif, .pdf' // Acceptable file types
+                    accept='.png, .jpg, .jpeg, .gif, .pdf' 
                     onChange={e => {
                       if (e.target.files.length > 0) {
                         setNewExpense({
@@ -413,7 +412,7 @@ function Expense() {
                         }) // Set the selected file
                       }
                     }}
-                    className='hidden' // Hide the default file input
+                    className='hidden'
                   />
                 </div>
 
@@ -432,7 +431,7 @@ function Expense() {
                       ? 'bg-gradient-to-r from-[#FE512E] to-[#F09619] font-semibold text-white'
                       : 'bg-[#F6F8FB] font-bold text-black-400 cursor-not-allowed'
                       }`}
-                    disabled={!isFormValid} // Disable button if form is not valid
+                    disabled={!isFormValid} 
                   >
                     {isLoading ? <Loader />
                       : "Save"}

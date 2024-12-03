@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FaEdit, FaEllipsisV } from 'react-icons/fa'
+import { FaEllipsisV } from 'react-icons/fa'
 import { CreateNote, GetNotes, UpdateNote } from '../services/notesService'
 import { toast } from 'react-hot-toast'
 import { Loader } from '../utils/Loader'

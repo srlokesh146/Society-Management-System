@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { FaCamera, FaImage, FaUpload, FaCheckCircle } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
-import TenantForm from "./TenantForm";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { CreateOwner, UpdateOwner } from "../services/ownerTenantService";
@@ -64,13 +63,13 @@ export default function OwnerForm () {
   const validateForm = () => {
     const requiredFields = {
       profileImage: formData.profileImage,
-      fullName: formData.Full_name, // Corrected key
-      phone: formData.Phone_number, // Corrected key
-      age: formData.Age, // Corrected key
-      gender: formData.Gender, // Corrected key
-      wing: formData.Wing, // Corrected key
-      unit: formData.Unit, // Corrected key
-      relation: formData.Relation, // Corrected key
+      fullName: formData.Full_name,
+      phone: formData.Phone_number, 
+      age: formData.Age, 
+      gender: formData.Gender, 
+      wing: formData.Wing, 
+      unit: formData.Unit, 
+      relation: formData.Relation, 
       aadharFront: formData.Adhar_front,
       aadharBack: formData.Adhar_back,
       addressProof: formData.Address_proof,
@@ -298,7 +297,7 @@ export default function OwnerForm () {
 
           {/* Form Fields */}
           <div className='md:col-span-10'>
-            {/* First Row - 3 inputs */}
+           
             <div className='grid grid-cols-3 gap-4 max-lg:grid-cols-2 max-sm:grid-cols-1 max-xl:grid-cols-2 max-2xl:grid-cols-2'>
               <div>
                 <label className='block text-sm font-lighter text-black-500'>
@@ -350,7 +349,7 @@ export default function OwnerForm () {
               </div>
             </div>
 
-            {/* Second Row - 5 inputs */}
+      
             <div className='grid mt-4 gap-4 grid-cols-5 max-lg:grid-cols-2 max-sm:grid-cols-1 max-xl:grid-cols-3 max-2xl:grid-cols-3'>
               <div>
                 <label className='block text-sm font-lighter text-black-500'>
@@ -1186,7 +1185,7 @@ export default function OwnerForm () {
                 : 'bg-[#F6F8FB] text-gray-400 cursor-not-allowed'
             }`}
             disabled={!isFormValid}
-            onClick={edit ? handleUpdateOwner : handleCreate} // Call the handleCreate function on click
+            onClick={edit ? handleUpdateOwner : handleCreate} 
           >
          {isLoading ? (
         <Loader/>

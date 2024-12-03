@@ -3,7 +3,6 @@ import Modal from "../../components/modal/Modal";
 import DashboardTable from "../../components/DashboardTable";
 import edit from "../../assets/images/edit.svg";
 import trash from "../../assets/images/trash.svg";
-import rogerimage from "../../assets/images/rogerimage.png";
 import icon1 from "../../assets/images/icon-1.png";
 import moneyrecive from "../../assets/images/money-recive.png";
 import moneysend from "../../assets/images/money-send.png";
