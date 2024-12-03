@@ -3,10 +3,12 @@ import { FaArrowAltCircleDown, FaArrowLeft, FaEye } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { DownloadInvoice, GetEventsParticipants } from "../../services/incomeService";
 import axios from "axios";
+import { Loader } from "../../utils/Loader";
 
 function OtherInvoices() {
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [invoices, setInvoices] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const openModal = (data) => {
     console.log(data);
@@ -19,30 +21,33 @@ function OtherInvoices() {
 
   const fetchPaidEvents = async () => {
     try {
+      setIsLoading(true)
       const response = await GetEventsParticipants();
       setInvoices(response.data.Income);
     } catch (error) {
       toast.error(error.response.data.message);
+    } finally {
+      setIsLoading(false)
     }
   };
 
   useEffect(() => {
     fetchPaidEvents();
   }, []);
- 
+
 
   const handleDownloadInvoice = async (invoice) => {
     try {
-      
+
       const invoiceData = {
-        invoiceId: 1232, 
+        invoiceId: 1232,
         ownerName: invoice.resident.Full_name,
         billDate: new Date(invoice.dueDate).toLocaleDateString("en-GB", {
           day: "2-digit",
           month: "2-digit",
           year: "numeric",
         }),
-        paymentDate: "11/11/2024", 
+        paymentDate: "11/11/2024",
         eventDate: new Date(invoice.date).toLocaleDateString("en-GB", {
           day: "2-digit",
           month: "2-digit",
@@ -55,15 +60,15 @@ function OtherInvoices() {
         maintenanceAmount: invoice.amount,
         grandTotal: invoice.amount,
       };
-  
-     
+
+
       const pdfData = await DownloadInvoice(invoiceData);
-  
-      
+
+
       const blob = new Blob([pdfData], { type: "application/pdf" });
       const url = window.URL.createObjectURL(blob);
-  
-     
+
+
       const link = document.createElement("a");
       link.href = url;
       link.setAttribute("download", `Invoice_${invoice.resident.Full_name}.pdf`);
@@ -71,7 +76,7 @@ function OtherInvoices() {
       link.click();
       link.remove();
     } catch (error) {
-      toast.error("Error downloading invoice: " + error.message); 
+      toast.error("Error downloading invoice: " + error.message);
     }
   };
 
@@ -94,42 +99,53 @@ function OtherInvoices() {
             </tr>
           </thead>
           <tbody>
-            {invoices.map((v, index) =>
-              v.members.map((r) => (
-                <tr key={index} className="border-b bg-white">
-                  <td className="px-6 py-6 text-center">{1232}</td>
-                  <td className="px-4 py-2 text-center">
-                    {r.resident.Full_name}
-                  </td>
-                  <td className="px-4 py-2 text-center">
-                    {new Date(v.dueDate).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}
-                  </td>
-                  <td className="px-4 py-2 text-center">11/11/2024</td>
-                  <td className="px-4 py-2 text-center">
-                    {r.resident.Phone_number}
-                  </td>
-                  <td className="px-4 py-2 text-center">
-                    {r.resident.Email_address}
-                  </td>
-                  <td className="px-4 py-2 text-green-600 text-center">
-                    ₹ {v.amount}
-                  </td>
-                  <td className="px-4 py-2 text-center">
-                    <button
-                      onClick={() => openModal({ ...v, ...r })}
-                      className="text-[#5678E9] bg-gray-200 p-2 rounded-lg hover:underline"
-                    >
-                      <FaEye />
-                    </button>
-                  </td>
-                </tr>
-              ))
+            {isLoading ? (
+              <tr>
+                <td colSpan="8" className="px-6 py-6 text-center">
+                  <div className="flex justify-center items-center">
+                    <Loader/>
+                  </div>
+                </td>
+              </tr>
+            ) : invoices.length > 0 ? (
+              invoices.map((v, index) =>
+                v.members.map((r) => (
+                  <tr key={`${index}-${r.resident._id}`} className="border-b bg-white">
+                    <td className="px-6 py-6 text-center">{1232}</td>
+                    <td className="px-4 py-2 text-center">{r.resident.Full_name}</td>
+                    <td className="px-4 py-2 text-center">
+                      {new Date(v.dueDate).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                    </td>
+                    <td className="px-4 py-2 text-center">11/11/2024</td>
+                    <td className="px-4 py-2 text-center">{r.resident.Phone_number}</td>
+                    <td className="px-4 py-2 text-center">{r.resident.Email_address}</td>
+                    <td className="px-4 py-2 text-green-600 text-center">
+                      ₹ {v.amount}
+                    </td>
+                    <td className="px-4 py-2 text-center">
+                      <button
+                        onClick={() => openModal({ ...v, ...r })}
+                        className="text-[#5678E9] bg-gray-200 p-2 rounded-lg hover:underline"
+                      >
+                        <FaEye />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )
+            ) : (
+              <tr>
+                <td colSpan="8" className="px-6 py-6 text-center text-gray-500">
+                  No data found
+                </td>
+              </tr>
             )}
           </tbody>
+
         </table>
       </div>
 
@@ -263,7 +279,7 @@ function OtherInvoices() {
             </div>
 
             {/* Download Button */}
-            <button className="mt-6 bg-custom-gradient w-full py-3 text-white font-semibold rounded-md flex items-center justify-center gap-2"  onClick={() => handleDownloadInvoice(selectedInvoice)}>
+            <button className="mt-6 bg-custom-gradient w-full py-3 text-white font-semibold rounded-md flex items-center justify-center gap-2" onClick={() => handleDownloadInvoice(selectedInvoice)}>
               <FaArrowAltCircleDown size={18} />
               <span>Download Invoice</span>
             </button>

@@ -6,12 +6,14 @@ import {
   UpdateMaintenanceStatus
 } from '../services/maintenanceService'
 import toast from 'react-hot-toast'
+import { Loader } from '../utils/Loader'
 
-function DueMaintence () {
+function DueMaintence() {
   const [dueMaintenance, setDueMaintenance] = useState([])
   const [isPaymentNowOpen, setIsPaymantNowOpen] = useState(false)
   const [isPaymenCardOpen, setisPaymenCardOpen] = useState(false)
   const [payMaintenance, setPayMaintenance] = useState(null)
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlePendingMaintence = maintenance => {
     setPayMaintenance(maintenance)
@@ -56,11 +58,14 @@ function DueMaintence () {
 
   const fetchPendingMaintenances = async () => {
     try {
+      setIsLoading(true)
       const response = await GetPendingMaintenances()
       const data = response.data.Maintenance
       const filterMaintenances = filterDate(data)
       setDueMaintenance(filterMaintenances)
-    } catch (error) {}
+    } catch (error) { } finally {
+      setIsLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -73,52 +78,47 @@ function DueMaintence () {
         <div>
           <h1 className='font-semibold font-md'>Due Maintence</h1>
         </div>
-        <div className='grid grid-cols-1  mt-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 relative'>
-          {dueMaintenance.length > 0 ? (
+        <div className="grid grid-cols-1 mt-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 relative">
+          {isLoading ? (
+            <div className="flex justify-center items-center col-span-full py-8">
+             <Loader></Loader>
+            </div>
+          ) : dueMaintenance.length > 0 ? (
             dueMaintenance.map(Duemaintence => (
               <div
                 key={Duemaintence._id}
-                className='border border-gray-300 rounded-lg'
+                className="border border-gray-300 rounded-lg"
               >
-                <div className='bg-[#5678E9] text-white p-4 flex justify-between items-center rounded-t-lg'>
-                  <h2 className='text-sm sm:text-base font-semibold'>
-                    Maintenance
-                  </h2>
-                  <h2 className='text-sm bg-[#FFFFFF1A] w-28 text-center rounded-2xl p-1 font-semibold'>
+                <div className="bg-[#5678E9] text-white p-4 flex justify-between items-center rounded-t-lg">
+                  <h2 className="text-sm sm:text-base font-semibold">Maintenance</h2>
+                  <h2 className="text-sm bg-[#FFFFFF1A] w-28 text-center rounded-2xl p-1 font-semibold">
                     {Duemaintence.residentList[0].paymentStatus}
                   </h2>
                 </div>
-                <div className='p-4'>
-                  <div className='space-y-2'>
-                    <div className='flex justify-between items-center text-sm sm:text-base text-gray-500'>
-                      <span className='font-sm w-24'> Date</span>
-                      <p className='text-grey-400 text-[15px]'>
-                        {new Date(Duemaintence.createdAt).toLocaleDateString(
-                          'en-GB',
-                          {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric'
-                          }
-                        )}
+                <div className="p-4">
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center text-sm sm:text-base text-gray-500">
+                      <span className="font-sm w-24"> Date</span>
+                      <p className="text-grey-400 text-[15px]">
+                        {new Date(Duemaintence.createdAt).toLocaleDateString("en-GB", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })}
                       </p>
                     </div>
-                    <div className='border-b border-[#F4F4F4] mb-[20px]'></div>
-                    <div className='flex justify-between items-center text-sm sm:text-base text-gray-500'>
-                      <span className='font-sm w-32'>Amount</span>
-                      <p className='text-red-500'>
-                        {Duemaintence.maintenanceAmount}
-                      </p>
+                    <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
+                    <div className="flex justify-between items-center text-sm sm:text-base text-gray-500">
+                      <span className="font-sm w-32">Amount</span>
+                      <p className="text-red-500">{Duemaintence.maintenanceAmount}</p>
                     </div>
-                    <div className='flex justify-between items-center text-sm sm:text-base text-gray-500'>
-                      <span className='font-sm '>Due Maintenance Amount</span>
-                      <p className='text-red-500'>
-                        {Duemaintence.penaltyAmount}
-                      </p>
+                    <div className="flex justify-between items-center text-sm sm:text-base text-gray-500">
+                      <span className="font-sm ">Due Maintenance Amount</span>
+                      <p className="text-red-500">{Duemaintence.penaltyAmount}</p>
                     </div>
                     <button
                       onClick={() => handlePendingMaintence(Duemaintence)}
-                      className='h-14 bg-custom-gradient text-white font-bold  rounded-xl w-full border '
+                      className="h-14 bg-custom-gradient text-white font-bold rounded-xl w-full border"
                     >
                       Pay Now
                     </button>
@@ -127,13 +127,10 @@ function DueMaintence () {
               </div>
             ))
           ) : (
-            <tr>
-              <td className='text-center py-4 text-gray-500'>
-                No data found
-              </td>
-            </tr>
+            <div className="text-center py-4 text-gray-500">No data found</div>
           )}
         </div>
+
       </div>
       <PayMentMathodModal
         isOpen={isPaymentNowOpen}
