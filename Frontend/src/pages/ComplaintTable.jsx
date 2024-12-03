@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { FaCheck, FaEye, FaTrash, FaPen } from 'react-icons/fa'
 import CreateComplaintModal from '../components/modal/CreateComplaintModal'
 import ViewComplaintModal from '../components/modal/ViewComplaintModal'
 import EditComplaintModal from '../components/modal/EditComplaintModal'

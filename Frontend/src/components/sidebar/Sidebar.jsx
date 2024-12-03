@@ -105,8 +105,8 @@ export default function Sidebar () {
         <img src={sidebaricon} alt='' />
       </button>
 
-      <aside
-        className={`fixed top-0 left-0 z-[9999] h-full w-[280px] bg-white p-4 shadow-lg border border-gray-200 transition-transform duration-300 lg:transition-none lg:relative lg:transform-none ${
+     <aside
+        className={`fixed top-0 left-0 z-[9999] h-full w-[280px] bg-white p-4 shadow-lg border border-gray-200 transition-transform duration-300 lg:transition-none lg:relative lg:transform-none ${   
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } lg:w-[280px] lg:block z-[9999]`}
       >
@@ -147,7 +147,7 @@ export default function Sidebar () {
                           }`}
                         />
                       </div>
-                      <span className='lg:inline'>{item.label}</span>
+                      <span className='lg:inline  transition duration-0 group-hover:text-white'>{item.label}</span>
                       {item.subItems && (
                         <img
                           src={downangle}
@@ -183,7 +183,7 @@ export default function Sidebar () {
                           onClick={() => setActiveItem(subItem.id)}
                         >
                           <span
-                            className={`ml-2 ${
+                            className={`ml-2 transition duration-500 ${
                               location.pathname === subItem.path
                                 ? 'text-black'
                                 : 'text-[#4F4F4F] hover:text-black'

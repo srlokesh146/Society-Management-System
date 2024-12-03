@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
-import Navbar from "./Navbar";
 import editimage from "../assets/images/editimage.png";
-import { IoSearchOutline } from "react-icons/io5";
-import { IoNotifications } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
 import avatar from "../assets/images/Avatar.png";
 import { useDispatch, useSelector } from "react-redux";

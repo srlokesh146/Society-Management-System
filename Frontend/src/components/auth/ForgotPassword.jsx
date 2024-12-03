@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import passwordimage from "../../assets/images/passwordimage.png";
 import Logo from "../Logo";
 import { useNavigate } from "react-router-dom";
@@ -62,15 +62,15 @@ const ForgotPassword = () => {
             </div>
             <button
               className={`w-full  rounded-[10px] pt-[12px] pb-[12px] leading-7 text-[16px] lg:text-[18px] font-semibold ${EmailOrPhone
-                  ? "text-white" // Orange gradient when input is filled
-                  : "bg-[#F6F8FB] text-[#A7A7A7]" // Gray background when input is empty
+                  ? "text-white" 
+                  : "bg-[#F6F8FB] text-[#A7A7A7]" 
                 }`}
               onClick={handleOtp}
-              disabled={!EmailOrPhone} // Disable button if input is empty
+              disabled={!EmailOrPhone}
               style={
                 EmailOrPhone
-                  ? { background: "linear-gradient(90deg, #FE512E 0%, #F09619 100%) " } // Active state
-                  : {} // Default state
+                  ? { background: "linear-gradient(90deg, #FE512E 0%, #F09619 100%) " } 
+                  : {}
               }
             >
               Get OTP

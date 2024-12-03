@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FaEdit,
   FaPlus,
@@ -23,7 +23,7 @@ function Announcement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
   const [currentAnnouncement, setCurrentAnnouncement] = useState(null);
-  const [dropdownOpen, setDropdownOpen] = useState(null); // Track which dropdown is open
+  const [dropdownOpen, setDropdownOpen] = useState(null); 
   const [isFormFilled, setIsFormFilled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
