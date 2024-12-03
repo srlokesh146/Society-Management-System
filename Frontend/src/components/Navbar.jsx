@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { IoSearchOutline, IoNotifications } from "react-icons/io5";
+import  { useEffect, useState } from "react";
+import {  IoNotifications } from "react-icons/io5";
 import { AiOutlineClose } from "react-icons/ai";
 import { useLocation, useNavigate } from "react-router-dom";
 import Avatar from "../assets/images/Avatar.png";
-import { Navigationbar, notifications } from "../constantdata";
+import { Navigationbar } from "../constantdata";
 import NotificationImage from "../assets/images/notificationimage.png";
 import search from "../assets/images/search.svg";
 import useCurrentPath from "./useCurrentPath";
@@ -158,7 +158,7 @@ const Navbar = () => {
       {showSearch ? (
         <div className="search-icon relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-[35px] max-sm:hidden ">
           <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-0 max-sm:hidden">
-            {/* <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-0 max-sm:hidden"> */}
+           
             <input
               type="text"
               placeholder="Search..."

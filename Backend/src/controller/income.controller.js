@@ -137,23 +137,6 @@ exports.updatePaymentModeIncome = async (req, res) => {
     incomeRecord.member = incomeRecord.member + 1;
     await incomeRecord.save();
 
-
-   
-    // const residentData = await Owner.findById(residentId) || await Tenante.findById(residentId);
-    // const userName = residentData ? residentData.Full_name : "Resident";
-    // const unit = residentData?.Unit || "unknown unit";
-    // const wing = residentData?.Wing || "unknown wing";
-
-    
-    // const notification = new Notification({
-    //   title: "Income Payment Done",
-    //   name: "Annual Income",
-    //   message: `${userName} from unit ${unit}, wing ${wing} has completed an income payment of ${incomeRecord.amount} rupees.`,
-    //   users: [{ _id: residentId, model: residentData ? "Owner" : "Tenante" }] 
-    // });
-    // await notification.save();
-
-   
     const populatedIncomeRecord = await incomeRecord.populate("members.resident");
 
     return res.status(200).json({

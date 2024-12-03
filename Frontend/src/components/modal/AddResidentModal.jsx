@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import VacateModal from "./VacateModal"; // Keep this import
-import ConfirmationModal from "./ConfirmationModal";
 import { StoreResident } from "../../redux/features/ResidentSlice";
 import { useDispatch } from "react-redux";
 

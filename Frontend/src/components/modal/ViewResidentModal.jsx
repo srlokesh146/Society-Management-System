@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import { IoArrowBack, IoClose } from "react-icons/io5";
-import { FaDownload } from "react-icons/fa6";
 import { FaEye } from "react-icons/fa";
 import { GetResident } from "../../services/ownerTenantService";
 import { toast } from "react-hot-toast";

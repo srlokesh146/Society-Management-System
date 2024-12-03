@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
 import { CreateAlert } from "../../services/alertService";
 import { toast } from "react-hot-toast";

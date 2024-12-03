@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import { createVisitor } from "../../services/securityGuardService";
-import { toast } from "react-hot-toast";
+import  { useState } from "react";
 import { Loader } from "../../utils/Loader";
 
 export default function VisitorTrackingModal({ isOpen, onClose, onSave ,isLoading}) {

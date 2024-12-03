@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { visitors } from '../../constantdata'
 import VisitorTrackingModal from '../../components/modal/VisitorTrackingModal'
 import { createVisitor, GetVisitors } from '../../services/securityGuardService'
 import toast from 'react-hot-toast'
@@ -16,9 +15,7 @@ export default function VisitorTracking() {
 
 
 
-  const handleOptionChange = (value) => {
-    setSelectedOption(value);
-  };
+ 
   const openModal = () => {
     setModalOpen(true)
   }
@@ -48,21 +45,21 @@ export default function VisitorTracking() {
     }
 
     const suffix = hour >= 12 ? 'PM' : 'AM'
-    hour = hour % 12 || 12 // Convert hour to 12-hour format
+    hour = hour % 12 || 12 
     return `${hour}:${minute} ${suffix}`
   }
 
   const addVisitor = async (visitorData) => {
-    setIsLoading(true); // Start loading
+    setIsLoading(true); 
     try {
-      // Simulate API call
-      await createVisitor(visitorData); // Your API call
+     
+      await createVisitor(visitorData); 
       toast.success("Visitor added successfully!");
-      closeModal(); // Close modal on success
+      closeModal();
     } catch (error) {
-      toast.error("Failed to add visitor. Please try again.");
+      toast.error("Failed to add visitor. Please try again.",error);
     } finally {
-      setIsLoading(false); // End loading
+      setIsLoading(false); 
     }
   };
 

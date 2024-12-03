@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
-import { eventsData } from '../../../constantdata'
+import  { useEffect, useState } from 'react'
 import { GetAnnouncements } from '../../../services/announcementService'
 import toast from 'react-hot-toast'
 import { Loader } from '../../../utils/Loader'
@@ -8,7 +6,7 @@ import { Loader } from '../../../utils/Loader'
 export default function ActivityParticipate() {
   const [announcements, setAnnouncements] = useState([])
   const [isLoading, setIsLoading] = useState(false);
-  // convert time 24hr to 12 hr
+ 
   function convertTo12HourFormat(time24) {
     let [hours, minutes] = time24.split(':').map(Number)
     let period = hours >= 12 ? 'PM' : 'AM'

@@ -66,7 +66,7 @@ exports.DeleteSingleNotification = async (req, res) => {
     });
 
   } catch (error) {
-    console.error("Error deleting notification:", error); // More descriptive logging
+   
     return res.status(500).json({
       success: false,
       message: "An error occurred while deleting the notification.",
@@ -108,7 +108,7 @@ exports.DeleteAllNotification = async (req, res) => {
       message: "All notifications deleted successfully.",
     });
   } catch (error) {
-    console.error("Error deleting notifications:", error);
+  
     return res.status(500).json({
       success: false,
       message: "An error occurred while deleting notifications.",

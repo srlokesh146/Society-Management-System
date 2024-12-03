@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { FaArrowAltCircleDown, FaArrowLeft, FaEye } from "react-icons/fa";
+import  { useEffect, useState } from "react";
+import { FaArrowAltCircleDown, FaEye } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { DownloadInvoice, GetEventsParticipants } from "../../services/incomeService";
-import axios from "axios";
 import { Loader } from "../../utils/Loader";
 
 function OtherInvoices() {

@@ -1,4 +1,4 @@
-import React from "react";
+
 
 const Member = ({ member }) => {
   console.log(member);

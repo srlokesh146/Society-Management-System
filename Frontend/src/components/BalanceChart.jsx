@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { Line } from 'react-chartjs-2'
-import { FaChevronDown } from 'react-icons/fa'
 import downicon from '../assets/images/downicon.svg'
 import {
   Chart as ChartJS,

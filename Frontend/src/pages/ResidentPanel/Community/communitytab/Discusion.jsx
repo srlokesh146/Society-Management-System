@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Avatar from "../../../../assets/images/avatar.png";
 import { socket } from "../../../../components/Socket";
 import {
@@ -32,7 +32,7 @@ export default function Discussion() {
     try {
       const response = await groupMessageHistory();
       setMessages(response.data.messages);
-    } catch (error) {}
+    } catch (error) {error}
   };
 
   useEffect(() => {

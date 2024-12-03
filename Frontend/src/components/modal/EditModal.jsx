@@ -1,5 +1,5 @@
 // EditModal.js
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 
 const EditModal = ({ isOpen, onClose, complaint, onSave }) => {
   const [formData, setFormData] = useState({

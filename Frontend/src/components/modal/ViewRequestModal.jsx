@@ -1,4 +1,4 @@
-import React from "react";
+
 import { IoMdClose } from "react-icons/io";
 
 const ViewRequestModal = ({ isOpen, onClose, Request }) => {
