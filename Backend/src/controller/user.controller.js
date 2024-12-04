@@ -129,6 +129,7 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { EmailOrPhone, password } = req.body;
+    console.log(req.body);
     
     
     
@@ -174,7 +175,7 @@ exports.login = async (req, res) => {
     }
 
     const isPasswordValid = await bcrypt.compare(password, account.password);
-    console.log(isPasswordValid);
+    
     
 
     if (!isPasswordValid) {
@@ -194,6 +195,7 @@ exports.login = async (req, res) => {
       user: { ...account._doc, password: "" },
     });
   } catch (error) {
+   
    
     return res.status(500).json({
       success: false,
@@ -271,7 +273,15 @@ exports.SendOtp = async (req, res) => {
         message: "Current OTP is still valid. Please wait for it to expire.",
       });
     }
-
+    
+    const formatPhoneNumber = (phone) => {
+      if (!phone.startsWith('+')) {
+      
+        return `+91${phone}`;
+      }
+      return phone;
+    };
+    
     const otpExpiration = new Date(currentTime.getTime() + OTP_EXPIRATION_TIME);
     account.otp = otp;
     account.otpExpiration = otpExpiration;
@@ -290,10 +300,18 @@ exports.SendOtp = async (req, res) => {
         message: "OTP sent successfully to email",
       });
     } else {
+      const phoneNumber = account.Phone || account.MailOrPhone;
+      if (!phoneNumber) {
+        return res.status(400).json({
+          success: false,
+          message: "Phone number not available for this account.",
+        });
+      }
+      const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
       // Send OTP via SMS
       await twilioClient.messages.create({
         body: `Your forgot password OTP is ${otp}`,
-        to: EmailOrPhone,
+        to: formattedPhoneNumber,
         from: process.env.TWILIO_PHONE_NUMBER,
       });
       return res.status(200).json({
@@ -302,6 +320,7 @@ exports.SendOtp = async (req, res) => {
       });
     }
   } catch (error) {
+ 
   
     return res.status(500).json({
       success: false,
@@ -365,15 +384,12 @@ exports.verifyOtp = async (req, res) => {
 };
 exports.ResetPassword = async (req, res) => {
   try {
-    const { email, new_pass, confirm_pass } = req.body;
+    const { EmailOrPhone, new_pass, confirm_pass } = req.body;
 
-    if (!email || !new_pass || !confirm_pass) {
-      return res.status(400).json({
-        success: false,
-        message: "Email, new password, and confirm password are required",
-      });
-    }
-
+    
+     console.log(req.body);
+     
+   
     if (new_pass.length < 6 || confirm_pass.length < 6) {
       return res.status(400).json({
         success: false,
@@ -381,6 +397,7 @@ exports.ResetPassword = async (req, res) => {
       });
     }
 
+    
     if (new_pass !== confirm_pass) {
       return res.status(400).json({
         success: false,
@@ -388,30 +405,45 @@ exports.ResetPassword = async (req, res) => {
       });
     }
 
+   
     const account =
-      (await User.findOne({ Email: email })) ||
-      (await Guard.findOne({ MailOrPhone: email })) ||
-      (await Owner.findOne({ Email_address: email })) ||
-      (await Tenante.findOne({ Email_address: email }));
+      (await User.findOne({
+        $or: [{ Email: EmailOrPhone }, { Phone: EmailOrPhone }],
+      })) ||
+      (await Guard.findOne({
+        $or: [{ MailOrPhone: EmailOrPhone }, { MailOrPhone: EmailOrPhone }],
+      })) ||
+      (await Owner.findOne({
+        $or: [{ Email_address: EmailOrPhone }, { Phone: EmailOrPhone }],
+      })) ||
+      (await Tenante.findOne({
+        $or: [{ Email_address: EmailOrPhone }, { Phone: EmailOrPhone }],
+      }));
 
     if (!account) {
       return res.status(404).json({
         success: false,
-        message: "User  not found",
+        message: "User not found",
       });
     }
 
+    
     const hashedPassword = await hash(new_pass);
 
+    
     account.password = hashedPassword;
     await account.save();
+    console.log(account);
+    
 
     return res.status(200).json({
       success: true,
       message: "Password changed successfully",
     });
   } catch (error) {
-    
+   console.log(error);
+   
+
     return res.status(500).json({
       success: false,
       message: "Server error",

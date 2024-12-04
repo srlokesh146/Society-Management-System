@@ -47,31 +47,23 @@ export default function AccessForums() {
   const localVideoRef = useRef(null);
   const remoteVideoRef = useRef(null);
   const peerConnection = useRef(null);
-  // Handle Call Start
+  // **Start Video Call**
   const handleStartCall = async () => {
     if (!receiver) {
       toast.error("Please select a user to call.");
       return;
     }
 
-    if (receiver._id === userId) {
-      toast.error("You cannot call yourself!");
-      return;
-    }
-
     try {
-      // Get user media for local stream
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true,
       });
+
       setLocalStream(stream);
       if (localVideoRef.current) localVideoRef.current.srcObject = stream;
 
-      // Set up peer connection
       peerConnection.current = new RTCPeerConnection(peerConnectionConfig);
-
-      // Add tracks to peer connection
       stream.getTracks().forEach((track) => peerConnection.current.addTrack(track, stream));
 
       peerConnection.current.onicecandidate = (event) => {
@@ -84,18 +76,13 @@ export default function AccessForums() {
       };
 
       peerConnection.current.ontrack = (event) => {
-        // Set remote stream when it arrives
         setRemoteStream(event.streams[0]);
-        if (remoteVideoRef.current) {
-          remoteVideoRef.current.srcObject = event.streams[0];
-        }
+        if (remoteVideoRef.current) remoteVideoRef.current.srcObject = event.streams[0];
       };
 
-      // Create offer and set local description
       const offer = await peerConnection.current.createOffer();
       await peerConnection.current.setLocalDescription(offer);
 
-      // Send offer to receiver
       socket.emit("video-offer", {
         senderId: userId,
         receiverId: receiver._id,
@@ -104,26 +91,23 @@ export default function AccessForums() {
 
       setIsInCall(true);
     } catch (error) {
-      console.error("Failed to start video call:", error);
-      toast.error("Failed to start video call: " + error.message);
+      console.error("Error starting call:", error);
+      toast.error("Failed to start the call. Please check your camera and microphone.");
     }
   };
 
-  // Handle Incoming Call
+  // **Receive Call**
   const handleReceiveCall = async ({ senderId, sdp }) => {
     try {
-      // Get user media for local stream
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true,
       });
+
       setLocalStream(stream);
       if (localVideoRef.current) localVideoRef.current.srcObject = stream;
 
-      // Set up peer connection
       peerConnection.current = new RTCPeerConnection(peerConnectionConfig);
-
-      // Add tracks to peer connection
       stream.getTracks().forEach((track) => peerConnection.current.addTrack(track, stream));
 
       peerConnection.current.onicecandidate = (event) => {
@@ -136,17 +120,12 @@ export default function AccessForums() {
       };
 
       peerConnection.current.ontrack = (event) => {
-        // Set remote stream when it arrives
         setRemoteStream(event.streams[0]);
-        if (remoteVideoRef.current) {
-          remoteVideoRef.current.srcObject = event.streams[0];
-        }
+        if (remoteVideoRef.current) remoteVideoRef.current.srcObject = event.streams[0];
       };
 
-      // Set remote description with incoming SDP
       await peerConnection.current.setRemoteDescription(new RTCSessionDescription(sdp));
 
-      // Create an answer and send it back to the sender
       const answer = await peerConnection.current.createAnswer();
       await peerConnection.current.setLocalDescription(answer);
 
@@ -158,41 +137,39 @@ export default function AccessForums() {
 
       setIsInCall(true);
     } catch (error) {
-      toast.error("Failed to answer video call: " + error.message);
+      console.error("Error receiving call:", error);
+      toast.error("Failed to answer the call.");
     }
   };
 
-  // Handle ICE Candidate
+  // **Handle ICE Candidates**
   const handleICECandidate = ({ candidate }) => {
-    if (peerConnection.current) {
+    if (peerConnection.current && candidate) {
       peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate));
     }
   };
 
-  // Handle End Call
+  // **End Call**
   const handleEndCall = () => {
     if (peerConnection.current) {
       peerConnection.current.close();
       peerConnection.current = null;
     }
-    if (localStream) {
-      localStream.getTracks().forEach((track) => track.stop());
-    }
-    if (remoteStream) {
-      setRemoteStream(null);
-      if (remoteVideoRef.current) {
-        remoteVideoRef.current.srcObject = null;
-      }
-    }
-    if (localVideoRef.current) {
-      localVideoRef.current.srcObject = null;
-    }
+
+    if (localStream) localStream.getTracks().forEach((track) => track.stop());
+    if (remoteStream) setRemoteStream(null);
+
     setLocalStream(null);
     setRemoteStream(null);
     setIsInCall(false);
+
+    if (localVideoRef.current) localVideoRef.current.srcObject = null;
+    if (remoteVideoRef.current) remoteVideoRef.current.srcObject = null;
+
+    toast.success("Call ended successfully.");
   };
 
-  // Handle Incoming Socket Events
+  // **Handle Socket Events**
   useEffect(() => {
     socket.on("video-offer", handleReceiveCall);
     socket.on("video-answer", ({ sdp }) => {
@@ -445,16 +422,14 @@ export default function AccessForums() {
             >
               <div
 
-                className={`flex flex-col  ${
-                  chat.senderId !== userId ? "justify-end" : "justify-start"
-                } my-2`}
+                className={`flex flex-col  ${chat.senderId !== userId ? "justify-end" : "justify-start"
+                  } my-2`}
               >
                 <div
-                  className={`max-w-xs p-2 rounded-lg text-sm relative ${
-                    chat.senderId !== userId
+                  className={`max-w-xs p-2 rounded-lg text-sm relative ${chat.senderId !== userId
                       ? "bg-gray-200 text-black"
                       : "bg-blue-500 text-white"
-                  }`}
+                    }`}
 
                 >
                   {chat?.media && (
