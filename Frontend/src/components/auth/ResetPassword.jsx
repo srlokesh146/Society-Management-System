@@ -23,6 +23,10 @@ const ResetPassword = () => {
 
   const handleResetPassword = async () => {
     const email = localStorage.getItem("EmailOrPhone");
+    if (!email) {
+      toast.error("Email or phone number is missing. Please try again.");
+      return;
+    }
     try {
       const response = await resetPassword({ new_pass, confirm_pass, email });
       toast.success(response.data.message);
