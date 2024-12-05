@@ -5,9 +5,13 @@ router.post("/addannouncement",auth,IsAdmin,announcementController.CreateAnnounc
 router.get("/viewannouncment",announcementController.GetAnnouncement)
 //get activity announcement 
 router.get("/acitivity/getannouncement",announcementController.GetActivityAnnouncements)
+//get Event announcement 
+router.get("/event/getannouncement",announcementController.GetEventAnnouncements)
 router.get("/:id",announcementController.GetByIdAnnouncement)
 router.delete("/:id",auth,IsAdmin,announcementController.DeleteAnnouncement)
 router.patch("/:id",auth,IsAdmin,announcementController.UpdateAnnouncement)
 //filter data
 router.get("/an/getannouncment",announcementController.FilterAnnouncement)
+//accept announcement
+router.post("/accept-announcement", auth, announcementController.AcceptAnnouncement);
 module.exports=router;
