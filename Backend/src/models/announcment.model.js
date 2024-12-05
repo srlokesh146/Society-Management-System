@@ -23,7 +23,7 @@ const announcement =new Schema({
         participent: {
           type: mongoose.SchemaTypes.ObjectId,
           refPath: 'members.residentType', 
-          required: true,
+          
         },
         residentType: {
           type: String,

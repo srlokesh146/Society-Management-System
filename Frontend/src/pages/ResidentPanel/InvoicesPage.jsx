@@ -80,16 +80,13 @@ function InvoicesPage() {
         <table className="min-w-full table-auto">
           <thead>
             <tr className="bg-indigo-50 text-center">
-              <th className="px-4 py-3 font-medium text-left">Invoice ID</th>
-              <th className="px-4 py-2 font-medium text-left">Owner Name</th>
-              <th className="px-4 py-2 font-medium text-left">Bill Date</th>
-              <th className="px-4 py-2 font-medium text-left">Payment Date</th>
-              <th className="px-4 py-2 font-medium text-left">Phone Number</th>
-              <th className="px-4 py-2 font-medium">Email</th>
-              <th className="px-4 py-2 font-medium text-right">
+              <th className="px-4 py-3 font-medium text-center">Invoice ID</th>
+              <th className="px-4 py-2 font-medium text-center">Bill Date</th>
+              <th className="px-4 py-2 font-medium text-center">Payment Date</th>
+              <th className="px-4 py-2 font-medium text-center">
                 Maintenance Amount
               </th>
-              <th className="px-4 py-2 font-medium text-right">
+              <th className="px-4 py-2 font-medium text-center">
                 Pending Amount
               </th>
               <th className="px-4 py-2 font-medium text-center">Action</th>
@@ -109,7 +106,7 @@ function InvoicesPage() {
                 v.residentList.map((r) => (
                   <tr key={index} className="border-b bg-white">
                     <td className="px-6 py-6 text-center">{1232}</td>
-                    <td className="px-4 py-2 text-center">{r.resident.Full_name}</td>
+                   
                     <td className="px-4 py-2 text-center">
                       {new Date(v.dueDate).toLocaleDateString("en-GB", {
                         day: "2-digit",
@@ -118,8 +115,7 @@ function InvoicesPage() {
                       })}
                     </td>
                     <td className="px-4 py-2 text-center">11/11/2024</td>
-                    <td className="px-4 py-2 text-center">{r.resident.Phone_number}</td>
-                    <td className="px-4 py-2 text-center">{r.resident.Email_address}</td>
+                    
                     <td className="px-4 py-2 text-green-600 text-center">
                       ₹ {v.maintenanceAmount}
                     </td>

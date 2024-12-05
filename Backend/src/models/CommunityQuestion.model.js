@@ -1,9 +1,6 @@
 const { Schema, model } = require("mongoose");
 
 const questionschema = new Schema({
-
-   
-   
     question: {
         type: String,
         required: true
@@ -14,9 +11,6 @@ const questionschema = new Schema({
             
         },
     }],
-    createdBy: {
-        type: String
-    },
     downVote:{
         type:Number,
         default:0
@@ -24,7 +18,10 @@ const questionschema = new Schema({
     upVote:{
         type:Number,
         default:0
-    }
+    },
+    createdBy: {
+        type: String
+    },
 
 
 }, { timestamps: true })

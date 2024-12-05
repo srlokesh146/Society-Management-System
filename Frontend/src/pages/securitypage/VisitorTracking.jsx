@@ -84,12 +84,12 @@ export default function VisitorTracking () {
             <div className='relative'>
               <button
                 onClick={handleToggleDropdown}
-                className='border border-gray-300 rounded-lg ps-[14px] py-1 text-[] flex items-center w-[120px] text-[15px] h-[44px] capitalize font-semibold'
+                className='border border-gray-300 rounded-lg ps-[14px] py-1 flex justify-between items-center w-[120px] text-[15px] h-[44px] capitalize font-semibold'
               >
                 {selectedOption}{' '}
                 <img
                   src={downicon}
-                  className='ml-[9px] text-[12px] text-[#202224] '
+                  className='mr-[10px] text-[12px] text-[#202224] '
                 />
               </button>
               {isOpenDropdown && (

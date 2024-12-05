@@ -165,10 +165,10 @@ const BalanceChart = () => {
         <div className='relative'>
           <button
             onClick={handleToggleDropdown}
-            className='border border-gray-300 rounded-lg ps-[14px] py-1 text-[] flex items-center w-[120px] text-[15px] h-[44px] capitalize font-semibold'
+            className='border border-gray-300 rounded-lg ps-[14px] py-1 text-[] flex justify-between items-center w-[120px] text-[15px] h-[44px] capitalize font-semibold'
           >
             {selectedPeriod}{' '}
-            <img src={downicon} className='ml-[9px] text-[12px] text-[#202224] ' />
+            <img src={downicon} className='mr-[10px] text-[12px] text-[#202224] ' />
           </button>
           {isOpen && (
             <div className='absolute z-10 left-[-39px] bg-white rounded-lg shadow-[0px_0px_40px_0px_#0000000D] mt-1 w-[160px] py-[15px]'>
