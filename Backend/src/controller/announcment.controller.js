@@ -1,34 +1,72 @@
 const Announcement = require("../models/announcment.model");
+const Notification = require("../models/notification.schema");
+const Owner = require("../models/Owener.model");
+const Guard = require("../models/SecurityGuard.model");
+const Tenante = require("../models/Tenent.model");
 
 //create announcement
 exports.CreateAnnouncement= async (req,res)=>{
     try {
-        const {title,description,date,time}=req.body;
-        if(!title || !description){
+        const {type,title,description,date,time}=req.body;
+        if(!type || !title || !description){
             return res.status(400).json({
                 success:true,
                 message:"Fields are required"
             })
         }
         const announcement = new Announcement({
+            type,
             title,
             description,
             date,
             time
         })
+        
+        const guardData=await Guard.find();
+        const ownerData = await Owner.find();
+        const tenantData = await Tenante.find();
+    
         await announcement.save();
+
+         //add notification
+        
+       const ownerUsers = ownerData.map(owner => ({ _id: owner._id, model: "Owner" }));
+    const tenantUsers = tenantData.map(tenant => ({ _id: tenant._id, model: "Tenante" }));
+    const securityuser = guardData.map(guard => ({ _id: guard._id, model: "SecurityGuard" }));
+
+   
+    const allUsers = [
+      ...ownerUsers,
+      ...tenantUsers,
+      ...securityuser
+    ];
+
+     
+    const notification = new Notification({
+      title: `New Announcment${type}`,
+      name: title,
+      message: description,
+      othercontent:announcement._id,
+      users:allUsers
+    });
+
+
+    await notification.save();
     
         if(!announcement){
             return res.status(400).json({
                 success:false,
-                message:"Something went wrong"
+                message:"Something went wrong",
+               
             })
         }
         return res.status(200).json({
             success:true,
-            message:"Announcement Successfully Added"
+            message:"Announcement Successfully Added",
+            notification
         })
     } catch (error) {
+       console.log(error);
        
         return res.status(500).json({
              success: false,
@@ -59,6 +97,36 @@ exports.GetAnnouncement = async(req,res)=>{
     }
 
 }
+//get activity announcement
+exports.GetActivityAnnouncements = async (req, res) => {
+    try {
+     
+      const activities = await Announcement.find({ type: "Activity" });
+      
+      
+      if (!activities || activities.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "No activity announcements found",
+        });
+      }
+  
+    
+      return res.status(200).json({
+        success: true,
+        activities,
+      });
+    } catch (error) {
+      console.error("Error fetching activity announcements:", error);
+  
+     
+      return res.status(500).json({
+        success: false,
+        message: "Error fetching activity announcements",
+      });
+    }
+  };
+  
 //filter announcement 
 exports.FilterAnnouncement = async (req, res) => {
     try {

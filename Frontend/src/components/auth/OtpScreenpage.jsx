@@ -41,7 +41,8 @@ const OtpScreenpage = () => {
   const handleOtp = async () => {
     try {
       const OTP = parseInt(otp.join(""));
-      const EmailOrPhone = localStorage.getItem("EmailOrPhone");
+      const storedValue  = localStorage.getItem("EmailOrPhone");
+      const EmailOrPhone = JSON.parse(storedValue);
       const otpDetail = {
         otp: OTP,
         EmailOrPhone: EmailOrPhone,
@@ -58,7 +59,8 @@ const OtpScreenpage = () => {
 
   const resendOtp = async () => {
     try {
-      const EmailOrPhone = localStorage.getItem("EmailOrPhone");
+      const storedValue  = localStorage.getItem("EmailOrPhone");
+      const EmailOrPhone = JSON.parse(storedValue);
       const response = await sendOtp({ EmailOrPhone });
       toast.success(response.data.message);
       setCounter(30);
