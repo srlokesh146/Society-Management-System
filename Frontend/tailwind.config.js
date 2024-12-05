@@ -7,6 +7,9 @@ module.exports = {
       colors: {
         primary: "#FF5733",
       },
+      rotate: {
+        '17': '17deg',
+      },
       backgroundImage: {
         'custom-gradient': 'linear-gradient(90deg, #FE512E 0%, #F09619 100%)',
       },

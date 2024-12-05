@@ -26,7 +26,6 @@ export default function Discussion() {
 
   const handlePostAnswer = () => {
     if (userAnswer.trim()) {
-      setAnswers([...answers, userAnswer]);
       setUserAnswer("");
     }
   };
@@ -143,6 +142,7 @@ export default function Discussion() {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar (Chats List) */}
+
       <div className="w-1/4 max-xl:w-2/4 max-2xl:w-2/4 bg-white shadow-lg rounded-tl-lg flex flex-col p-6">
         <div>
           <h1 className="text-xl font-semibold text-gray-800">Chat</h1>
@@ -219,14 +219,6 @@ export default function Discussion() {
         </div>
 
         {
-          // {/* Chat messages */}
-          // <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-4">
-          //   {messages.map((m, i) => (
-          //     <div
-          //       key={i}
-          //       className={`p-4 ${
-          //         m.senderId == _id ? "bg-gray-200" : "bg-white"
-          //       } rounded-lg shadow`}
           isAskingQuestion && (
             <div className="flex-1 p-6 bg-[#F4F4F4] space-y-4">
               <div className="bg-indigo-50 rounded-xl border border-blue-500 p-4">
