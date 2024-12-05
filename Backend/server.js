@@ -10,12 +10,9 @@ const port = constant.PORT;
 require("./src/config/db");
 const cors = require("cors");
 const cron = require("node-cron");
-
+const routes=require("./src/utils/index.js")
 // socket io connections
-const http = require("http");
-const server = http.createServer(app);
-const { Server } = require("socket.io");
-
+const PenaltyController = require("./src/controller/maintanance.controller.js");
 // for all origin
 const corsOptions = {
   origin: function (origin, callback) {
@@ -25,22 +22,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-const SocietyRoutes = require("./src/routes/society.route");
-const UserRoutes = require("./src/routes/user.route");
-const NumberRoutes = require("./src/routes/number.route.js");
-const ResidentRoute = require("./src/routes/resident.route.js");
-const ComplaintRoutes = require("./src/routes/ComplaintTracking.route.js");
-const SecurityRoutes = require("./src/routes/security.route.js");
-const FacilityRoute = require("./src/routes/facility.route.js");
-const AnnouncementRoute = require("./src/routes/announcement.route.js");
-const FinancialRoutes = require("./src/routes/Financial.route.js");
-const VisitorRoutes = require("./src/routes/visitor.route.js");
-const AlertRoutes = require("./src/routes/alert.route.js");
-const chatRoute = require("./src/routes/chat.route.js");
-const PenaltyController = require("./src/controller/maintanance.controller.js");
-const PollRoutes = require("./src/routes/poll.route.js");
-const NotificationRoute = require("./src/routes/notification.route.js");
-const QuestionRoute=require("./src/routes/CommunityQuestion.route.js")
+
 
 cron.schedule("0 0 * * * *", async () => {
   try {
@@ -53,117 +35,41 @@ cron.schedule("0 0 * * * *", async () => {
 });
 
 //user registration and login schema
-app.use("/api/v1/auth", UserRoutes);
+app.use("/api/v1/auth", routes.UserRoutes);
 //create society api
-app.use("/api/v1/society", SocietyRoutes);
+app.use("/api/v1/society", routes.SocietyRoutes);
 //create Important Number
-app.use("/api/v2/number", NumberRoutes);
+app.use("/api/v2/number", routes.NumberRoutes);
 //resident apis
-app.use("/api/v2/resident", ResidentRoute);
+app.use("/api/v2/resident", routes.ResidentRoute);
 //complaint apis
-app.use("/api/v2/complaint", ComplaintRoutes);
+app.use("/api/v2/complaint", routes.ComplaintRoutes);
 //security apis
-app.use("/api/v2/security", SecurityRoutes);
+app.use("/api/v2/security", routes.SecurityRoutes);
 //facility apis
-app.use("/api/v2/facility", FacilityRoute);
+app.use("/api/v2/facility", routes.FacilityRoute);
 //Announcement apis
-app.use("/api/v2/announcement", AnnouncementRoute);
+app.use("/api/v2/announcement", routes.AnnouncementRoute);
 //financial apis
-app.use("/api/v2/financial", FinancialRoutes);
+app.use("/api/v2/financial", routes.FinancialRoutes);
 //visitor api
-app.use("/api/v2/visitor", VisitorRoutes);
+app.use("/api/v2/visitor", routes.VisitorRoutes);
 //alert api
-app.use("/api/v2/alert", AlertRoutes);
+app.use("/api/v2/alert", routes.AlertRoutes);
 //chat api
-app.use("/api/v2/chat", chatRoute);
+app.use("/api/v2/chat", routes.ChatRoute);
 //poll apis
-app.use("/api/v2/poll", PollRoutes);
+app.use("/api/v2/poll", routes.PollRoutes);
 //notification apis
-app.use("/api/v2/notication", NotificationRoute);
+app.use("/api/v2/notication", routes.NotificationRoute);
 //community question
-app.use("/api/v2/question",QuestionRoute)
+app.use("/api/v2/question",routes.QuestionRoute)
 
-app.get("/", (req, res) => res.send("Hello World!"));
+// socket io
+const http = require("http");
+const server = http.createServer(app);
+require("./src/utils/socketIo.js")(server); // Import Socket.IO logic
 
 server.listen(port, () =>
   console.log(`Example app listening on port ${port}!`)
 );
-
-// socket io
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-    credentials: true,
-  },
-});
-
-io.on("connection", (socket) => {
-  // connect users
-  socket.on("join", ({ userId, receiverId }) => {
-    socket.userId = userId;
-    socket.receiverId = receiverId;
-  });
-
-  // send message
-  socket.on("sendMessage", ({ userId, receiverId, message, media }) => {
-    // add media
-    const newMessage = { userId, receiverId, message, media };
-
-    io.to(socket.id).emit("sendMessage", newMessage);
-    const receiverSocket = Array.from(io.sockets.sockets.values()).find(
-      (s) => s.userId === receiverId
-    );
-
-    if (receiverSocket) {
-      console.log(newMessage);
-      receiverSocket.emit("sendMessage", newMessage);
-    }
-  });
-  
-  // Listen group messages
-  socket.on("group-message", (data) => {
-    io.emit("receive_message", data);
-  });
-
-  socket.on("video-offer", ({ senderId, receiverId, sdp }) => {
-    if (senderId === receiverId) {
-      socket.emit("error", { message: "You cannot call yourself!" });
-      return;
-    }
-  
-    const receiverSocket = Array.from(io.sockets.sockets.values()).find(
-      (s) => s.userId === receiverId
-    );
-  
-    if (receiverSocket) {
-      receiverSocket.emit("video-offer", { senderId, sdp });
-    }
-  });
-  
-  // Video Call - Answer
-  socket.on("video-answer", ({ senderId, sdp }) => {
-    const senderSocket = Array.from(io.sockets.sockets.values()).find(
-      (s) => s.userId === senderId
-    );
-  
-    if (senderSocket) {
-      senderSocket.emit("video-answer", { sdp });
-    }
-  });
-  
-  // Video Call - ICE Candidate
-  socket.on("ice-candidate", ({ targetId, candidate }) => {
-    const targetSocket = Array.from(io.sockets.sockets.values()).find(
-      (s) => s.userId === targetId
-    );
-  
-    if (targetSocket) {
-      targetSocket.emit("ice-candidate", { candidate });
-    }
-  });
-
-  io.on("disconnect", () => {
-    console.log("user disconnect!");
-  });
-});
