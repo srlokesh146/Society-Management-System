@@ -89,7 +89,7 @@ exports.DeleteAllNotification = async (req, res) => {
       });
     }
 
-    // Filter users and prepare bulk operations
+    
     const bulkOperations = notifications.map((notification) => {
       notification.users = notification.users.filter(
         (user) => user._id.toString() !== loggedInUserId.toString()
@@ -100,7 +100,7 @@ exports.DeleteAllNotification = async (req, res) => {
         : { updateOne: { filter: { _id: notification._id }, update: { users: notification.users } } };
     });
 
-    // Execute bulk operations
+    
     await Notification.bulkWrite(bulkOperations);
 
     return res.status(200).json({
