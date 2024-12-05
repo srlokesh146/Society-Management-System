@@ -39,8 +39,8 @@ const incomeschema= new Schema({
         },
         paymentMode: {
           type: String,
-          enum: ["online", "cash"],
-          default: "cash",
+          enum: ["online", "cash","none"],
+          default: "none",
         },
        
     }],

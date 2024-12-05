@@ -69,6 +69,10 @@ router.post("/applypenlty", MaintenanceController.applyPenalty);
 router.get("/donemaintannace", MaintenanceController.GetMaintananceDone);
 //generate pdf maintanance
 router.post("/main/generate-pdf",MaintenanceController.GeneratePdf)
+
+// Admin approves cash payment
+router.put('/maintenance/:maintenanceId/approveCashPayment/:residentId', auth,MaintenanceController.approveOrRejectPayment);
+
 //add income
 router.post("/addincome", FinancialController.CreateIncome);
 //get income
