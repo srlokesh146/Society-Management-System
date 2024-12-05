@@ -9,6 +9,13 @@ const Tenante = require("../models/Tenent.model");
 const Notification = require("../models/notification.schema");
 const PDFDocument = require('pdfkit');
 const path = require('path');
+const Razorpay = require("razorpay");
+const crypto = require("crypto");
+const constant = require("../config/constant");
+const razorpay = new Razorpay({
+  key_id: constant.key_id,
+  key_secret:constant.key_secret,
+});
 //add income
 exports.CreateIncome = async (req, res) => {
   try {
@@ -105,11 +112,12 @@ exports.GetIncome = async (req, res) => {
 };
 ////update and get payment
 exports.updatePaymentModeIncome = async (req, res) => {
+  const { incomeId } = req.params;
+  const { paymentMode, razorpayPaymentId, razorpayOrderId, razorpaySignature } = req.body;
+  const residentId = req.user.id;
 
-  const { incomeId } = req.params; 
-  const { paymentMode } = req.body; 
-  const residentId = req.user.id; 
   try {
+    // Find the income record
     const incomeRecord = await Income.findOne({
       _id: incomeId,
       "members.resident": residentId,
@@ -122,6 +130,31 @@ exports.updatePaymentModeIncome = async (req, res) => {
       });
     }
 
+    // If Razorpay payment mode, verify the payment
+    if (paymentMode === "Razorpay") {
+      if (!razorpayPaymentId || !razorpayOrderId || !razorpaySignature) {
+        return res.status(400).json({
+          success: false,
+          message: "Razorpay payment details are required",
+        });
+      }
+
+      // Verify Razorpay payment signature
+      const generatedSignature = crypto
+        .createHmac("sha256", constant.key_secret)
+        .update(`${razorpayOrderId}|${razorpayPaymentId}`)
+        .digest("hex");
+      console.log(generatedSignature);
+      
+      if (generatedSignature !== razorpaySignature) {
+        return res.status(400).json({
+          success: false,
+          message: "Payment verification failed",
+        });
+      }
+    }
+
+    // Update the member's payment details
     const updatedMembers = incomeRecord.members.map((member) => {
       if (member.resident.toString() === residentId) {
         return {
@@ -134,18 +167,19 @@ exports.updatePaymentModeIncome = async (req, res) => {
     });
 
     incomeRecord.members = updatedMembers;
-    incomeRecord.member = incomeRecord.member + 1;
+    incomeRecord.member = incomeRecord.member + 1; 
     await incomeRecord.save();
 
+    // Populate the updated income record
     const populatedIncomeRecord = await incomeRecord.populate("members.resident");
 
     return res.status(200).json({
       success: true,
-      message: "Payment  status  successfully",
+      message: "Payment status updated successfully",
       updatedIncome: populatedIncomeRecord,
     });
   } catch (error) {
-    
+    console.error("Error in updating payment mode:", error);
     return res.status(500).json({
       success: false,
       message: "Error updating payment mode",

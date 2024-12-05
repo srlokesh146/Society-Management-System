@@ -3,6 +3,8 @@ const { auth, IsAdmin } = require("../middleware/auth")
 const router=require("express").Router()
 router.post("/addannouncement",auth,IsAdmin,announcementController.CreateAnnouncement)
 router.get("/viewannouncment",announcementController.GetAnnouncement)
+//get activity announcement 
+router.get("/acitivity/getannouncement",announcementController.GetActivityAnnouncements)
 router.get("/:id",announcementController.GetByIdAnnouncement)
 router.delete("/:id",auth,IsAdmin,announcementController.DeleteAnnouncement)
 router.patch("/:id",auth,IsAdmin,announcementController.UpdateAnnouncement)

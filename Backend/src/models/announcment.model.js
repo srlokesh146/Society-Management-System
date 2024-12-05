@@ -1,6 +1,11 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, default: mongoose } = require("mongoose");
 
 const announcement =new Schema({
+
+   type:{
+        type:String,
+        enum:["Event","Activity"]
+   },
     title:{
         type:String,
         required:true
@@ -14,6 +19,17 @@ const announcement =new Schema({
         required:true,
         default:Date.now()
     },
+    members:[{
+        participent: {
+          type: mongoose.SchemaTypes.ObjectId,
+          refPath: 'members.residentType', 
+          required: true,
+        },
+        residentType: {
+          type: String,
+          enum: ["Owner", "Tenante"], 
+        },
+    }],
     time: {
     type: String,
     default: function() {

@@ -251,12 +251,12 @@ exports.SendOtp = async (req, res) => {
     }
     if (!account) {
       account = await Owner.findOne({
-        $or: [{ Email_address: EmailOrPhone }, { Phone: EmailOrPhone }],
+        $or: [{ Email_address: EmailOrPhone }, { Phone_number: EmailOrPhone }],
       });
     }
     if (!account) {
       account = await Tenante.findOne({
-        $or: [{ Email_address: EmailOrPhone }, { Phone: EmailOrPhone }],
+        $or: [{ Email_address: EmailOrPhone }, { Phone_number: EmailOrPhone }],
       });
     }
 
@@ -300,7 +300,7 @@ exports.SendOtp = async (req, res) => {
         message: "OTP sent successfully to email",
       });
     } else {
-      const phoneNumber = account.Phone || account.MailOrPhone;
+      const phoneNumber = account.Phone || account.MailOrPhone || account.Phone_number;
       if (!phoneNumber) {
         return res.status(400).json({
           success: false,
@@ -386,10 +386,9 @@ exports.ResetPassword = async (req, res) => {
   try {
     const { EmailOrPhone, new_pass, confirm_pass } = req.body;
 
-    
-     console.log(req.body);
-     
-   
+    console.log("Reset Password Request:", req.body);
+
+    // Validate password length
     if (new_pass.length < 6 || confirm_pass.length < 6) {
       return res.status(400).json({
         success: false,
@@ -397,7 +396,7 @@ exports.ResetPassword = async (req, res) => {
       });
     }
 
-    
+    // Validate matching passwords
     if (new_pass !== confirm_pass) {
       return res.status(400).json({
         success: false,
@@ -405,7 +404,7 @@ exports.ResetPassword = async (req, res) => {
       });
     }
 
-   
+    // Find user by Email or Phone
     const account =
       (await User.findOne({
         $or: [{ Email: EmailOrPhone }, { Phone: EmailOrPhone }],
@@ -414,42 +413,40 @@ exports.ResetPassword = async (req, res) => {
         $or: [{ MailOrPhone: EmailOrPhone }, { MailOrPhone: EmailOrPhone }],
       })) ||
       (await Owner.findOne({
-        $or: [{ Email_address: EmailOrPhone }, { Phone: EmailOrPhone }],
+        $or: [{ Email_address: EmailOrPhone }, { Phone_number: EmailOrPhone }],
       })) ||
       (await Tenante.findOne({
-        $or: [{ Email_address: EmailOrPhone }, { Phone: EmailOrPhone }],
+        $or: [{ Email_address: EmailOrPhone }, { Phone_number: EmailOrPhone }],
       }));
 
     if (!account) {
+      console.log("No account found for:", EmailOrPhone);
       return res.status(404).json({
         success: false,
         message: "User not found",
       });
     }
 
-    
+    // Hash new password
     const hashedPassword = await hash(new_pass);
 
-    
+    // Update password and save
     account.password = hashedPassword;
     await account.save();
-    console.log(account);
-    
 
     return res.status(200).json({
       success: true,
       message: "Password changed successfully",
     });
   } catch (error) {
-   console.log(error);
-   
-
+    console.error("Error during password reset:", error);
     return res.status(500).json({
       success: false,
       message: "Server error",
     });
   }
 };
+
 exports.UpdateProfile = async (req, res) => {
   try {
     const {

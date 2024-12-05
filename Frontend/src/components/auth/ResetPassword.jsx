@@ -24,16 +24,13 @@ const ResetPassword = () => {
   }
 
   const handleResetPassword = async () => {
-    const email = localStorage.getItem('EmailOrPhone')
-    if (!email) {
-      toast.error('Email or phone number is missing. Please try again.')
-      return
-    }
+    const storedValue  = localStorage.getItem("EmailOrPhone");
+    const EmailOrPhone = JSON.parse(storedValue);
     try {
-      const response = await resetPassword({ new_pass, confirm_pass, email })
-      toast.success(response.data.message)
-      localStorage.clear('EmailOrPhone')
-      navigate('/')
+      const response = await resetPassword({ new_pass, confirm_pass, EmailOrPhone });
+      toast.success(response.data.message);
+      localStorage.clear("EmailOrPhone");
+      navigate("/");
     } catch (error) {
       toast.error(error.response.data.message)
     } finally {

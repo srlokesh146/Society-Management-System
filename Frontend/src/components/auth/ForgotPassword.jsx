@@ -13,7 +13,7 @@ const ForgotPassword = () => {
   const handleOtp = async () => {
     try {
       const response = await sendOtp({ EmailOrPhone });
-      localStorage.setItem("EmailOrPhone", EmailOrPhone);
+      localStorage.setItem("EmailOrPhone", JSON.stringify(EmailOrPhone));
       toast.success(response.data.message);
       navigate("/otpscreenpage");
     } catch (error) {

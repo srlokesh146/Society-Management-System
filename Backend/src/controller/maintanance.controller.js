@@ -8,6 +8,13 @@ const Tenante = require("../models/Tenent.model");
 const Notification = require("../models/notification.schema");
 const PDFDocument = require('pdfkit');
 const path = require('path');
+const Razorpay = require("razorpay");
+const crypto = require("crypto");
+const constant = require("../config/constant");
+const razorpay = new Razorpay({
+  key_id: constant.key_id,
+  key_secret:constant.key_secret,
+});
 //check password correction in maintenance
 exports.CheckMaintenancePassword = async (req, res) => {
   try {
@@ -138,43 +145,85 @@ exports.GetMaintenance = async (req, res) => {
 ////update and get payment
 exports.updatePaymentMode = async (req, res) => {
   const { maintenanceId } = req.params;
-  const { paymentMode } = req.body;
+  const { paymentMode, razorpayPaymentId, razorpayOrderId, razorpaySignature } = req.body;
   const residentId = req.user.id;
 
-  const maintenanceRecord = await Maintenance.findById(maintenanceId);
-  if (!maintenanceRecord) {
-    return res.status(404).json({
-      success: false,
-      message: "Maintenance record not found",
-    });
-  }
-
-  const maintenanceAmount = maintenanceRecord.maintenanceAmount;
   try {
-    const updatedMaintenance = await Maintenance.findOneAndUpdate(
-      { _id: maintenanceId, "residentList.resident": residentId },
-      {
-        $set: {
-          "residentList.$.paymentMode": paymentMode,
-          "residentList.$.paymentStatus": "done",
-        },
-      },
-      { new: true }
-    ).populate("residentList.resident");
-
-    if (!updatedMaintenance) {
+   
+    const maintenanceRecord = await Maintenance.findById(maintenanceId);
+    if (!maintenanceRecord) {
       return res.status(404).json({
         success: false,
-        message: "Maintenance record or resident not found",
+        message: "Maintenance record not found",
       });
     }
 
-    return res.status(200).json({
-      success: true,
-      message: "Payment mode  successfully",
-      Maintenance: updatedMaintenance,
+    const maintenanceAmount = maintenanceRecord.maintenanceAmount;
+
+   
+    if (!razorpayOrderId) {
+      const razorpayOrder = await razorpay.orders.create({
+        amount: maintenanceAmount * 100, 
+        currency: "INR",
+        receipt: `receipt_${maintenanceId}_${residentId}`,
+      });
+
+      return res.status(200).json({
+        success: true,
+        razorpayOrderId: razorpayOrder.id,
+        amount: maintenanceAmount,
+        message: "Razorpay order created successfully",
+      });
+    }
+
+   
+    if (razorpayPaymentId && razorpaySignature) {
+      const generatedSignature = crypto
+        .createHmac("sha256", constant.key_secret)
+        .update(`${razorpayOrderId}|${razorpayPaymentId}`)
+        .digest("hex");
+      console.log(generatedSignature);
+      
+      if (generatedSignature !== razorpaySignature) {
+        return res.status(400).json({
+          success: false,
+          message: "Payment verification failed",
+        });
+      }
+
+    
+      const updatedMaintenance = await Maintenance.findOneAndUpdate(
+        { _id: maintenanceId, "residentList.resident": residentId },
+        {
+          $set: {
+            "residentList.$.paymentMode": paymentMode || "Razorpay",
+            "residentList.$.paymentStatus": "done",
+          },
+        },
+        { new: true }
+      ).populate("residentList.resident");
+
+      if (!updatedMaintenance) {
+        return res.status(404).json({
+          success: false,
+          message: "Maintenance record or resident not found",
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: "Payment successfully updated",
+        Maintenance: updatedMaintenance,
+      });
+    }
+
+    
+    return res.status(400).json({
+      success: false,
+      message: "Incomplete payment details provided",
     });
   } catch (error) {
+    console.error("Error during Razorpay integration:", error);
     return res.status(500).json({
       success: false,
       message: "Error updating payment mode",
@@ -298,13 +347,13 @@ exports.GetMaintananceDone = async (req, res) => {
 
 exports.GeneratePdf = async (req, res) => {
   try {
-  
+
     const {
       invoiceId,
       ownerName,
       billDate,
       paymentDate,
-     
+
       phoneNumber,
       email,
       Wing,
@@ -317,33 +366,33 @@ exports.GeneratePdf = async (req, res) => {
 
     const doc = new PDFDocument({ margin: 40 });
 
-   
+
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', 'attachment; filename=maintenance_invoice.pdf');
 
-    
+
     doc.pipe(res);
 
-   
+
     doc
       .fontSize(18)
       .text('Maintenance Invoice', { align: 'center' })
       .moveDown();
 
-   
+
     doc
       .fontSize(12)
       .text(`Invoice ID: ${invoiceId}`)
       .text(`Owner Name: ${ownerName}`)
       .text(`Bill Date: ${billDate}`)
       .text(`Payment Date: ${paymentDate || '--'}`)
-      
+
       .text(`Phone Number: ${phoneNumber}`)
       .text(`Email: ${email}`)
       .text(`Address: ${Wing || 'N/A'}-${Unit || 'N/A'}`)
       .moveDown();
 
-   
+
     doc
       .fontSize(14)
       .text('Invoice Summary', { align: 'center' })
@@ -352,13 +401,13 @@ exports.GeneratePdf = async (req, res) => {
     const tableTop = doc.y;
     const tableLeft = 50;
 
-   
+
     doc
       .fontSize(10)
       .text('Details', tableLeft, tableTop)
       .text('Amount (₹)', 400, tableTop, { width: 90, align: 'right' });
 
-    
+
     doc
       .moveTo(tableLeft, tableTop + 15)
       .lineTo(500, tableTop + 15)
@@ -366,21 +415,21 @@ exports.GeneratePdf = async (req, res) => {
 
     let yPosition = tableTop + 25;
 
-    
+
     const addTableRow = (label, value) => {
       doc
         .fontSize(10)
         .text(label, tableLeft, yPosition)
         .text(`₹${value.toLocaleString()}`, 400, yPosition, { width: 90, align: 'right' });
-      yPosition += 20; 
+      yPosition += 20;
     };
 
-  
+
     addTableRow('Maintenance Amount', maintenanceAmount);
     addTableRow('Penalty Amount', penaltyAmount);
     addTableRow('Grand Total', grandTotal);
 
-    
+
     doc
       .moveTo(tableLeft, yPosition)
       .lineTo(500, yPosition)
@@ -388,24 +437,24 @@ exports.GeneratePdf = async (req, res) => {
 
     yPosition += 20;
 
-    
+
     doc
       .fontSize(12)
       .text('Note:', tableLeft, yPosition)
       .fontSize(10)
       .text(note || '--', tableLeft + 50, yPosition);
 
-    
+
     doc
       .moveDown(2)
       .fontSize(10)
       .text('Thank you for your payment!', { align: 'center' });
 
-    
+
     doc.end();
 
   } catch (error) {
-   
+
     res.status(500).json({ error: 'Internal server error.' });
   }
 };

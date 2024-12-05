@@ -6,5 +6,7 @@ module.exports={
     NODE_ENV:process.env.NODE_ENV,
     TWILIO_ACCOUNT_SID:process.env.TWILIO_ACCOUNT_SID,
     TWILIO_AUTH_TOKEN:process.env.TWILIO_AUTH_TOKEN,
-    TWILIO_PHONE_NUMBER:process.env.TWILIO_PHONE_NUMBER
+    TWILIO_PHONE_NUMBER:process.env.TWILIO_PHONE_NUMBER,
+    key_id:process.env.key_id,
+    key_secret:process.env.key_secret
 }
