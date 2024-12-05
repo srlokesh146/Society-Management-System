@@ -48,6 +48,7 @@ import { io } from 'socket.io-client'
 import Constant from './config/Constant.jsx'
 import OtherInvoices from './pages/ResidentPanel/OtherInvoices.jsx'
 import AdminRoutes from './routes/AdminRoutes.jsx'
+import QuestionPage from './pages/ResidentPanel/QuestionPage.jsx'
 
 function App () {
   const [isSidebaropen, setSidebaropen] = useState(false)
@@ -372,6 +373,14 @@ function App () {
                   element={
                     <PrivateRoutes>
                       <AdminIncome />
+                    </PrivateRoutes>
+                  }
+                />
+                <Route
+                  path='/questionpage/:id'
+                  element={
+                    <PrivateRoutes>
+                      <QuestionPage />
                     </PrivateRoutes>
                   }
                 />
