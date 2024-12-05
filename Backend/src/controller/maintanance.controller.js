@@ -73,7 +73,7 @@ exports.CreateMaintenance = async (req, res) => {
       resident: resident.id,
       paymentStatus: "pending",
       residentType: resident.Resident_status,
-      paymentMode: "cash",
+     
     }));
 
     maintenance.residentList = residentsWithStatus;
@@ -143,10 +143,12 @@ exports.GetMaintenance = async (req, res) => {
   }
 };
 ////update and get payment
+
 exports.updatePaymentMode = async (req, res) => {
   const { maintenanceId } = req.params;
   const { paymentMode, razorpayPaymentId, razorpayOrderId, razorpaySignature } = req.body;
   const residentId = req.user.id;
+  const isAdmin = req.user.role === "admin"; 
 
   try {
    
@@ -158,32 +160,25 @@ exports.updatePaymentMode = async (req, res) => {
       });
     }
 
-    const maintenanceAmount = maintenanceRecord.maintenanceAmount;
-
    
-    if (!razorpayOrderId) {
-      const razorpayOrder = await razorpay.orders.create({
-        amount: maintenanceAmount * 100, 
-        currency: "INR",
-        receipt: `receipt_${maintenanceId}_${residentId}`,
-      });
+    const residentPayment = maintenanceRecord.residentList.find(
+      (member) => member.resident.toString() === residentId
+    );
 
-      return res.status(200).json({
-        success: true,
-        razorpayOrderId: razorpayOrder.id,
-        amount: maintenanceAmount,
-        message: "Razorpay order created successfully",
+    if (residentPayment && residentPayment.paymentStatus === "done") {
+      return res.status(400).json({
+        success: false,
+        message: "Payment has already been made for this maintenance",
       });
     }
 
-   
-    if (razorpayPaymentId && razorpaySignature) {
+    
+    if (paymentMode === "online" && razorpayOrderId && razorpayPaymentId && razorpaySignature) {
       const generatedSignature = crypto
         .createHmac("sha256", constant.key_secret)
         .update(`${razorpayOrderId}|${razorpayPaymentId}`)
         .digest("hex");
-      console.log(generatedSignature);
-      
+
       if (generatedSignature !== razorpaySignature) {
         return res.status(400).json({
           success: false,
@@ -191,12 +186,12 @@ exports.updatePaymentMode = async (req, res) => {
         });
       }
 
-    
+      
       const updatedMaintenance = await Maintenance.findOneAndUpdate(
         { _id: maintenanceId, "residentList.resident": residentId },
         {
           $set: {
-            "residentList.$.paymentMode": paymentMode || "Razorpay",
+            "residentList.$.paymentMode": "online",
             "residentList.$.paymentStatus": "done",
           },
         },
@@ -210,26 +205,90 @@ exports.updatePaymentMode = async (req, res) => {
         });
       }
 
+      
+      const admin = await User.find();
+      
+      const adminuser = admin.map((owner) => ({ _id: owner._id, model: "User" }));
+      
+
+      const allUsers = [...adminuser];
+
+      const notification = new Notification({
+        title: `New Maintenance Payment`,
+        name: "Maintenance Payment Successful",
+        message: `Payment for maintenance ${maintenanceRecord.title} has been successfully completed (Online).`,
+        othercontent: updatedMaintenance._id,
+        users: allUsers,
+      });
+
+      await notification.save();
+
       return res.status(200).json({
         success: true,
-        message: "Payment successfully updated",
+        message: "Payment successfully updated (Online)",
         Maintenance: updatedMaintenance,
       });
     }
 
+   
+    if (paymentMode === "cash") {
+   
+      const updatedMaintenance = await Maintenance.findOneAndUpdate(
+        { _id: maintenanceId, "residentList.resident": residentId },
+        {
+          $set: {
+            "residentList.$.paymentMode": "cash", 
+            "residentList.$.paymentStatus": "pending", 
+          },
+        },
+        { new: true }
+      ).populate("residentList.resident");
+
+      if (!updatedMaintenance) {
+        return res.status(404).json({
+          success: false,
+          message: "Maintenance record or resident not found",
+        });
+      }
+
     
+      const admin = await User.find();
+      
+      const adminuser = admin.map((owner) => ({ _id: owner._id, model: "User" }));
+      
+
+      const allUsers = [...adminuser];
+
+      const notification = new Notification({
+        title: `New Cash Payment Request`,
+        name: "Cash Payment Pending",
+        message: `A cash payment for maintenance ${maintenanceRecord.title} is requested. Admin approval is required.`,
+        othercontent: residentId,
+        users: allUsers,
+      });
+
+      await notification.save();
+
+      return res.status(200).json({
+        success: true,
+        message: "Cash payment requested. Admin approval required.",
+      });
+    }
+
+   
     return res.status(400).json({
       success: false,
       message: "Incomplete payment details provided",
     });
   } catch (error) {
-    console.error("Error during Razorpay integration:", error);
+    console.error("Error during payment update:", error);
     return res.status(500).json({
       success: false,
       message: "Error updating payment mode",
     });
   }
 };
+
 //FindByIdUserAndMaintance
 exports.FindByIdUserAndMaintance = async (req, res) => {
   try {
@@ -458,3 +517,107 @@ exports.GeneratePdf = async (req, res) => {
     res.status(500).json({ error: 'Internal server error.' });
   }
 };
+
+exports.approveOrRejectPayment = async (req, res) => {
+  const { maintenanceId, residentId } = req.params;
+  const { action } = req.body;  
+  const adminId = req.user.id;
+
+  try {
+    
+    const maintenanceRecord = await Maintenance.findById(maintenanceId);
+    if (!maintenanceRecord) {
+      return res.status(404).json({
+        success: false,
+        message: "Maintenance record not found",
+      });
+    }
+
+    
+    const residentPayment = maintenanceRecord.residentList.find(
+      (member) => member.resident.toString() === residentId
+    );
+
+    if (!residentPayment) {
+      return res.status(404).json({
+        success: false,
+        message: "Resident payment record not found",
+      });
+    }
+
+   
+    if (residentPayment.paymentStatus !== 'pending') {
+      return res.status(400).json({
+        success: false,
+        message: "This payment has already been processed",
+      });
+    }
+
+    
+    if (action === 'approve') {
+      residentPayment.paymentStatus = 'done';
+      residentPayment.paymentMode = 'cash';  
+
+    
+      await maintenanceRecord.save();
+
+    
+      const notification = new Notification({
+        title: "Cash Payment Approved",
+        name: "Maintenance Payment",
+        message: `Your cash payment for maintenance has been approved.`,
+        othercontent: maintenanceRecord._id,
+        users: [
+          { _id: residentId, model: 'Owner' || 'Tenante'},  
+        ],
+      });
+      await notification.save();
+
+      return res.status(200).json({
+        success: true,
+        message: "Payment approved and notification sent.",
+      });
+    }
+
+   
+    if (action === 'reject') {
+      residentPayment.paymentStatus = 'pending';
+      residentPayment.paymentMode = 'cash'; 
+
+      
+      await maintenanceRecord.save();
+
+    
+      const notification = new Notification({
+        title: "Cash Payment Rejected",
+        name: "Maintenance Payment",
+        message: `Your cash payment for maintenance has been rejected.`,
+        othercontent: maintenanceRecord._id,
+        users: [
+          { _id: residentId, model: 'Owner' || 'Tenante'},  
+        ],
+      });
+      await notification.save();
+
+      return res.status(200).json({
+        success: true,
+        message: "Payment rejected and notification sent.",
+      });
+    }
+
+    
+    return res.status(400).json({
+      success: false,
+      message: "Invalid action specified. Use 'approve' or 'reject'.",
+    });
+  } catch (error) {
+    console.error("Error processing payment action:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error processing the payment action",
+    });
+  }
+};
+
+
+

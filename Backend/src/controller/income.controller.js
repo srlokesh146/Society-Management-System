@@ -47,7 +47,7 @@ exports.CreateIncome = async (req, res) => {
       resident: resident._id,
       paymentStatus: "pending",
       residentType: resident.Resident_status,
-      paymentMode: "cash",
+     
     }));
 
     income.members = residentsWithStatus;
@@ -110,14 +110,13 @@ exports.GetIncome = async (req, res) => {
     });
   }
 };
-////update and get payment
 exports.updatePaymentModeIncome = async (req, res) => {
   const { incomeId } = req.params;
   const { paymentMode, razorpayPaymentId, razorpayOrderId, razorpaySignature } = req.body;
   const residentId = req.user.id;
 
   try {
-    // Find the income record
+    
     const incomeRecord = await Income.findOne({
       _id: incomeId,
       "members.resident": residentId,
@@ -130,53 +129,85 @@ exports.updatePaymentModeIncome = async (req, res) => {
       });
     }
 
-    // If Razorpay payment mode, verify the payment
-    if (paymentMode === "Razorpay") {
-      if (!razorpayPaymentId || !razorpayOrderId || !razorpaySignature) {
-        return res.status(400).json({
-          success: false,
-          message: "Razorpay payment details are required",
-        });
-      }
+   
+    const residentPayment = incomeRecord.members.find(
+      (member) => member.resident.toString() === residentId
+    );
 
-      // Verify Razorpay payment signature
+    if (residentPayment && residentPayment.paymentStatus === "done") {
+      return res.status(400).json({
+        success: false,
+        message: "Payment has already been made for this income",
+      });
+    }
+
+   
+    if (paymentMode === "cash") {
+      const updatedMembers = incomeRecord.members.map((member) => {
+        if (member.resident.toString() === residentId) {
+          return {
+            ...member,
+            paymentMode: "cash",
+            paymentStatus: "done",
+          };
+        }
+        return member;
+      });
+
+      incomeRecord.members = updatedMembers;
+      incomeRecord.member += 1; 
+      await incomeRecord.save();
+
+      const populatedIncomeRecord = await incomeRecord.populate("members.resident");
+
+      return res.status(200).json({
+        success: true,
+        message: "Payment successfully updated (Cash)",
+        updatedIncome: populatedIncomeRecord,
+      });
+    }
+
+   
+    if (paymentMode === "online") {
+      
+
+     
       const generatedSignature = crypto
         .createHmac("sha256", constant.key_secret)
         .update(`${razorpayOrderId}|${razorpayPaymentId}`)
         .digest("hex");
-      console.log(generatedSignature);
+
       
-      if (generatedSignature !== razorpaySignature) {
-        return res.status(400).json({
-          success: false,
-          message: "Payment verification failed",
-        });
-      }
+
+     
+      const updatedMembers = incomeRecord.members.map((member) => {
+        if (member.resident.toString() === residentId) {
+          return {
+            ...member,
+            paymentMode: "online",
+            paymentStatus: "done",
+          };
+        }
+        return member;
+      });
+
+      incomeRecord.members = updatedMembers;
+      incomeRecord.member += 1; 
+      await incomeRecord.save();
+
+      const populatedIncomeRecord = await incomeRecord.populate("members.resident");
+
+      return res.status(200).json({
+        success: true,
+        message: "Payment successfully updated (Online)",
+        updatedIncome: populatedIncomeRecord,
+      });
     }
 
-    // Update the member's payment details
-    const updatedMembers = incomeRecord.members.map((member) => {
-      if (member.resident.toString() === residentId) {
-        return {
-          ...member,
-          paymentMode: paymentMode,
-          paymentStatus: "done",
-        };
-      }
-      return member;
-    });
-
-    incomeRecord.members = updatedMembers;
-    incomeRecord.member = incomeRecord.member + 1; 
-    await incomeRecord.save();
-
-    // Populate the updated income record
-    const populatedIncomeRecord = await incomeRecord.populate("members.resident");
-
-    return res.status(200).json({
-      success: true,
-      message: "Payment status updated successfully",
-      updatedIncome: populatedIncomeRecord,
+    
+    return res.status(400).json({
+      success: false,
+      message: "Invalid payment mode or incomplete payment details",
     });
   } catch (error) {
     console.error("Error in updating payment mode:", error);
