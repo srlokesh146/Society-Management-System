@@ -11,16 +11,17 @@ exports.CreateAnnouncement = async (req, res) => {
     if (!type || !title || !description) {
       return res.status(400).json({
         success: true,
-        message: "Fields are required"
-      })
+        message: "Fields are required",
+      });
     }
     const announcement = new Announcement({
       type,
       title,
       description,
       date,
-      time
-    })
+      time,
+    });
+
 
     const guardData = await Guard.find();
     const ownerData = await Owner.find();
@@ -47,9 +48,8 @@ exports.CreateAnnouncement = async (req, res) => {
       name: title,
       message: description,
       othercontent: announcement._id,
-      users: allUsers
+      users: allUsers,
     });
-
 
     await notification.save();
 
@@ -57,14 +57,15 @@ exports.CreateAnnouncement = async (req, res) => {
       return res.status(400).json({
         success: false,
         message: "Something went wrong",
+      });
 
-      })
     }
     return res.status(200).json({
       success: true,
       message: "Announcement Successfully Added",
-      notification
-    })
+      notification,
+    });
+
   } catch (error) {
     console.log(error);
 
@@ -74,6 +75,7 @@ exports.CreateAnnouncement = async (req, res) => {
     });
   }
 }
+
 //get announcement
 exports.GetAnnouncement = async (req, res) => {
   try {
@@ -81,6 +83,25 @@ exports.GetAnnouncement = async (req, res) => {
     if (!find) {
       return res.status(400).json({
         success: false,
+        message: "No data found",
+      });
+    }
+    return res.status(200).json({
+      success: false,
+      Announcement: find,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "error in Announcement fetching",
+    });
+  }
+};
+
+//get activity announcement
+exports.GetActivityAnnouncements = async (req, res) => {
+  try {
+    const activities = await Announcement.find({ type: "Activity" });
         message: "No data found"
       })
     }
@@ -142,7 +163,7 @@ exports.GetEventAnnouncements = async (req, res) => {
         path: "members.participent",
         select: "profileImage Full_name",
       }).exec();
-
+    
     if (!activities || activities.length === 0) {
       return res.status(404).json({
         success: false,
@@ -163,7 +184,8 @@ exports.GetEventAnnouncements = async (req, res) => {
     });
   }
 };
-//filter announcement 
+
+//filter announcement
 exports.FilterAnnouncement = async (req, res) => {
   try {
     const { timePeriod } = req.query;
@@ -184,7 +206,6 @@ exports.FilterAnnouncement = async (req, res) => {
         dateFrom = null;
     }
 
-
     const filter = dateFrom ? { createdAt: { $gte: dateFrom } } : {};
 
     const announcements = await Announcement.find(filter);
@@ -201,13 +222,13 @@ exports.FilterAnnouncement = async (req, res) => {
       data: announcements,
     });
   } catch (error) {
-
     return res.status(500).json({
       success: false,
       message: "Error fetching announcements",
     });
   }
 };
+
 //get by id 
 exports.GetByIdAnnouncement = async (req, res) => {
   try {
@@ -237,53 +258,63 @@ exports.DeleteAnnouncement = async (req, res) => {
     if (!find) {
       return res.status(400).json({
         success: false,
-        message: "No data found"
-      })
+        message: "No data found",
+      });
     }
     return res.status(200).json({
       success: false,
-      message: "Announcement deleted Successfully.."
-    })
+      message: "Announcement deleted Successfully..",
+    });
   } catch (error) {
-
     return res.status(500).json({
       success: false,
-      message: "error in Announcement deleting"
+      message: "error in Announcement deleting",
     });
   }
-}
+};
+
 //update announcement
 exports.UpdateAnnouncement = async (req, res) => {
   try {
-    const { title, description, date, time } = req.body;
+    const { type, title, description, date, time } = req.body;
     if (!title || !description) {
       return res.status(400).json({
         success: true,
-        message: "Fields are required"
-      })
+        message: "Fields are required",
+      });
     }
-    const announcement = await Announcement.findByIdAndUpdate(req.params.id, {
-      title, description, date, time
-    }, { new: true })
+    const announcement = await Announcement.findByIdAndUpdate(
+      req.params.id,
+      {
+        type,
+        title,
+        description,
+        date,
+        time,
+      },
+      { new: true }
+    );
 
     if (!announcement) {
       return res.status(400).json({
         success: false,
-        message: "Something went wrong"
-      })
+        message: "Something went wrong",
+      });
     }
     return res.status(200).json({
       success: true,
-      message: "Announcement Successfully updated"
-    })
+      message: "Announcement Successfully updated",
+    });
   } catch (error) {
-
     return res.status(500).json({
       success: false,
-      message: "error in Announcement updated"
+      message: "error in Announcement updated",
     });
   }
-}
+};
+
+
+
 //accept announcment 
 exports.AcceptAnnouncement = async (req, res) => {
   try {
@@ -333,5 +364,4 @@ exports.AcceptAnnouncement = async (req, res) => {
     });
   }
 };
-
 

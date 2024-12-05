@@ -1,10 +1,11 @@
-import  { useEffect, useState } from "react";
-import {  IoNotifications } from "react-icons/io5";
+import { useEffect, useState } from "react";
+import { IoNotifications } from "react-icons/io5";
 import { AiOutlineClose } from "react-icons/ai";
 import { useLocation, useNavigate } from "react-router-dom";
 import Avatar from "../assets/images/Avatar.png";
 import { Navigationbar } from "../constantdata";
 import NotificationImage from "../assets/images/notificationimage.png";
+import bellIcon from "../assets/images/notification-bing.svg";
 import search from "../assets/images/search.svg";
 import useCurrentPath from "./useCurrentPath";
 import { FaChevronRight } from "react-icons/fa6";
@@ -158,7 +159,6 @@ const Navbar = () => {
       {showSearch ? (
         <div className="search-icon relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-[35px] max-sm:hidden ">
           <div className="relative w-[335px] max-sm:w-[300px] max-md:w-[320px] max-sm:ms-[35px] flex justify-end max-md:ml-0 max-sm:hidden">
-           
             <input
               type="text"
               placeholder="Search..."
@@ -207,13 +207,14 @@ const Navbar = () => {
         <div className="input-search-icon max-sm:block max-xl:hidden lg:hidden max-sm:rounded-full"></div>
         {/* Notification Icon */}
         <div className="relative">
-          <IoNotifications
-            size={38}
+          <img
+            src={bellIcon}
+            alt=""
             className="text-black cursor-pointer border border-[#D3D3D3] rounded-[10px] p-[8px] md:block max-sm:rounded-full max-sm:bg-[#F6F8FB] max-sm:border-none max-sm:w-[50px] max-sm:h-[50px] max-sm:p-[10px]"
             onClick={handleNotificationClick}
           />
 
-          <span className="absolute text-xs -top-1 -right-1 bg-red-500 px-1 rounded-full text-white w-[15px] h-[15px] flex justify-center items-center">
+          <span className="absolute text-xs top-1 right-1 bg-red-500 px-1 rounded-full text-white w-[15px] h-[15px] flex justify-center items-center">
             {notificationList.length}
           </span>
 
@@ -257,7 +258,9 @@ const Navbar = () => {
                     key={index}
                     className="border-b flex gap-4 items-start  border-gray-200 pb-5 mb-[14px]"
                   >
-                    <span className="w-[40px] flex justify-center items-center py-[9px] rounded-full bg-red-300">S</span>
+                    <span className="w-[40px] flex justify-center items-center py-[9px] rounded-full bg-red-300">
+                      S
+                    </span>
                     <div className="">
                       <h6 className="font-bold ">{notification.name} </h6>
                       <span className="text-sm font-light text-gray-800">
