@@ -102,9 +102,12 @@ exports.GetAnnouncement = async (req, res) => {
 exports.GetActivityAnnouncements = async (req, res) => {
   try {
     const activities = await Announcement.find({ type: "Activity" });
-        message: "No data found"
-      })
-    }
+       if(!activities){
+        res.status(400).json({
+          success:false,
+          message:"No data found"
+        })
+       }
     return res.status(200).json({
       success: false,
       Announcement: find
