@@ -431,12 +431,12 @@ const Dashboard = () => {
                   <div className='relative  mt-[-10px]  '>
                     <button
                       onClick={handleToggleDropdown}
-                      className='border border-gray-300 rounded-lg ps-[14px] ml-10  flex items-center w-[120px] text-[15px] h-[44px] capitalize font-semibold'
+                      className='border border-gray-300 rounded-lg ps-[14px] ml-10  flex justify-between items-center w-[120px] text-[15px] h-[44px] capitalize font-semibold'
                     >
                       {selectedPeriod}{' '}
                       <img
                         src={downicon}
-                        className='ml-[9px] text-[12px] text-[#202224]'
+                        className='mr-[10px] text-[12px] text-[#202224]'
                       />
                     </button>
                     {isOpen && (
