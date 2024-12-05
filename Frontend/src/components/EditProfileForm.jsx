@@ -158,7 +158,7 @@ function EditProfileForm() {
             )}
           </div>
 
-          <div className="bg-white p-8 rounded-lg shadow-md">
+          <div className="bg-white p-8 rounded-lg shadow-md relative">
             <div className="flex flex-col md:flex-row items-start">
               <div className="relative w-full md:w-1/4 flex flex-col items-center">
                 <img

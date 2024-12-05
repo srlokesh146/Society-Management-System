@@ -79,11 +79,7 @@ function AnnouncementDetails () {
               </div>
             ))
           ) : (
-            <tr>
-              <td className='text-center py-4 text-gray-500'>
-                No data found
-              </td>
-            </tr>
+            <div className='col-span-4 text-center text-gray-500 py-4'>No data found.</div>
           )}
         </div>
       </div>

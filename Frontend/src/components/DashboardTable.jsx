@@ -286,7 +286,7 @@ const DashboardTable = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={6} className='text-center text-gray-500 py-4'>
+                <td colSpan={6} className='text-center text-gray-500 py-20'>
                   No data found.
                 </td>
               </tr>

@@ -94,7 +94,7 @@ export default function Discussion() {
         </div>
 
         {/* Chat messages */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-4">
+        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-4">
           {messages.map((m, i) => (
             <div
               key={i}

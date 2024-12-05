@@ -114,7 +114,7 @@ const ReqTracking = () => {
         <table className="w-full text-center rounded-lg">
           <thead>
             <tr className="bg-indigo-50 h-[61px] text-nowrap text-[#202224]">
-              <th className="px-8 rounded-tl-[10px] py-3 text-sm font-semibold">Requester Name</th>
+              <th className="px-8 rounded-tl-[10px] py-3 text-sm font-semibold text-start">Requester Name</th>
               <th className="px-8 py-3 text-sm font-semibold">Request Name</th>
               <th className="px-8 py-3 text-sm font-semibold">Description</th>
               <th className="px-8 py-3 text-sm font-semibold">Request Date</th>

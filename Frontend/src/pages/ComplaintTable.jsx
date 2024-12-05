@@ -108,7 +108,7 @@ const ComplaintPage = () => {
       ) : (
         <table className='w-full'>
           <thead>
-            <tr className='border-b bg-indigo-50 rounded-lg overflow-hidden h-[61px] text-nowrap text-[#4F4F4F]'>
+            <tr className='border-b bg-indigo-50 rounded-lg overflow-hidden h-[61px] text-nowrap text-[#202224]'>
               <th className='text-left px-8 py-3 text-sm font-semibold rounded-tl-[15px]'>Complainer Name</th>
               <th className='px-9 py-3 text-sm font-semibold text-center'>Complaint Name</th>
               <th className='px-24 py-3 text-sm font-semibold text-center'>Description</th>

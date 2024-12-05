@@ -89,7 +89,8 @@ const Polls = () => {
         </div>
       </div>
       <div className="grid grid-cols-4 max-xl:grid-cols-2 max-md:grid-cols-2 max-sm:grid-cols-1 gap-6 max-3xl:grid-cols-2">
-        {polls.map((poll, index) => {
+      {polls && polls.length > 0 ? (
+         polls.map((poll, index) => {
           const totalVotes = poll.options[0].votes + poll.options[1].votes;
 
           return (
@@ -225,13 +226,15 @@ const Polls = () => {
                       }}
                     />
                   </div>
-                </div>
-
-                <p className="text-xs text-gray-400 text-end">{poll.date}</p>
-              </div>
-            </div>
-          );
-        })}
+                  </div>
+            <p className="text-xs text-gray-400 text-end">{poll.date}</p>
+          </div>
+        </div>
+      );
+    })
+  ) : (
+    <div className='col-span-4 text-center text-gray-500 py-4'>No data found.</div>
+  )}
       </div>
       {isModalOpen && (
         <CreatePollModal
