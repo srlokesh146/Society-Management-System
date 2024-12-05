@@ -3,6 +3,7 @@ import { FiMoreVertical, FiSearch, FiEye } from "react-icons/fi";
 import Avatar from "../../../../assets/images/avatar.png";
 import usericon from "../../../../assets/images/usericon.png";
 import eyeicon from "../../../../assets/images/eyeicon.svg";
+import { FaChevronRight } from 'react-icons/fa6'
 
 const answers = [
   "Feel free to let me know if you need more examples or if there's anything specific you'd like to include in your dummy content!",
@@ -26,7 +27,7 @@ export default function Discussion() {
   const handlePostAnswer = () => {
     if (userAnswer.trim()) {
       setAnswers([...answers, userAnswer]);
-      setUserAnswer(""); // Clear the input after submission
+      setUserAnswer("");
     }
   };
 
@@ -142,7 +143,7 @@ export default function Discussion() {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar (Chats List) */}
-      <div className="w-1/4 bg-white shadow-lg rounded-tl-lg overflow-hidden max-sm:hidden max-md:hidden flex flex-col p-6 max-md:w-full max-xl:w-1/2 max-2xl:w-1/2 max-sm:w-full">
+      <div className="w-1/4 max-xl:w-2/4 max-2xl:w-2/4 bg-white shadow-lg rounded-tl-lg flex flex-col p-6">
         <div>
           <h1 className="text-xl font-semibold text-gray-800">Chat</h1>
           <div className="relative mt-4">
@@ -158,9 +159,8 @@ export default function Discussion() {
           {chats.map((chat) => (
             <div
               key={chat.id}
-              className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all duration-200 ${
-                selectedChatId === chat.id ? "bg-gray-200" : "hover:bg-gray-100"
-              }`}
+              className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all duration-200 ${selectedChatId === chat.id ? "bg-gray-200" : "hover:bg-gray-100"
+                }`}
               onClick={() => handleChatClick(chat.id)}
             >
               <div className="flex items-center">
@@ -188,9 +188,9 @@ export default function Discussion() {
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 ">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 bg-white shadow question-class">
+        <div className="flex items-center justify-between p-4 bg-white shadow sticky top-0 z-10">
           <div className="flex items-center max-sm:mb-[15px] max-sm:items-center">
             <img
               src={usericon}
@@ -202,10 +202,10 @@ export default function Discussion() {
               <span className="text-sm text-gray-400">9:00 pm</span>
             </div>
           </div>
-          <div className="flex gap-5">
+          <div className="flex  gap-3 flex-wrap max-sm:gap-2 items-center">
             {!isAskingQuestion && (
               <button
-                className="px-4 py-2 bg-orange-500 text-white font-semibold hover:bg-orange-600 transition-all duration-200 max-sm:text-sm rounded-[10px] h-[51px]"
+                className="px-4 py-2  bg-orange-500 text-white font-semibold hover:bg-orange-600 transition-all duration-200 rounded-[10px] h-[51px] text-sm sm:text-base max-sm:w-full"
                 onClick={handleAskQuestionClick}
               >
                 Ask Question
@@ -213,7 +213,7 @@ export default function Discussion() {
             )}
             <FiMoreVertical
               size={40}
-              className="text-gray-600 rounded-full  p-2  bg-gray-100 cursor-pointer"
+              className="text-gray-600 rounded-full p-2 bg-gray-100 cursor-pointer max-sm:w-full"
             />
           </div>
         </div>
@@ -305,40 +305,36 @@ export default function Discussion() {
                   <div className="flex flex-col items-center justify-start text-gray-400 mr-4 space-y-2 max-sm:hidden mt-[10px]">
                     <div className="flex items-center space-x-1">
                       <span
-                        className={`text-sm font-normal ${
-                          discussion.votes === 0
+                        className={`text-sm font-normal ${discussion.votes === 0
                             ? "text-[#A7A7A7]"
                             : "text-[#39973D]"
-                        }`}
+                          }`}
                       >
                         {discussion.votes}
                       </span>
                       <span
-                        className={`text-sm font-normal ${
-                          discussion.votes === 0
+                        className={`text-sm font-normal ${discussion.votes === 0
                             ? "text-[#A7A7A7]"
                             : "text-[#39973D]"
-                        }`}
+                          }`}
                       >
                         Votes
                       </span>
                     </div>
                     <div className="flex items-center space-x-1">
                       <span
-                        className={`text-sm font-normal ${
-                          discussion.answers.length === 0
+                        className={`text-sm font-normal ${discussion.answers.length === 0
                             ? "text-gray-400"
                             : "text-[#5678E9]"
-                        }`}
+                          }`}
                       >
                         {discussion.answers.length}
                       </span>
                       <span
-                        className={`text-sm font-normal ${
-                          discussion.answers.length === 0
+                        className={`text-sm font-normal ${discussion.answers.length === 0
                             ? "text-gray-400"
                             : "text-[#5678E9]"
-                        }`}
+                          }`}
                       >
                         Answers
                       </span>
@@ -375,59 +371,71 @@ export default function Discussion() {
         )}
 
         {isAnswerModal && (
-          <div className="flex flex-col items-center gap-5 bg-gray-100 h-[70vh] p-6  custom-scrollbar overflow-y-auto">
-            {/* Question Section */}
-            <div className="space-y-4 bg-gray-50 w-full h-36 p-4 rounded-lg relative">
-              {" "}
-              {/* Added relative positioning to container */}
-              <h1 className="text-lg font-semibold text-gray-800">
-                What is the capital of France?
-              </h1>
-              <p className="text-gray-600">
-                Feel free to let me know if you need more examples or if there's
-                anything specific you'd like to include in your dummy content!
-              </p>
-              {/* Eye icon and count positioned at the top right */}
-              <div className="absolute top-4 right-8 flex items-center space-x-1">
-                <img
-                  src={eyeicon}
-                  className="text-gray-800 text-xl cursor-pointer hover:text-gray-600 transition"
-                />
-                <span className="text-gray-600 font-normal">20</span>
-              </div>
-            </div>
-
-            {/* Answers Section */}
-            <div className="space-y-4 bg-gray-50 w-full h-[24vh] p-4 rounded-lg">
-              {" "}
-              {/* Added gap between answers and input section */}
-              <h2 className="font-semibold text-blue-500 mb-2">Answers</h2>
-              <ul className="space-y-4">
-                {answers.map((answer, index) => (
-                  <li key={index} className="p-1 rounded-lg  text-gray-700">
-                    {index + 1}. {answer}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Input Section */}
-            <div className="space-y-4  w-full h-[26vh] mt- p-4 rounded-lg">
-              <h2 className="text-semibold">Your Answers</h2>{" "}
-              {/* Added gap between input section and next section */}
-              <textarea
-                value={userAnswer}
-                onChange={handleInputChange}
-                placeholder="Type here"
-                className="w-full p-3  rounded-lg "
-                rows="6"
-              />
-              <button
-                onClick={handlePostAnswer}
-                className=" bg-custom-gradient w-[238px] h-[51px] ml-[900px] text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition"
-              >
-                Post Your Answer
+          <div className='flex  p-6'>
+            <div className='flex flex-col pr-[10px]'>
+              <button className='w-[42px] h-[42px] bg-[#FFFFFF] rounded-[10px] border border-[#D3D3D3] mb-[5px] py-[13px] px-[13px]'>
+                <FaChevronRight className='mr-[3px] w-[12px] rotate-[-88deg]' />
               </button>
+              <span className='text-center text-[#FE512E]'>1</span>
+              <button className='w-[42px] h-[42px] bg-[#FFFFFF] rounded-[10px] border border-[#D3D3D3] mt-[5px] py-[13px] px-[13px]'>
+                <FaChevronRight className='mr-[3px] w-[12px] rotate-[88deg]' />
+              </button>
+            </div>
+            <div className='flex flex-col items-center gap-5 bg-gray-100 h-[70vh]  custom-scrollbar overflow-y-auto'>
+              {/* Question Section */}
+              <div className='space-y-4 bg-[rgb(234_236_245)]  w-full h-36 p-4 rounded-lg relative'>
+                {' '}
+                {/* Added relative positioning to container */}
+                <h1 className='text-lg pb-[3.5px] font-medium text-[#4F4F4F]'>
+                  What is the capital of France?
+                </h1>
+                <p className='text-[#4F4F4F]'>
+                  Feel free to let me know if you need more examples or if
+                  there's anything specific you'd like to include in your dummy
+                  content!
+                </p>
+                {/* Eye icon and count positioned at the top right */}
+                <div className='absolute bg-white top-4 right-8 flex items-center space-x-1 rounded-[30px] p-2 w-[61px] max-sm:w-[70px]'  >
+                  <img
+                    src={eyeicon}
+                    className='text-gray-800 text-xl cursor-pointer hover:text-gray-600 transition'
+                  />
+                  <span className='text-gray-600 font-normal'>20</span>
+                </div>
+              </div>
+
+              {/* Answers Section */}
+              <div className='space-y-4 bg-[rgb(234_236_245)]  w-full h-[24vh] p-4 rounded-lg'>
+                {' '}
+                {/* Added gap between answers and input section */}
+                <h2 className='font-semibold text-blue-500 mb-2'>Answers</h2>
+                <ul className='space-y-4'>
+                  {answers.map((answer, index) => (
+                    <li key={index} className='p-1 rounded-lg  text-gray-700'>
+                      {index + 1}. {answer}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Input Section */}
+              <div className='space-y-4  w-full h-[26vh] mt- p-4 rounded-lg'>
+                <h2 className='text-semibold'>Your Answers</h2>{' '}
+                {/* Added gap between input section and next section */}
+                <textarea
+                  value={userAnswer}
+                  onChange={handleInputChange}
+                  placeholder='Type here'
+                  className='w-full p-3  rounded-lg '
+                  rows='6'
+                />
+                <button
+                  onClick={handlePostAnswer}
+                  className=' bg-custom-gradient w-[238px] h-[51px] ml-[900px] text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition'
+                >
+                  Post Your Answer
+                </button>
+              </div>
             </div>
           </div>
         )}
