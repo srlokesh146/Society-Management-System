@@ -126,7 +126,7 @@ export default function Sidebar () {
                   <div className='relative'>
                     <NavLink
                       to={item.path || '#'}
-                      className={`flex items-center mb-[10px] text-sm font-medium rounded-lg p-[14px] ${
+                      className={`flex items-center mb-[10px] text-sm font-medium rounded-lg p-[14px] group ${
                         activeItem === 'dashboard' || activeItem === item.id
                           ? 'bg-custom-gradient text-white border'
                           : 'hover:bg-custom-gradient hover:text-white '

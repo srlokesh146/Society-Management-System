@@ -224,6 +224,14 @@ export default function Discussion() {
 
         {
 
+        {/* Chat messages */}
+        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-4">
+          {messages.map((m, i) => (
+            <div
+              key={i}
+              className={`p-4 ${
+                m.senderId == _id ? "bg-gray-200" : "bg-white"
+              } rounded-lg shadow`}
           isAskingQuestion &&
           <div className='flex-1 p-6 bg-[#F4F4F4] space-y-4'>
             <div className='bg-indigo-50 rounded-xl border border-blue-500 p-4'>

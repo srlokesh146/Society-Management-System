@@ -1,5 +1,3 @@
-
-
 const Vehicle = ({ vehicle }) => {
   return (
     <div className='bg-white p-6  mt-6 rounded-lg shadow-sm'>
@@ -39,11 +37,9 @@ const Vehicle = ({ vehicle }) => {
             </div>
           ))
         ) : (
-          <tr>
-            <td colSpan='7' className='text-center py-4 text-gray-500'>
-              No data found
-            </td>
-          </tr>
+          <div className='col-span-4 text-center text-gray-500 py-4'>
+            No data found.
+          </div>
         )}
       </div>
     </div>

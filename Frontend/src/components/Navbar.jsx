@@ -213,7 +213,7 @@ const Navbar = () => {
             onClick={handleNotificationClick}
           />
 
-          <span className="absolute text-xs -top-1 -right-1 bg-red-500 px-1 rounded-full text-white">
+          <span className="absolute text-xs -top-1 -right-1 bg-red-500 px-1 rounded-full text-white w-[15px] h-[15px] flex justify-center items-center">
             {notificationList.length}
           </span>
 
@@ -257,7 +257,7 @@ const Navbar = () => {
                     key={index}
                     className="border-b flex gap-4 items-start  border-gray-200 pb-5 mb-[14px]"
                   >
-                    <span className="p-5 py-4 rounded-full bg-red-300">S</span>
+                    <span className="w-[40px] flex justify-center items-center py-[9px] rounded-full bg-red-300">S</span>
                     <div className="">
                       <h6 className="font-bold ">{notification.name} </h6>
                       <span className="text-sm font-light text-gray-800">

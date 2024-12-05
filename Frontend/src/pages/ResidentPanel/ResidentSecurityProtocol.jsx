@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { GetProtocols } from '../../services/securityProtocol'
 import toast from 'react-hot-toast'
-import { Loader } from '../../utils/Loader';
+import { Loader } from '../../utils/Loader'
 
-function ResidentSecurityProtocol() {
+function ResidentSecurityProtocol () {
   const [protocols, setProtocols] = useState([])
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   // get all security protocols
   const fetchProtocols = async () => {
@@ -31,9 +31,9 @@ function ResidentSecurityProtocol() {
           Security Protocols
         </h1>
         <div className='overflow-x-auto overflow-y-auto max-h-[50rem] custom-scrollbar'>
-          {isLoading ? ( 
+          {isLoading ? (
             <div className='flex justify-center items-center w-full h-[200px]'>
-              <Loader /> 
+              <Loader />
             </div>
           ) : (
             <table className='min-w-full shadow-sm'>
@@ -42,9 +42,13 @@ function ResidentSecurityProtocol() {
                   <th className='font-medium px-4 py-2 text-left rounded-tl-[15px]'>
                     Title
                   </th>
-                  <th className='font-medium px-4 py-2 text-left'>Description</th>
+                  <th className='font-medium px-4 py-2 text-left'>
+                    Description
+                  </th>
                   <th className='font-medium px-4 py-2 text-center'>Date</th>
-                  <th className='font-medium px-4 py-2 rounded-tr-[15px]'>Time</th>
+                  <th className='font-medium px-4 py-2 rounded-tr-[15px]'>
+                    Time
+                  </th>
                 </tr>
               </thead>
               <tbody className='pr-[10px]'>
@@ -60,7 +64,7 @@ function ResidentSecurityProtocol() {
                         {new Date(item.date).toLocaleDateString('en-GB', {
                           day: '2-digit',
                           month: '2-digit',
-                          year: 'numeric',
+                          year: 'numeric'
                         })}
                       </td>
                       <td className='py-4 flex justify-center'>
@@ -72,7 +76,7 @@ function ResidentSecurityProtocol() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan='6' className='text-center py-4'>
+                    <td colSpan={6} className='text-center text-gray-500 py-20'>
                       No data found.
                     </td>
                   </tr>
@@ -81,7 +85,6 @@ function ResidentSecurityProtocol() {
             </table>
           )}
         </div>
-
       </div>
     </div>
   )

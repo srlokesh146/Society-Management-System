@@ -114,7 +114,7 @@ function OtherIncomeInvoices() {
               </div>
             ))
           ) : (
-            <div className="text-center py-4 text-gray-500">No data found</div>
+            <div className='col-span-4 text-center text-gray-500 py-4'>No data found.</div>
           )}
         </div>
 

@@ -184,7 +184,7 @@ const OtherIncome = () => {
   }, []);
 
   return (
-    <div className="p-6">
+    <div>
       <div className="">
         <button
           className={`px-4 py-2 rounded-sm h-14 shadow-md transition duration-200 ${activeTab === "income"
@@ -206,7 +206,7 @@ const OtherIncome = () => {
         </button>
       </div>
 
-      <div className="flex flex-col rounded-lg p-8 bg-white min-h-screen">
+      <div className="flex flex-col rounded-lg p-8 bg-white max -h-screen">
         <div className="flex justify-between items-center mb-4 max-sm:flex-col">
           <h2 className="text-[20px] font-semibold text-gray-800 max-sm:mb-3">
             Other Income
