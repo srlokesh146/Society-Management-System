@@ -129,11 +129,7 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { EmailOrPhone, password } = req.body;
-    console.log(req.body);
-    
-    
-    
-    
+   
     if (!EmailOrPhone || !password) {
       return res.status(400).json({
         success: false,
