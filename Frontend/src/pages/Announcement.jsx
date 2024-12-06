@@ -366,6 +366,7 @@ function Announcement() {
                               .split("T")[0]
                           : ""
                       }
+                       min={new Date().toISOString().split("T")[0]}
                       onChange={(e) =>
                         handleAnnouncementChange("date", e.target.value)
                       }
