@@ -127,7 +127,7 @@ const ReqTracking = () => {
           <tbody>
             {Requests.length > 0 ? (
               Requests.map((Request) => (
-                <tr key={Request._id} className="border-b hover:bg-gray-50 text-[#4F4F4F]">
+                <tr key={Request._id} className="border-b text-[#4F4F4F]">
                   <td className="px-4 md:px-6 py-4">
                     <div className="flex items-center gap-3">
                       <img src={avatar} alt="" className="w-6 h-6 md:w-8 md:h-8 rounded-full" />

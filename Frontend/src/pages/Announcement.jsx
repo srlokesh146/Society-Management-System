@@ -20,6 +20,7 @@ import { Loader } from '../utils/Loader'
 import downicon from '../assets/images/downicon.svg'
 import calendar from '../assets/images/calendar.svg'
 import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 function Announcement () {
   const [announcements, setAnnouncements] = useState([])
@@ -30,16 +31,21 @@ function Announcement () {
   const [isLoading, setIsLoading] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(null)
   const [selectedType, setSelectedType] = useState('')
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false)
-  const [startDate, setStartDate] = useState(
-    currentAnnouncement?.date ? new Date(currentAnnouncement.date) : null
-  )
-
-  const handleCalendarClick = () => {
-    setIsCalendarOpen(!isCalendarOpen)
-  }
+  const [isOpen, setIsOpen] = useState(false)
 
   const announcementTypes = ['Event', 'Activity']
+
+  const handleDateChange = date => {
+    setCurrentAnnouncement({
+      ...currentAnnouncement,
+      date: date ? date.toISOString().split('T')[0] : ''
+    })
+    setIsOpen(false)
+  }
+
+  const handleeditClick = () => {
+    setIsOpen(true)
+  }
 
   const handleSelect = type => {
     setSelectedType(type)
@@ -301,7 +307,7 @@ function Announcement () {
                     alt='Dropdown Icon'
                   />
                   {dropdownOpen && (
-                    <ul className='absolute mt-[9px] w-full rounded-lg bg-white shadow-[0px_0px_40px_0px_#0000000D] z-10 py-[20px] ps-[20px]'>
+                    <ul className='absolute mt-[9px] w-full rounded-lg bg-white shadow-[0px_0px_40px_0px_#0000000D] py-[20px] ps-[20px]'>
                       {announcementTypes.map((type, index) => (
                         <li
                           key={index}
@@ -356,35 +362,43 @@ function Announcement () {
                     onChange={e =>
                       handleAnnouncementChange('description', e.target.value)
                     }
-                    className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black h-20 sm:h-24'
+                    className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none h-20 sm:h-24'
                     placeholder='Enter description'
                   ></textarea>
                 </div>
 
                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-                  <div className='relative'>
-                    <label className='block text-sm font-medium text-gray-700 mb-1'>
+                  <div>
+                    <label className='block text-sm sm:text-base font-medium text-gray-700 mb-1'>
                       Announcement Date
                     </label>
                     <div className='relative'>
                       <DatePicker
-                        selected={startDate}
-                        onChange={date => {
-                          setStartDate(date)
-                          handleAnnouncementChange('date', date.toISOString())
-                        }}
+                        selected={
+                          currentAnnouncement?.date
+                            ? new Date(currentAnnouncement?.date)
+                            : null
+                        }
+                        open={isOpen}
+                        onChange={handleDateChange}
+                        onClickOutside={() => setIsOpen(false)}
+                        className='w-full px-3 py-3 pl-3 text-sm border border-gray-300 rounded-md focus:outline-none'
                         dateFormat='yyyy-MM-dd'
                         placeholderText='Select Date'
-                        open={isCalendarOpen}
-                        onClickOutside={() => setIsCalendarOpen(false)}
-                        onClickInside={() => setIsCalendarOpen(true)}
-                        className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black'
+                        defaultValue={
+                          currentAnnouncement?.date
+                            ? new Date(currentAnnouncement?.date)
+                                .toISOString()
+                                .split('T')[0]
+                            : ''
+                        }
+                        minDate={new Date()}
                       />
                       <img
                         src={calendar}
                         alt='calendar icon'
                         className='absolute right-3 top-1/2 transform -translate-y-1/2 text-black cursor-pointer'
-                        onClick={handleCalendarClick}
+                        onClick={handleeditClick}
                       />
                     </div>
                   </div>
@@ -398,7 +412,7 @@ function Announcement () {
                       onChange={e =>
                         handleAnnouncementChange('time', e.target.value)
                       }
-                      className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black'
+                      className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none '
                     />
                   </div>
                 </div>

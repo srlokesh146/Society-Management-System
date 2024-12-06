@@ -3,6 +3,9 @@ import { FaEllipsisV } from 'react-icons/fa'
 import { CreateNote, GetNotes, UpdateNote } from '../services/notesService'
 import { toast } from 'react-hot-toast'
 import { Loader } from '../utils/Loader'
+import calendar from '../assets/images/calendar.svg'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 function Note () {
   const [notes, setNotes] = useState([])
@@ -168,7 +171,9 @@ function Note () {
             </div>
           ))
         ) : (
-          <div className='col-span-4 text-center text-gray-500 py-4'>No data found.</div>
+          <div className='col-span-4 text-center text-gray-500 py-4'>
+            No data found.
+          </div>
         )}
       </div>
 
@@ -211,7 +216,7 @@ function Note () {
                   />
                 </div>
 
-                <div>
+                {/* <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
                     Date
                   </label>
@@ -226,8 +231,34 @@ function Note () {
                     onChange={e => handleNoteChange('date', e.target.value)}
                     className='w-full p-3 border border-gray-200 rounded-[10px] text-sm'
                   />
+                </div> */}
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    Date
+                  </label>
+                  <div className='relative'>
+                    <DatePicker
+                      selected={
+                        currentNote?.date ? new Date(currentNote.date) : null
+                      }
+                      onChange={date =>
+                        handleNoteChange(
+                          'date',
+                          date ? date.toISOString().split('T')[0] : ''
+                        )
+                      }
+                      className='w-full p-3 border border-gray-200 rounded-[10px] text-sm'
+                      placeholderText='Select a date'
+                      dateFormat='yyyy-MM-dd'
+                      required
+                    />
+                    <img
+                      src={calendar}
+                      alt='calendar icon'
+                      className='absolute right-3 top-1/2 transform -translate-y-1/2 text-black cursor-pointer'
+                    />
+                  </div>
                 </div>
-
                 <div className='grid grid-cols-2 gap-4 mt-6'>
                   <button
                     type='button'

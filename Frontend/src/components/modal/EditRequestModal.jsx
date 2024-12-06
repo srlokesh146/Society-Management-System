@@ -99,12 +99,8 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit, isLoading }) => 
                     ? new Date(Request.date).toISOString().split("T")[0]
                     : ""
                 }
-                className="w-full p-2 pl-10 border border-gray-300 rounded-[10px] outline-none focus:border-orange-500 text-sm"
+                className="w-full py-[10.5px] ps-[13px] pr-[13px] pl-10 border border-gray-300 outline-none rounded-[10px] text-sm"
                 required
-              />
-              <FaCalendarAlt
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                size={16}
               />
             </div>
           </div>

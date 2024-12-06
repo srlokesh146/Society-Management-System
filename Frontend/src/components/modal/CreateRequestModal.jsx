@@ -124,13 +124,9 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit , isLoading }) => {
                 name="date"
                 value={formData.date}
                 onChange={handleInputChange}
-                className="w-full py-[10.5px] ps-[13px] pr-[13px] pl-10 border border-gray-300 outline-none rounded-[10px] text-sm "
+                className="w-full py-[10.5px] ps-[13px] pr-[13px] pl-10 border border-gray-300 outline-none rounded-[10px] text-sm"
                 required
               />
-              {/* <FaCalendarAlt
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                size={16}
-              /> */}
             </div>
           </div>
           {/* Wing and Unit */}
