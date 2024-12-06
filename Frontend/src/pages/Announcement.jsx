@@ -369,6 +369,7 @@ function Announcement () {
                     <div className='relative'>
                       <DatePicker
                         selected={startDate}
+                        minDate={new Date()} 
                         onChange={date => {
                           setStartDate(date)
                           handleAnnouncementChange('date', date.toISOString())
