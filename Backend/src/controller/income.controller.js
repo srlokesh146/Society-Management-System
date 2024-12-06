@@ -75,7 +75,8 @@ exports.CreateIncome = async (req, res) => {
       title: "Income created",
       name: `${title}`,
       message: `Per person amount :-  ${amount} rupees. - Duedate ${dueDate}`,
-      users:allUsers
+      users:allUsers,
+      type:"Income"
     });
   
    
@@ -116,7 +117,6 @@ exports.updatePaymentModeIncome = async (req, res) => {
   const residentId = req.user.id;
 
   try {
-    
     const incomeRecord = await Income.findOne({
       _id: incomeId,
       "members.resident": residentId,
@@ -129,7 +129,6 @@ exports.updatePaymentModeIncome = async (req, res) => {
       });
     }
 
-   
     const residentPayment = incomeRecord.members.find(
       (member) => member.resident.toString() === residentId
     );
@@ -141,73 +140,74 @@ exports.updatePaymentModeIncome = async (req, res) => {
       });
     }
 
-   
     if (paymentMode === "cash") {
-      const updatedMembers = incomeRecord.members.map((member) => {
-        if (member.resident.toString() === residentId) {
-          return {
-            ...member,
-            paymentMode: "cash",
-            paymentStatus: "done",
-          };
-        }
-        return member;
-      });
+      incomeRecord.members = incomeRecord.members.map((member) =>
+        member.resident.toString() === residentId
+          ? { ...member, paymentMode: "cash", paymentStatus: "pending" }
+          : member
+      );
 
-      incomeRecord.members = updatedMembers;
-      incomeRecord.member += 1; 
       await incomeRecord.save();
 
-      const populatedIncomeRecord = await incomeRecord.populate("members.resident");
+      const admins = await User.find({ role: "admin" });
+      const adminUsers = admins.map((admin) => ({ _id: admin._id, model: "User" }));
+
+      const notification = new Notification({
+        title: "Cash Payment Request",
+        name: "Pending Income Approval",
+        message: `A cash payment for income ${incomeRecord.title} is awaiting admin approval.`,
+        othercontent: residentId,
+        users: adminUsers,
+      });
+
+      await notification.save();
 
       return res.status(200).json({
         success: true,
-        message: "Payment successfully updated (Cash)",
-        updatedIncome: populatedIncomeRecord,
+        message: "Cash payment requested. Admin approval required.",
       });
     }
 
-   
     if (paymentMode === "online") {
-      
-
-     
       const generatedSignature = crypto
         .createHmac("sha256", constant.key_secret)
         .update(`${razorpayOrderId}|${razorpayPaymentId}`)
         .digest("hex");
 
-      
+      if (generatedSignature !== razorpaySignature) {
+        return res.status(400).json({
+          success: false,
+          message: "Payment verification failed",
+        });
+      }
 
-     
-      const updatedMembers = incomeRecord.members.map((member) => {
-        if (member.resident.toString() === residentId) {
-          return {
-            ...member,
-            paymentMode: "online",
-            paymentStatus: "done",
-          };
-        }
-        return member;
-      });
+      incomeRecord.members = incomeRecord.members.map((member) =>
+        member.resident.toString() === residentId
+          ? { ...member, paymentMode: "online", paymentStatus: "done" }
+          : member
+      );
 
-      incomeRecord.members = updatedMembers;
-      incomeRecord.member += 1; 
       await incomeRecord.save();
 
-      const populatedIncomeRecord = await incomeRecord.populate("members.resident");
+      const notification = new Notification({
+        title: "Income Payment Successful",
+        name: "Online Payment Success",
+        message: `Online payment for income ${incomeRecord.title} has been successfully completed.`,
+        users: [{ _id: residentId, model: "User" }],
+        othercontent: residentId,
+      });
+
+      await notification.save();
 
       return res.status(200).json({
         success: true,
         message: "Payment successfully updated (Online)",
-        updatedIncome: populatedIncomeRecord,
       });
     }
 
-    
     return res.status(400).json({
       success: false,
-      message: "Invalid payment mode or incomplete payment details",
+      message: "Invalid payment mode or incomplete details",
     });
   } catch (error) {
     console.error("Error in updating payment mode:", error);
@@ -516,4 +516,105 @@ exports.GeneratePdf = async (req, res) => {
   
   doc.end();
 };
+exports.approveOrRejectIncomePayment = async (req, res) => {
+  const { incomeId, residentId } = req.params;
+  const { action } = req.body;  
+  const adminId = req.user.id;
+
+  try {
+   
+    const incomeRecord = await Income.findById(incomeId);
+    if (!incomeRecord) {
+      return res.status(404).json({
+        success: false,
+        message: "Income record not found",
+      });
+    }
+
+    
+    const residentPayment = incomeRecord.members.find(
+      (member) => member.resident.toString() === residentId
+    );
+
+    if (!residentPayment) {
+      return res.status(404).json({
+        success: false,
+        message: "Resident payment record not found",
+      });
+    }
+
+    
+    if (residentPayment.paymentStatus !== "pending") {
+      return res.status(400).json({
+        success: false,
+        message: "This payment has already been processed",
+      });
+    }
+
+   
+    if (action === "approve") {
+      residentPayment.paymentStatus = "done";
+      residentPayment.paymentMode = "cash";
+
+     
+      await incomeRecord.save();
+
+    
+      const notification = new Notification({
+        title: "Cash Payment Approved",
+        name: "Income Payment",
+        message: `Your cash payment for income ${incomeRecord.title} has been approved.`,
+        othercontent: incomeRecord._id,
+        users: [
+          { _id: residentId, model: residentPayment.residentType }, 
+        ],
+      });
+      await notification.save();
+
+      return res.status(200).json({
+        success: true,
+        message: "Payment approved and notification sent.",
+      });
+    }
+
+   
+    if (action === "reject") {
+      residentPayment.paymentStatus = "pending"; 
+      residentPayment.paymentMode = "cash";
+
+     
+      await incomeRecord.save();
+
+     
+      const notification = new Notification({
+        title: "Cash Payment Rejected",
+        name: "Income Payment",
+        message: `Your cash payment for income ${incomeRecord.title} has been rejected.`,
+        othercontent: incomeRecord._id,
+        users: [
+          { _id: residentId, model: residentPayment.residentType }, 
+        ],
+      });
+      await notification.save();
+
+      return res.status(200).json({
+        success: true,
+        message: "Payment rejected and notification sent.",
+      });
+    }
+
+   
+    return res.status(400).json({
+      success: false,
+      message: "Invalid action specified. Use 'approve' or 'reject'.",
+    });
+  } catch (error) {
+    console.error("Error processing payment action:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error processing the payment action",
+    });
+  }
+};
+
 
