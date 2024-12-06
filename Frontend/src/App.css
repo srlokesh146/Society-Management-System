@@ -458,6 +458,10 @@ ul::-webkit-scrollbar-thumb {
   width: 300px !important;
 }
 
+.react-datepicker-wrapper {
+  width: 100% !important;
+}
+
 .react-datepicker__day {
   margin: 5px !important;
   padding: 5px !important;
