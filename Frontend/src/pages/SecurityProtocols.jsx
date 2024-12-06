@@ -10,10 +10,12 @@ import { toast } from 'react-hot-toast'
 import eye from '../assets/images/eye.svg'
 import edit from '../assets/images/edit.svg'
 import trash from '../assets/images/trash.svg'
-import { IoMdClose } from "react-icons/io";
+import { IoMdClose } from 'react-icons/io'
 import calendar from '../assets/images/calendar.svg'
 import clock from '../assets/images/clock.svg'
 import { Loader } from '../utils/Loader'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 function SecurityProtocols () {
   const [protocols, setProtocols] = useState([])
@@ -22,7 +24,8 @@ function SecurityProtocols () {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
   const [isViewOpen, setIsViewOpen] = useState(false)
   const [currentProtocol, setCurrentProtocol] = useState(null)
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const [newProtocol, setNewProtocol] = useState({
     title: '',
     description: '',
@@ -33,6 +36,18 @@ function SecurityProtocols () {
   const handleCreate = () => {
     setIsCreateOpen(true)
     setNewProtocol({ title: '', description: '', date: '', time: '' })
+  }
+
+  const handleDateChange = date => {
+    setNewProtocol({
+      ...newProtocol,
+      date: date ? date.toISOString().split('T')[0] : ''
+    })
+    setIsOpen(false)
+  }
+
+  const handleImageClick = () => {
+    setIsOpen(true)
   }
 
   const handleEdit = protocol => {
@@ -91,23 +106,23 @@ function SecurityProtocols () {
     }
   }
 
-  const checkFormFilled = protocol => {
-    if (isCreateOpen) {
-      return protocol.title.trim() !== '' && protocol.description.trim() !== ''
-    }
-    return (
-      protocol.title.trim() !== '' &&
-      protocol.description.trim() !== '' &&
-      protocol.date.trim() !== '' &&
-      protocol.time.trim() !== ''
-    )
-  }
+  // const checkFormFilled = protocol => {
+  //   if (isCreateOpen) {
+  //     return protocol.title.trim() !== '' && protocol.description.trim() !== ''
+  //   }
+  //   return (
+  //     protocol.title.trim() !== '' &&
+  //     protocol.description.trim() !== '' &&
+  //     protocol.date.trim() !== '' &&
+  //     protocol.time.trim() !== ''
+  //   )
+  // }
 
-  const handleProtocolChange = (field, value) => {
-    const updatedProtocol = { ...newProtocol, [field]: value }
-    setNewProtocol(updatedProtocol)
-    setIsFormFilled(checkFormFilled(updatedProtocol))
-  }
+  // const handleProtocolChange = (field, value) => {
+  //   const updatedProtocol = { ...newProtocol, [field]: value }
+  //   setNewProtocol(updatedProtocol)
+  //   setIsFormFilled(checkFormFilled(updatedProtocol))
+  // }
 
   // get all security protocols
   const fetchProtocols = async () => {
@@ -117,7 +132,7 @@ function SecurityProtocols () {
       setProtocols(response.data.Protocol)
     } catch (error) {
       toast.error(error.response.data.message)
-    }finally{
+    } finally {
       setIsLoading(false)
     }
   }
@@ -149,27 +164,49 @@ function SecurityProtocols () {
   }
 
   const convertTo24HourFormat = timeString => {
-    const [time, modifier] = timeString.split(' ') 
-    let [hours, minutes] = time.split(':') 
+    const [time, modifier] = timeString.split(' ')
+    let [hours, minutes] = time.split(':')
 
-    hours = parseInt(hours) 
+    hours = parseInt(hours)
 
     if (modifier === 'AM' && hours === 12) {
-      hours = 0 
+      hours = 0
     } else if (modifier === 'PM' && hours !== 12) {
-      hours += 12 
+      hours += 12
     }
 
-   
     return `${hours.toString().padStart(2, '0')}:${minutes}`
   }
 
   const formattedTime = newProtocol.time
     ? convertTo24HourFormat(newProtocol.time)
     : ''
+    const formatTime = (time) => {
+      const [hours, minutes] = time.split(':');
+      const hour = parseInt(hours, 10);
+      const isPM = hour >= 12;
+      const formattedHour = hour % 12 || 12; // Convert hour to 12-hour format
+      const formattedTime = `${formattedHour}:${minutes} ${isPM ? 'PM' : 'AM'}`;
+      return formattedTime;
+    };
+
+    const handleTimeChange = (e) => {
+      const timeValue = e.target.value;
+      setNewProtocol({
+        ...newProtocol,
+        time: timeValue
+      });
+    };
+  
+
+  const isdataFilled =
+    newProtocol.title &&
+    newProtocol.description &&
+    newProtocol.title.trim() !== '' &&
+    newProtocol.description.trim() !== ''
 
   return (
-    <div className='p-4 sm:p-6  bg-white rounded-lg security-protocel-table'>
+    <div className='p-4 sm:p-6  bg-white rounded-lg security-protocel-table min'>
       <div className='flex justify-between  items-center mb-6 max-sm:flex-col'>
         <h1 className='text-[20px] font-semibold text-black-800 max-xl:mb-0 max-sm:mb-[15px]'>
           Security Protocols
@@ -182,85 +219,96 @@ function SecurityProtocols () {
         </button>
       </div>
 
-      
-    <div className='relative bg-white rounded-lg shadow-sm'>
-      {/* Loader */}
-      {isLoading && (
-        <div className='absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center z-10'>
-          <Loader/>
-        </div>
-      )}
+      <div className='relative bg-white rounded-lg shadow-sm'>
+        {/* Loader */}
+        {isLoading && (
+          <div className='absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center z-10'>
+            <Loader />
+          </div>
+        )}
 
-      {/* Table */}
-      <div className='overflow-y-auto pr-[8px] max-h-[45rem] custom-scrollbar overflow-x-auto'>
-        <table className='min-w-full table-auto border-collapse'>
-          <thead className='bg-indigo-50 border-b border-gray-200 h-[61px]'>
-            <tr>
-              <th className='px-6 py-4 text-left text-[14px] font-semibold text-[#202224] rounded-tl-[15px]'>
-                Title
-              </th>
-              <th className='px-6 py-4 text-left text-[14px] font-semibold text-[#202224]'>
-                Description
-              </th>
-              <th className='px-12 py-4 text-right text-[14px] font-semibold text-[#202224]'>
-                Date
-              </th>
-              <th className='px-12 py-4 text-right text-[14px] font-semibold text-[#202224]'>
-                Time
-              </th>
-              <th className='px-16 py-4 text-right text-[14px] font-semibold text-[#202224] rounded-tr-[15px]'>
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody className='bg-white divide-y divide-gray-100'>
-            {protocols.length > 0 ? (
-              protocols.map(protocol => (
-                <tr key={protocol._id} className='hover:bg-gray-50 transition-colors duration-200 text-[#4F4F4F]'>
-                  <td className='px-6 py-4 text-md font-medium'>
-                    {protocol.title}
-                  </td>
-                  <td className='px-6 py-6 line-clamp-1 max-w-[400px] max-h-[50px] text-md font-medium'>
-                    {protocol.description}
-                  </td>
-                  <td className='px-4 py-4 text-md text-right font-medium'>
-                    {new Date(protocol.date).toLocaleDateString('en-GB', {
-                      day: '2-digit',
-                      month: '2-digit',
-                      year: 'numeric'
-                    })}
-                  </td>
-                  <td className='px-4 py-4 text-sm text-right'>
-                    <span className='inline-flex justify-center items-center px-2 py-1 bg-gray-100 rounded-full w-[92px] h-[34px] font-medium'>
-                      {protocol.time}
-                    </span>
-                  </td>
-                  <td className='px-4 py-4 text-right'>
-                    <div className='flex items-center justify-end gap-3'>
-                      <button onClick={() => handleEdit(protocol)} className='flex items-center ml-[10px] justify-center w-10 h-10 text-blue-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md'>
-                        <img src={edit} alt='Edit' />
-                      </button>
-                      <button onClick={() => handleView(protocol)} className='flex items-center justify-center w-10 h-10 text-green-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md'>
-                        <img src={eye} alt='View' />
-                      </button>
-                      <button onClick={() => handleDelete(protocol)} className='flex items-center justify-center w-10 h-10 text-red-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md'>
-                        <img src={trash} alt='Delete' />
-                      </button>
-                    </div>
+        {/* Table */}
+        <div className='overflow-y-auto pr-[8px] max-h-[43rem] custom-scrollbar overflow-x-auto'>
+          <table className='min-w-full table-auto border-collapse'>
+            <thead className='bg-indigo-50 border-b border-gray-200 h-[61px]'>
+              <tr>
+                <th className='px-6 py-4 text-left text-[14px] font-semibold text-[#202224] rounded-tl-[15px]'>
+                  Title
+                </th>
+                <th className='px-6 py-4 text-left text-[14px] font-semibold text-[#202224]'>
+                  Description
+                </th>
+                <th className='px-12 py-4 text-right text-[14px] font-semibold text-[#202224]'>
+                  Date
+                </th>
+                <th className='px-12 py-4 text-right text-[14px] font-semibold text-[#202224]'>
+                  Time
+                </th>
+                <th className='px-16 py-4 text-right text-[14px] font-semibold text-[#202224] rounded-tr-[15px]'>
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody className='bg-white divide-y divide-gray-100'>
+              {protocols.length > 0 ? (
+                protocols.map(protocol => (
+                  <tr
+                    key={protocol._id}
+                    className='hover:bg-gray-50 transition-colors duration-200 text-[#4F4F4F]'
+                  >
+                    <td className='px-6 py-4 text-md font-medium'>
+                      {protocol.title}
+                    </td>
+                    <td className='px-6 py-6 line-clamp-1 max-w-[400px] max-h-[50px] text-md font-medium'>
+                      {protocol.description}
+                    </td>
+                    <td className='px-4 py-4 text-md text-right font-medium'>
+                      {new Date(protocol.date).toLocaleDateString('en-GB', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                      })}
+                    </td>
+                    <td className='px-4 py-4 text-sm text-right'>
+                      <span className='inline-flex justify-center items-center px-2 py-1 bg-gray-100 rounded-full w-[92px] h-[34px] font-medium'>
+                        {protocol.time}
+                      </span>
+                    </td>
+                    <td className='px-4 py-4 text-right'>
+                      <div className='flex items-center justify-end gap-3'>
+                        <button
+                          onClick={() => handleEdit(protocol)}
+                          className='flex items-center ml-[10px] justify-center w-10 h-10 text-blue-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md'
+                        >
+                          <img src={edit} alt='Edit' />
+                        </button>
+                        <button
+                          onClick={() => handleView(protocol)}
+                          className='flex items-center justify-center w-10 h-10 text-green-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md'
+                        >
+                          <img src={eye} alt='View' />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(protocol)}
+                          className='flex items-center justify-center w-10 h-10 text-red-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md'
+                        >
+                          <img src={trash} alt='Delete' />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan='5' className='text-center py-4 text-gray-500'>
+                    No data found
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan='5' className='text-center py-4 text-gray-500'>
-                  No data found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
 
       {/* Create/Edit Modal */}
       {(isCreateOpen || isEditOpen) && (
@@ -290,7 +338,7 @@ function SecurityProtocols () {
                   onChange={e =>
                     setNewProtocol({ ...newProtocol, title: e.target.value })
                   }
-                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black'
+                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none'
                   placeholder='Enter title'
                 />
               </div>
@@ -306,7 +354,7 @@ function SecurityProtocols () {
                       description: e.target.value
                     })
                   }
-                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black'
+                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none'
                   rows='2'
                   placeholder='Enter description'
                 />
@@ -320,8 +368,16 @@ function SecurityProtocols () {
                       Date
                     </label>
                     <div className='relative'>
-                      <input
+                      <DatePicker
                         type='date'
+                        selected={
+                          newProtocol.date ? new Date(newProtocol.date) : null
+                        }
+                        open={isOpen}
+                        onChange={handleDateChange}
+                        onClickOutside={() => setIsOpen(false)}
+                        className='w-full px-3 py-2 pl-3 border border-gray-300 rounded-md focus:outline-none'
+                        dateFormat='yyyy-MM-dd'
                         defaultValue={
                           newProtocol?.date
                             ? new Date(newProtocol.date)
@@ -329,15 +385,14 @@ function SecurityProtocols () {
                                 .split('T')[0]
                             : ''
                         }
-                        onChange={e =>
-                          setNewProtocol({
-                            ...newProtocol,
-                            date: e.target.value
-                          })
-                        }
-                        className='w-full px-3 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black'
+                        minDate={new Date()}
                       />
-                      <img src={calendar} alt="" className='absolute left-3 top-1/2 transform -translate-y-1/2 text-black' />
+                      <img
+                        src={calendar}
+                        alt='calendar icon'
+                        className='absolute right-3 top-1/2 transform -translate-y-1/2 text-black cursor-pointer'
+                        onClick={handleImageClick}
+                      />
                     </div>
                   </div>
                   <div>
@@ -346,17 +401,17 @@ function SecurityProtocols () {
                     </label>
                     <div className='relative'>
                       <input
-                        type='time'
-                        value={formattedTime}
-                        onChange={e =>
-                          setNewProtocol({
-                            ...newProtocol,
-                            time: e.target.value
-                          })
-                        }
-                        className='w-full px-3 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black'
+                        type="time"
+                        value={newProtocol.time}
+                        onChange={handleTimeChange}
+                        placeholder="hh:mm AM/PM"
+                        className="w-full px-3 py-2 pl-3 border border-gray-300 rounded-md focus:outline-none"
                       />
-                      <img src={clock} alt="" className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'/>
+                      {/* <img
+                        src={clock}
+                        alt=''
+                        className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400'
+                      /> */}
                     </div>
                   </div>
                 </div>
@@ -376,9 +431,14 @@ function SecurityProtocols () {
                 <button
                   type='button'
                   onClick={isEditOpen ? handleUpdate : handleSave}
-                  className='w-full px-4 py-3 text-md font-medium text-white bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-lg hover:opacity-90'
+                  className={`w-full px-4 py-3 text-md font-medium text-[#202224] rounded-lg hover:opacity-90 ${
+                    isdataFilled
+                      ? 'bg-custom-gradient text-white hover:opacity-90'
+                      : 'bg-[#F6F8FB] cursor-not-allowed'
+                  }`}
+                  disabled={!isdataFilled}
                 >
-                  {isLoading ? <Loader /> : isCreateOpen ? "Create" : "Save"}
+                  {isLoading ? <Loader /> : isCreateOpen ? 'Create' : 'Save'}
                 </button>
               </div>
             </form>
@@ -398,7 +458,7 @@ function SecurityProtocols () {
                 onClick={() => setIsViewOpen(false)}
                 className='text-gray-600 hover:text-gray-800'
               >
-                <IoMdClose size={24} className='text-black'/>
+                <IoMdClose size={24} className='text-black' />
               </button>
             </div>
             <div className='border-b border-[#F4F4F4] mb-[20px]'></div>
