@@ -9,6 +9,10 @@ exports.sendMessage = async (req, res) => {
     const { userId, receiverId, message, senderModel, receiverModel } =
       req.body;
 
+    if (!req.file && !message) {
+      return res.status(400).json({ message: "Don't send empty message!" });
+    }
+
     let imageUrl;
 
     if (req.file) {
