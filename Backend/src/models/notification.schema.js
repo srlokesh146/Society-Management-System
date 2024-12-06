@@ -1,40 +1,47 @@
 const { Schema, default: mongoose, model } = require("mongoose");
-const Owner = require('../models/Owener.model');
-const Tenante = require('../models/Tenent.model');
-const User = require('../models/user.schema');
+const Owner = require("../models/Owener.model");
+const Tenante = require("../models/Tenent.model");
+const User = require("../models/user.schema");
 
-const notificationschema = new Schema({
-    type:{
-        type:String
+const notificationschema = new Schema(
+  {
+    type: {
+      type: String,
     },
     title: {
-        type: String
+      type: String,
     },
     name: {
-        type: String
+      type: String,
     },
     message: {
-        type: String
+      type: String,
     },
     date: {
-        type: Date,
-        default: Date.now
+      type: Date,
+      default: Date.now,
+    },
+    paymentAmount: {
+      type: Number,
     },
     read: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
     },
-    users: [{
-        _id: { type: mongoose.Schema.Types.ObjectId, refPath: 'users.model' },
+    users: [
+      {
+        _id: { type: mongoose.Schema.Types.ObjectId, refPath: "users.model" },
         model: {
-            type: String,
-            enum: ["Owner", "Tenante", "User", "SecurityGuard"]
-        }
-    }],
+          type: String,
+          enum: ["Owner", "Tenante", "User", "SecurityGuard"],
+        },
+      },
+    ],
     othercontent: {
-        type: String
+      type: Object,
     },
-    
-}, { timestamps: true })
-const Notification = model("Notification", notificationschema)
+  },
+  { timestamps: true }
+);
+const Notification = model("Notification", notificationschema);
 module.exports = Notification;

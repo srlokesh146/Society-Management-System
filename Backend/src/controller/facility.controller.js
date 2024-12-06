@@ -51,7 +51,7 @@ exports.CreateFacility= async(req,res)=>{
       name: name,
       message: description,
       users:allUsers,
-      type:"facility"
+      type:"facility",
     });
 
 

@@ -7,21 +7,20 @@ const Income = require("../models/Income.model");
 const Owner = require("../models/Owener.model");
 const Tenante = require("../models/Tenent.model");
 const Notification = require("../models/notification.schema");
-const PDFDocument = require('pdfkit');
-const path = require('path');
+const PDFDocument = require("pdfkit");
+const path = require("path");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const constant = require("../config/constant");
 const razorpay = new Razorpay({
   key_id: constant.key_id,
-  key_secret:constant.key_secret,
+  key_secret: constant.key_secret,
 });
 //add income
 exports.CreateIncome = async (req, res) => {
   try {
     const { title, date, dueDate, description, amount, member } = req.body;
 
-    
     if (!title || !date || !dueDate || !description || !amount) {
       return res.status(400).json({
         success: false,
@@ -47,7 +46,6 @@ exports.CreateIncome = async (req, res) => {
       resident: resident._id,
       paymentStatus: "pending",
       residentType: resident.Resident_status,
-     
     }));
 
     income.members = residentsWithStatus;
@@ -56,39 +54,40 @@ exports.CreateIncome = async (req, res) => {
 
     //add notification
 
-     
-    const adminUsers = await User.find({}, '_id');
-    const ownerUsers = ownerData.map(owner => ({ _id: owner._id, model: "Owner" }));
-    const tenantUsers = tenantData.map(tenant => ({ _id: tenant._id, model: "Tenante" }));
+    const adminUsers = await User.find({}, "_id");
+    const ownerUsers = ownerData.map((owner) => ({
+      _id: owner._id,
+      model: "Owner",
+    }));
+    const tenantUsers = tenantData.map((tenant) => ({
+      _id: tenant._id,
+      model: "Tenante",
+    }));
 
-   
     const allUsers = [
-      ...adminUsers.map(admin => ({ _id: admin._id, model: "User" })), 
+      ...adminUsers.map((admin) => ({ _id: admin._id, model: "User" })),
       ...ownerUsers,
-      ...tenantUsers
+      ...tenantUsers,
     ];
 
-    
-  
-    
     const notification = new Notification({
       title: "Income created",
       name: `${title}`,
-      message: `Per person amount :-  ${amount} rupees. - Duedate ${dueDate}`,
-      users:allUsers,
-      type:"Income"
+      message: `total ${amount} rupees. Duedate ${dueDate}`,
+      users: allUsers,
+      type: "Income",
+      othercontent: { incomeId: income._id },
+      paymentAmount: Number(amount),
     });
-  
-   
+
     await notification.save();
 
     return res.status(200).json({
       success: true,
       message: "Income Successfully Added",
-      notification
+      notification,
     });
   } catch (error) {
-    
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
@@ -104,7 +103,6 @@ exports.GetIncome = async (req, res) => {
       Income: income,
     });
   } catch (error) {
-    
     return res.status(500).json({
       success: false,
       message: "Error fetching Income",
@@ -113,7 +111,8 @@ exports.GetIncome = async (req, res) => {
 };
 exports.updatePaymentModeIncome = async (req, res) => {
   const { incomeId } = req.params;
-  const { paymentMode, razorpayPaymentId, razorpayOrderId, razorpaySignature } = req.body;
+  const { paymentMode, razorpayPaymentId, razorpayOrderId, razorpaySignature } =
+    req.body;
   const residentId = req.user.id;
 
   try {
@@ -141,6 +140,7 @@ exports.updatePaymentModeIncome = async (req, res) => {
     }
 
     if (paymentMode === "cash") {
+      console.log("cash request");
       incomeRecord.members = incomeRecord.members.map((member) =>
         member.resident.toString() === residentId
           ? { ...member, paymentMode: "cash", paymentStatus: "pending" }
@@ -150,14 +150,18 @@ exports.updatePaymentModeIncome = async (req, res) => {
       await incomeRecord.save();
 
       const admins = await User.find({ role: "admin" });
-      const adminUsers = admins.map((admin) => ({ _id: admin._id, model: "User" }));
+      const adminUsers = admins.map((admin) => ({
+        _id: admin._id,
+        model: "User",
+      }));
 
       const notification = new Notification({
         title: "Cash Payment Request",
         name: "Pending Income Approval",
-        message: `A cash payment for income ${incomeRecord.title} is awaiting admin approval.`,
-        othercontent: residentId,
+        message: `Cash payment request from ${req.user.Full_name}`,
+        othercontent: { incomeId: incomeId, residentId: residentId },
         users: adminUsers,
+        type: "approve",
       });
 
       await notification.save();
@@ -240,7 +244,6 @@ exports.GetByIdIncome = async (req, res) => {
       Income: income,
     });
   } catch (error) {
-   
     return res.status(500).json({
       success: false,
       message: "Error fetching Income",
@@ -256,7 +259,6 @@ exports.DeleteIncome = async (req, res) => {
       message: "Income deleted",
     });
   } catch (error) {
-   
     return res.status(500).json({
       success: false,
       message: "Error fetching Income",
@@ -296,7 +298,6 @@ exports.UpdateIncome = async (req, res) => {
       message: "Income Successfully updated",
     });
   } catch (error) {
-   
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
@@ -322,7 +323,6 @@ exports.GetIncomeDone = async (req, res) => {
       Income: filteredIncome,
     });
   } catch (error) {
-   
     return res.status(500).json({
       success: false,
       message: "Error fetching Income",
@@ -338,8 +338,8 @@ exports.GetTotalIncomeeDone = async (req, res) => {
       {
         $addFields: {
           residentAmount: {
-            $add: ["$amount", { $ifNull: ["$members.penalty", 0] }] 
-          }
+            $add: ["$amount", { $ifNull: ["$members.penalty", 0] }],
+          },
         },
       },
       {
@@ -356,14 +356,12 @@ exports.GetTotalIncomeeDone = async (req, res) => {
       success: true,
       totalAmount,
     });
-} catch (error) {
-   
+  } catch (error) {
     return res.status(500).json({
       success: false,
       message: "Error calculating total income done",
     });
-}
-
+  }
 };
 //FindByIdUserAndMaintance
 exports.FindByIdUserAndIncome = async (req, res) => {
@@ -401,7 +399,6 @@ exports.FindByIdUserAndIncome = async (req, res) => {
       Income: filteredRecords,
     });
   } catch (error) {
-   
     return res.status(500).json({
       success: false,
       message: "Error fetching Income",
@@ -426,20 +423,13 @@ exports.GeneratePdf = async (req, res) => {
 
   const doc = new PDFDocument({ margin: 40 });
 
-  
-  res.setHeader('Content-Type', 'application/pdf');
-  res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader("Content-Disposition", "attachment; filename=invoice.pdf");
 
-  
   doc.pipe(res);
 
-  
-  doc
-    .fontSize(18)
-    .text('Event Invoice', { align: 'center' })
-    .moveDown();
+  doc.fontSize(18).text("Event Invoice", { align: "center" }).moveDown();
 
-  
   doc
     .fontSize(12)
     .text(`Invoice ID: ${invoiceId}`)
@@ -451,78 +441,65 @@ exports.GeneratePdf = async (req, res) => {
     .text(`Email: ${email}`)
     .moveDown();
 
- 
   doc
     .fontSize(12)
     .text(`Event Name: ${eventName}`)
     .text(`Description: ${description}`)
     .moveDown();
 
-  
-  doc
-    .fontSize(14)
-    .text('Invoice Summary', { align: 'center' })
-    .moveDown(0.5);
+  doc.fontSize(14).text("Invoice Summary", { align: "center" }).moveDown(0.5);
 
   const tableTop = doc.y;
   const tableLeft = 50;
 
-  
   doc
     .fontSize(10)
-    .text('Details', tableLeft, tableTop)
-    .text('Amount (₹)', 400, tableTop, { width: 90, align: 'right' });
+    .text("Details", tableLeft, tableTop)
+    .text("Amount (₹)", 400, tableTop, { width: 90, align: "right" });
 
-  
   doc
     .moveTo(tableLeft, tableTop + 15)
     .lineTo(500, tableTop + 15)
     .stroke();
 
-  
   let yPosition = tableTop + 25;
 
   const addTableRow = (label, value) => {
     doc
       .fontSize(10)
       .text(label, tableLeft, yPosition)
-      .text(`₹${value.toLocaleString()}`, 400, yPosition, { width: 90, align: 'right' });
-    yPosition += 20; 
+      .text(`₹${value.toLocaleString()}`, 400, yPosition, {
+        width: 90,
+        align: "right",
+      });
+    yPosition += 20;
   };
 
-  addTableRow('Maintenance Amount', maintenanceAmount);
-  addTableRow('Grand Total', grandTotal);
+  addTableRow("Maintenance Amount", maintenanceAmount);
+  addTableRow("Grand Total", grandTotal);
 
-  
-  doc
-    .moveTo(tableLeft, yPosition)
-    .lineTo(500, yPosition)
-    .stroke();
+  doc.moveTo(tableLeft, yPosition).lineTo(500, yPosition).stroke();
 
-  
   yPosition += 20;
   doc
     .fontSize(12)
-    .text('Note:', tableLeft, yPosition)
+    .text("Note:", tableLeft, yPosition)
     .fontSize(10)
-    .text(note || '--', tableLeft + 50, yPosition);
+    .text(note || "--", tableLeft + 50, yPosition);
 
-  
   doc
     .moveDown(2)
     .fontSize(10)
-    .text('Thank you for your payment!', { align: 'center' });
+    .text("Thank you for your payment!", { align: "center" });
 
-  
   doc.end();
 };
 exports.approveOrRejectIncomePayment = async (req, res) => {
   const { incomeId, residentId } = req.params;
-  const { action } = req.body;  
+  const { action } = req.body;
   const adminId = req.user.id;
 
   try {
-   
     const incomeRecord = await Income.findById(incomeId);
     if (!incomeRecord) {
       return res.status(404).json({
@@ -531,7 +508,6 @@ exports.approveOrRejectIncomePayment = async (req, res) => {
       });
     }
 
-    
     const residentPayment = incomeRecord.members.find(
       (member) => member.resident.toString() === residentId
     );
@@ -543,7 +519,6 @@ exports.approveOrRejectIncomePayment = async (req, res) => {
       });
     }
 
-    
     if (residentPayment.paymentStatus !== "pending") {
       return res.status(400).json({
         success: false,
@@ -551,23 +526,22 @@ exports.approveOrRejectIncomePayment = async (req, res) => {
       });
     }
 
-   
     if (action === "approve") {
       residentPayment.paymentStatus = "done";
       residentPayment.paymentMode = "cash";
 
-     
       await incomeRecord.save();
 
-    
       const notification = new Notification({
         title: "Cash Payment Approved",
         name: "Income Payment",
         message: `Your cash payment for income ${incomeRecord.title} has been approved.`,
-        othercontent: incomeRecord._id,
-        users: [
-          { _id: residentId, model: residentPayment.residentType }, 
-        ],
+        othercontent: {
+          incomeId: incomeRecord._id,
+          residentId: residentId,
+        },
+        type: "approved",
+        users: [{ _id: residentId, model: residentPayment.residentType }],
       });
       await notification.save();
 
@@ -577,23 +551,23 @@ exports.approveOrRejectIncomePayment = async (req, res) => {
       });
     }
 
-   
     if (action === "reject") {
-      residentPayment.paymentStatus = "pending"; 
+      residentPayment.paymentStatus = "pending";
       residentPayment.paymentMode = "cash";
 
-     
       await incomeRecord.save();
 
-     
       const notification = new Notification({
         title: "Cash Payment Rejected",
         name: "Income Payment",
         message: `Your cash payment for income ${incomeRecord.title} has been rejected.`,
-        othercontent: incomeRecord._id,
-        users: [
-          { _id: residentId, model: residentPayment.residentType }, 
-        ],
+        othercontent: {
+          incomeId: incomeRecord._id,
+          residentId: residentId,
+        },
+        paymentAmount: Number(incomeRecord.amount),
+        type: "rejected",
+        users: [{ _id: residentId, model: residentPayment.residentType }],
       });
       await notification.save();
 
@@ -603,7 +577,6 @@ exports.approveOrRejectIncomePayment = async (req, res) => {
       });
     }
 
-   
     return res.status(400).json({
       success: false,
       message: "Invalid action specified. Use 'approve' or 'reject'.",
@@ -616,5 +589,3 @@ exports.approveOrRejectIncomePayment = async (req, res) => {
     });
   }
 };
-
-

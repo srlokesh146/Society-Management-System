@@ -25,6 +25,7 @@ import {
   clearNotifications,
   deleteNotification,
 } from "../redux/features/notificationSlice";
+import { ApproveCashRequest, sendCashRequest } from "../services/incomeService";
 
 const Navbar = () => {
   const notifications = useSelector(
@@ -42,12 +43,18 @@ const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAccepted, setIsAccepted] = useState(false);
   const [notificationList, setIsNotificationList] = useState(notifications);
+  // for payment
+  const [maintenance, setMaintenance] = useState(null);
+  const [income, setIncome] = useState(null);
+  const [facility, setFacility] = useState(null);
+  const [announcement, setAnnouncement] = useState(null);
+
   const navigate = useNavigate();
   const location = useLocation();
 
   const perPersonAmount = 1500;
-  const baseAmount = 1500;
-  const totalAmount = baseAmount * selectedMembers;
+
+  const totalAmount = income?.paymentAmount * selectedMembers;
 
   const {
     isDashboard,
@@ -69,12 +76,50 @@ const Navbar = () => {
     }
   };
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (notification) => {
+    if (notification.type === "Income" || notification.type === "rejected") {
+      setIncome(notification);
+      setIsModalOpen(true);
+    }
+    if (notification.type === "approve") {
+      const { incomeId, residentId } = notification.othercontent;
+      handleCashApproval(incomeId, residentId, "approve");
+      declineNotification(notification._id);
+    }
+    if (notification.type === "Maintenance") {
+      navigate("/maintenceinvoices");
+    }
     // if (user.role === "admin") {
     //   navigate("/income");
     // } else if (user.role === "resident") {
     //   navigate("/maintenceinvoices");
     // }
+  };
+
+  const handleCashApproval = async (incomeId, residentId, action) => {
+    try {
+      const response = await ApproveCashRequest(incomeId, residentId, {
+        action,
+      });
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const handleCashApprovalMaintenance = async (
+    maintenanceId,
+    residentId,
+    action
+  ) => {
+    try {
+      const response = await ApproveCashRequest(incomeId, residentId, {
+        action,
+      });
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
   const handleChange = (e) => {
@@ -102,6 +147,23 @@ const Navbar = () => {
     }
   };
 
+  const handlePaymentOfOtherIncome = async (type) => {
+    // sent request to admin
+    if (income) {
+      try {
+        const response = await sendCashRequest(income.othercontent.incomeId, {
+          paymentMode: type,
+        });
+        declineNotification(income._id);
+        toast.success(response.data.message);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      } finally {
+        setIncome(null);
+      }
+    }
+  };
+
   useEffect(() => {
     if (isDashboard) {
       setShowSearch(true);
@@ -121,6 +183,7 @@ const Navbar = () => {
     isIncome,
   ]);
 
+  // decline
   const declineNotification = async (id) => {
     try {
       setIsNotificationList((prev) => prev.filter((n) => n._id !== id));
@@ -130,6 +193,13 @@ const Navbar = () => {
     } catch (error) {
       toast.error(error.response.data.message);
     }
+  };
+
+  // reject by admin
+  const rejectCashReq = (notification) => {
+    const { incomeId, residentId } = notification.othercontent;
+    handleCashApproval(incomeId, residentId, "reject");
+    declineNotification(notification._id);
   };
 
   // fetch notification
@@ -202,7 +272,6 @@ const Navbar = () => {
           ))}
         </div>
       )}
-
       <div className="flex items-center space-x-4 justify-end w-full max-md:justify-end max-sm:justify-end">
         <div className="input-search-icon max-sm:block max-xl:hidden lg:hidden max-sm:rounded-full"></div>
         {/* Notification Icon */}
@@ -283,27 +352,33 @@ const Navbar = () => {
                       <div className="flex space-x-3 mt-2  max-md:justify-start max-sm:space-x-0">
                         <div className="space-x-3">
                           <button
-                            onClick={handleOpenModal}
-                            className={`px-[28px] py-[8px] text-xs rounded-[10px] ${
-                              isAccepted
-                                ? "border border-gray-300"
-                                : "bg-[#5678E9] text-white border border-gray-300"
-                            }`}
+                            onClick={() => handleOpenModal(notification)}
+                            className="px-[28px] py-[8px] text-xs rounded-[10px] border border-gray-300"
                           >
-                            View
+                            {notification.type === "rejected"
+                              ? "Pay Online"
+                              : "Accept"}
                           </button>
-                          <button
-                            onClick={() =>
-                              declineNotification(notification._id)
-                            }
-                            className={`px-[28px] py-[8px] text-xs rounded-[10px] ${
-                              isAccepted
-                                ? "bg-[#5678E9] text-white border border-gray-300"
-                                : "border border-gray-300"
-                            }`}
-                          >
-                            Decline
-                          </button>
+
+                          {notification.type === "approve" ? (
+                            <button
+                              onClick={() => rejectCashReq(notification)}
+                              className={`px-[28px] py-[8px] text-xs rounded-[10px] bg-[#5678E9] 
+                                  border border-gray-300 text-white`}
+                            >
+                              Reject
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() =>
+                                declineNotification(notification._id)
+                              }
+                              className={`px-[28px] py-[8px] text-xs rounded-[10px] bg-[#5678E9] 
+                                border border-gray-300 text-white`}
+                            >
+                              Decline
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -313,6 +388,7 @@ const Navbar = () => {
             </div>
           )}
           <PayPersonModal
+            income={income}
             isOpen={isModalOpen}
             onClose={() => {
               setIsModalOpen(false);
@@ -325,6 +401,7 @@ const Navbar = () => {
             selectedMembers={selectedMembers}
           />
           <PayNowModal
+            income={income}
             isOpen={isPayNowOpen}
             onClose={() => {
               setIsPayNowOpen(false);
@@ -336,6 +413,7 @@ const Navbar = () => {
             setIsPaymanNowOpen={() => setIsPaymantNowOpen(true)}
           />
           <PayMentMathodModal
+            handlePayment={handlePaymentOfOtherIncome}
             isOpen={isPaymentNowOpen}
             onClose={() => {
               setIsPaymantNowOpen(false);

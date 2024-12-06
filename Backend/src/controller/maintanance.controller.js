@@ -6,14 +6,14 @@ const Maintenance = require("../models/maintenance.model");
 const Owner = require("../models/Owener.model");
 const Tenante = require("../models/Tenent.model");
 const Notification = require("../models/notification.schema");
-const PDFDocument = require('pdfkit');
-const path = require('path');
+const PDFDocument = require("pdfkit");
+const path = require("path");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const constant = require("../config/constant");
 const razorpay = new Razorpay({
   key_id: constant.key_id,
-  key_secret:constant.key_secret,
+  key_secret: constant.key_secret,
 });
 //check password correction in maintenance
 exports.CheckMaintenancePassword = async (req, res) => {
@@ -73,7 +73,6 @@ exports.CreateMaintenance = async (req, res) => {
       resident: resident.id,
       paymentStatus: "pending",
       residentType: resident.Resident_status,
-     
     }));
 
     maintenance.residentList = residentsWithStatus;
@@ -101,9 +100,11 @@ exports.CreateMaintenance = async (req, res) => {
     const notification = new Notification({
       title: "New Maintenance Added",
       name: "Annual Maintenance",
-      message: `Per person amount :-  ${maintenanceAmount} rupees. - Duedate ${dueDate}`,
+      message: `Maintenance amount  ${maintenanceAmount} rupees. - Duedate ${dueDate}`,
       users: allUsers,
-      type:"Maintenance"
+      type: "Maintenance",
+      paymentAmount: Number(maintenanceAmount),
+      othercontent: { maintenanceId: maintenance._id },
     });
 
     await notification.save();
@@ -147,12 +148,12 @@ exports.GetMaintenance = async (req, res) => {
 
 exports.updatePaymentMode = async (req, res) => {
   const { maintenanceId } = req.params;
-  const { paymentMode, razorpayPaymentId, razorpayOrderId, razorpaySignature } = req.body;
+  const { paymentMode, razorpayPaymentId, razorpayOrderId, razorpaySignature } =
+    req.body;
   const residentId = req.user.id;
-  const isAdmin = req.user.role === "admin"; 
+  const isAdmin = req.user.role === "admin";
 
   try {
-   
     const maintenanceRecord = await Maintenance.findById(maintenanceId);
     if (!maintenanceRecord) {
       return res.status(404).json({
@@ -161,7 +162,6 @@ exports.updatePaymentMode = async (req, res) => {
       });
     }
 
-   
     const residentPayment = maintenanceRecord.residentList.find(
       (member) => member.resident.toString() === residentId
     );
@@ -173,8 +173,12 @@ exports.updatePaymentMode = async (req, res) => {
       });
     }
 
-    
-    if (paymentMode === "online" && razorpayOrderId && razorpayPaymentId && razorpaySignature) {
+    if (
+      paymentMode === "online" &&
+      razorpayOrderId &&
+      razorpayPaymentId &&
+      razorpaySignature
+    ) {
       const generatedSignature = crypto
         .createHmac("sha256", constant.key_secret)
         .update(`${razorpayOrderId}|${razorpayPaymentId}`)
@@ -187,7 +191,6 @@ exports.updatePaymentMode = async (req, res) => {
         });
       }
 
-      
       const updatedMaintenance = await Maintenance.findOneAndUpdate(
         { _id: maintenanceId, "residentList.resident": residentId },
         {
@@ -206,11 +209,12 @@ exports.updatePaymentMode = async (req, res) => {
         });
       }
 
-      
       const admin = await User.find();
-      
-      const adminuser = admin.map((owner) => ({ _id: owner._id, model: "User" }));
-      
+
+      const adminuser = admin.map((owner) => ({
+        _id: owner._id,
+        model: "User",
+      }));
 
       const allUsers = [...adminuser];
 
@@ -218,9 +222,11 @@ exports.updatePaymentMode = async (req, res) => {
         title: `New Maintenance Payment`,
         name: "Maintenance Payment Successful",
         message: `Payment for maintenance ${maintenanceRecord.title} has been successfully completed (Online).`,
-        othercontent: updatedMaintenance._id,
+        othercontent: {
+          maintenanceId: updatedMaintenance._id,
+          residentId: residentId,
+        },
         users: allUsers,
-        
       });
 
       await notification.save();
@@ -232,15 +238,13 @@ exports.updatePaymentMode = async (req, res) => {
       });
     }
 
-   
     if (paymentMode === "cash") {
-   
       const updatedMaintenance = await Maintenance.findOneAndUpdate(
         { _id: maintenanceId, "residentList.resident": residentId },
         {
           $set: {
-            "residentList.$.paymentMode": "cash", 
-            "residentList.$.paymentStatus": "pending", 
+            "residentList.$.paymentMode": "cash",
+            "residentList.$.paymentStatus": "pending",
           },
         },
         { new: true }
@@ -253,19 +257,24 @@ exports.updatePaymentMode = async (req, res) => {
         });
       }
 
-    
       const admin = await User.find();
-      
-      const adminuser = admin.map((owner) => ({ _id: owner._id, model: "User" }));
-      
+
+      const adminuser = admin.map((owner) => ({
+        _id: owner._id,
+        model: "User",
+      }));
 
       const allUsers = [...adminuser];
 
       const notification = new Notification({
         title: `New Cash Payment Request`,
         name: "Cash Payment Pending",
-        message: `A cash payment for maintenance ${maintenanceRecord.title} is requested. Admin approval is required.`,
-        othercontent: residentId,
+        message: `cash payment request from ${req?.user?.Full_name} for maintenance`,
+        othercontent: {
+          maintenanceId: updatedMaintenance._id,
+          residentId: residentId,
+        },
+        type: "maintenance-approve",
         users: allUsers,
       });
 
@@ -277,7 +286,6 @@ exports.updatePaymentMode = async (req, res) => {
       });
     }
 
-   
     return res.status(400).json({
       success: false,
       message: "Incomplete payment details provided",
@@ -403,12 +411,11 @@ exports.GetMaintananceDone = async (req, res) => {
       success: false,
       message: "Error fetching maintenance",
     });
-  };
-}
+  }
+};
 
 exports.GeneratePdf = async (req, res) => {
   try {
-
     const {
       invoiceId,
       ownerName,
@@ -427,47 +434,40 @@ exports.GeneratePdf = async (req, res) => {
 
     const doc = new PDFDocument({ margin: 40 });
 
-
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename=maintenance_invoice.pdf');
-
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=maintenance_invoice.pdf"
+    );
 
     doc.pipe(res);
 
-
     doc
       .fontSize(18)
-      .text('Maintenance Invoice', { align: 'center' })
+      .text("Maintenance Invoice", { align: "center" })
       .moveDown();
-
 
     doc
       .fontSize(12)
       .text(`Invoice ID: ${invoiceId}`)
       .text(`Owner Name: ${ownerName}`)
       .text(`Bill Date: ${billDate}`)
-      .text(`Payment Date: ${paymentDate || '--'}`)
+      .text(`Payment Date: ${paymentDate || "--"}`)
 
       .text(`Phone Number: ${phoneNumber}`)
       .text(`Email: ${email}`)
-      .text(`Address: ${Wing || 'N/A'}-${Unit || 'N/A'}`)
+      .text(`Address: ${Wing || "N/A"}-${Unit || "N/A"}`)
       .moveDown();
 
-
-    doc
-      .fontSize(14)
-      .text('Invoice Summary', { align: 'center' })
-      .moveDown(0.5);
+    doc.fontSize(14).text("Invoice Summary", { align: "center" }).moveDown(0.5);
 
     const tableTop = doc.y;
     const tableLeft = 50;
 
-
     doc
       .fontSize(10)
-      .text('Details', tableLeft, tableTop)
-      .text('Amount (₹)', 400, tableTop, { width: 90, align: 'right' });
-
+      .text("Details", tableLeft, tableTop)
+      .text("Amount (₹)", 400, tableTop, { width: 90, align: "right" });
 
     doc
       .moveTo(tableLeft, tableTop + 15)
@@ -476,57 +476,48 @@ exports.GeneratePdf = async (req, res) => {
 
     let yPosition = tableTop + 25;
 
-
     const addTableRow = (label, value) => {
       doc
         .fontSize(10)
         .text(label, tableLeft, yPosition)
-        .text(`₹${value.toLocaleString()}`, 400, yPosition, { width: 90, align: 'right' });
+        .text(`₹${value.toLocaleString()}`, 400, yPosition, {
+          width: 90,
+          align: "right",
+        });
       yPosition += 20;
     };
 
+    addTableRow("Maintenance Amount", maintenanceAmount);
+    addTableRow("Penalty Amount", penaltyAmount);
+    addTableRow("Grand Total", grandTotal);
 
-    addTableRow('Maintenance Amount', maintenanceAmount);
-    addTableRow('Penalty Amount', penaltyAmount);
-    addTableRow('Grand Total', grandTotal);
-
-
-    doc
-      .moveTo(tableLeft, yPosition)
-      .lineTo(500, yPosition)
-      .stroke();
+    doc.moveTo(tableLeft, yPosition).lineTo(500, yPosition).stroke();
 
     yPosition += 20;
 
-
     doc
       .fontSize(12)
-      .text('Note:', tableLeft, yPosition)
+      .text("Note:", tableLeft, yPosition)
       .fontSize(10)
-      .text(note || '--', tableLeft + 50, yPosition);
-
+      .text(note || "--", tableLeft + 50, yPosition);
 
     doc
       .moveDown(2)
       .fontSize(10)
-      .text('Thank you for your payment!', { align: 'center' });
-
+      .text("Thank you for your payment!", { align: "center" });
 
     doc.end();
-
   } catch (error) {
-
-    res.status(500).json({ error: 'Internal server error.' });
+    res.status(500).json({ error: "Internal server error." });
   }
 };
 
 exports.approveOrRejectPayment = async (req, res) => {
   const { maintenanceId, residentId } = req.params;
-  const { action } = req.body;  
+  const { action } = req.body;
   const adminId = req.user.id;
 
   try {
-    
     const maintenanceRecord = await Maintenance.findById(maintenanceId);
     if (!maintenanceRecord) {
       return res.status(404).json({
@@ -535,7 +526,6 @@ exports.approveOrRejectPayment = async (req, res) => {
       });
     }
 
-    
     const residentPayment = maintenanceRecord.residentList.find(
       (member) => member.resident.toString() === residentId
     );
@@ -547,31 +537,25 @@ exports.approveOrRejectPayment = async (req, res) => {
       });
     }
 
-   
-    if (residentPayment.paymentStatus !== 'pending') {
+    if (residentPayment.paymentStatus !== "pending") {
       return res.status(400).json({
         success: false,
         message: "This payment has already been processed",
       });
     }
 
-    
-    if (action === 'approve') {
-      residentPayment.paymentStatus = 'done';
-      residentPayment.paymentMode = 'cash';  
+    if (action === "approve") {
+      residentPayment.paymentStatus = "done";
+      residentPayment.paymentMode = "cash";
 
-    
       await maintenanceRecord.save();
 
-    
       const notification = new Notification({
         title: "Cash Payment Approved",
         name: "Maintenance Payment",
         message: `Your cash payment for maintenance has been approved.`,
         othercontent: maintenanceRecord._id,
-        users: [
-          { _id: residentId, model: 'Owner' || 'Tenante'},  
-        ],
+        users: [{ _id: residentId, model: "Owner" || "Tenante" }],
       });
       await notification.save();
 
@@ -581,23 +565,18 @@ exports.approveOrRejectPayment = async (req, res) => {
       });
     }
 
-   
-    if (action === 'reject') {
-      residentPayment.paymentStatus = 'pending';
-      residentPayment.paymentMode = 'cash'; 
+    if (action === "reject") {
+      residentPayment.paymentStatus = "pending";
+      residentPayment.paymentMode = "cash";
 
-      
       await maintenanceRecord.save();
 
-    
       const notification = new Notification({
         title: "Cash Payment Rejected",
         name: "Maintenance Payment",
         message: `Your cash payment for maintenance has been rejected.`,
         othercontent: maintenanceRecord._id,
-        users: [
-          { _id: residentId, model: 'Owner' || 'Tenante'},  
-        ],
+        users: [{ _id: residentId, model: "Owner" || "Tenante" }],
       });
       await notification.save();
 
@@ -607,7 +586,6 @@ exports.approveOrRejectPayment = async (req, res) => {
       });
     }
 
-    
     return res.status(400).json({
       success: false,
       message: "Invalid action specified. Use 'approve' or 'reject'.",
@@ -620,6 +598,3 @@ exports.approveOrRejectPayment = async (req, res) => {
     });
   }
 };
-
-
-
