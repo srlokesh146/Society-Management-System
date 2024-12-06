@@ -103,6 +103,7 @@ exports.CreateMaintenance = async (req, res) => {
       name: "Annual Maintenance",
       message: `Per person amount :-  ${maintenanceAmount} rupees. - Duedate ${dueDate}`,
       users: allUsers,
+      type:"Maintenance"
     });
 
     await notification.save();
@@ -219,6 +220,7 @@ exports.updatePaymentMode = async (req, res) => {
         message: `Payment for maintenance ${maintenanceRecord.title} has been successfully completed (Online).`,
         othercontent: updatedMaintenance._id,
         users: allUsers,
+        
       });
 
       await notification.save();

@@ -49,6 +49,7 @@ exports.CreateAnnouncement = async (req, res) => {
       message: description,
       othercontent: announcement._id,
       users: allUsers,
+      type:"announcement"
     });
 
     await notification.save();

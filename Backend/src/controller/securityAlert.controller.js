@@ -49,6 +49,7 @@ exports.CreateAlert = async (req, res) => {
       name: alert_type,
       message: description,
       users: allUsers,
+      type:"alert"
     });
 
     await notification.save();

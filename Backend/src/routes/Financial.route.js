@@ -91,6 +91,8 @@ router.delete("/income/:id", FinancialController.DeleteIncome);
 router.patch("/income/:id", FinancialController.UpdateIncome);
 //get done income
 router.get("/doneincome", FinancialController.GetIncomeDone);
+// Admin approves cash payment income
+router.put('/income/:incomeId/approveCashPayment/:residentId', auth,FinancialController.approveOrRejectIncomePayment);
 //get done income total
 router.get("/totalMaintenanceDone", FinancialController.GetTotalIncomeeDone);
 //FindByIdUserAndIncome
