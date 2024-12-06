@@ -185,8 +185,7 @@ exports.updatePaymentMode = async (req, res) => {
           success: false,
           message: "Payment verification failed",
         });
-      }
-
+      }  
       
       const updatedMaintenance = await Maintenance.findOneAndUpdate(
         { _id: maintenanceId, "residentList.resident": residentId },
@@ -382,14 +381,22 @@ exports.applyPenalty = async (req, res) => {
 
 //get done maintannace
 exports.GetMaintananceDone = async (req, res) => {
+  const userId = req.user.id;
+
   try {
     const maintenanceRecords = await Maintenance.find({
+      "residentList.resident": userId,
       "residentList.paymentStatus": "done",
-    }).populate("residentList.resident");
+    }).populate({
+      path: "residentList.resident",
+    
+    });
 
     const filteredRecords = maintenanceRecords.map((record) => {
       record.residentList = record.residentList.filter(
-        (resident) => resident.paymentStatus === "done"
+        (resident) =>
+          resident.paymentStatus === "done" &&
+          resident.resident._id.toString() === userId
       );
       return record;
     });
@@ -399,12 +406,15 @@ exports.GetMaintananceDone = async (req, res) => {
       Maintenance: filteredRecords,
     });
   } catch (error) {
+    console.error("Error fetching maintenance:", error);
     return res.status(500).json({
       success: false,
       message: "Error fetching maintenance",
     });
-  };
-}
+  }
+};
+
+
 
 exports.GeneratePdf = async (req, res) => {
   try {

@@ -383,6 +383,12 @@ function Announcement () {
                         onChange={handleDateChange}
                         onClickOutside={() => setIsOpen(false)}
                         className='w-full px-3 py-3 pl-3 text-sm border border-gray-300 rounded-md focus:outline-none'
+                        selected={startDate}
+                        minDate={new Date()} 
+                        onChange={date => {
+                          setStartDate(date)
+                          handleAnnouncementChange('date', date.toISOString())
+                        }}
                         dateFormat='yyyy-MM-dd'
                         placeholderText='Select Date'
                         defaultValue={

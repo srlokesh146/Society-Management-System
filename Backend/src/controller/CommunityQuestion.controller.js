@@ -84,3 +84,66 @@ exports.GetQuestion = async (req, res) => {
     });
   }
 };
+
+
+
+
+// Controller for voting on a question
+exports.voteOnQuestion = async (req, res) => {
+  const { questionId } = req.params; 
+  const { voteType } = req.body;
+  const userId = req.user.id; 
+
+  try {
+   
+    const question = await Question.findById(questionId);
+    if (!question) {
+      return res.status(404).json({
+        success: false,
+        message: "Question not found",
+      });
+    }
+
+    
+    const userVoteHistory = question.userVotes || {};
+    const previousVote = userVoteHistory[userId];
+
+   
+    if (voteType === "upvote") {
+     
+      if (previousVote !== "upvote") {
+        question.upVote += 1;
+        userVoteHistory[userId] = "upvote"; 
+      }
+    } else if (voteType === "downvote") {
+    
+     
+      if (previousVote !== "downvote") {
+        question.downVote += 1;
+        userVoteHistory[userId] = "downvote"; 
+      }
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid vote type. Use 'upvote' or 'downvote'.",
+      });
+    }
+
+   
+    question.userVotes = userVoteHistory; 
+    await question.save();
+
+    return res.status(200).json({
+      success: true,
+      message: `Successfully ${voteType}d the question.`,
+     
+    });
+  } catch (error) {
+    console.error("Error while voting:", error);
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while processing the vote.",
+    });
+  }
+};
+
