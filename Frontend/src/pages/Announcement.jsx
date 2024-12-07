@@ -22,7 +22,7 @@ import calendar from '../assets/images/calendar.svg'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-function Announcement () {
+function Announcement() {
   const [announcements, setAnnouncements] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalType, setModalType] = useState('')
@@ -325,11 +325,10 @@ function Announcement () {
                           />
                           <label
                             htmlFor={type}
-                            className={`text-sm ${
-                              selectedType === type
+                            className={`text-sm ${selectedType === type
                                 ? 'font-semibold text-black cursor-pointer'
                                 : 'text-[#A7A7A7] cursor-pointer'
-                            }`}
+                              }`}
                           >
                             {type}
                           </label>
@@ -383,19 +382,13 @@ function Announcement () {
                         onChange={handleDateChange}
                         onClickOutside={() => setIsOpen(false)}
                         className='w-full px-3 py-3 pl-3 text-sm border border-gray-300 rounded-md focus:outline-none'
-                        selected={startDate}
-                        minDate={new Date()} 
-                        onChange={date => {
-                          setStartDate(date)
-                          handleAnnouncementChange('date', date.toISOString())
-                        }}
                         dateFormat='yyyy-MM-dd'
                         placeholderText='Select Date'
                         defaultValue={
                           currentAnnouncement?.date
                             ? new Date(currentAnnouncement?.date)
-                                .toISOString()
-                                .split('T')[0]
+                              .toISOString()
+                              .split('T')[0]
                             : ''
                         }
                         minDate={new Date()}
@@ -436,11 +429,10 @@ function Announcement () {
                     onClick={handleAction}
                     disabled={!isFormFilled}
                     className={`w-full py-3 text-sm font-medium rounded-lg transition-all duration-300
-                ${
-                  isFormFilled
-                    ? 'bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90'
-                    : 'bg-[#F6F8FB] text-black-400 cursor-not-allowed'
-                }`}
+                ${isFormFilled
+                        ? 'bg-gradient-to-r from-[#FE512E] to-[#F09619] text-white hover:opacity-90'
+                        : 'bg-[#F6F8FB] text-black-400 cursor-not-allowed'
+                      }`}
                   >
                     {isLoading ? (
                       <Loader /> // Loader component
