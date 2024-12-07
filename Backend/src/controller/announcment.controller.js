@@ -113,7 +113,7 @@ exports.GetActivityAnnouncements = async (req, res) => {
     }
     return res.status(200).json({
       success: false,
-      Announcement: find,
+      Announcement: activities,
     });
   } catch (error) {
     return res.status(500).json({
@@ -123,7 +123,8 @@ exports.GetActivityAnnouncements = async (req, res) => {
   }
 };
 //get activity announcement
-exports.GetActivityAnnouncements = async (req, res) => {
+exports.GetActivityParticipants = async (req, res) => {
+  console.log("hello");
   try {
     const activities = await Announcement.find({
       type: "Activity",
@@ -134,6 +135,8 @@ exports.GetActivityAnnouncements = async (req, res) => {
         select: "profileImage Full_name",
       })
       .exec();
+
+      console.log(activities);
 
     if (!activities || activities.length === 0) {
       return res.status(404).json({

@@ -26,9 +26,6 @@ function DueMaintence() {
         paymentMode: paymentMode
       })
       toast.success(response.data.message)
-      setDueMaintenance(prev =>
-        prev.filter(entry => entry._id !== payMaintenance._id)
-      )
     } catch (error) {
       toast.error(error.response.data.message)
     } finally {
