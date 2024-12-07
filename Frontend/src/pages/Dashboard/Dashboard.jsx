@@ -253,10 +253,10 @@ const Dashboard = () => {
               <BalanceChart />
             </div>
 
-            <div className="col-span-12 max-md:col-span-12 lg:col-span-3 max-xl:col-span-3 mt-[-13px]">
-              <div className="bg-white p-[20px] rounded-[15px] h-[360px] w-full">
-                <div className="flex justify-between items-center mb-5">
-                  <h3 className="text-lg font-semibold max-sm:text-[16px] max-mb:text-[18px]">
+            <div className='col-span-12 max-md:col-span-12 lg:col-span-3 max-xl:col-span-3 mt-[-13px] max-2xl:mt-[0]'>
+              <div className='bg-white p-[20px] rounded-[15px] h-[360px] w-full'>
+                <div className='flex justify-between items-center mb-5'>
+                  <h3 className='text-lg font-semibold max-sm:text-[16px] max-mb:text-[18px]'>
                     Important Numbers
                   </h3>
                   {role === "admin" && (
@@ -349,11 +349,10 @@ const Dashboard = () => {
                 />
               )}
             </div>
-
-            <div className="max-md:col-span-12 lg:col-span-3 max-xl:col-span-3 mt-[-14px]">
-              <div className="bg-white p-[20px] rounded-[15px] h-full">
-                <div className="flex justify-between items-center mb-5">
-                  <h3 className="text-lg font-semibold max-sm:text-[16px] max-mb:text-[18px]">
+            <div className='max-md:col-span-12 lg:col-span-3 max-xl:col-span-3 mt-[-13px] max-2xl:mt-[0]'>
+              <div className='bg-white p-[20px] rounded-[15px] h-full'>
+                <div className='flex justify-between items-center mb-5'>
+                  <h3 className='text-lg font-semibold max-sm:text-[16px] max-mb:text-[18px]'>
                     Pending Maintenances
                   </h3>
                   <button className="py-[8px] px-[10px] rounded-[10px] text-[#5678E9] font-semibold text-[14px] leading-[14px]">
@@ -423,11 +422,11 @@ const Dashboard = () => {
             <div className="col-span-6 max-md:col-span-12 max-lg:col-span-12 rounded-lg max-xl:col-span-12 max-2xl:col-span-4">
               <DashboardTable />
             </div>
-            <div className="col-span-2 max-sm:col-span-12 max-md:col-span-12 max-xl:col-span-12">
-              <div className="bg-[#fff] rounded-[15px] w-[380px] p-[20px] h-[345px] overflow-hidden  mt-[-5px]">
-                <div className="flex justify-between items-center mb-[27px] ps-[20px] pr-[20px] max-sm:ps-[10px] max-sm:pr-0">
-                  <div className="flex items-center">
-                    <h2 className="text-[18px] mt-[-15px] font-semibold leading-[27px] max-sm:text-[16px] max-md:text-[18px] max-2xl:text-[18px] whitespace-nowrap">
+            <div className='col-span-2 max-sm:col-span-12 max-md:col-span-12 max-xl:col-span-12'>
+              <div className='bg-[#fff] rounded-[15px] p-[20px] h-[345px] overflow-hidden  mt-[-5px]'>
+                <div className='flex justify-between items-center mb-[27px] max-sm:ps-[10px] max-sm:pr-0'>
+                  <div className='flex items-center'>
+                    <h2 className='text-[18px] text-lg font-semibold max-mb:text-[18px] leading-[27px] max-sm:text-[16px] max-md:text-[18px] max-2xl:text-[18px]'>
                       Upcoming Activity
                     </h2>
                   </div>
@@ -435,7 +434,7 @@ const Dashboard = () => {
                   <div className="relative  mt-[-10px]  ">
                     <button
                       onClick={handleToggleDropdown}
-                      className="border border-gray-300 rounded-lg ps-[14px] ml-10  flex justify-between items-center w-[120px] text-[15px] h-[44px] capitalize font-semibold"
+                      className='border border-gray-300 rounded-lg ps-[14px] ml-10  flex justify-between items-center w-[120px] text-[15px] h-[44px] capitalize font-semibold max-3xl:ml-6 max-3xl:mt-[15px] mt-[15px]'
                     >
                       {selectedPeriod}{" "}
                       <img
@@ -494,7 +493,7 @@ const Dashboard = () => {
                             {activity.title[0].toUpperCase()}
                           </div>
                           <div>
-                            <p className="text-sm font-medium  mb-1">
+                            <p className='text-sm font-semibold  mb-1'>
                               {activity.title}
                             </p>
                             <p className="text-[14px] text-[#A7A7A7]  leading-[19.5px]">

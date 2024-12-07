@@ -94,7 +94,7 @@ function App () {
         <div
           className={`flex-1 ${
             location.pathname === '/dashboard'
-              ? 'overflow-hidden max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-y-auto p-6 custom-scrollbar'
+              ? 'overflow-hidden max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-auto max-2xl:overflow-auto max-3xl:overflow-y-auto max-2xl:mt-[0] p-6 custom-scrollbar'
               : location.pathname === '/accessforums'
               ? 'overflow-auto overflow-y-hidden'
               : location.pathname === '/editprofile'
