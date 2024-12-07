@@ -35,6 +35,7 @@ export const GetEventsParticipants = async () =>
 export const GetEventParticipantById = async (id) =>
   await api.get(`/v2/financial/income/${id}`);
 
+// download invoice
 export const DownloadInvoice = async (data) => {
   try {
     const response = await api.post("/v2/financial/generate-pdf", data, {
@@ -42,6 +43,19 @@ export const DownloadInvoice = async (data) => {
     });
     return response.data;
   } catch (error) {
-    throw new Error(error.response ? error.response.data.message : "Error generating invoice.");
+    throw new Error(
+      error.response ? error.response.data.message : "Error generating invoice."
+    );
   }
 };
+
+// send request for cash payment by resident
+export const sendCashRequest = async (id, data) =>
+  await api.put(`/v2/financial/income/${id}/resident/payment`, data);
+
+// approve cash request of resident
+export const ApproveCashRequest = async (incomeId, residentId, action) =>
+  await api.put(
+    `/v2/financial/income/${incomeId}/approveCashPayment/${residentId}`,
+    action
+  );

@@ -26,7 +26,7 @@ export default function PayMentMathodModal({
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
       <div className="bg-white p-6 shadow-lg relative w-[410px] rounded-[15px]">
         <h2 className="text-lg font-semibold mb-[10px]">
-          Detail of the Per Person
+          Card Detail
         </h2>
         <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
         {/* Payment Methods */}

@@ -33,11 +33,15 @@ exports.DeleteSingleNotification = async (req, res) => {
   const { notificationId } = req.params;
   const loggedInUserId = req.user.id;
 
+  console.log(notificationId);
+
   try {
     const notification = await Notification.findOne({
       _id: notificationId,
       "users._id": loggedInUserId,
     });
+ 
+    console.log(notification);
 
     if (!notification) {
       return res.status(404).json({
