@@ -24,7 +24,7 @@ export const UpdateMaintenanceStatus = async (id, data) =>
 export const GetPaidMaintenances = async () =>
   await api.get("/v2/financial/donemaintannace");
 
-//download maintannace
+// download maintannace
 export const DownloadMaintanance = async (data) => {
   try {
     const response = await api.post("/v2/financial/main/generate-pdf", data, {
@@ -32,6 +32,19 @@ export const DownloadMaintanance = async (data) => {
     });
     return response.data;
   } catch (error) {
-    throw new Error(error.response ? error.response.data.message : "Error generating invoice.");
+    throw new Error(
+      error.response ? error.response.data.message : "Error generating invoice."
+    );
   }
 };
+
+// Approve Maintenance By Admin
+export const ApproveMaintenanceByAdmin = async (
+  maintenanceId,
+  residentId,
+  action
+) =>
+  await api.put(
+    `/v2/financial/maintenance/${maintenanceId}/approveCashPayment/${residentId}`,
+    { action }
+  );

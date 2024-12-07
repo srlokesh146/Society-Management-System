@@ -191,7 +191,6 @@ exports.updatePaymentMode = async (req, res) => {
         });
       }
 
-
       const updatedMaintenance = await Maintenance.findOneAndUpdate(
         { _id: maintenanceId, "residentList.resident": residentId },
         {
@@ -399,7 +398,6 @@ exports.GetMaintananceDone = async (req, res) => {
       "residentList.paymentStatus": "done",
     }).populate({
       path: "residentList.resident",
-    
     });
 
     const filteredRecords = maintenanceRecords.map((record) => {
@@ -423,7 +421,6 @@ exports.GetMaintananceDone = async (req, res) => {
     });
   }
 };
-
 
 exports.GeneratePdf = async (req, res) => {
   try {
@@ -562,10 +559,14 @@ exports.approveOrRejectPayment = async (req, res) => {
       await maintenanceRecord.save();
 
       const notification = new Notification({
+        type: "Approved",
         title: "Cash Payment Approved",
         name: "Maintenance Payment",
         message: `Your cash payment for maintenance has been approved.`,
-        othercontent: maintenanceRecord._id,
+        othercontent: {
+          maintenanceId: maintenanceRecord._id,
+          residentId: residentId,
+        },
         users: [{ _id: residentId, model: "Owner" || "Tenante" }],
       });
       await notification.save();
@@ -583,10 +584,14 @@ exports.approveOrRejectPayment = async (req, res) => {
       await maintenanceRecord.save();
 
       const notification = new Notification({
+        type: "rejected",
         title: "Cash Payment Rejected",
         name: "Maintenance Payment",
         message: `Your cash payment for maintenance has been rejected.`,
-        othercontent: maintenanceRecord._id,
+        othercontent: {
+          maintenanceId: maintenanceRecord._id,
+          residentId: residentId,
+        },
         users: [{ _id: residentId, model: "Owner" || "Tenante" }],
       });
       await notification.save();

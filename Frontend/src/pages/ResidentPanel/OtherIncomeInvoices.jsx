@@ -1,67 +1,62 @@
-import { useEffect, useState } from 'react'
-import PayMentMathodModal from '../../components/modal/PayMentMathodModal'
-import PayMenCard from '../../components/modal/PayMenCard'
-import { GetEventsForUser, paymemtEvent } from '../../services/incomeService'
-import toast from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
-import { Loader } from '../../utils/Loader'
-
-
+import { useEffect, useState } from "react";
+import PayMentMathodModal from "../../components/modal/PayMentMathodModal";
+import PayMenCard from "../../components/modal/PayMenCard";
+import { GetEventsForUser, paymemtEvent } from "../../services/incomeService";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { Loader } from "../../utils/Loader";
 
 function OtherIncomeInvoices() {
-
-  const [isPaymentNowOpen, setIsPaymantNowOpen] = useState(false)
-  const [isPaymenCardOpen, setisPaymenCardOpen] = useState(false)
-  const [payEvent, setPayEvent] = useState(null)
-  const [events, setEvents] = useState([])
+  const [isPaymentNowOpen, setIsPaymantNowOpen] = useState(false);
+  const [isPaymenCardOpen, setisPaymenCardOpen] = useState(false);
+  const [payEvent, setPayEvent] = useState(null);
+  const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  
-  const handlePedingEvents = event => {
-    setPayEvent(event)
-    setIsPaymantNowOpen(true)
-  }
+  const handlePedingEvents = (event) => {
+    setPayEvent(event);
+    setIsPaymantNowOpen(true);
+  };
 
-  const handlePayment = async paymentMode => {
+  const handlePayment = async (paymentMode) => {
     try {
       const response = await paymemtEvent(payEvent._id, {
-        paymentMode: paymentMode
-      })
-      toast.success(response.data.message)
-      setEvents(prev => prev.filter(entry => entry._id !== payEvent._id))
+        paymentMode: paymentMode,
+      });
+      toast.success(response.data.message);
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message);
     } finally {
-      setPayEvent(null)
+      setPayEvent(null);
     }
-  }
+  };
 
   const fetchEvents = async () => {
     try {
-      setIsLoading(true)
-      const response = await GetEventsForUser()
-      setEvents(response.data.Income)
+      setIsLoading(true);
+      const response = await GetEventsForUser();
+      setEvents(response.data.Income);
     } catch (error) {
-      error
+      error;
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
-  const navigate = useNavigate()
+  };
+  const navigate = useNavigate();
   const handleViewInvoice = () => {
-    navigate('/otherinvoices')
-  }
+    navigate("/otherinvoices");
+  };
   useEffect(() => {
-    fetchEvents()
-  }, [])
+    fetchEvents();
+  }, []);
 
   return (
     <div>
-      <div className='bg-white p-6 mt-6 rounded-lg shadow-sm'>
-        <div className='flex flex-col  sm:flex-row items-center justify-between'>
-          <h1 className='font-semibold text-[20px]'>Due Event Payment</h1>
+      <div className="bg-white p-6 mt-6 rounded-lg shadow-sm">
+        <div className="flex flex-col  sm:flex-row items-center justify-between">
+          <h1 className="font-semibold text-[20px]">Due Event Payment</h1>
           <button
-            className='border p-3 mt-4 sm:mt-0 bg-custom-gradient rounded-lg text-white font-medium'
+            className="border p-3 mt-4 sm:mt-0 bg-custom-gradient rounded-lg text-white font-medium"
             onClick={handleViewInvoice}
           >
             View Invoice
@@ -70,11 +65,14 @@ function OtherIncomeInvoices() {
         <div className="grid grid-cols-1 mt-4 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {isLoading ? (
             <div className="flex justify-center items-center col-span-full py-8">
-             <Loader/>
+              <Loader />
             </div>
           ) : events.length > 0 ? (
-            events.map(event => (
-              <div key={event._id} className="border border-grey-800 rounded-lg">
+            events.map((event) => (
+              <div
+                key={event._id}
+                className="border border-grey-800 rounded-lg"
+              >
                 <div className="bg-[#5678E9] text-white p-4 flex justify-between items-center rounded-t-lg">
                   <h2 className="text-sm sm:text-base font-semibold">
                     Due Event Payment
@@ -114,17 +112,17 @@ function OtherIncomeInvoices() {
               </div>
             ))
           ) : (
-            <div className='col-span-4 text-center text-gray-500 py-4'>No data found.</div>
+            <div className="col-span-4 text-center text-gray-500 py-4">
+              No data found.
+            </div>
           )}
         </div>
-
       </div>
-
 
       <PayMentMathodModal
         isOpen={isPaymentNowOpen}
         onClose={() => {
-          setIsPaymantNowOpen(false)
+          setIsPaymantNowOpen(false);
         }}
         setisPaymenCardOpen={() => setisPaymenCardOpen(true)}
         handlePayment={handlePayment}
@@ -132,12 +130,12 @@ function OtherIncomeInvoices() {
       <PayMenCard
         isOpen={isPaymenCardOpen}
         onClose={() => {
-          setisPaymenCardOpen(false)
+          setisPaymenCardOpen(false);
         }}
         handlePayment={handlePayment}
       />
     </div>
-  )
+  );
 }
 
-export default OtherIncomeInvoices
+export default OtherIncomeInvoices;

@@ -540,7 +540,7 @@ exports.approveOrRejectIncomePayment = async (req, res) => {
           incomeId: incomeRecord._id,
           residentId: residentId,
         },
-        type: "approved",
+        type: "Approved",
         users: [{ _id: residentId, model: residentPayment.residentType }],
       });
       await notification.save();

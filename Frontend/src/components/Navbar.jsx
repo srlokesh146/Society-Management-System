@@ -26,6 +26,8 @@ import {
   deleteNotification,
 } from "../redux/features/notificationSlice";
 import { ApproveCashRequest, sendCashRequest } from "../services/incomeService";
+import { AcceptAnnouncement } from "../services/announcementService";
+import { ApproveMaintenanceByAdmin } from "../services/maintenanceService";
 
 const Navbar = () => {
   const notifications = useSelector(
@@ -76,6 +78,7 @@ const Navbar = () => {
     }
   };
 
+  // notification click model open
   const handleOpenModal = (notification) => {
     if (notification.type === "Income" || notification.type === "rejected") {
       setIncome(notification);
@@ -89,6 +92,16 @@ const Navbar = () => {
     if (notification.type === "Maintenance") {
       navigate("/maintenceinvoices");
     }
+    if (notification.type === "announcement") {
+      const { announcementId } = notification.othercontent;
+      acceptAnnouncement(announcementId);
+      declineNotification(notification._id);
+    }
+    if (notification.type === "maintenance-approve") {
+      const { maintenanceId, residentId } = notification.othercontent;
+      acceptMaintenance(maintenanceId, residentId, "approve");
+      declineNotification(notification._id);
+    }
     // if (user.role === "admin") {
     //   navigate("/income");
     // } else if (user.role === "resident") {
@@ -96,22 +109,30 @@ const Navbar = () => {
     // }
   };
 
-  const handleCashApproval = async (incomeId, residentId, action) => {
+  const acceptMaintenance = async (maintenanceId, residentId, action) => {
     try {
-      const response = await ApproveCashRequest(incomeId, residentId, {
-        action,
-      });
+      const response = await ApproveMaintenanceByAdmin(
+        maintenanceId,
+        residentId,
+        action
+      );
       toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response.data.message);
     }
   };
 
-  const handleCashApprovalMaintenance = async (
-    maintenanceId,
-    residentId,
-    action
-  ) => {
+  const acceptAnnouncement = async (id) => {
+    try {
+      const response = await AcceptAnnouncement({ announcementId: id });
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+    }
+  };
+
+  const handleCashApproval = async (incomeId, residentId, action) => {
     try {
       const response = await ApproveCashRequest(incomeId, residentId, {
         action,
@@ -360,7 +381,7 @@ const Navbar = () => {
                               : "Accept"}
                           </button>
 
-                          {notification.type === "approve" ? (
+                          {notification.type.includes("approve") ? (
                             <button
                               onClick={() => rejectCashReq(notification)}
                               className={`px-[28px] py-[8px] text-xs rounded-[10px] bg-[#5678E9] 
