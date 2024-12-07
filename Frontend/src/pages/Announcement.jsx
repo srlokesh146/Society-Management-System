@@ -185,7 +185,7 @@ function Announcement() {
           onClick={handleCreateAnnouncement}
         >
           <div className='flex justify-center items-center '>
-            <span className='text-sm md:text-lg lg:text-[18px]'>
+            <span className='text-lg font-semibold leading-7'>
               Create Announcement
             </span>
           </div>
@@ -239,10 +239,10 @@ function Announcement() {
               </div>
               <div className='p-4'>
                 <div className='space-y-2'>
-                  <div className='flex items-center text-sm text-gray-600'>
-                    <span className='font-medium w-64'>Date:</span>
+                  <div className='flex items-center justify-between text-sm text-gray-600'>
+                    <span className='font-normal text-sm leading-[21px]'>Announcement Date</span>
                     <p className='text-black'>
-                      <span>
+                      <span className='font-medium'>
                         {new Date(announcement.date).toLocaleDateString(
                           'en-GB',
                           {
@@ -254,15 +254,15 @@ function Announcement() {
                       </span>
                     </p>
                   </div>
-                  <div className='flex items-center text-sm text-gray-600'>
-                    <span className='font-medium w-64'>Time:</span>
+                  <div className='flex items-center justify-between text-sm text-gray-600'>
+                    <span className='font-normal text-sm leading-[21px]'>Announcement Time</span>
                     <p className='text-black'>
-                      <span>{convert24hrTo12hr(announcement.time)}</span>
+                      <span className='font-medium'>{convert24hrTo12hr(announcement.time)}</span>
                     </p>
                   </div>
-                  <div className='text-sm text-gray-600'>
-                    <p className='font-medium mb-1'>Description:</p>
-                    <p className='line-clamp-3 text-black'>
+                  <div className='text-sm'>
+                    <p className='font-normal text-sm leading-[21px] text-[#4F4F4F]'>Description</p>
+                    <p className='text-[#202224] text-sm leading-[21px]'>
                       {announcement.description}
                     </p>
                   </div>

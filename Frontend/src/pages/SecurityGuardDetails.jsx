@@ -287,20 +287,20 @@ function SecurityGuardDetails () {
                             alt=''
                           />
                           <div className='ml-4'>
-                            <div className='text-sm font-medium text-[#4F4F4F]'>
+                            <div className='text-base font-medium text-[#4F4F4F]'>
                               {guard.full_name}
                             </div>
                           </div>
                         </div>
                       </td>
                       <td className='px-6 py-4'>
-                        <div className='text-sm font-medium text-center text-gray-[#4F4F4F]'>
+                        <div className='text-base font-medium text-center text-gray-[#4F4F4F]'>
                           {guard.MailOrPhone}
                         </div>
                       </td>
                       <td className='px-6 py-4 text-center'>
                         <span
-                          className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                          className={`inline-flex items-center justify-center px-3 py-1 rounded-full text-sm font-medium w-[113px] h-[31px] ${
                             guard.shift === 'Day'
                               ? 'bg-orange-50 text-orange-500'
                               : 'bg-gray-600 text-white'
@@ -315,7 +315,7 @@ function SecurityGuardDetails () {
                         </span>
                       </td>
                       <td className='px-6 py-4 text-center'>
-                        <div className='text-sm font-medium text-gray-500'>
+                        <div className='text-base font-medium text-gray-500'>
                           {new Date(guard.date).toLocaleDateString('en-GB', {
                             day: '2-digit',
                             month: '2-digit',
@@ -324,13 +324,13 @@ function SecurityGuardDetails () {
                         </div>
                       </td>
                       <td className='px-6 py-4 text-center'>
-                        <div className='inline-flex justify-center items-center rounded-full px-3 py-1 font-medium text-sm text-gray-500 bg-[#F6F8FB] w-[92px] h-[34px]'>
+                        <div className='inline-flex justify-center items-center rounded-full px-3 py-1 font-medium text-base text-gray-500 bg-[#F6F8FB] w-[92px] h-[34px]'>
                           {convert24hrTo12hr(guard.time)}
                         </div>
                       </td>
                       <td className='px-6 py-4 text-center'>
                         <span
-                          className={`inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium w-[113px] h-[31px] ${
+                          className={`inline-flex items-center justify-center px-3 py-1 rounded-full text-sm font-medium w-[113px] h-[31px] ${
                             guard.gender === 'Male'
                               ? 'bg-blue-50 text-blue-600'
                               : 'bg-pink-50 text-pink-600'
@@ -447,7 +447,7 @@ function SecurityGuardDetails () {
                       />
                     </div>
                     <div className='ml-[15px]'>
-                      <span className='text-blue-500 text-sm font-medium'>
+                      <span className='text-blue-500 text-base font-medium'>
                         Add Photo
                       </span>
                     </div>
