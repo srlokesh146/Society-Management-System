@@ -254,7 +254,7 @@ function SecurityProtocols () {
                 protocols.map(protocol => (
                   <tr
                     key={protocol._id}
-                    className='hover:bg-gray-50 transition-colors duration-200 text-[#4F4F4F]'
+                    className='transition-colors duration-200 text-[#4F4F4F]'
                   >
                     <td className='px-6 py-4 text-md font-medium'>
                       {protocol.title}
@@ -278,19 +278,19 @@ function SecurityProtocols () {
                       <div className='flex items-center justify-end gap-3'>
                         <button
                           onClick={() => handleEdit(protocol)}
-                          className='flex items-center ml-[10px] justify-center w-10 h-10 text-blue-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md'
+                          className='flex items-center ml-[10px] justify-center w-10 h-10 text-blue-500 transition-transform transform bg-gray-100 rounded-md'
                         >
                           <img src={edit} alt='Edit' />
                         </button>
                         <button
                           onClick={() => handleView(protocol)}
-                          className='flex items-center justify-center w-10 h-10 text-green-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md'
+                          className='flex items-center justify-center w-10 h-10 text-green-500 transition-transform transform bg-gray-100 rounded-md'
                         >
                           <img src={eye} alt='View' />
                         </button>
                         <button
                           onClick={() => handleDelete(protocol)}
-                          className='flex items-center justify-center w-10 h-10 text-red-500 transition-transform transform hover:scale-110 bg-gray-100 rounded-md'
+                          className='flex items-center justify-center w-10 h-10 text-red-500 transition-transform transform bg-gray-100 rounded-md'
                         >
                           <img src={trash} alt='Delete' />
                         </button>
@@ -371,16 +371,17 @@ function SecurityProtocols () {
                       <DatePicker
                         type='date'
                         selected={
-                          newProtocol.date ? new Date(newProtocol.date) : null
+                          newProtocol?.date ? new Date(newProtocol?.date) : null
                         }
                         open={isOpen}
                         onChange={handleDateChange}
                         onClickOutside={() => setIsOpen(false)}
-                        className='w-full px-3 py-2 pl-3 border border-gray-300 rounded-md focus:outline-none'
+                        className='w-full px-3 py-2 pl-3 text-sm border border-gray-300 rounded-md focus:outline-none'
                         dateFormat='yyyy-MM-dd'
+                        placeholderText='Select Date'
                         defaultValue={
                           newProtocol?.date
-                            ? new Date(newProtocol.date)
+                            ? new Date(newProtocol?.date)
                                 .toISOString()
                                 .split('T')[0]
                             : ''

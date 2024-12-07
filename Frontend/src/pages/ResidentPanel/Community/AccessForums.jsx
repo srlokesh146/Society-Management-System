@@ -434,7 +434,7 @@ export default function AccessForums() {
         )}
 
         {/* Chat Messages */}
-        <div className="overflow-x-hidden  p-[20px] custom-scrollbar h-[73.2vh] bg-[#F4F4F4]">
+        <div className="overflow-x-hidden  p-[20px] custom-scrollbar h-[73.2vh] bg-[#F4F4F4] flex justify-center items-center">
           {discussions && discussions.length > 0 ? (
             discussions.map((chat) => (
               <div
@@ -476,7 +476,7 @@ export default function AccessForums() {
               </div>
             ))
           ) : (
-            <p className="text-center text-gray-500 mt-10">
+            <p className="text-center text-gray-500">
               No messages found.
             </p>
           )}

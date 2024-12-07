@@ -10,6 +10,8 @@ import {
 import { addNewNotification } from "../redux/features/notificationSlice";
 import { useDispatch } from "react-redux";
 import { Loader } from "../utils/Loader";
+import calendar from '../assets/images/calendar.svg'
+import DatePicker from 'react-datepicker'
 
 function FacilityManagement() {
   const dispatch = useDispatch();
@@ -20,6 +22,15 @@ function FacilityManagement() {
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [isFormFilled, setIsFormFilled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false)
+  const [currentAnnouncement, setCurrentAnnouncement] = useState(null)
+  const [startDate, setStartDate] = useState(
+    currentFacility?.date ? new Date(currentFacility.date) : null
+  );
+
+  const handleCalendarClick = () => {
+    setIsCalendarOpen(!isCalendarOpen)
+  }
 
   const checkFormFilled = (facility) => {
     return (
@@ -166,22 +177,33 @@ function FacilityManagement() {
         />
       </div>
 
-      <div className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Sechudule Service Date
+      <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+        <div className='relative'>
+          <label className='block text-sm font-medium text-gray-700 mb-1'>
+            Schedule Service Date
           </label>
-          <input
-            name="date"
-            type="date"
-            defaultValue={
-              currentFacility?.date
-                ? new Date(currentFacility.date).toISOString().split("T")[0]
-                : ""
-            }
-            onChange={(e) => handleFacilityChange("date", e.target.value)}
-            className="w-full p-3 border border-gray-200 rounded-[10px]"
-          />
+          <div className='relative'>
+            <DatePicker
+              selected={startDate}
+              minDate={new Date()}
+              onChange={(date) => {
+                setStartDate(date); // Update local state for the DatePicker
+                handleFacilityChange('date', date.toISOString()); // Update the currentFacility object
+              }}
+              dateFormat='yyyy-MM-dd'
+              placeholderText='Select Date'
+              open={isCalendarOpen}
+              onClickOutside={() => setIsCalendarOpen(false)}
+              onClickInside={() => setIsCalendarOpen(true)}
+              className='w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black'
+            />
+            <img
+              src={calendar}
+              alt='calendar icon'
+              className='absolute right-3 top-1/2 transform -translate-y-1/2 text-black cursor-pointer'
+              onClick={handleCalendarClick}
+            />
+          </div>
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -255,9 +277,9 @@ function FacilityManagement() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {isLoading ? (
-        
+
           <div className="col-span-full flex justify-center items-center py-12">
-          <Loader/>
+            <Loader />
           </div>
         ) : facilities.length > 0 ? (
           facilities.map((facility) => (
@@ -360,27 +382,33 @@ function FacilityManagement() {
                     placeholder="Enter description"
                   />
                 </div>
-
-                <div className="space-y-3 sm:space-y-4">
-                  <div>
+                <div className="grid grid-cols-1 gap-4">
+                  <div className="relative">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Schedule Service Date
                     </label>
-                    <input
-                      name="date"
-                      type="date"
-                      defaultValue={
-                        currentFacility?.date
-                          ? new Date(currentFacility.date)
-                            .toISOString()
-                            .split("T")[0]
-                          : ""
-                      }
-                      onChange={(e) =>
-                        handleFacilityChange("date", e.target.value)
-                      }
-                      className="w-full p-2 sm:p-3 border border-gray-200 rounded-[10px] text-sm"
-                    />
+                    <div className="relative">
+                      <DatePicker
+                        selected={startDate}
+                        minDate={new Date()}
+                        onChange={(date) => {
+                          setStartDate(date); // Update local state for the DatePicker
+                          handleFacilityChange('date', date.toISOString()); // Update the currentFacility object
+                        }}
+                        dateFormat="yyyy-MM-dd"
+                        placeholderText="Select Date"
+                        open={isCalendarOpen}
+                        onClickOutside={() => setIsCalendarOpen(false)}
+                        onClickInside={() => setIsCalendarOpen(true)}
+                        className="w-[400px] p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black"
+                      />
+                      <img
+                        src={calendar}
+                        alt="calendar icon"
+                        className="absolute right-5 top-1/2 transform -translate-y-1/2 text-black cursor-pointer"
+                        onClick={handleCalendarClick}
+                      />
+                    </div>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -420,7 +448,7 @@ function FacilityManagement() {
                       }`}
                   >
                     {isLoading ? (
-                      <Loader /> 
+                      <Loader />
                     ) : modalType === "save" ? (
                       "Save"
                     ) : (

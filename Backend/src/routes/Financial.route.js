@@ -66,7 +66,7 @@ router.get(
 //apply penlty
 router.post("/applypenlty", MaintenanceController.applyPenalty);
 //get done maintannace
-router.get("/donemaintannace", MaintenanceController.GetMaintananceDone);
+router.get("/donemaintannace",auth, MaintenanceController.GetMaintananceDone);
 //generate pdf maintanance
 router.post("/main/generate-pdf",MaintenanceController.GeneratePdf)
 
