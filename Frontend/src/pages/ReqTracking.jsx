@@ -147,7 +147,7 @@ const ReqTracking = () => {
                     <span className="bg-blue-50 text-blue-600 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">
                       {Request.wing}
                     </span>
-                    <span className="ml-4 mt-0 text-sm font-medium text-gray-600">
+                    <span className="ml-4 mt-0 text-base font-medium text-gray-600">
                       {Request.unit}
                     </span>
                   </td>
@@ -253,9 +253,9 @@ const ReqTracking = () => {
 
 const PriorityBadge = ({ priority }) => {
   const styles = {
-    High: "bg-[#E74C3C] text-white font-medium text-xs",
-    Medium: "bg-[#5678E9] text-white font-medium text-xs",
-    Low: "bg-[#39973D] text-white font-medium text-xs",
+    High: "bg-[#E74C3C] text-white font-medium text-sm",
+    Medium: "bg-[#5678E9] text-white font-medium text-sm",
+    Low: "bg-[#39973D] text-white font-medium text-sm",
   };
   return (
     <p
@@ -268,9 +268,9 @@ const PriorityBadge = ({ priority }) => {
 
 const StatusBadge = ({ status }) => {
   const styles = {
-    Pending: "bg-[#FFC3131A] text-[#FFC313] font-medium text-xs",
-    Solve: "bg-[#39973D1A] text-[#39973D] font-medium text-xs",
-    Open: "bg-[#5678E91A] text-[#5678E9] font-medium text-xs",
+    Pending: "bg-[#FFC3131A] text-[#FFC313] font-medium text-sm",
+    Solve: "bg-[#39973D1A] text-[#39973D] font-medium text-sm",
+    Open: "bg-[#5678E91A] text-[#5678E9] font-medium text-sm",
   };
   const capitalizedStatus =
     status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();

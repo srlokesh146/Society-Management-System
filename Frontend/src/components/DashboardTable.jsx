@@ -217,7 +217,7 @@ const DashboardTable = () => {
               complaintList.map(complaint => (
                 <tr
                   key={complaint._id}
-                  className='border-b border-[#F4F4F4] text-nowrap'
+                  className='border-b border-[#F4F4F4] text-nowrap text-[#4F4F4F]'
                 >
                   <td>
                     <div className='flex items-center justify-start ps-4 py-[16px]'>
@@ -226,12 +226,12 @@ const DashboardTable = () => {
                         alt='Profile'
                         className='rounded-full mr-2 w-8 h-8'
                       />
-                      <span>{complaint.complainer}</span>
+                      <span className='text-base font-medium leading-[24px]'>{complaint.complainer}</span>
                     </div>
                   
                   </td>
-                  <td className='text-start'>{complaint.name}</td>
-                  <td className='text-center'>
+                  <td className='text-start text-base font-medium leading-[24px]'>{complaint.name}</td>
+                  <td className='text-center text-base font-medium leading-[24px]'>
                     {new Date(complaint.createdAt).toLocaleDateString('en-GB', {
                       day: '2-digit',
                       month: '2-digit',
@@ -240,7 +240,7 @@ const DashboardTable = () => {
                   </td>
                   <td className='text-center'>
                     <button
-                      className={`rounded-full text-white text-[14px] py-[5px] px-[21px] w-[100px] text-center ${getPriorityBackgroundColor(
+                      className={`rounded-full text-white text-[14px] py-[5px] px-[21px] w-[100px] text-center font-medium ${getPriorityBackgroundColor(
                         complaint.priority
                       )}`}
                       title={`Priority: ${complaint.priority}`}

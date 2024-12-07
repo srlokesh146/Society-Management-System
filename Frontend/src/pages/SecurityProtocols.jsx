@@ -256,20 +256,20 @@ function SecurityProtocols () {
                     key={protocol._id}
                     className='transition-colors duration-200 text-[#4F4F4F]'
                   >
-                    <td className='px-6 py-4 text-md font-medium'>
+                    <td className='px-6 py-4 text-base font-medium'>
                       {protocol.title}
                     </td>
-                    <td className='px-6 py-6 line-clamp-1 max-w-[400px] max-h-[50px] text-md font-medium'>
+                    <td className='px-6 py-6 line-clamp-1 max-w-[400px] max-h-[50px] text-base font-medium'>
                       {protocol.description}
                     </td>
-                    <td className='px-4 py-4 text-md text-right font-medium'>
+                    <td className='px-4 py-4 text-base text-right font-medium'>
                       {new Date(protocol.date).toLocaleDateString('en-GB', {
                         day: '2-digit',
                         month: '2-digit',
                         year: 'numeric'
                       })}
                     </td>
-                    <td className='px-4 py-4 text-sm text-right'>
+                    <td className='px-4 py-4 text-base text-right'>
                       <span className='inline-flex justify-center items-center px-2 py-1 bg-gray-100 rounded-full w-[92px] h-[34px] font-medium'>
                         {protocol.time}
                       </span>

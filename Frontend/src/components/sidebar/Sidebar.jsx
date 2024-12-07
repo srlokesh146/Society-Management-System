@@ -103,7 +103,7 @@ export default function Sidebar () {
       </button>
 
      <aside
-        className={`fixed top-0 left-0 z-[9999] h-full w-[280px] bg-white p-4 shadow-lg border border-gray-200 transition-transform duration-300 lg:transition-none lg:relative lg:transform-none ${   
+        className={`fixed top-0 left-0 z-[99] h-full w-[280px] bg-white p-4 shadow-lg border border-gray-200 transition-transform duration-300 lg:transition-none lg:relative lg:transform-none ${   
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } lg:w-[280px] lg:block z-[9999]`}
       >
@@ -126,7 +126,7 @@ export default function Sidebar () {
                   <div className='relative'>
                     <NavLink
                       to={item.path || '#'}
-                      className={`flex items-center mb-[10px] text-sm font-medium rounded-lg p-[14px] group ${
+                      className={`flex items-center mb-[10px] text-sm font-medium rounded-lg p-[14px] group text-[#4F4F4F] ${
                         activeItem === 'dashboard' || activeItem === item.id
                           ? 'bg-custom-gradient text-white border'
                           : 'hover:bg-custom-gradient hover:text-white '
@@ -144,7 +144,7 @@ export default function Sidebar () {
                           }`}
                         />
                       </div>
-                      <span className='lg:inline  transition duration-0 group-hover:text-white'>{item.label}</span>
+                      <span className='lg:inline transition duration-0 group-hover:text-white font-medium leading-[19.5px] text-[13px]'>{item.label}</span>
                       {item.subItems && (
                         <img
                           src={downangle}
@@ -155,7 +155,7 @@ export default function Sidebar () {
                       )}
                     </NavLink>
                     {(activeItem === 'dashboard' || activeItem === item.id) && (
-                      <div className='sidebar-border sidebar-border-active'></div>
+                      <div className='sidebar-border sidebar-border-active text-[#4F4F4F]'></div>
                     )}
                   </div>
                 )}
