@@ -14,7 +14,6 @@ export default function EventsParticipate() {
       const response = await GetEventParticipants();
       setParticipants(response.data.activities);
     } catch (error) {
-      toast.error(error.response.data.message);
     } finally {
       setIsLoading(false);
     }

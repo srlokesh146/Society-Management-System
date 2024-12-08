@@ -210,7 +210,6 @@ const Navbar = () => {
       setIsNotificationList((prev) => prev.filter((n) => n._id !== id));
       const response = await DeleteNotification(id);
       dispatch(deleteNotification(id));
-      toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response.data.message);
     }

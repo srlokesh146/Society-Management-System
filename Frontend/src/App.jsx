@@ -43,6 +43,9 @@ import AdminIncome from "./components/modal/AdminIncome.jsx";
 import OtherInvoices from "./pages/ResidentPanel/OtherInvoices.jsx";
 import AdminRoutes from "./routes/AdminRoutes.jsx";
 import QuestionPage from "./pages/ResidentPanel/QuestionPage.jsx";
+import ResidentRoutes from "./routes/ResidentRoutes.jsx";
+import SecurityRoutes from "./routes/SecurityRoutes.jsx";
+import NotFound from "./components/NotFound.jsx";
 
 function App() {
   const [isSidebaropen, setSidebaropen] = useState(false);
@@ -111,18 +114,33 @@ function App() {
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/otpscreenpage" element={<OtpScreenpage />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
+            <Route path="*" element={<NotFound />} />
 
             {/* Protected Routes with Sidebar and Navbar */}
             {shouldRenderSidebarAndNavbar && (
               <>
                 <Route
-                  path="/dashboard"
+                  path="/admin/dashboard"
                   element={
                     <PrivateRoutes>
-                      <Dashboard />
+                      <AdminRoutes>
+                        <Dashboard />
+                      </AdminRoutes>
                     </PrivateRoutes>
                   }
                 />
+
+                <Route
+                  path="/resident/dashboard"
+                  element={
+                    <PrivateRoutes>
+                      <ResidentRoutes>
+                        <Dashboard />
+                      </ResidentRoutes>
+                    </PrivateRoutes>
+                  }
+                />
+
                 <Route
                   path="/editprofile"
                   element={
@@ -135,13 +153,21 @@ function App() {
                 />
                 <Route
                   path="/residentmanagement"
-                  element={<Residentmanagement />}
+                  element={
+                    <PrivateRoutes>
+                      <AdminRoutes>
+                        <Residentmanagement />
+                      </AdminRoutes>
+                    </PrivateRoutes>
+                  }
                 />
                 <Route
                   path="/complainttable"
                   element={
                     <PrivateRoutes>
-                      <ComplaintTable />
+                      <AdminRoutes>
+                        <ComplaintTable />
+                      </AdminRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -149,7 +175,9 @@ function App() {
                   path="/reqtracking"
                   element={
                     <PrivateRoutes>
-                      <ReqTracking />
+                      <AdminRoutes>
+                        <ReqTracking />
+                      </AdminRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -157,7 +185,9 @@ function App() {
                   path="/visitorlog"
                   element={
                     <PrivateRoutes>
-                      <VisitorLog />
+                      <AdminRoutes>
+                        <VisitorLog />
+                      </AdminRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -165,7 +195,9 @@ function App() {
                   path="/SecurityProtocols"
                   element={
                     <PrivateRoutes>
-                      <SecurityProtocols />
+                      <AdminRoutes>
+                        <SecurityProtocols />
+                      </AdminRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -173,7 +205,9 @@ function App() {
                   path="/securityguard"
                   element={
                     <PrivateRoutes>
-                      <SecurityGuardDetails />
+                      <AdminRoutes>
+                        <SecurityGuardDetails />
+                      </AdminRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -181,7 +215,9 @@ function App() {
                   path="/announcement"
                   element={
                     <PrivateRoutes>
-                      <Announcement />
+                      <AdminRoutes>
+                        <Announcement />
+                      </AdminRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -189,7 +225,9 @@ function App() {
                   path="/facilitymanagement"
                   element={
                     <PrivateRoutes>
-                      <Facilitymanagement />
+                      <AdminRoutes>
+                        <Facilitymanagement />
+                      </AdminRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -197,7 +235,9 @@ function App() {
                   path="/note"
                   element={
                     <PrivateRoutes>
-                      <Note />
+                      <AdminRoutes>
+                        <Note />
+                      </AdminRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -205,7 +245,9 @@ function App() {
                   path="/expense"
                   element={
                     <PrivateRoutes>
-                      <Expense />
+                      <AdminRoutes>
+                        <Expense />
+                      </AdminRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -213,7 +255,9 @@ function App() {
                   path="/income"
                   element={
                     <PrivateRoutes>
-                      <Income />
+                      <AdminRoutes>
+                        <Income />
+                      </AdminRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -221,7 +265,9 @@ function App() {
                   path="/other-income"
                   element={
                     <PrivateRoutes>
-                      <OtherIncome />
+                      <AdminRoutes>
+                        <OtherIncome />
+                      </AdminRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -229,7 +275,9 @@ function App() {
                   path="/ownerform"
                   element={
                     <PrivateRoutes>
-                      <OwnerForm />
+                      <AdminRoutes>
+                        <OwnerForm />
+                      </AdminRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -237,7 +285,9 @@ function App() {
                   path="/ownerform/edit"
                   element={
                     <PrivateRoutes>
-                      <OwnerForm />
+                      <AdminRoutes>
+                        <OwnerForm />
+                      </AdminRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -245,7 +295,9 @@ function App() {
                   path="/tenantform"
                   element={
                     <PrivateRoutes>
-                      <TenantForm />
+                      <AdminRoutes>
+                        <TenantForm />
+                      </AdminRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -253,15 +305,9 @@ function App() {
                   path="/tenantform/edit"
                   element={
                     <PrivateRoutes>
-                      <TenantForm />
-                    </PrivateRoutes>
-                  }
-                />
-                <Route
-                  path="/residentmanagement"
-                  element={
-                    <PrivateRoutes>
-                      <ResidentManagement />
+                      <AdminRoutes>
+                        <TenantForm />
+                      </AdminRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -269,7 +315,9 @@ function App() {
                   path="/visitortracking"
                   element={
                     <PrivateRoutes>
-                      <VisitorTracking />
+                      <SecurityRoutes>
+                        <VisitorTracking />
+                      </SecurityRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -277,7 +325,9 @@ function App() {
                   path="/emergencymanagement"
                   element={
                     <PrivateRoutes>
-                      <EmergencyManagement />
+                      <SecurityRoutes>
+                        <EmergencyManagement />
+                      </SecurityRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -285,7 +335,9 @@ function App() {
                   path="/eventsParticipate"
                   element={
                     <PrivateRoutes>
-                      <EventTab />
+                      <ResidentRoutes>
+                        <EventTab />
+                      </ResidentRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -293,7 +345,9 @@ function App() {
                   path="/residentowner"
                   element={
                     <PrivateRoutes>
-                      <ResidentOwner />
+                      <ResidentRoutes>
+                        <ResidentOwner />
+                      </ResidentRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -301,7 +355,9 @@ function App() {
                   path="/serviceandcomplaint"
                   element={
                     <PrivateRoutes>
-                      <ServiceAndComplaint />
+                      <ResidentRoutes>
+                        <ServiceAndComplaint />
+                      </ResidentRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -310,7 +366,9 @@ function App() {
                   path="/residentsecurityprotocol"
                   element={
                     <PrivateRoutes>
-                      <ResidentSecurityProtocol />
+                      <ResidentRoutes>
+                        <ResidentSecurityProtocol />
+                      </ResidentRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -318,7 +376,9 @@ function App() {
                   path="/maintenceinvoices"
                   element={
                     <PrivateRoutes>
-                      <Maintenceinvoices />
+                      <ResidentRoutes>
+                        <Maintenceinvoices />
+                      </ResidentRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -326,7 +386,9 @@ function App() {
                   path="/accessforums"
                   element={
                     <PrivateRoutes>
-                      <AccessForums />
+                      <ResidentRoutes>
+                        <AccessForums />
+                      </ResidentRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -334,7 +396,9 @@ function App() {
                   path="/invoicespage"
                   element={
                     <PrivateRoutes>
-                      <InvoicesPage />
+                      <ResidentRoutes>
+                        <InvoicesPage />
+                      </ResidentRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -342,7 +406,9 @@ function App() {
                   path="/otherinvoices"
                   element={
                     <PrivateRoutes>
-                      <OtherInvoices />
+                      <ResidentRoutes>
+                        <OtherInvoices />
+                      </ResidentRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -350,7 +416,9 @@ function App() {
                   path="/otherincomeinvoices"
                   element={
                     <PrivateRoutes>
-                      <OtherIncomeInvoices />
+                      <ResidentRoutes>
+                        <OtherIncomeInvoices />
+                      </ResidentRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -358,7 +426,9 @@ function App() {
                   path="/polls"
                   element={
                     <PrivateRoutes>
-                      <CommunityTab />
+                      <ResidentRoutes>
+                        <CommunityTab />
+                      </ResidentRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -366,7 +436,9 @@ function App() {
                   path="/communitiesdiscusion"
                   element={
                     <PrivateRoutes>
-                      <Discusion />
+                      <ResidentRoutes>
+                        <Discusion />
+                      </ResidentRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -374,7 +446,9 @@ function App() {
                   path="/adminincome/:id"
                   element={
                     <PrivateRoutes>
-                      <AdminIncome />
+                      <AdminRoutes>
+                        <AdminIncome />
+                      </AdminRoutes>
                     </PrivateRoutes>
                   }
                 />
@@ -382,7 +456,9 @@ function App() {
                   path="/questionpage/:id"
                   element={
                     <PrivateRoutes>
-                      <QuestionPage />
+                      <ResidentRoutes>
+                        <QuestionPage />
+                      </ResidentRoutes>
                     </PrivateRoutes>
                   }
                 />

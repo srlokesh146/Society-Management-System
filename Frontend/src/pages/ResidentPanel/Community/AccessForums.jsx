@@ -434,7 +434,7 @@ export default function AccessForums() {
         )}
 
         {/* Chat Messages */}
-        <div className="overflow-x-hidden  p-[20px] custom-scrollbar h-[73.2vh] bg-[#F4F4F4] flex justify-center items-center">
+        <div className="overflow-x-hidden p-[20px] custom-scrollbar h-[73.2vh] bg-[#F4F4F4] flex flex-col">
           {discussions && discussions.length > 0 ? (
             discussions.map((chat) => (
               <div
@@ -443,41 +443,51 @@ export default function AccessForums() {
                   chat.senderId === userId ? "justify-end" : "justify-start"
                 } mb-4`}
               >
+                {/* Message Bubble Container */}
                 <div
-                  className={`flex flex-col ${
-                    chat.senderId !== userId ? "justify-end" : "justify-start"
-                  } my-2`}
+                  className={`flex flex-col items-${
+                    chat.senderId === userId ? "end" : "start"
+                  } max-w-[75%]`}
                 >
+                  {/* Chat Media */}
+                  {chat?.media && (
+                    <img
+                      src={chat.media}
+                      alt="Chat Media"
+                      className="w-[390px] h-auto rounded-lg mb-2 p-2"
+                    />
+                  )}
+
+                  {/* Message Text */}
                   <div
-                    className={`max-w-xs p-2 rounded-lg text-sm relative ${
-                      chat.senderId !== userId
-                        ? "bg-gray-200 text-black"
-                        : "bg-blue-500 text-white"
+                    className={` ${
+                      chat?.message !== "" && "p-3"
+                    } rounded-lg text-sm relative break-words ${
+                      chat.senderId === userId
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-200 text-black"
                     }`}
                   >
-                    {chat?.media && (
-                      <img
-                        src={chat.media}
-                        alt="Chat Media"
-                        className="w-[390px] h-[auto]"
-                      />
-                    )}
-                    <p>{chat?.message}</p>
+                    {chat?.message}
                   </div>
+
+                  {/* Timestamp */}
                   <span
-                    className={`${
-                      chat.senderId === userId ? "self-end" : ""
-                    }  text-xs text-gray-500 block1`}
+                    className={`text-xs text-gray-500 mt-1 ${
+                      chat.senderId === userId ? "self-end" : "self-start"
+                    }`}
                   >
                     {format(chat?.timestamp)}
                   </span>
                 </div>
-                <div ref={chatEndRef} />
               </div>
             ))
           ) : (
             <p className="text-center text-gray-500">No messages found.</p>
           )}
+
+          {/* Scroll to Latest Message */}
+          <div ref={chatEndRef} />
         </div>
 
         {/* Message Input Section */}
