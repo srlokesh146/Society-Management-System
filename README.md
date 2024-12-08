@@ -336,6 +336,17 @@ VITE_SOCKET_URL = https://society-management-system-y5jd.onrender.com/
 
 ### Backend env credentials
 
-
+PORT=3000
+DATABASE_URL = mongodb+srv://harshkotak:NvmowI3ivLJpwdQb@cluster0.gaduz.mongodb.net/society_management
+NODE_ENV = development
+JWT_SECRET = society_management
+TWILIO_ACCOUNT_SID = AC1f525a0f11e4eef674d9ffe0287db806
+TWILIO_AUTH_TOKEN = 39181adb499e4cc588a6094529be0944
+TWILIO_PHONE_NUMBER = +13128785840
+cloud_name = dcua1p9ku
+api_key = 613152216129359
+api_secret = sIzZiw2qxCwd7cn77N5CeeVNfwY
+key_id=rzp_test_JudTAPk3CxA00x
+key_secret = 5hh4uVhB8X4LV2sAhbkkKUey
 
 ### THANK YOU !
