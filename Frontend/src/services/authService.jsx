@@ -26,7 +26,7 @@ export const verifyOtp = async (data) =>
   await api.post("/v1/auth/verifyotp", data);
 
 // Reset password
-export const resetPassword = async (data) =>
+export const resetPasswords = async (data) =>
   await api.post("/v1/auth/reset", data);
 
 // Update user profile
