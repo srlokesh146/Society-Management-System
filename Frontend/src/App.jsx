@@ -29,7 +29,7 @@ import OwnerForm from "./pages/OwnerForm.jsx";
 import VisitorTracking from "./pages/securitypage/VisitorTracking.jsx";
 import EmergencyManagement from "./pages/securitypage/EmergencyManagement.jsx";
 import PrivateRoutes from "./routes/PrivateRoutes.jsx";
-import EventTab from "./pages/ResidentPanel/EventsParticipation/EventTab/EventTab.jsx";
+import EventTab from "./pages/ResidentPanel/EventsParticipation/EventTab.jsx";
 import ResidentOwner from "./pages/ResidentPanel/ResidentOwner.jsx";
 import ServiceAndComplaint from "./pages/ResidentPanel/ServiceAndComplaint.jsx";
 import ResidentSecurityProtocol from "./pages/ResidentPanel/ResidentSecurityProtocol.jsx";

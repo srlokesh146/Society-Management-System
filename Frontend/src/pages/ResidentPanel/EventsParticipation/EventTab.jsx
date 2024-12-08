@@ -1,8 +1,8 @@
 import { useState } from "react";
-import EventsParticipate from "../EventsParticipate";
-import ActivityParticipate from "../Activityparticipate";
+import EventsParticipate from "./EventsParticipate";
+import ActivityParticipate from "./Activityparticipate";
 
-export default function EventTab() {
+const EventTab = () => {
   const [activetab, setActiveTab] = useState(true);
   return (
     <div>
@@ -33,4 +33,6 @@ export default function EventTab() {
       {!activetab && <ActivityParticipate />}
     </div>
   );
-}
+};
+
+export default EventTab;
