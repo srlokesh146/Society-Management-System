@@ -49,6 +49,7 @@ export default function VisitorTracking () {
     try {
       await createVisitor(visitorData)
       toast.success('Visitor added successfully!')
+      fetchVisitors()
       closeModal()
     } catch (error) {
       toast.error('Failed to add visitor. Please try again.', error)
