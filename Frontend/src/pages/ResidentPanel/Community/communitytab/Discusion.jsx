@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FiMoreVertical, FiSearch, FiEye } from "react-icons/fi";
-import Avatar from "../../../../assets/images/avatar.png";
+import Avatar from "../../../../assets/images/Avatar.png";
 import usericon from "../../../../assets/images/usericon.png";
 import eyeicon from "../../../../assets/images/eyeicon.svg";
 import { FaChevronRight } from "react-icons/fa6";
