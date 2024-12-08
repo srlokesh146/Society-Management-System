@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 const useCurrentPath = () => {
   const location = useLocation();
 
-  const isDashboard = location.pathname === "/dashboard";
+  const isDashboard = location.pathname === "/admin/dashboard";
   const isResidentManagement = location.pathname === "/residentmanagement";
   const isEditProfile = location.pathname === "/editprofile";
   const isHome = location.pathname === "/home";
