@@ -2,6 +2,7 @@ import { useState } from "react";
 import EventsParticipate from "./EventsParticipate";
 import ActivityParticipate from "./Activityparticipate";
 
+
 const EventTab = () => {
   const [activetab, setActiveTab] = useState(true);
   return (
