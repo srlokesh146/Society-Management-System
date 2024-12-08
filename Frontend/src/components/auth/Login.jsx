@@ -53,11 +53,10 @@ const Login = () => {
       const response = await loginUser(user);
       toast.success(response.data.message);
       dispatch(StoreUser(response.data.user));
-      if (
-        response.data.user.role === "admin" ||
-        response.data.user.role === "resident"
-      ) {
-        navigate("/dashboard");
+      if (response.data.user.role === "admin") {
+        navigate("/admin/dashboard");
+      } else if (response.data.user.role === "resident") {
+        navigate("/resident/dashboard");
       } else if (response.data.user.role === "security") {
         navigate("/visitortracking");
       }

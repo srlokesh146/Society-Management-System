@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  GetActivityParticipants,
-} from "../../../services/announcementService";
-import toast from "react-hot-toast";
+import { GetActivityParticipants } from "../../../services/announcementService";
 import { Loader } from "../../../utils/Loader";
 
 export default function ActivityParticipate() {
@@ -25,12 +22,10 @@ export default function ActivityParticipate() {
       const res = await GetActivityParticipants();
       setParticipants(res.data.activities);
     } catch (error) {
-      toast.error(error.response.data.message);
     } finally {
       setIsLoading(false);
     }
   };
-
 
   useEffect(() => {
     fetchActivityParticipants();
