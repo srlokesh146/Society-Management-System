@@ -476,15 +476,13 @@ export default function AccessForums() {
               </div>
             ))
           ) : (
-            <p className="text-center text-gray-500">
-              No messages found.
-            </p>
+            <p className="text-center text-gray-500">No messages found.</p>
           )}
         </div>
 
         {/* Message Input Section */}
         {receiver && (
-          <div className="flex items-center p-[10px] bg-white border-t relative sticky bottom-0 left-0 ">
+          <div className="flex items-center p-[10px] bg-white border-t  sticky bottom-0 left-0 ">
             <input
               type="text"
               className="w-[94%] border p-2 rounded-full shadow-[0px_7px_15px_0px_#0000000D] py-[9px] ps-[40px] pl-[40px] relative"
