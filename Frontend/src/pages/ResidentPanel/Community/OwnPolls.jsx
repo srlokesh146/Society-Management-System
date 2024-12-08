@@ -1,5 +1,5 @@
 import  { useEffect, useState } from "react";
-import avatar from "../../../assets/images/avatar.png";
+import avatar from "../../../assets/images/Avatar.png";
 import eyeicon from "../../../assets/images/eyeicon.png";
 import circleimg from "../../../assets/images/circleimg.svg";
 import { toast } from "react-hot-toast";
