@@ -14,8 +14,8 @@ const ViewRequestModal = ({ isOpen, onClose, Request }) => {
           <button
             onClick={onClose}
             className="text-[#A7A7A7] hover:text-gray-700"
-          >
-            <IoMdClose size={20} className="text-black"/>
+          > 
+            <IoMdClose size={20} className="text-black "/>
           </button>
         </div>
         <div className="border-b border-[#F4F4F4] mb-[10px]"></div>
@@ -61,7 +61,7 @@ const ViewRequestModal = ({ isOpen, onClose, Request }) => {
               </p>
             </div>
 
-            <div className="flex gap-12">
+            <div className="flex flex-wrap gap-4 justify-between">
               <div className="text-center">
                 <label className="text-sm font-normal text-[#A7A7A7]">
                   Wing

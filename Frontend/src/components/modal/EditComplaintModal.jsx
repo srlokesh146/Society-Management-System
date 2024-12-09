@@ -29,7 +29,7 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit , isLoading  
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999] overflow-y-auto custom-scrollbar">
-      <div className="bg-white rounded-lg w-full max-w-[410px] p-6">
+      <div className="bg-white rounded-lg w-full max-w-[410px] max-sm:h-[100vh] overflow-hidden custom-scrollbar overflow-y-auto p-6">
         <div className="flex justify-between items-center mb-[10px]">
           <h2 className="text-xl font-semibold text-gray-800">
             Edit Complaint
@@ -206,13 +206,13 @@ const EditComplaintModal = ({ isOpen, onClose, complaint, onSubmit , isLoading  
             <button
               type="button"
               onClick={onClose}
-              className="w-[180px] px-4 py-3 text-[18px] font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+              className="w-full px-4 py-3 text-[18px] font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="w-[180px] px-4 py-3 text-[18px] font-medium text-white bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-lg hover:opacity-90"
+              className="w-full px-4 py-3 text-[18px] font-medium text-white bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] rounded-lg hover:opacity-90"
             >
                 {isLoading ? <Loader/>
                   : "Save"}

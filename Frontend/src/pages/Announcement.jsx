@@ -5,7 +5,7 @@ import {
   FaTrash,
   FaEye,
   FaEllipsisV,
-  FaTimes
+ 
 } from 'react-icons/fa'
 import {
   CreateAnnouncement,

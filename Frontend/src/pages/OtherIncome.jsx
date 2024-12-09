@@ -267,7 +267,7 @@ const OtherIncome = () => {
                 )}
                 <p className='text-gray-600 flex justify-between items-center p-2'>
                   Amount Per Member:
-                  <p className='text-blue-500 font-medium bg-indigo-50 rounded-full px-5 py-1 '>
+                  <p className='text-blue-500 font-medium bg-indigo-50 rounded-full px-5 py-1  text-nowrap'>
                     ₹ {entry.amount}
                   </p>
                 </p>
@@ -298,7 +298,7 @@ const OtherIncome = () => {
                 </p>
                 <p className='text-gray-600 p-2 mt-2 text-sm'>
                   Description: <br />
-                  <p className='text-[#202224] font-medium'>
+                  <p className='text-[#202224] font-medium text-wrap'>
                     {entry.description.length > 100
                       ? entry.description.slice(0, 100) + '...'
                       : entry.description}
@@ -317,7 +317,7 @@ const OtherIncome = () => {
       {/* Add Income Modal */}
       {isModalOpen && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]'>
-          <div className='bg-white p-6 rounded-[10px] shadow-lg h-[500px] w-[400px]'>
+          <div className='bg-white p-6 rounded-[10px] shadow-lg h-auto w-[410px] max-sm:w-full max-sm:mx-[15px]'>
             <h2 className='text-xl font-semibold mb-2 text-start'>
               Create Other Income
             </h2>
@@ -337,7 +337,7 @@ const OtherIncome = () => {
                   required
                 />
               </div>
-              <div className='justify-center flex gap-4'>
+              <div className='justify-center flex gap-4 max-sm:flex-col '>
                 <div>
                   <label className='font-medium' htmlFor='date'>
                     Date*
@@ -350,7 +350,7 @@ const OtherIncome = () => {
                           target: { name: 'date', value: date }
                         })
                       }
-                      className='w-[170px] py-[10.5px] px-[13px] border border-gray-300 rounded-[10px] pr-10 text-sm outline-none'
+                      className='w-full py-[10.5px] px-[13px] border border-gray-300 rounded-[10px] pr-10 text-sm outline-none'
                       minDate={new Date()}
                       placeholderText='Select date'
                       required
@@ -382,7 +382,7 @@ const OtherIncome = () => {
                           target: { name: 'dueDate', value: dueDate }
                         })
                       }
-                      className='w-[170px] py-[10.5px] px-[13px] border border-gray-300 rounded-[10px] pr-10 text-sm outline-none'
+                      className='w-full py-[10.5px] px-[13px] border border-gray-300 rounded-[10px] pr-10 text-sm outline-none'
                       minDate={new Date()}
                       placeholderText='Select Date'
                       required
@@ -457,7 +457,7 @@ const OtherIncome = () => {
       {/* Edit Modal */}
       {isEditModalOpen && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]'>
-          <div className='bg-white p-6 rounded-[10px] shadow-lg w-[400px] h-[420px]'>
+          <div className='bg-white p-6 rounded-[10px] shadow-lg w-[410px] max-sm:mx-[15px] '>
             <h2 className='text-xl font-semibold mb-2 text-left'>
               Edit {formData.title}
             </h2>
@@ -478,7 +478,7 @@ const OtherIncome = () => {
                 />
               </div>
               {/* date and due date */}
-              <div className='justify-center flex gap-2'>
+              <div className='justify-center flex gap-2 max-sm:flex-col'>
                 <div>
                   <label className='font-semibold' htmlFor='date'>
                     Date*
@@ -597,22 +597,22 @@ const OtherIncome = () => {
 
       {isDeleteModalOpen && (
         <div className='fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[9999]'>
-          <div className='bg-white p-6 rounded-[10px] shadow-lg max-w-md w-full'>
+          <div className='bg-white p-6 rounded-[10px] shadow-lg max-w-[410px] max-sm:mx-[15px]  w-full'>
             <h2 className='text-xl font-semibold mb-2'>Delete confirmation?</h2>
             <div className='border-b border-[#F4F4F4] mb-[10px]'></div>
             <p className='text-gray-600'>
               Are you sure you want to delete {selectedEntry?.title}?
             </p>
-            <div className='flex justify-center space-x-4 mt-6'>
+            <div className='flex justify-center space-x-4 max-sm:space-x-0 mt-6 max-sm:flex-col '>
               <button
                 onClick={() => setDeleteModalOpen(false)}
-                className='bg-white border w-[170px] text-black px-2 py-3 rounded-md hover:bg-gray-100'
+                className='bg-white border w-[170px] text-black px-2 py-3 rounded-md hover:bg-gray-100 max-sm:w-full max-sm:mb-[15px]'
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDelete}
-                className='bg-red-500 w-[170px] text-white px-2 py-3 rounded-md hover:bg-red-600'
+                className='bg-red-500 w-[170px] text-white px-2 py-3 rounded-md hover:bg-red-600  max-sm:w-full' 
               >
                 Confirm Delete
               </button>

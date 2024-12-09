@@ -155,18 +155,19 @@ const Income = () => {
     return (
       <>
         <div className='fixed inset-0 bg-[#00000021] flex items-center justify-center z-[9999]'>
-          <div className='bg-white rounded-xl w-[450px] overflow-hidden'>
+          <div className='bg-white rounded-xl w-[410px] max-sm:mx-[15px] overflow-hidden'>
             <div className='flex justify-between items-center px-6 py-4'>
               <h3 className='text-lg font-semibold'>
                 View Maintenance Details
               </h3>
               <button
                 onClick={onClose}
-                className='text-gray-400 hover:text-gray-600'
+                className='text-gray-400 text-[30px] hover:text-gray-600'
               >
                 ×
               </button>
             </div>
+
 
             {/* User Profile */}
             <div className='px-6 py-4 flex items-center gap-3 border-t border-b border-gray-100'>
@@ -191,7 +192,7 @@ const Income = () => {
               </div>
             </div>
 
-            <div className='grid grid-cols-4 gap-6 p-6'>
+            <div className='grid grid-cols-4 max-sm:grid-cols-2 gap-6 p-6'>
               <div>
                 <p className='text-sm text-gray-500 mb-1'>Wing</p>
                 <p className='font-medium'>{user.resident.Wing}</p>
@@ -598,7 +599,7 @@ const Income = () => {
       {/* Modal */}
       {isModalOpen && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]'>
-          <div className='bg-white rounded-lg w-[400px] p-6'>
+          <div className='bg-white rounded-lg max-sm:mx-[15px] w-[400px] p-6'>
             <h2 className='text-lg font-semibold mb-4'>Set Maintenance</h2>
 
             <div className='mb-6'>
@@ -649,14 +650,14 @@ const Income = () => {
       )}
 
       {isMaintenanceModalOpen && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]'>
-          <div className='bg-white rounded-lg w-[400px] p-6 shadow-lg'>
+        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] max-sm:px-[15px]'>
+          <div className='bg-white rounded-lg  max-w-[410px] w-full   p-6 shadow-lg'>
             <h2 className='text-lg font-semibold mb-2'>
               Add Maintenance Detail
             </h2>
             <div className='border-b border-[#F4F4F4] mb-[20px]'></div>
             {/* Maintenance and Penalty Amount Row */}
-            <div className='grid grid-cols-2 gap-4 mb-4'>
+            <div className='grid grid-cols-2 gap-4 mb-4  max-sm:grid-cols-1 '>
               <div>
                 <label className='block text-sm text-black-600 mb-2'>
                   Maintenance Amount
@@ -731,7 +732,7 @@ const Income = () => {
                   className='w-full px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 appearance-none bg-white '
                 >
                   <option value='' disabled selected>
-                    Select Penalty Applied After Day
+                    Select Penalty 
                   </option>
                   <option value='1'>1 Day</option>
                   <option value='2'>2 Days</option>

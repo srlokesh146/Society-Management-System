@@ -5,7 +5,7 @@ import {
   FaMoon,
   FaMale,
   FaFemale,
-  FaTimes,
+
   FaCamera,
   FaUser
 } from 'react-icons/fa'
@@ -407,7 +407,7 @@ function SecurityGuardDetails () {
 
       {isModalOpen && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] overflow-y-auto custom-scrollbar p-4'>
-          <div className='bg-white rounded-2xl shadow-xl w-full max-w-sm relative'>
+          <div className='bg-white rounded-2xl shadow-xl w-full max-w-sm relative max-sm:h-[100vh] overflow-hidden custom-scrollbar overflow-y-auto'>
             <div className=''>
               {/* Loading Spinner */}
 
@@ -484,7 +484,7 @@ function SecurityGuardDetails () {
                     />
                   </div>
 
-                  <div className='grid grid-cols-2 gap-4'>
+                  <div className='grid grid-cols-2 gap-4 max-sm:grid-cols-1'>
                     <div>
                       <label className='block text-sm font-medium text-gray-700 mb-1'>
                         Gender*
@@ -521,7 +521,7 @@ function SecurityGuardDetails () {
                     </div>
                   </div>
 
-                  <div className='grid grid-cols-2 gap-4'>
+                  <div className='grid grid-cols-2 gap-4 max-sm:grid-cols-1'>
                     <div>
                       <label className='block text-sm font-medium text-gray-700 mb-1'>
                         Shift Date*
@@ -689,7 +689,7 @@ function SecurityGuardDetails () {
                 </div>
 
                 {/* Details */}
-                <div className='grid grid-cols-3 gap-4'>
+                <div className='grid grid-cols-3 gap-4 max-sm:grid-cols-2'>
                   <div>
                     <p className='text-sm text-gray-500'>Select Shift</p>
                     <div
@@ -745,7 +745,7 @@ function SecurityGuardDetails () {
         <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4'>
           <div className='bg-white rounded-2xl shadow-xl w-full max-w-sm'>
             <div className='p-6'>
-              <div className='flex justify-between items-center mb-4'>
+              <div className='flex justify-between items-center mb-4 '>
                 <h2 className='text-xl font-semibold'>
                   Delete Security Guard ?
                 </h2>
@@ -754,7 +754,7 @@ function SecurityGuardDetails () {
                   onClick={() => setIsDeleteModalOpen(false)}
                   className='text-gray-400 hover:text-gray-600'
                 >
-                  <FaTimes size={20} />
+                  <IoMdClose size={20} />
                 </button>
               </div>
               <div className='border-b border-[#F4F4F4] mb-[10px]'></div>
@@ -765,7 +765,7 @@ function SecurityGuardDetails () {
                 </p>
               </div>
 
-              <div className='flex gap-3'>
+              <div className='flex gap-3 max-sm:flex-col'>
                 <button
                   onClick={() => setIsDeleteModalOpen(false)}
                   className='flex-1 px-4 py-3 border border-gray-200 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50'

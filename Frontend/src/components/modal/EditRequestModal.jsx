@@ -31,7 +31,7 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit, isLoading }) => 
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999] overflow-y-auto custom-scrollbar">
-      <div className="bg-white rounded-lg w-full max-w-[410px] p-6">
+      <div className="bg-white rounded-lg w-full max-w-[410px] max-sm:h-[100vh] overflow-hidden custom-scrollbar overflow-y-auto p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-gray-800">Edit Request</h2>
           <button
@@ -150,7 +150,7 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit, isLoading }) => 
                     className="hidden"
                   />
                   <span
-                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[110px] text-sm cursor-pointer
+                    className={`flex items-center gap-2 ps-4 py-1.5 border border-gray-300 rounded-[10px] w-[110px] text-sm cursor-pointer max-sm:w-full
                     ${selectedPriority === priority
                        ? "border-[#FF6B07] bg-white font-medium"
                         : "border-gray-200"
@@ -192,7 +192,7 @@ const EditRequestModal = ({ isOpen, onClose, Request, onSubmit, isLoading }) => 
                     className="hidden"
                   />
                   <span
-                    className={`flex items-center gap-2 ps-[15px] py-1.5 border border-gray-300 rounded-[10px] w-[110px] text-sm cursor-pointer
+                    className={`flex items-center gap-2 ps-[15px] py-1.5 border border-gray-300 rounded-[10px] w-[110px] text-sm cursor-pointer max-sm:w-full
                     ${selectedStatus === status
                         ? "border-[#FF6B07] bg-white font-medium"
                         : ""

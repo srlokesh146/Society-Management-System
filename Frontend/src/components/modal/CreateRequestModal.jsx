@@ -53,7 +53,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit , isLoading }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999] overflow-y-auto custom-scrollbar">
-      <div className="bg-white rounded-lg w-full max-w-[410px] p-6">
+      <div className="bg-white rounded-lg w-full max-w-[410px] max-sm:h-[100vh] overflow-hidden custom-scrollbar overflow-y-auto p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold text-gray-800">Create Request</h2>
 
@@ -175,11 +175,11 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit , isLoading }) => {
                     value={priority}
                     checked={formData.priority === priority}
                     onChange={handleInputChange}
-                    className="hidden"
+                    className="hidden "
                     required
                   />
                   <span
-                    className={`flex items-center gapy-[10.5px] ps-[13px]  py-1.5 border border-gray-300 rounded-[10px] text-sm w-[110px] text-[14px] cursor-pointer
+                    className={`flex items-center gapy-[10.5px] ps-[13px]  py-1.5 border border-gray-300 rounded-[10px] text-sm w-[110px] text-[14px] cursor-pointer max-sm:w-full
                     ${
                       formData.priority === priority
                         ? "border-[#FF6B07] bg-white font-medium"
@@ -224,7 +224,7 @@ const CreateRequestModal = ({ isOpen, onClose, onSubmit , isLoading }) => {
                     required
                   />
                   <span
-                    className={`flex items-center gapy-[10.5px] ps-[13px] py-1.5 border border-gray-300 rounded-[10px] text-sm w-[110px] cursor-pointer
+                    className={`flex items-center gapy-[10.5px] ps-[13px] py-1.5 border border-gray-300 rounded-[10px] text-sm w-[110px] cursor-pointer max-sm:w-full
                     ${
                       formData.status === status
                         ? "border-[#FF6B07] bg-white font-medium"

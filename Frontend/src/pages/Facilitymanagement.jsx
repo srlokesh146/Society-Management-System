@@ -363,7 +363,7 @@ function FacilityManagement() {
                     onChange={(e) =>
                       handleFacilityChange("name", e.target.value)
                     }
-                    className="w-full p-2 sm:p-3 border border-gray-200 rounded-[10px] text-sm"
+                    className="w-full p-2 sm:p-3 border border-gray-200 focus:outline-none rounded-[10px] text-sm"
                     placeholder="Enter facility title"
                   />
                 </div>
@@ -378,7 +378,7 @@ function FacilityManagement() {
                     onChange={(e) =>
                       handleFacilityChange("description", e.target.value)
                     }
-                    className="w-full p-2 sm:p-3 border border-gray-200 rounded-[10px] h-16 sm:h-24 text-sm"
+                    className="w-full p-2 sm:p-3 border border-gray-200 rounded-[10px] h-16 sm:h-24  focus:outline-none text-sm"
                     placeholder="Enter description"
                   />
                 </div>
@@ -399,8 +399,8 @@ function FacilityManagement() {
                         placeholderText="Select Date"
                         open={isCalendarOpen}
                         onClickOutside={() => setIsCalendarOpen(false)}
-                        onClickInside={() => setIsCalendarOpen(true)}
-                        className="w-[400px] p-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black"
+                        onClickInside={() => setIsCalendarOpen(true)} 
+                        className="w-[400px] max-sm:w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none  " 
                       />
                       <img
                         src={calendar}
@@ -421,7 +421,7 @@ function FacilityManagement() {
                       onChange={(e) =>
                         handleFacilityChange("remind", e.target.value)
                       }
-                      className="w-full p-2 sm:p-3 border border-gray-200 rounded-[10px] text-sm"
+                      className="w-full p-2 sm:p-3 border border-gray-200 rounded-[10px] text-sm focus:outline-none"
                       placeholder="Enter days"
                       min="1"
                     />
