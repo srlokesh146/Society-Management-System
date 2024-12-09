@@ -50,6 +50,7 @@ import NotFound from "./components/NotFound.jsx";
 function App() {
   const [isSidebaropen, setSidebaropen] = useState(false);
   const location = useLocation();
+  // const user
 
   // List of routes without sidebar and navbar
   const layoutRoutes = [
@@ -92,7 +93,8 @@ function App() {
 
         <div
           className={`flex-1 ${
-            location.pathname === "/dashboard"
+            location.pathname === "/admin/dashboard" ||
+            location.pathname === "/resident/dashboard"
               ? "overflow-hidden max-md:overflow-auto max-lg:overflow-auto max-xl:overflow-auto max-2xl:overflow-auto max-3xl:overflow-y-auto max-2xl:mt-[0] p-6 custom-scrollbar"
               : location.pathname === "/accessforums"
               ? "overflow-auto overflow-y-hidden"
