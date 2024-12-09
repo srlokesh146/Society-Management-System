@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FaTimes, FaCalendarAlt, FaClock } from 'react-icons/fa'
+import {  FaCalendarAlt, FaClock } from 'react-icons/fa'
 import {
   CreateProtocol,
   DeleteProtocol,
@@ -524,7 +524,7 @@ function SecurityProtocols () {
                 onClick={() => setIsDeleteOpen(false)}
                 className='text-gray-600 hover:text-gray-800'
               >
-                <FaTimes size={24} />
+                <IoMdClose size={24} />
               </button>
             </div>
             <div className='border-b border-[#F4F4F4] mb-[20px]'></div>

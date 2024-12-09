@@ -180,7 +180,7 @@ function Note () {
       {/* Create/Edit Modal */}
       {isModalOpen && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4'>
-          <div className='bg-white rounded-[10px] w-[400px] max-w-md'>
+          <div className='bg-white rounded-[10px] w-full max-w-[410px]'>
             <div className='p-6'>
               <h2 className='text-xl font-semibold mb-3'>
                 {modalType === 'create' ? 'Add Note' : 'Edit Note'}

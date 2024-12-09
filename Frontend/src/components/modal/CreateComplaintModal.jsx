@@ -54,9 +54,9 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit , isLoading }) => {
   }
 
   return (
-    <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999] overflow-y-auto custom-scrollbar'>
+    <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999] overflow-y-auto custom-scrollbar '>
       <div
-        className='bg-white rounded-lg w-full max-w-[410px] p-6'
+        className='bg-white rounded-lg w-full max-w-[410px] p-6 max-sm:h-[100vh] overflow-hidden custom-scrollbar overflow-y-auto'
         style={{ maxWidth: '410px' }}
       >
         <div className='flex justify-between items-center mb-[10px]'>
@@ -269,13 +269,13 @@ const CreateComplaintModal = ({ isOpen, onClose, onSubmit , isLoading }) => {
             <button
               type='button'
               onClick={onClose}
-              className='w-[175px] py-[13.5px] px-[58.5px] border rounded-[10px] text-sm leading-[27px] font-medium text-[18px]'
+              className='w-[175px]  max-sm:w-full py-[13.5px] px-[58.5px] border rounded-[10px] text-sm leading-[27px] font-medium text-[18px]'
             >
               Cancel
             </button>
             <button
               type='submit'
-              className={`w-[175px] py-[13.5px] px-[58.5px] text-[18px] font-medium text-black rounded-[10px] text-sm transition-all duration-300
+              className={`w-[175px]   max-sm:w-full py-[13.5px] px-[58.5px] text-[18px] font-medium text-black rounded-[10px] text-sm transition-all duration-300
                 ${
                   isFormValid()
                     ? 'bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] hover:opacity-90 text-white'

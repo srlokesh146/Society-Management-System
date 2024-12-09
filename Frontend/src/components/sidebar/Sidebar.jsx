@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { FaTimes } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 import { sidebarItems } from "../../constantdata";
 import { securityBar } from "../../constantdata";
 import { residentItems } from "../../constantdata";
@@ -103,7 +103,7 @@ export default function Sidebar() {
       </button>
 
       <aside
-        className={`fixed top-0 left-0 z-[99] h-full w-[280px] bg-white p-4 shadow-lg border border-gray-200 transition-transform duration-300 lg:transition-none lg:relative lg:transform-none ${
+        className={`fixed top-0 left-0 z-[9999] h-full w-[280px] bg-white p-4 shadow-lg border border-gray-200 transition-transform duration-300 lg:transition-none lg:relative lg:transform-none ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } lg:w-[280px] lg:block z-[9999]`}
       >
@@ -113,7 +113,7 @@ export default function Sidebar() {
             onClick={toggleSidebar}
             className="lg:hidden fixed top-[12px] right-[8px]"
           >
-            <FaTimes size={20} />
+            <IoMdClose size={20} />
           </button>
         </div>
 

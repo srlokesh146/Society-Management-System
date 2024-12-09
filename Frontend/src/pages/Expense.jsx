@@ -174,13 +174,13 @@ function Expense () {
   return (
     <div className='flex bg-white rounded-md flex-col p-8 overflow-y-auto custom-scrollbar'>
       <div className='flex justify-between items-center mb-6 max-sm:flex-col'>
-        <h1 className='text-[20px] font-semibold text-gray-800 max-sm:mb-3'>
+        <h1 className='text-[20px] font-semibold text-gray-800 max-sm:mb-3' >
           Add Expenses Details
         </h1>
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className='bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white h-[51px] px-4 rounded-[10px] hover:opacity-90 flex items-center gap-2'
+          className='bg-gradient-to-r from-[rgba(254,81,46,1)] to-[rgba(240,150,25,1)] text-white h-[51px] px-4 rounded-[10px] hover:opacity-90 flex items-center gap-2 max-sm:h-[55px]'
         >
           <img src={plus} alt='' /> Add New Expenses details
         </button>
@@ -283,8 +283,8 @@ function Expense () {
       </div>
 
       {isModalOpen && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]'>
-          <div className='bg-white rounded-lg w-[400px]  max-w-md mx-4'>
+        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] max-sm:px-[15px]'>
+          <div className='bg-white rounded-lg max-w-[410px]  w-full mx-4'>
             <div className='p-6'>
               <h2 className='text-xl font-semibold mb-2'>
                 Add Expense Details
@@ -330,7 +330,7 @@ function Expense () {
                 </div>
 
                 {/* Date and Amount Fields */}
-                <div className='grid grid-cols-2 gap-4'>
+                <div className='grid grid-cols-2 gap-4 max-sm:grid-cols-1 '>
                   <div>
                     <label className='block text-sm text-black-600 mb-1'>
                       Date*
@@ -387,7 +387,7 @@ function Expense () {
                     Upload Bill*
                   </label>
                   <div
-                    className='border-2 text-wrap border-dashed border-gray-300 rounded-[10px] p-4 text-center cursor-pointer'
+                    className='border-2 text-nowrap border-dashed border-gray-300 rounded-[10px] p-4 text-center cursor-pointer'
                     onClick={() => document.getElementById('fileInput').click()}
                     onDragOver={e => e.preventDefault()}
                     onDrop={e => {
@@ -447,7 +447,7 @@ function Expense () {
                     className={`w-[170px] px-4 py-3 bg-grey-200  rounded-[10px] ${
                       isFormValid
                         ? 'bg-gradient-to-r from-[#FE512E] to-[#F09619] font-semibold text-white'
-                        : 'bg-[#F6F8FB] font-bold text-black-400 cursor-not-allowed'
+                        : 'bg-[#F6F8FB] font-semibold text-black-400 cursor-not-allowed'
                     }`}
                     disabled={!isFormValid}
                   >
@@ -461,8 +461,8 @@ function Expense () {
       )}
 
       {isEditModalOpen && (
-        <div className='fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[9999]'>
-          <div className='bg-white p-6 rounded-lg shadow-lg max-w-md w-[400px]'>
+        <div className='fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[9999] max-sm:px-[15px]'>
+          <div className='bg-white p-6 rounded-lg shadow-lg w-full max-w-[410px]'>
             <h2 className='text-xl font-semibold mb-4'>Edit Expenses</h2>
             <div className='border-b border-[#F4F4F4] mb-[20px]'></div>
             <form onSubmit={handleUpdate} className='space-y-4'>
@@ -501,7 +501,7 @@ function Expense () {
                 />
               </div>
 
-              <div className='grid grid-cols-2 gap-4'>
+              <div className='grid grid-cols-2 gap-4 max-sm:grid-cols-1'>
                 <div>
                   <label className='block text-sm text-black-600 mb-1'>
                     Date*
@@ -645,11 +645,11 @@ function Expense () {
       )}
 
       {isViewModalOpen && (
-        <div className='fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[9999]'>
+        <div className='fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[9999] max-sm:px-[15px]'>
           <div className='bg-white p-6 rounded-lg shadow-lg max-w-md w-full relative'>
             <button
               onClick={() => setViewModalOpen(false)}
-              className='absolute top-4 right-4 text-gray-600 hover:text-gray-800'
+              className='absolute top-4 max-sm:top-7 right-4 text-gray-600 hover:text-gray-800'
             >
               <IoMdClose size={20} /> {/* Cancel icon */}
             </button>
@@ -707,23 +707,23 @@ function Expense () {
       )}
 
       {isDeleteModalOpen && (
-        <div className='fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[9999]'>
-          <div className='bg-white p-6 rounded-lg shadow-lg max-w-md w-full'>
+        <div className='fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[9999] max-sm:px-[15px]'>
+          <div className='bg-white p-6 rounded-lg shadow-lg max-w-[410px] w-full'>
             <h2 className='text-xl font-semibold mb-4'>Delete Expense?</h2>
             <div className='border-b border-[#F4F4F4] mb-[20px]'></div>
             <p className='text-gray-600'>
               Are you sure you want to delete {selectedExpense?.title}?
             </p>
-            <div className='flex justify-center space-x-4 mt-6'>
+            <div className='flex justify-center space-x-4  max-sm:gap-[15px]  max-sm:space-x-0 mt-6 max-sm:flex-col'>
               <button
                 onClick={() => setDeleteModalOpen(false)}
-                className='bg-white border w-[170px] text-black px-4 py-2 rounded-md hover:bg-gray-100'
+                className='bg-white border w-full text-black px-4 py-2 rounded-md hover:bg-gray-100'
               >
                 Cancel
               </button>
               <button
                 onClick={() => handleDelete(selectedExpense._id)}
-                className='bg-red-500 w-[170px] text-white px-4 py-2 rounded-md hover:bg-red-600'
+                className='bg-red-500 w-full text-white px-4 py-2 rounded-md hover:bg-red-600'
               >
                 Delete
               </button>

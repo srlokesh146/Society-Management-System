@@ -6,7 +6,7 @@ const ViewComplaintModal = ({ isOpen, onClose, complaint }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 max-sm:px-[15px] ">
       <div className="bg-white rounded-lg shadow-lg max-w-[410px] w-full p-6 relative">
         <button
           onClick={onClose}
@@ -55,7 +55,7 @@ const ViewComplaintModal = ({ isOpen, onClose, complaint }) => {
               "Offering, giving, receiving, or soliciting of value to influence the actions of an."}
           </h6>
         </div>
-        <div className="flex justify-between items-center text-center mt-[20px]">
+        <div className="flex justify-between items-center text-center mt-[20px] flex-wrap">
           <div>
             <h6 className="pb-[6.5px]">Wing:</h6>
             <h6 className="w-[28px] h-[28px] bg-[#F6F8FB] rounded-full py-[8px] px-[8px] flex justify-center items-center text-[#5678E9]">

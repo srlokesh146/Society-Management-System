@@ -1,6 +1,7 @@
 import  { useState } from "react";
-import { FaTimes } from "react-icons/fa";
+
 import { Loader } from "../../utils/Loader";
+import { IoMdClose } from "react-icons/io";
 
 const DeleteRequestModal = ({ isOpen, onClose, request, onConfirm }) => {
   if (!isOpen) return null;
@@ -22,7 +23,7 @@ const DeleteRequestModal = ({ isOpen, onClose, request, onConfirm }) => {
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
           >
-            <FaTimes size={20} />
+            <IoMdClose size={20} />
           </button>
         </div>
         <div className="border-b border-[#F4F4F4] mb-[20px]"></div>
@@ -30,7 +31,7 @@ const DeleteRequestModal = ({ isOpen, onClose, request, onConfirm }) => {
           Are you sure you want to delete this Request?
         </p>
 
-        <div className="flex justify-center gap-3 mt-6">
+        <div className="flex justify-center max-sm:flex-col gap-3 mt-6">
           <button
             onClick={onClose}
             className="w-full px-4 py-3 text-md font-medium text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50"
