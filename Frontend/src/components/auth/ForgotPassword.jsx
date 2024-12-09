@@ -4,14 +4,17 @@ import Logo from "../Logo";
 import { useNavigate } from "react-router-dom";
 import { sendOtp } from "../../services/AuthService";
 import toast from "react-hot-toast";
+import { Loader } from "../../utils/Loader";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
 
   const [EmailOrPhone, setEmailOrPhone] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleOtp = async () => {
     try {
+      setIsLoading(true)
       const response = await sendOtp({ EmailOrPhone });
       localStorage.setItem("EmailOrPhone", JSON.stringify(EmailOrPhone));
       toast.success(response.data.message);
@@ -19,6 +22,7 @@ const ForgotPassword = () => {
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
+      setIsLoading(false)
       setEmailOrPhone("");
     }
   };
@@ -73,7 +77,7 @@ const ForgotPassword = () => {
                   : {}
               }
             >
-              Get OTP
+              {isLoading ? <Loader /> : ' Get OTP'}   
             </button>
             <div className="mt-4 text-center">
               <button

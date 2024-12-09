@@ -12,6 +12,7 @@ import {
 import { toast } from "react-hot-toast";
 import eyeslash from "../../assets/images/eye-slash.svg";
 import eyeslashblack from "../../assets/images/eye-slash-black.svg";
+import { Loader } from "../../utils/Loader";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const Register = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleOptionClick = (option) => {
     setSelectedOption(option.Society_name);
@@ -53,7 +55,7 @@ const Register = () => {
   });
 
   const [societyList, setSocietyList] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -72,12 +74,14 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setIsLoading(true)
       const response = await registerUser(formData);
       toast.success(response.data.message);
       navigate("/");
     } catch (error) {
       toast.error(error.response?.data?.message || "Registration failed");
     } finally {
+      setIsLoading(false)
       setFormData({
         FirstName: "",
         LastName: "",
@@ -399,7 +403,7 @@ const Register = () => {
                   }`}
                   disabled={!isFormComplete()}
                 >
-                  Register
+                 {isLoading ? <Loader /> : 'Register'}    
                 </button>
               </div>
             </form>
@@ -520,7 +524,7 @@ const Register = () => {
                   }`}
                   disabled={!isFormValid()}
                 >
-                  Save
+                 {isLoading ? <Loader /> : 'Save'}     
                 </button>
               </div>
             </form>

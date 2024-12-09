@@ -2,16 +2,19 @@
 
 A full stack project on Society management system.
 
+![Demo App](./dashboard.png)
+
 ## Live url
 
 **Frontend Url**
-
-- https://society-management-system-zeta.vercel.app
+```
+https://society-management-system-zeta.vercel.app
+```
 
 **Backend Url**
-
-- https://society-management-system-y5jd.onrender.com
-
+```
+https://society-management-system-y5jd.onrender.com
+```
 # Society Management System
 
 This project is designed to manage a society's operations, offering different panels for **Admin**, **Resident**, and **Security**. The system provides functionality for managing residents, security, maintenance, expenses, and announcements, among other things.
@@ -179,7 +182,9 @@ The **Security Panel** offers the following features:
 
 To get started, clone the repository to your local machine using the following command:
 
-- https://github.com/srlokesh146/Society-Management-System.git
+```
+https://github.com/srlokesh146/Society-Management-System.git
+```
 
 --
 
@@ -215,11 +220,15 @@ Backend - npm run dev
 
 **Frontend Url**
 
-- https://society-management-system-zeta.vercel.app
+ ```
+ https://society-management-system-zeta.vercel.app
+ ```
 
 **Backend Url**
 
-- https://society-management-system-y5jd.onrender.com
+```
+https://society-management-system-y5jd.onrender.com
+```
 
 # Society Management System - Technologies Used
 
@@ -314,25 +323,54 @@ This document provides the sample login data for different roles in the **Societ
 
 ### Admin User
 
-- **Email**: `admin@email.com`
-- **Password**: `admin@123`
+
+- **Email**: 
+```
+admin@gmail.com
+```
+
+- **Password**: 
+```
+admin@123
+```
 
 ### Resident User
 
-- **Email**: `lokeshinde500@email.com`
-- **Password**: `123456`
+- **Email**: 
+```
+lokeshinde500@gmail.com
+```
+
+- **Password**: 
+```
+123456
+```
 
 ### Security User
 
-- **Email**: `lokesh.shinde@swiftrut.com`
-- **Password**: `123456`
+- **Email**: 
+```
+lokesh.shinde@swiftrut.com
+```
+
+- **Password**: 
+```
+123456
+```
 
 ---
 
 ### Frontend env credentials
 
-VITE_BACKEND_URL = https://society-management-system-y5jd.onrender.com/api
-VITE_SOCKET_URL = https://society-management-system-y5jd.onrender.com/
+VITE_BACKEND_URL =
+ ```
+ https://society-management-system-y5jd.onrender.com/api
+ ```
+
+VITE_SOCKET_URL = 
+```
+https://society-management-system-y5jd.onrender.com/
+```
 
 ### Backend env credentials
 
