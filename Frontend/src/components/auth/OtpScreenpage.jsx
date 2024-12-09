@@ -5,11 +5,13 @@ import Logo from "../Logo";
 import { sendOtp, verifyOtp } from "../../services/AuthService";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { Loader } from "../../utils/Loader";
 
 const OtpScreenpage = () => {
   const navigate = useNavigate();
   const [otp, setOtp] = useState(Array(6).fill(""));
   const [counter, setCounter] = useState(30);
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (counter > 0) {
@@ -47,18 +49,21 @@ const OtpScreenpage = () => {
         otp: OTP,
         EmailOrPhone: EmailOrPhone,
       };
+      setIsLoading(true)
       const response = await verifyOtp(otpDetail);
       toast.success(response.data.message);
       navigate("/resetpassword");
     } catch (error) {
       toast.error(error.response?.data?.message || "Error verifying OTP");
     } finally {
+      setIsLoading(false)
       setOtp(Array(6).fill(""));
     }
   };
 
   const resendOtp = async () => {
     try {
+      setIsLoading(true)
       const storedValue  = localStorage.getItem("EmailOrPhone");
       const EmailOrPhone = JSON.parse(storedValue);
       const response = await sendOtp({ EmailOrPhone });
@@ -67,6 +72,8 @@ const OtpScreenpage = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.response?.data?.message || "Error sending OTP");
+    }finally{
+      setIsLoading(false)
     }
   };
 
@@ -127,7 +134,7 @@ const OtpScreenpage = () => {
                   counter > 0 ? "text-[#A7A7A7]" : "text-black"
                 }`}
               >
-                Resend OTP
+                {isLoading ? <Loader /> : ' Resend OTP'}    
               </button>
             </div>
 
@@ -141,7 +148,7 @@ const OtpScreenpage = () => {
                 }`}
               disabled={!otp.every((digit) => digit !== "")}
             >
-              Verify
+               {isLoading ? <Loader /> : 'Verify'}  
             </button>
           </div>
         </div>

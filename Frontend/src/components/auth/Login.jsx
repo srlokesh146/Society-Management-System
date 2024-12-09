@@ -9,10 +9,12 @@ import { useDispatch } from "react-redux";
 import { StoreUser } from "../../redux/features/AuthSlice";
 import eyeslash from "../../assets/images/eye-slash.svg";
 import eyeslashblack from "../../assets/images/eye-slash-black.svg";
+import { Loader } from "../../utils/Loader";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false)
   const [user, setUser] = useState({
     EmailOrPhone: "",
     password: "",
@@ -50,6 +52,7 @@ const Login = () => {
     if (!formIsValid) return;
 
     try {
+      setIsLoading(true)
       const response = await loginUser(user);
       toast.success(response.data.message);
       dispatch(StoreUser(response.data.user));
@@ -63,6 +66,7 @@ const Login = () => {
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
+      setIsLoading(false)
       setUser({
         EmailOrPhone: "",
         password: "",
@@ -184,7 +188,7 @@ const Login = () => {
                   : "bg-[#F6F8FB] text-[#A7A7A7] "
               }`}
             >
-              Sign In
+            {isLoading ? <Loader /> : 'Sign In'}   
             </button>
 
             <div className="mt-4 text-center">

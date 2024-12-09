@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import eyeslash from "../../assets/images/eye-slash.svg";
 import eyeslashblack from "../../assets/images/eye-slash-black.svg";
 import { resetPasswords } from "../../services/AuthService";
+import { Loader } from "../../utils/Loader";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const ResetPassword = () => {
   const [confirm_pass, setConfirm_pass] = useState("");
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleToggleNewPasswordVisibility = () => {
     setShowNewPassword((show) => !show);
@@ -28,6 +30,7 @@ const ResetPassword = () => {
     const storedValue = localStorage.getItem("EmailOrPhone");
     const EmailOrPhone = JSON.parse(storedValue);
     try {
+      setIsLoading(true)
       const response = await resetPasswords({
         new_pass,
         confirm_pass,
@@ -39,6 +42,7 @@ const ResetPassword = () => {
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
+      setIsLoading(false)
       setNew_pass("");
       setConfirm_pass("");
     }
@@ -126,7 +130,7 @@ const ResetPassword = () => {
                  }`}
               disabled={!new_pass || !confirm_pass}
             >
-              Reset Password
+              {isLoading ? <Loader /> : 'Reset Password'}   
             </button>
           </div>
         </div>
