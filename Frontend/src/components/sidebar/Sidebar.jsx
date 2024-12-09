@@ -33,6 +33,7 @@ export default function Sidebar() {
     } else {
       setOpenSubItems({});
       localStorage.removeItem("openSubItems");
+      toggleSidebar();
     }
     setActiveItem(item.id);
     localStorage.setItem("activeItem", item.id);
@@ -179,7 +180,10 @@ export default function Sidebar() {
                               ? "text-black font-medium"
                               : "hover:text-[#202224] font-medium"
                           }`}
-                          onClick={() => setActiveItem(subItem.id)}
+                          onClick={() => {
+                            setActiveItem(subItem.id);
+                            toggleSidebar();
+                          }}
                         >
                           <span
                             className={`ml-2 transition duration-500 ${
